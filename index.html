@@ -295,12 +295,12 @@ function renderDays() {
     ${th('days','hotelName','מלון')}
     ${th('days','city','עיר')}
     <th>בוקר</th><th>צהריים</th><th>ערב</th>
-    <th>תחבורה</th><th>הערות</th>
+    <th>תחבורה</th><th>הערות</th><th>דף היום</th>
   </tr></thead><tbody>${data.map(d => {
     const isMiss = DATA.hotels.find(h=>h.id===d.hotelId && !h.booked);
     return `<tr class="${isMiss?'miss':''}">
       <td><a href="day.html?d=${d.tripDay}" style="font-weight:700;color:#1d4ed8;text-decoration:none">${d.tripDay}</a></td>
-      <td>${d.day}/${d.month}</td>
+      <td><a href="day.html?d=${d.tripDay}" style="color:#1d4ed8;text-decoration:none">${d.day}/${d.month}</a></td>
       <td>${d.weekday}</td>
       <td>${d.region?regionTag(d.region):''}</td>
       <td>${d.hotelName||''}</td>
@@ -310,6 +310,7 @@ function renderDays() {
       <td ${ed('days.'+d.id+'.evening.place', d.evening?.place)}>${d.evening?.place||''}</td>
       <td ${ed('days.'+d.id+'.transport.type', d.transport?.type)}>${d.transport?.type||''}</td>
       <td ${ed('days.'+d.id+'.notes', d.notes)}>${d.notes||''}</td>
+      <td><a href="day.html?d=${d.tripDay}" style="display:inline-block;padding:4px 10px;background:#1d4ed8;color:#fff;border-radius:5px;font-weight:700;font-size:12px;text-decoration:none;white-space:nowrap">פתח ›</a></td>
     </tr>`;
   }).join('')}</tbody>`;
 }
