@@ -39,12 +39,18 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 .ic{width:16px;height:16px;flex:none;stroke:var(--icon);stroke-width:1.75;fill:none;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle}
 .ic-lg{width:22px;height:22px}
 
-/* NAV */
-.nav{background:#1a1a1a;padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:50}
-.nav h1{color:#e8e6e1;font-size:16px;font-weight:900;margin-left:auto}
-.tab{padding:5px 14px;border:none;border-radius:4px;background:transparent;color:#aaa;font:600 12px/1.4 inherit;cursor:pointer;transition:.12s}
+/* NAV — סרגל ניווט ראשי קבוע בראש המסך */
+.nav{background:#1a1a1a;padding:8px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:0;z-index:50;box-shadow:0 1px 0 rgba(255,255,255,.06)}
+.nav h1{color:#e8e6e1;font-size:16px;font-weight:900;order:1}
+.nav .tabs{order:2;flex:1;display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.nav .actions{order:3;display:flex;gap:6px;flex-wrap:wrap}
+.tab{position:relative;padding:5px 14px;border:none;border-radius:4px;background:transparent;color:#aaa;font:600 12px/1.4 inherit;cursor:pointer;transition:.12s}
 .tab:hover{color:#fff;background:rgba(255,255,255,.1)}
-.tab.on{color:#fff;background:rgba(255,255,255,.15)}
+/* דף פעיל — הדגשה ברורה: רקע + פס תחתון (לא רק צבע) */
+.tab.on{color:#fff;background:rgba(255,255,255,.15);font-weight:800}
+.tab.on::after{content:'';position:absolute;left:14px;right:14px;bottom:-8px;height:2px;background:var(--focus)}
+.tab:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
+@media(max-width:900px){.nav .tabs{justify-content:flex-start;order:3;flex-basis:100%}.nav h1{order:1}.nav .actions{order:2;margin-right:auto}}
 .nav-btn{padding:4px 10px;border:1px solid #555;border-radius:4px;background:transparent;color:#aaa;font:600 11px/1.4 inherit;cursor:pointer;transition:.12s}
 .nav-btn:hover{background:rgba(255,255,255,.1);color:#fff;border-color:#888}
 .nav-btn.save{border-color:#166534;color:#4ade80}.nav-btn.save:hover{background:#166534;color:#fff}
@@ -71,7 +77,10 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 .stat-detail{font-size:11px;color:#6b7280;margin-top:2px}
 
 /* FILTERS */
-.filters{max-width:1200px;margin:4px auto 8px;padding:0 12px;display:flex;gap:6px;flex-wrap:wrap}
+/* סרגל ניווט משני — מסננים ופעולות של הדף הנוכחי. מוסתר כשאין. */
+.filters{position:sticky;top:41px;z-index:40;background:var(--surface);border-bottom:1px solid var(--border);margin:0 0 10px;padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.filters:empty{display:none}
+.filters::before{content:'סינון:';font-size:11px;font-weight:800;color:var(--ink-3);margin-left:2px}
 .flt{padding:3px 10px;border:1px solid #ddd;border-radius:3px;background:#fff;font:600 11px/1.4 inherit;cursor:pointer;color:#666;transition:.12s}
 .flt:hover{border-color:#999}.flt.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 
@@ -209,18 +218,22 @@ a.ml:hover{text-decoration:underline}
 
 <nav class="nav">
   <h1>יפן 2026</h1>
-  <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none" aria-label="חזרה לדף הקודם"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor"><path d="M5 12h14M12 5l-7 7 7 7"/></svg><span class="back-lbl">חזרה</span></button>
-  <button class="tab on" data-tab="summary">סיכומים</button>
-  <button class="tab" data-tab="days">לוח ימים</button>
-  <button class="tab" data-tab="calendar">לוח שנה</button>
-  <button class="tab" data-tab="hotels">מלונות</button>
-  <button class="tab" data-tab="places">אתרים</button>
-  <button class="tab" data-tab="costs">תקציב</button>
-  <button class="tab" data-tab="flights">טיסות</button>
-  <button class="tab" data-tab="map">מפה</button>
-  <button class="nav-btn save" onclick="saveAll()">שמור</button>
-  <button class="nav-btn" onclick="exportJSON()">JSON</button>
-  <button class="nav-btn" onclick="copyTable()">אקסל</button>
+  <div class="tabs">
+    <button class="tab on" data-tab="summary">סיכומים</button>
+    <button class="tab" data-tab="days">לוח ימים</button>
+    <button class="tab" data-tab="calendar">לוח שנה</button>
+    <button class="tab" data-tab="hotels">מלונות</button>
+    <button class="tab" data-tab="places">אתרים</button>
+    <button class="tab" data-tab="costs">תקציב</button>
+    <button class="tab" data-tab="flights">טיסות</button>
+    <button class="tab" data-tab="map">מפה</button>
+  </div>
+  <div class="actions">
+    <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none" aria-label="חזרה לדף הקודם"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor"><path d="M5 12h14M12 5l-7 7 7 7"/></svg><span class="back-lbl">חזרה</span></button>
+    <button class="nav-btn save" onclick="saveAll()">שמור</button>
+    <button class="nav-btn" onclick="exportJSON()">JSON</button>
+    <button class="nav-btn" onclick="copyTable()">אקסל</button>
+  </div>
 </nav>
 
 <section class="hero">
@@ -319,6 +332,15 @@ async function loadData() {
     console.error('Load error:',e);
     toast('שגיאה בטעינת נתונים — ודאי שאת בשרת מקומי');
   }
+  // פתיחת הטאב לפי ה-URL (מאפשר קישור ישיר ושמירת מצב ברענון — סעיף 4.5)
+  const urlTab = new URLSearchParams(location.search).get('tab');
+  const valid = ['summary','days','calendar','hotels','places','costs','flights','map'];
+  if (urlTab && valid.includes(urlTab) && urlTab!==activeTab) {
+    activeTab = urlTab;
+    document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===urlTab));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on', p.id==='p-'+urlTab));
+    if (urlTab==='map') setTimeout(initMap,120);
+  }
   render();
 }
 
@@ -337,6 +359,8 @@ function goTab(tab, isBack) {
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===tab));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
   document.getElementById('p-'+tab).classList.add('on');
+  // שמירת מצב ב-URL כדי שהטאב הנוכחי יישמר ברענון וניתן לקישור ישיר (סעיף 4.5)
+  try { history.replaceState(null,'', '?tab='+tab); } catch(e){}
   window.scrollTo({top:0, behavior:'smooth'});
   updateBackBtn();
   render();

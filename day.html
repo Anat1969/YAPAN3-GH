@@ -10,7 +10,7 @@
 body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;font-size:14px;line-height:1.55;padding:0}
 
 .head{background:#1a1a1a;color:#e8e6e1;padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:10}
-.head .num{font-size:36px;font-weight:900;line-height:1;color:#fbbf24}
+.head .num{font-size:36px;font-weight:900;line-height:1;color:#e8e6e1}
 .head .info{flex:1}
 .head .date{font-size:18px;font-weight:700}
 .head .sub{font-size:12px;color:#aaa}
@@ -18,6 +18,21 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .head .nb{padding:4px 10px;border:1px solid #555;border-radius:4px;background:transparent;color:#aaa;font:600 11px/1.4 inherit;cursor:pointer;text-decoration:none;transition:.12s}
 .head .nb:hover{background:rgba(255,255,255,.1);color:#fff;border-color:#888}
 .head .nb.sv{border-color:#166534;color:#4ade80}
+
+/* ── סרגל ניווט ראשי (זהה ל-index) — קבוע בראש, טאבים ממורכזים ── */
+.mainnav{background:#1a1a1a;padding:8px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:0;z-index:60;box-shadow:0 1px 0 rgba(255,255,255,.06)}
+.mainnav h1{color:#e8e6e1;font-size:16px;font-weight:900}
+.mainnav .tabs{flex:1;display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.mainnav .tab{padding:5px 14px;border:none;border-radius:4px;background:transparent;color:#aaa;font:600 12px/1.4 inherit;cursor:pointer;text-decoration:none;transition:.12s}
+.mainnav .tab:hover{color:#fff;background:rgba(255,255,255,.1)}
+.mainnav .actions{display:flex;gap:6px}
+.mainnav .back-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid #4b4b4b;border-radius:6px;background:#fbbf24;color:#1a1a1a;font:800 12px/1.4 inherit;cursor:pointer;text-decoration:none;transition:.12s;white-space:nowrap}
+.mainnav .back-btn:hover{background:#f59e0b}
+.mainnav .back-btn svg{width:14px;height:14px;stroke:#1a1a1a;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.mainnav .back-btn:focus-visible,.mainnav .tab:focus-visible{outline:2px solid #b8860b;outline-offset:1px}
+@media(max-width:900px){.mainnav .tabs{justify-content:flex-start;order:3;flex-basis:100%}.mainnav .actions{margin-right:auto}}
+/* ה-head של היום הופך לסרגל משני — פרטי היום + ניווט בין ימים */
+.head{top:41px !important;z-index:55 !important}
 
 .wrap{max-width:900px;margin:0 auto;padding:16px}
 
@@ -62,7 +77,7 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .meal-row{display:flex;gap:8px;margin-bottom:4px;align-items:center}
 .meal-label{font-size:11px;font-weight:600;color:#999;width:50px}
 .meal-input{flex:1;border:1px solid #eee;border-radius:3px;padding:4px 8px;font:12px/1.4 inherit;transition:.12s}
-.meal-input:focus{outline:2px solid #fbbf24;border-color:#fbbf24}
+.meal-input:focus{outline:2px solid #b8860b;border-color:#b8860b}
 
 /* TRANSPORT */
 .transport{background:#fff;border-radius:6px;border:1px solid #e5e3de;padding:10px 14px;margin-bottom:10px}
@@ -70,18 +85,36 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 
 /* NOTES */
 .day-notes{width:100%;min-height:60px;border:1px solid #e5e3de;border-radius:6px;padding:10px 14px;font:13px/1.5 inherit;resize:vertical;transition:.12s}
-.day-notes:focus{outline:2px solid #fbbf24;border-color:#fbbf24}
+.day-notes:focus{outline:2px solid #b8860b;border-color:#b8860b}
 
 /* EDITABLE */
 .ed{border:none;background:transparent;font:inherit;width:100%;padding:2px 4px;border-radius:3px;transition:.12s}
 .ed:hover{background:#f5f5f0}
-.ed:focus{background:#fffde7;outline:2px solid #fbbf24}
+.ed:focus{background:#fffde7;outline:2px solid #b8860b}
 
 .toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(50px);background:#292524;color:#fafaf9;padding:7px 16px;border-radius:5px;font-size:12px;opacity:0;transition:.2s;z-index:100;pointer-events:none}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 </style>
 </head>
 <body>
+
+<!-- סרגל ניווט ראשי — זהה בכל הדפים, מוביל לאזורי index -->
+<nav class="mainnav">
+  <h1>יפן 2026</h1>
+  <div class="tabs">
+    <a class="tab" href="index.html?tab=summary">סיכומים</a>
+    <a class="tab" href="index.html?tab=days">לוח ימים</a>
+    <a class="tab" href="index.html?tab=calendar">לוח שנה</a>
+    <a class="tab" href="index.html?tab=hotels">מלונות</a>
+    <a class="tab" href="index.html?tab=places">אתרים</a>
+    <a class="tab" href="index.html?tab=costs">תקציב</a>
+    <a class="tab" href="index.html?tab=flights">טיסות</a>
+    <a class="tab" href="index.html?tab=map">מפה</a>
+  </div>
+  <div class="actions">
+    <button class="back-btn" onclick="goBack()" aria-label="חזרה לדף הקודם"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l-7 7 7 7"/></svg>חזרה</button>
+  </div>
+</nav>
 
 <div class="head">
   <div class="num" id="dayNum">1</div>
@@ -90,9 +123,9 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
     <div class="sub" id="dayRegion">קנסאי — אוסקה</div>
   </div>
   <div class="nav">
-    <a class="nb" id="prevDay" href="#">היום הקודם</a>
-    <a class="nb" href="index.html">חזרה ללוח</a>
-    <a class="nb" id="nextDay" href="#">היום הבא</a>
+    <a class="nb" id="prevDay" href="#">← היום הקודם</a>
+    <a class="nb" href="index.html?tab=days">כל הימים</a>
+    <a class="nb" id="nextDay" href="#">היום הבא →</a>
     <button class="nb sv" onclick="saveDay()">שמור</button>
   </div>
 </div>
@@ -171,6 +204,12 @@ const MO=['','ינואר','פברואר','מרץ','אפריל','מאי','יונ�
 let dayData = null;
 let hotels = [];
 let dayId = 1;
+
+// כפתור חזרה — לפי היסטוריית הדפדפן; אם אין, חזרה ללוח הראשי
+function goBack() {
+  if (history.length > 1 && document.referrer) { history.back(); }
+  else { location.href = 'index.html'; }
+}
 
 // Get day from URL: day.html?d=1
 const params = new URLSearchParams(location.search);
