@@ -310,6 +310,14 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .cost-flag{font-size:9px;font-weight:800;color:var(--err);background:var(--err-bg);border-radius:4px;padding:1px 5px}
 .cost-flag.est{color:var(--warn);background:var(--warn-bg)}
 .cost-note{margin-top:10px;font-size:11px;color:var(--ink-3);line-height:1.6}
+/* גרף מלונות */
+.cost-chart{margin-top:18px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.chart-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;font-weight:700;color:var(--ink-2);margin-bottom:8px}
+.chart-legend span{display:inline-flex;align-items:center;gap:6px}
+.chart-legend i{width:13px;height:13px;border-radius:50%;display:inline-block}
+.chart-legend i.dash{width:20px;height:0;border-top:2px dashed #b8860b;border-radius:0}
+.chart-scroll{overflow-x:auto}
+.chart-svg{width:100%;min-width:560px;height:auto;display:block}
 
 /* HELP + SUMMARY */
 .help{max-width:1200px;margin:4px auto 0;padding:0 12px}
@@ -1090,6 +1098,58 @@ function collectCosts() {
 let costsFilter = 'all';  // קטגוריה פעילה לסינון
 function setCostsFilter(c){ costsFilter = c; renderCosts(); }
 
+// גרף מחיר-לילה למלונות סביב קו הממוצע — לזהות יקר/זול והיכן
+function hotelChart() {
+  const hotels = DATA.hotels
+    .filter(h=>h.booked && h.price && h.nights && h.lat)
+    .map(h=>({ name:h.name, he:h.he||h.name, city:h.city||'', checkin:h.checkin, perNight:Math.round((typeof h.price==='object'?(h.price.usd||h.price.total):h.price)/h.nights) }))
+    .sort((a,b)=>(a.checkin||'').localeCompare(b.checkin||''));
+  if(hotels.length<2) return '';
+
+  const avg = Math.round(hotels.reduce((s,h)=>s+h.perNight,0)/hotels.length);
+  const max = Math.max(...hotels.map(h=>h.perNight)), min = Math.min(...hotels.map(h=>h.perNight));
+
+  // מידות הגרף
+  const W=760, H=280, padL=52, padR=16, padT=20, padB=64;
+  const plotW=W-padL-padR, plotH=H-padT-padB;
+  const yMax = Math.ceil(max/200)*200, yMin = Math.floor(Math.min(min,avg*0.7)/200)*200;
+  const x = i => padL + (hotels.length===1?plotW/2:(i/(hotels.length-1))*plotW);
+  const y = v => padT + plotH - ((v-yMin)/(yMax-yMin))*plotH;
+
+  // קווי סרגל Y
+  let grid='';
+  for(let v=yMin; v<=yMax; v+=Math.max(200,Math.round((yMax-yMin)/5/200)*200)){
+    grid+=`<line x1="${padL}" y1="${y(v)}" x2="${W-padR}" y2="${y(v)}" stroke="#eee" stroke-width="1"/>
+      <text x="${padL-6}" y="${y(v)+4}" text-anchor="end" font-size="10" fill="#999">₪${v}</text>`;
+  }
+  // קו הממוצע
+  const avgY = y(avg);
+  const avgLine = `<line x1="${padL}" y1="${avgY}" x2="${W-padR}" y2="${avgY}" stroke="#b8860b" stroke-width="1.5" stroke-dasharray="5,4"/>
+    <text x="${W-padR}" y="${avgY-5}" text-anchor="end" font-size="11" font-weight="800" fill="#b8860b">ממוצע ₪${avg}</text>`;
+  // קו המחיר
+  const path = hotels.map((h,i)=>`${i?'L':'M'}${x(i)},${y(h.perNight)}`).join(' ');
+  const line = `<path d="${path}" fill="none" stroke="#1d4ed8" stroke-width="2" opacity="0.55"/>`;
+  // נקודות — צבע לפי יחס לממוצע
+  const dots = hotels.map((h,i)=>{
+    const above = h.perNight>avg;
+    const color = above ? '#b91c1c' : '#15803d';
+    const diff = h.perNight-avg, pct=Math.round(diff/avg*100);
+    return `<g><circle cx="${x(i)}" cy="${y(h.perNight)}" r="6" fill="${color}" stroke="#fff" stroke-width="2">
+        <title>${h.he} (${h.city}) — ₪${h.perNight}/לילה · ${above?'+':''}${pct}% מהממוצע</title></circle>
+      <text x="${x(i)}" y="${y(h.perNight)-11}" text-anchor="middle" font-size="9" font-weight="700" fill="${color}">₪${h.perNight}</text></g>`;
+  }).join('');
+  // תוויות X (עיר, מסובב)
+  const xlabels = hotels.map((h,i)=>`<text x="${x(i)}" y="${H-padB+14}" text-anchor="end" font-size="9" fill="#666" transform="rotate(-40 ${x(i)} ${H-padB+14})">${h.city||h.he.slice(0,10)}</text>`).join('');
+
+  return `<div class="cost-chart">
+    <h3 class="tr-sec">מחיר לילה לפי מלון — ביחס לממוצע</h3>
+    <div class="chart-legend"><span><i style="background:#b91c1c"></i>יקר מהממוצע</span><span><i style="background:#15803d"></i>זול מהממוצע</span><span><i class="dash"></i>קו ממוצע</span></div>
+    <div class="chart-scroll"><svg viewBox="0 0 ${W} ${H}" class="chart-svg" role="img" aria-label="גרף מחיר לילה למלונות ביחס לממוצע">
+      ${grid}${avgLine}${line}${dots}${xlabels}
+    </svg></div>
+  </div>`;
+}
+
 function renderCosts() {
   const allRows = collectCosts();
   const showAll = window._costsShowAll || false;
@@ -1146,6 +1206,7 @@ function renderCosts() {
     <h3 class="tr-sec">פירוט — ${scope}</h3>
     <div class="tw" style="padding:0"><table class="cost-table"><thead><tr><th>קטגוריה</th><th>פריט</th><th>מקור</th><th>₪ (משוער)</th><th>תשלום</th><th>הערות</th></tr></thead>
       <tbody>${detail}<tr class="cost-total"><td colspan="3">סה״כ · ${scope}</td><td>${fmtILS(total)}</td><td colspan="2"></td></tr></tbody></table></div>
+    ${(costsFilter==='all'||costsFilter==='מלונות ולינה')?hotelChart():''}
     <div class="cost-note">שערי המרה משוערים: 1¥≈₪0.024 · 1$≈₪3.7. הסכומים במטבע המקור מדויקים מהמסמכים; ההמרה ל-₪ משוערת.</div>`;
 }
 
