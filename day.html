@@ -51,6 +51,10 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .bh-e{background:#eef2ff;color:#3730a3}
 
 .spot{padding:10px 14px;border-bottom:1px solid #f0f0ec}
+/* תמונת ספוט — צף שמאלה, גודל אחיד, לא דוחק טקסט */
+.spot-img{float:left;width:90px;height:68px;object-fit:cover;border-radius:8px;margin:0 0 6px 12px;background:#eee}
+.spot-img.noimg,.spot-img.broken{display:flex;align-items:center;justify-content:center;font-size:10px;color:#a8a29e;background:#f5f4f0;border:1px dashed #d6d3ce;text-align:center}
+@media(max-width:480px){.spot-img{width:64px;height:52px}}
 .spot:last-child{border-bottom:none}
 .spot-name{font-weight:700;font-size:14px;margin-bottom:2px}
 .spot-name-en{font-size:11px;color:#888;font-weight:400}
@@ -101,6 +105,7 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 /* הדגשת ספוט ברשימה כשנבחר */
 .spot.hl{box-shadow:inset 0 0 0 2px #b8860b;border-radius:6px;background:#fffdf5}
 .spot{scroll-margin-top:120px}
+.spot::after{content:'';display:block;clear:both}
 .route-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .rl{padding:4px 12px;border:1px solid #ddd;border-radius:4px;font:600 11px/1.4 inherit;color:#333;text-decoration:none;transition:.12s;background:#fff}
 .rl:hover{background:#f0efec;border-color:#999}
@@ -309,6 +314,7 @@ const MO=['','ינואר','פברואר','מרץ','אפריל','מאי','יונ�
 
 let dayData = null;
 let hotels = [];
+let placesData = [];
 let bookingsData = null;
 let dayId = 1;
 
@@ -324,11 +330,13 @@ dayId = +(params.get('d') || 1);
 
 async function load() {
   try {
-    const [daysRes, hotelsRes] = await Promise.all([
+    const [daysRes, hotelsRes, placesRes] = await Promise.all([
       fetch('data/days.json').then(r=>r.json()),
-      fetch('data/hotels.json').then(r=>r.json())
+      fetch('data/hotels.json').then(r=>r.json()),
+      fetch('data/places.json').then(r=>r.json()).catch(()=>[])
     ]);
     hotels = hotelsRes;
+    placesData = placesRes || [];
     dayData = daysRes.find(d => d.id === dayId);
     if (!dayData) { document.body.innerHTML = '<p style="padding:40px">יום לא נמצא</p>'; return; }
 
@@ -547,7 +555,14 @@ function renderSpots(tod, spots) {
   el.innerHTML = spots.map((s, i) => {
     const num = globalNum(tod, i);
     const mapsSearch = `https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(s.nameEn || s.name)}`;
+    // תמונה ממקור אחד (places.json) לפי nameEn — בלי כפילות
+    const match = placesData.find(p => p.nameEn && s.nameEn && p.nameEn===s.nameEn) || placesData.find(p=>p.name===s.name);
+    const alt = `${s.name}${s.nameEn?' — '+s.nameEn:''}`;
+    const img = match && match.image
+      ? `<img class="spot-img" src="${match.image}" alt="${alt}" loading="lazy" onerror="this.classList.add('broken');this.removeAttribute('src')">`
+      : `<div class="spot-img noimg" role="img" aria-label="${alt} — אין תמונה">אין תמונה</div>`;
     return `<div class="spot" data-tod="${tod}" data-idx="${i}" onclick="highlightSpot('${tod}',${i},false)" style="cursor:pointer">
+      ${img}
       <div class="spot-name"><span style="display:inline-block;min-width:20px;color:#1d4ed8;font-weight:900">${num}.</span> ${s.name} <span class="spot-name-en">${s.nameEn || ''}</span></div>
       <div class="spot-meta">
         ${s.time ? `<span>${s.time}</span>` : ''}
