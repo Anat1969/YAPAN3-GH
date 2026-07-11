@@ -3,666 +3,467 @@
     "name": "משפחת שטיבלמן — יפן קיץ 2026",
     "startDate": "2026-07-22",
     "endDate": "2026-08-22",
-    "totalDays": 31,
-    "daysInJapan": 27,
     "travelers": [
-      {
-        "id": "natan",
-        "name": "נתן",
-        "nameEn": "SHTIVELMAN ANATOLY NATAN",
-        "age": 59
-      },
-      {
-        "id": "anat",
-        "name": "ענת",
-        "nameEn": "DAVID SHTIVELMAN ANAT LAOR",
-        "age": 57
-      },
-      {
-        "id": "ilay",
-        "name": "עילאי",
-        "nameEn": "SHTIVELMAN ILAY",
-        "age": 17
-      },
-      {
-        "id": "lotem",
-        "name": "לוטם",
-        "nameEn": "SHTIVELMAN LOTEM",
-        "age": 15
-      }
+      { "id": "natan", "name": "נתן", "nameEn": "SHTIVELMAN ANATOLY NATAN", "age": 59 },
+      { "id": "anat", "name": "ענת", "nameEn": "DAVID SHTIVELMAN ANAT LAOR", "age": 57 },
+      { "id": "ilay", "name": "עילאי", "nameEn": "SHTIVELMAN ILAY", "age": 17 },
+      { "id": "lotem", "name": "לוטם", "nameEn": "SHTIVELMAN LOTEM", "age": 15 }
     ]
   },
-  "phases": [
-    {
-      "id": "transit_out",
-      "name": "מעבר — דובאי",
-      "dates": "22-23/7",
-      "days": 1
-    },
-    {
-      "id": "kansai",
-      "name": "קנסאי",
-      "dates": "23/7-2/8",
-      "days": 10
-    },
-    {
-      "id": "hokkaido",
-      "name": "הוקאידו",
-      "dates": "2/8-14/8",
-      "days": 12
-    },
-    {
-      "id": "tokyo",
-      "name": "טוקיו",
-      "dates": "14/8-19/8",
-      "days": 5
-    },
-    {
-      "id": "transit_back",
-      "name": "מעבר — דובאי",
-      "dates": "20/8-22/8",
-      "days": 2
-    }
-  ],
   "bookings": [
     {
       "id": "flight-tlv-dxb-out",
       "type": "flight",
       "status": "confirmed",
       "phase": "transit_out",
-      "tripDay": 1,
       "provider": "Emirates / Flydubai",
       "bookingRef": "NYTYZ2",
       "flightNumber": "EK 2121 / FZ1074",
-      "aircraft": null,
-      "route": {
-        "from": "תל אביב — נתב\"ג טרמינל 3",
-        "fromCode": "TLV",
-        "to": "דובאי — DXB טרמינל 3",
-        "toCode": "DXB"
-      },
+      "from": "תל אביב TLV טרמינל 3",
+      "to": "דובאי DXB טרמינל 3",
       "date": "2026-07-22",
       "departure": "10:25",
       "arrival": "15:10",
       "class": "Economy Saver",
       "baggage": "25kg",
-      "seats": {
-        "natan": null,
-        "anat": null,
-        "ilay": null,
-        "lotem": null
-      },
-      "tickets": {
-        "natan": "176 2212448725-26",
-        "anat": "176 2212448727-28",
-        "ilay": "176 2212448729-30",
-        "lotem": "176 2212448731-32"
-      },
-      "price": {
-        "perPerson": 1531.77,
-        "currency": "USD",
-        "note": "מחיר כולל לכל 4 רגליים"
-      },
-      "notes": "מופעל ע\"י Flydubai. צ'ק-אין 3 שעות לפני."
+      "seats": { "natan": null, "anat": null, "ilay": null, "lotem": null },
+      "tickets": { "natan": "176 2212448725-26", "anat": "176 2212448727-28", "ilay": "176 2212448729-30", "lotem": "176 2212448731-32" },
+      "price": { "perPerson": 1531.77, "currency": "USD" }
     },
     {
       "id": "flight-dxb-kix",
       "type": "flight",
       "status": "confirmed",
       "phase": "transit_out",
-      "tripDay": 2,
       "provider": "Emirates",
       "bookingRef": "NYTYZ2",
       "flightNumber": "EK 316",
-      "aircraft": null,
-      "route": {
-        "from": "דובאי — DXB טרמינל 3",
-        "fromCode": "DXB",
-        "to": "אוסקה — קנסאי טרמינל 1",
-        "toCode": "KIX"
-      },
+      "from": "דובאי DXB טרמינל 3",
+      "to": "אוסקה KIX טרמינל 1",
       "date": "2026-07-23",
       "departure": "03:00",
       "arrival": "17:15",
       "class": "Economy Saver",
       "baggage": "25kg",
-      "seats": {
-        "natan": "24A",
-        "anat": "24B",
-        "ilay": "24C",
-        "lotem": "24D"
-      },
-      "tickets": {
-        "natan": "176 2212448725-26",
-        "anat": "176 2212448727-28",
-        "ilay": "176 2212448729-30",
-        "lotem": "176 2212448731-32"
-      },
-      "price": {
-        "note": "כלול במחיר הכרטיס הכולל"
-      },
-      "notes": "צ'ק-אין מ-00:00. נחיתה באוסקה 17:15 — הגעה למלון בנמבה בערך 19:00."
+      "seats": { "natan": "24A", "anat": "24B", "ilay": "24C", "lotem": "24D" },
+      "tickets": { "natan": "176 2212448725-26", "anat": "176 2212448727-28", "ilay": "176 2212448729-30", "lotem": "176 2212448731-32" }
     },
     {
       "id": "hotel-osaka",
       "type": "hotel",
       "status": "confirmed",
       "phase": "kansai",
-      "tripDays": [
-        2,
-        3,
-        4,
-        5
-      ],
       "name": "&Here OSAKA NAMBA",
-      "nameEn": "&Here OSAKA NAMBA",
+      "nameJp": "大阪府大阪市中央区難波千日前7-9",
+      "bookingRef": "6096.321.909",
+      "pin": "8618",
       "checkin": "2026-07-23",
       "checkout": "2026-07-27",
+      "checkinTime": "15:00-23:30",
+      "checkoutTime": "11:00",
       "nights": 4,
-      "address": null,
-      "coordinates": null,
-      "bookingRef": null,
-      "price": null,
-      "notes": "הזמנה מאושרת — חסרים פרטים (מספר אישור, כתובת). להשלים."
+      "rooms": 1,
+      "roomType": "חדר סופיריור משפחתי",
+      "address": "7-9 Sennichimae, Namba, Chuo-ku, Osaka, 542-0075",
+      "phone": "+81 6 6643 9660",
+      "lat": 34.66322, "lng": 135.50448,
+      "meals": "ללא",
+      "parking": "אין",
+      "price": { "total": 220012, "currency": "JPY", "usd": 1360 },
+      "notes": "מטבח בחדר. ללא חניה. ביטול חינם עד 19/7."
     },
     {
       "id": "hotel-kyoto",
       "type": "hotel",
       "status": "confirmed",
       "phase": "kansai",
-      "tripDays": [
-        6,
-        7,
-        8,
-        9
-      ],
-      "name": "מיצוי גארדן קיוטו קוואראמאצ'י ג'וקיוג'י",
-      "nameEn": "Mitsui Garden Hotel Kyoto Kawaramachi Jokyoji",
+      "name": "Mitsui Garden Hotel Kyoto Kawaramachi Jokyoji",
+      "nameJp": "三井ガーデンホテル京都河原町浄教寺",
+      "bookingRef": "6833.565.042",
+      "pin": "0047",
       "checkin": "2026-07-27",
       "checkout": "2026-07-31",
+      "checkinTime": "15:00-00:00",
+      "checkoutTime": "11:00",
       "nights": 4,
-      "address": null,
-      "coordinates": null,
-      "bookingRef": null,
-      "price": null,
-      "notes": "הזמנה מאושרת — חסרים פרטים. להשלים."
+      "rooms": 2,
+      "roomType": "חדר סטנדרטי קווין ללא עישון x2",
+      "address": "Teianmaenocho 620, Shimogyo-ku, Kyoto, 600-8031",
+      "phone": "+81 75 354 1131",
+      "lat": 35.00265, "lng": 135.76697,
+      "meals": "ללא",
+      "parking": "אין",
+      "price": { "total": 136297, "currency": "JPY", "usd": 842 },
+      "notes": "2 חדרים, ביקשו קרובים. מס מקום אירוח נוסף לא כלול. ללא חניה."
     },
     {
       "id": "hotel-kanazawa",
       "type": "hotel",
       "status": "confirmed",
       "phase": "kansai",
-      "tripDays": [
-        10,
-        11
-      ],
-      "name": "הוטל ניקו קנזאווה",
-      "nameEn": "Hotel Nikko Kanazawa",
+      "name": "Hotel Nikko Kanazawa",
+      "nameJp": "ホテル日航金沢",
+      "bookingRef": "6874.900.401",
+      "pin": "9770",
       "checkin": "2026-07-31",
       "checkout": "2026-08-02",
+      "checkinTime": "15:00",
+      "checkoutTime": "12:00",
       "nights": 2,
-      "address": null,
-      "coordinates": null,
-      "bookingRef": null,
-      "price": null,
-      "notes": "הזמנה מאושרת — חסרים פרטים. להשלים."
+      "rooms": 2,
+      "roomType": "חדר קומפורט זוגי ללא עישון x2",
+      "address": "Honmachi 2-15-1, Kanazawa, 920-0853",
+      "phone": "+81 76 234 1111",
+      "lat": 36.57665, "lng": 136.64916,
+      "meals": "ללא",
+      "parking": "ציבורית ¥1,500/יום",
+      "price": { "total": 76041, "currency": "JPY", "usd": 470 },
+      "notes": "צ'ק-אאוט 12:00. חניה ¥1,500/יום. מס מקום אירוח נוסף. הפסקת חשמל 4/8 14:30-16:30 (לא רלוונטי). טיסה ב-2/8 ב-08:50 מקומאטסו — קומה 06:30!"
     },
     {
       "id": "flight-komatsu-memanbetsu",
       "type": "flight",
       "status": "confirmed",
       "phase": "hokkaido",
-      "tripDay": 11,
       "provider": "JAL",
       "bookingRef": "ENDYBF",
       "flightNumber": "JAL 184 + JAL 567",
-      "aircraft": "73H / 767",
-      "route": {
-        "from": "קומאטסו (קנזאווה)",
-        "fromCode": "KMQ",
-        "via": "טוקיו האנדה (HND)",
-        "to": "ממנבטסו (הוקאידו)",
-        "toCode": "MMB"
-      },
-      "date": "2026-08-02",
       "legs": [
-        {
-          "flight": "JAL 184",
-          "from": "קומאטסו",
-          "to": "האנדה",
-          "departure": "08:50",
-          "arrival": "10:00",
-          "seats": {
-            "natan": "28C",
-            "anat": "28H",
-            "ilay": "28J",
-            "lotem": "28K"
-          }
-        },
-        {
-          "flight": "JAL 567",
-          "from": "האנדה",
-          "to": "ממנבטסו",
-          "departure": "12:25",
-          "arrival": "14:10",
-          "seats": {
-            "natan": "36E",
-            "anat": "36G",
-            "ilay": "35H",
-            "lotem": "35K"
-          }
-        }
+        { "flight": "JAL 184", "from": "קומאטסו KMQ", "to": "האנדה HND", "departure": "08:50", "arrival": "10:00", "seats": { "natan": "28C", "anat": "28H", "ilay": "28J", "lotem": "28K" } },
+        { "flight": "JAL 567", "from": "האנדה HND", "to": "ממנבטסו MMB", "departure": "12:25", "arrival": "14:10", "seats": { "natan": "36E", "anat": "36G", "ilay": "35H", "lotem": "35K" } }
       ],
+      "date": "2026-08-02",
       "class": "Standard",
       "boardingMethod": "Touch & Go",
-      "price": {
-        "total": 94240,
-        "currency": "JPY"
-      },
-      "notes": "יציאה מוקדמת! 08:50 מקומאטסו — צריך להגיע לשדה 07:50-08:00. קומאטסו ~40 דק מקנזאווה. יש להזמין רכבת/מונית מוקדם. קונקשן של 2:25 שעות בהאנדה."
+      "price": { "total": 94240, "currency": "JPY" },
+      "notes": "יציאה מוקדמת! קומאטסו 08:50. קונקשן 2:25 בהאנדה."
     },
     {
       "id": "car-hokkaido",
       "type": "car",
       "status": "confirmed",
       "phase": "hokkaido",
-      "tripDays": [
-        11,
-        12,
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        19,
-        20,
-        21,
-        22
-      ],
-      "provider": "SIXT (ORIX Auto Corporation)",
+      "provider": "SIXT / ORIX",
       "bookingRef": "9736445237",
       "securityCode": "dcea02d1c1",
-      "carGroup": "IFAR",
-      "carModel": "Mazda CX-5 (או דומה)",
-      "pickup": {
-        "date": "2026-08-02",
-        "time": "15:00",
-        "location": "שדה ממנבטסו — ORIX counter באולם הנחיתות",
-        "address": "260-9 Memanbetsu Chuo, Ozora-cho, Abashiri 099-2371",
-        "hours": "09:00-19:00"
-      },
-      "dropoff": {
-        "date": "2026-08-14",
-        "time": "15:00",
-        "location": "שדה ניו צ'יטוסה — ORIX counter",
-        "address": "758-171 Bibi, Chitose 066-0012",
-        "hours": "08:00-19:00",
-        "note": "בטרמינל הפנימי: דלפק ORIX בקומה 1. בטרמינל הבינלאומי: דלפק מידע בקומה 1, שאטל 10 דקות."
-      },
-      "rentalDays": 12,
-      "driver": "SHTIVELMAN ANATOLY NATAN",
-      "includes": [
-        "קילומטראז' ללא הגבלה",
-        "נהג נוסף",
-        "ביטוח מלא (LDW + גניבה, השתתפות עצמית 0)",
-        "GPS",
-        "שירות דרך 24/7",
-        "כרטיס ETC (כבישי אגרה)"
-      ],
-      "price": {
-        "rental": 159280,
-        "oneWayFee": 19800,
-        "insurance": 21120,
-        "etcCard": 550,
-        "total": 200750,
-        "currency": "JPY"
-      },
-      "requirements": [
-        "רישיון נהיגה בינלאומי (אמנת ז'נבה)",
-        "או: רישיון זר + תרגום יפני"
-      ],
-      "warning": "החזרת הרכב רשומה ל-15:00 אבל טיסת Peach יוצאת ב-14:50! חובה להחזיר עד 12:00-12:30 לכל המאוחר."
+      "car": "Mazda CX-5 (IFAR)",
+      "pickup": { "date": "2026-08-02", "time": "15:00", "location": "שדה ממנבטסו — ORIX counter", "address": "260-9 Memanbetsu Chuo, Ozora-cho, 099-2371" },
+      "dropoff": { "date": "2026-08-14", "time": "15:00", "location": "שדה ניו צ'יטוסה — ORIX counter", "address": "758-171 Bibi, Chitose, 066-0012" },
+      "days": 12,
+      "includes": ["קילומטראז ללא הגבלה", "נהג נוסף", "ביטוח מלא 0 השתתפות", "GPS", "ETC card"],
+      "price": { "total": 200750, "currency": "JPY" },
+      "warning": "החזרת רכב 15:00 אבל טיסת Peach 14:50! להחזיר עד 12:30.",
+      "notes": "רישיון בינלאומי חובה."
     },
     {
       "id": "hotel-shiretoko",
       "type": "hotel",
       "status": "confirmed",
       "phase": "hokkaido",
-      "tripDays": [
-        11,
-        12
-      ],
-      "name": "דה סאנסט שירטוקו",
-      "nameEn": "The SUNSET Shiretoko",
+      "name": "The SUNSET Shiretoko",
+      "nameJp": "ザ・サンセット知床",
+      "bookingRef": "6292.753.519",
+      "pin": "0886",
       "checkin": "2026-08-02",
       "checkout": "2026-08-04",
+      "checkinTime": "15:00-19:00",
+      "checkoutTime": "07:00-10:00",
       "nights": 2,
-      "address": null,
-      "coordinates": null,
-      "bookingRef": null,
-      "price": null,
-      "notes": "הזמנה מאושרת — חסרים פרטים. להשלים."
-    },
-    {
-      "id": "hotel-akan",
-      "type": "hotel",
-      "status": "confirmed",
-      "phase": "hokkaido",
-      "tripDays": [
-        13,
-        14
-      ],
-      "name": "אכאן יוקו נו סאטו צורוגה",
-      "nameEn": "Akan Yuku no Sato Tsuruga",
-      "checkin": "2026-08-04",
-      "checkout": "2026-08-06",
-      "nights": 2,
-      "address": null,
-      "coordinates": null,
-      "bookingRef": null,
-      "price": null,
-      "notes": "⚠ לבדיקה — תאריכים/לילות שונים בין bookings ל-hotels.json. יש לאמת. הזמנה מאושרת — חסרים פרטים. להשלים."
+      "rooms": 1,
+      "roomType": "Twin Room with Tatami, Shared Bathroom",
+      "address": "Utorokagawa 189, Shari, 099-4351",
+      "phone": "+81 152 24 2764",
+      "lat": 44.07302, "lng": 145.00098,
+      "meals": "ללא",
+      "parking": "חינם",
+      "price": { "total": 152400, "currency": "JPY", "usd": 942 },
+      "notes": "אונסן הוסטל. חדר רחצה משותף. קעקועים אסורים באונסן. נוף לים."
     },
     {
       "id": "hotel-kussharo",
       "type": "hotel",
       "status": "confirmed",
       "phase": "hokkaido",
-      "tripDays": [
-        15
-      ],
-      "name": "קושארו פרינס הוטל",
-      "nameEn": "Kussharo Prince Hotel",
-      "checkin": "2026-08-06",
-      "checkout": "2026-08-07",
+      "name": "Kussharo Prince Hotel",
+      "nameJp": "屈斜路プリンスホテル",
+      "bookingRef": "5285.642.679",
+      "pin": "4286",
+      "checkin": "2026-08-04",
+      "checkout": "2026-08-05",
+      "checkinTime": "15:00-22:00",
+      "checkoutTime": "06:00-11:00",
       "nights": 1,
-      "address": null,
-      "coordinates": null,
-      "bookingRef": null,
-      "price": null,
-      "notes": "⚠ לבדיקה — תאריכים/לילות שונים בין bookings ל-hotels.json. יש לאמת. הזמנה מאושרת — חסרים פרטים. להשלים."
+      "rooms": 2,
+      "roomType": "Twin ללא עישון + Twin Lake View Top Floor",
+      "address": "Kussharo Onsen, Teshikaga, 088-3395",
+      "phone": "+81 15 484 2111",
+      "lat": 43.58557, "lng": 144.27432,
+      "meals": "ללא",
+      "parking": "חינם",
+      "price": { "total": 51609, "currency": "JPY", "usd": 319 },
+      "notes": "מלון עונתי. קעקועים אסורים. נוף לאגם קושארו."
+    },
+    {
+      "id": "hotel-akan",
+      "type": "hotel",
+      "status": "confirmed",
+      "phase": "hokkaido",
+      "name": "Akan Yuku no Sato Tsuruga",
+      "nameJp": "あかん遊久の里 鶴雅",
+      "bookingRef": "5010.793.201",
+      "pin": "5392",
+      "checkin": "2026-08-05",
+      "checkout": "2026-08-07",
+      "checkinTime": "15:00-19:00",
+      "checkoutTime": "10:00",
+      "nights": 2,
+      "rooms": 1,
+      "roomType": "Japanese-Style Room with Shower, Wings BLD",
+      "address": "Akancho Akankoonsen 4-6-10, Kushiro, 085-0467",
+      "phone": "+81 154 67 4000",
+      "lat": 43.43427, "lng": 144.09068,
+      "meals": "ארוחת בוקר + ארוחת ערב כלולות",
+      "parking": "חינם בסמוך",
+      "price": { "total": 202776, "currency": "JPY", "usd": 1253 },
+      "notes": "חובה צ'ק-אין עד 19:00 לארוחת ערב! 4 פוטונים. קעקועים אסורים באונסן."
     },
     {
       "id": "hotel-sounkyo",
       "type": "hotel",
       "status": "confirmed",
       "phase": "hokkaido",
-      "tripDays": [
-        16
-      ],
-      "name": "סואונקיו — לינה",
-      "nameEn": "Sounkyo accommodation",
+      "name": "Hotel Kumoi Sounkyo Onsen",
+      "nameJp": "層雲峡温泉 ホテル雲井",
+      "bookingRef": "6335.821.111",
+      "pin": "8684",
       "checkin": "2026-08-07",
       "checkout": "2026-08-08",
+      "checkinTime": "15:00-21:00",
+      "checkoutTime": "10:00",
       "nights": 1,
-      "address": null,
-      "coordinates": null,
-      "bookingRef": null,
-      "price": null,
-      "notes": "מאושר אבל חסר שם מלון ופרטים."
+      "rooms": 2,
+      "roomType": "Standard Triple x2",
+      "address": "Sounkyo Onsen, Kamikawa, 078-1701",
+      "phone": "+81 70 1580 6524",
+      "lat": 43.72533, "lng": 142.94715,
+      "meals": "ארוחת בוקר כלולה",
+      "parking": "חינם",
+      "price": { "total": 40996, "currency": "JPY", "usd": 253 },
+      "notes": "צ'ק-אין עד 19:30 לארוחת ערב. נוף להרים. טאטמי."
     },
     {
       "id": "hotel-furano",
       "type": "hotel",
       "status": "confirmed",
       "phase": "hokkaido",
-      "tripDays": [
-        17,
-        18
-      ],
-      "name": "Grouse Lodge",
-      "nameEn": "Grouse Lodge",
+      "name": "Grouse Lodge, Furano",
+      "nameJp": null,
+      "bookingRef": "6440.444.080",
+      "pin": "2275",
       "checkin": "2026-08-08",
       "checkout": "2026-08-10",
+      "checkinTime": "16:00-23:00",
+      "checkoutTime": "06:00-10:00",
       "nights": 2,
-      "address": null,
-      "coordinates": null,
-      "bookingRef": null,
-      "price": {
-        "perNight": 2052,
-        "currency": "ILS"
-      },
-      "notes": "הזמנה מאושרת (לפי hotels.json). חסר מספר אישור — יש להשלים."
+      "rooms": 1,
+      "roomType": "בית נופש עם 3 חדרי שינה",
+      "address": "10-32 Kitanominecho, Furano, 076-0034",
+      "phone": "+81 70 7661 6381",
+      "lat": 43.34322, "lng": 142.36419,
+      "meals": "ללא (מטבח מלא)",
+      "parking": "חינם",
+      "price": { "total": 92175, "currency": "JPY", "usd": 570 },
+      "notes": "בית עצמאי! מטבח מלא, מכונת כביסה, 3 חדרי שינה. דמי ניקיון ¥18,000 כלולים."
     },
     {
       "id": "hotel-otaru",
       "type": "hotel",
       "status": "confirmed",
       "phase": "hokkaido",
-      "tripDays": [
-        19
-      ],
       "name": "Hotel Nord Otaru",
-      "nameEn": "Hotel Nord Otaru",
+      "nameJp": "ホテルノルド小樽",
+      "bookingRef": "5285.645.636",
+      "pin": "0118",
       "checkin": "2026-08-10",
       "checkout": "2026-08-11",
+      "checkinTime": "15:00-00:00",
+      "checkoutTime": "11:00",
       "nights": 1,
-      "address": null,
-      "coordinates": null,
-      "bookingRef": null,
-      "price": {
-        "perNight": 1494,
-        "currency": "ILS"
-      },
-      "notes": "הזמנה מאושרת (לפי hotels.json). חסר מספר אישור — יש להשלים."
+      "rooms": 2,
+      "roomType": "Standard Twin ללא עישון x2",
+      "address": "Ironai 1-4-16, Otaru, 047-0031",
+      "phone": "+81 134 24 0500",
+      "lat": 43.19939, "lng": 141.00125,
+      "meals": "ללא",
+      "parking": "¥1,200 לשהייה",
+      "price": { "total": 67200, "currency": "JPY", "usd": 415 },
+      "notes": "מס מקום אירוח נוסף לא כלול. נוף לעיר."
     },
     {
       "id": "hotel-niseko",
       "type": "hotel",
       "status": "confirmed",
       "phase": "hokkaido",
-      "tripDays": [
-        20,
-        21
-      ],
       "name": "Hilton Niseko Village",
-      "nameEn": "Hilton Niseko Village",
+      "nameJp": "ヒルトンニセコビレッジ",
+      "bookingRef": "6834.909.116",
+      "pin": "0865",
       "checkin": "2026-08-11",
       "checkout": "2026-08-13",
+      "checkinTime": "15:00",
+      "checkoutTime": "11:00",
       "nights": 2,
-      "address": null,
-      "coordinates": null,
-      "bookingRef": null,
-      "price": {
-        "perNight": 2887,
-        "currency": "ILS"
-      },
-      "notes": "הזמנה מאושרת (לפי hotels.json). חסר מספר אישור — יש להשלים."
+      "rooms": 1,
+      "roomType": "חדר משפחה דלוקס טווין — נוף להר יוטיי",
+      "address": "Higashiyama Onsen, Niseko, 048-1592",
+      "phone": "+81 136 44 1115",
+      "lat": 42.84659, "lng": 140.68467,
+      "meals": "ארוחת בוקר כלולה",
+      "parking": "חינם",
+      "price": { "total": 129726, "currency": "JPY", "usd": 802 },
+      "notes": "נוף להר יוטיי. קעקועים אסורים באונסן. WiFi בתשלום בחדרים."
     },
     {
       "id": "hotel-toya",
       "type": "hotel",
       "status": "confirmed",
       "phase": "hokkaido",
-      "tripDays": [
-        22
-      ],
       "name": "TOYA Center Village",
-      "nameEn": "TOYA Center Village",
+      "nameJp": "洞爺湖温泉105番地",
+      "bookingRef": "6468.473.105",
+      "pin": "3347",
       "checkin": "2026-08-13",
       "checkout": "2026-08-14",
+      "checkinTime": "15:00-00:00",
+      "checkoutTime": "10:00",
       "nights": 1,
-      "address": null,
-      "coordinates": null,
-      "bookingRef": null,
-      "price": {
-        "perNight": 1228,
-        "currency": "ILS"
-      },
-      "notes": "הזמנה מאושרת (לפי hotels.json). חסר מספר אישור — יש להשלים."
+      "rooms": 2,
+      "roomType": "Trailer House 2Bed x2",
+      "address": "Toyako Onsen 105, Toyako-Cho, Abuta-Gun, 049-5721",
+      "phone": "+81 142 75 1085",
+      "lat": 42.56315, "lng": 140.82270,
+      "meals": "ללא (מטבחון)",
+      "parking": "חינם",
+      "price": { "total": 66000, "currency": "JPY", "ils": 1228 },
+      "notes": "טריילר האוס! 2 יחידות. צ'ק-אאוט 10:00. נסיעה לצ'יטוסה ~2 שעות — להחזיר רכב עד 12:30 לטיסת 14:50."
     },
     {
       "id": "flight-chitose-narita",
       "type": "flight",
       "status": "confirmed",
       "phase": "tokyo",
-      "tripDay": 23,
       "provider": "Peach Aviation",
       "bookingRef": "8JPYNY",
       "flightNumber": "MM576",
       "aircraft": "A320neo",
-      "route": {
-        "from": "סאפורו — שין-צ'יטוסה, טרמינל פנימי",
-        "fromCode": "CTS",
-        "to": "טוקיו — נאריטה טרמינל 1",
-        "toCode": "NRT"
-      },
+      "from": "סאפורו שין-צ'יטוסה CTS טרמינל פנימי",
+      "to": "טוקיו נאריטה NRT טרמינל 1",
       "date": "2026-08-14",
       "departure": "14:50",
       "arrival": "16:35",
       "class": "Standard Plus",
-      "baggage": "1 checked bag per person",
-      "seats": {
-        "natan": "12A",
-        "anat": "12B",
-        "lotem": "12C",
-        "ilay": "12D"
-      },
-      "price": {
-        "total": 106840,
-        "currency": "JPY"
-      },
-      "notes": "צ'ק-אין 30 דק לפני (14:20 לכל המאוחר). Self check-in. חובה להחזיר רכב SIXT לפני כן! נחיתה בנאריטה — לא האנדה. הגעה לשינג'וקו בערך 18:30 (נאריטה אקספרס ~90 דק)."
+      "baggage": "1 checked per person",
+      "seats": { "natan": "12A", "anat": "12B", "lotem": "12C", "ilay": "12D" },
+      "price": { "total": 106840, "currency": "JPY" },
+      "notes": "Self check-in. צ'ק-אין 30 דק לפני. נחיתה נאריטה — נאריטה אקספרס ~90 דק לטוקיו."
     },
     {
       "id": "hotel-tokyo",
       "type": "hotel",
       "status": "confirmed",
       "phase": "tokyo",
-      "tripDays": [
-        23,
-        24,
-        25,
-        26,
-        27
-      ],
       "name": "karaksa hotel colors Tokyo Yaesu",
-      "nameEn": "karaksa hotel colors Tokyo Yaesu",
+      "nameJp": "からくさホテルカラーズ東京八重洲",
+      "bookingRef": "5762.695.452",
+      "pin": "3496",
       "checkin": "2026-08-14",
       "checkout": "2026-08-19",
+      "checkinTime": "15:00-00:00",
+      "checkoutTime": "11:00",
       "nights": 5,
-      "address": null,
-      "coordinates": null,
-      "bookingRef": null,
-      "price": null,
-      "notes": "הזמנה מאושרת (לפי hotels.json). חסר מספר אישור — יש להשלים."
+      "rooms": 1,
+      "roomType": "חדר דלוקס טווין עם מיטות רחבות",
+      "address": "Nihombashi 3-5-13, Chuo Ward, Tokyo, 103-0027",
+      "phone": "+81 3 6880 6602",
+      "lat": 35.67933, "lng": 139.77273,
+      "meals": "ללא",
+      "parking": "אין",
+      "price": { "total": 250711, "currency": "JPY", "ils": 4664 },
+      "notes": "ליד תחנת טוקיו (לא שינג'וקו). מס מקום אירוח נוסף. מיטות 151-180 ס\"מ. ביטול חינם עד 12/8."
     },
     {
       "id": "flight-nrt-dxb",
       "type": "flight",
       "status": "confirmed",
       "phase": "transit_back",
-      "tripDay": 28,
       "provider": "Emirates",
       "bookingRef": "NYTYZ2",
       "flightNumber": "EK 319",
-      "aircraft": null,
-      "route": {
-        "from": "טוקיו — נאריטה טרמינל 2",
-        "fromCode": "NRT",
-        "to": "דובאי — DXB טרמינל 3",
-        "toCode": "DXB"
-      },
+      "from": "טוקיו נאריטה NRT טרמינל 2",
+      "to": "דובאי DXB טרמינל 3",
       "date": "2026-08-19",
       "departure": "22:30",
       "arrival": "04:05",
       "arrivalDate": "2026-08-20",
       "class": "Economy Flex",
       "baggage": "30kg",
-      "seats": {
-        "natan": "67J",
-        "anat": "68K",
-        "ilay": "68J",
-        "lotem": "68H"
-      },
-      "price": {
-        "note": "כלול במחיר הכרטיס הכולל"
-      },
-      "notes": "צ'ק-אין מ-19:30. יום אחרון מלא בטוקיו — הטיסה בלילה. מגיעים דובאי 04:05 בבוקר."
+      "seats": { "natan": "67J", "anat": "68K", "ilay": "68J", "lotem": "68H" }
     },
     {
       "id": "hotel-dubai",
       "type": "hotel",
       "status": "pending",
       "phase": "transit_back",
-      "tripDays": [
-        29,
-        30
-      ],
       "name": "דובאי — טרם הוזמן",
-      "nameEn": "Dubai accommodation",
       "checkin": "2026-08-20",
       "checkout": "2026-08-22",
       "nights": 2,
-      "address": null,
-      "coordinates": null,
-      "bookingRef": null,
-      "price": null,
-      "notes": "לא הוזמן! 2 לילות. נחיתה 04:05 ב-20/8, טיסה ב-12:05 ב-22/8."
+      "notes": "לא הוזמן! נחיתה 04:05 ב-20/8, טיסה 12:05 ב-22/8."
     },
     {
       "id": "flight-dxb-tlv",
       "type": "flight",
       "status": "confirmed",
       "phase": "transit_back",
-      "tripDay": 31,
       "provider": "Emirates / Flydubai",
       "bookingRef": "NYTYZ2",
       "flightNumber": "EK 2448 / FZ1081",
-      "aircraft": null,
-      "route": {
-        "from": "דובאי — DXB טרמינל 3",
-        "fromCode": "DXB",
-        "to": "תל אביב — נתב\"ג טרמינל 3",
-        "toCode": "TLV"
-      },
+      "from": "דובאי DXB טרמינל 3",
+      "to": "תל אביב TLV טרמינל 3",
       "date": "2026-08-22",
       "departure": "12:05",
       "arrival": "14:35",
       "class": "Economy Flex",
       "baggage": "30kg",
-      "seats": {
-        "natan": null,
-        "anat": null,
-        "ilay": null,
-        "lotem": null
-      },
-      "price": {
-        "note": "כלול במחיר הכרטיס הכולל"
-      },
-      "notes": "צ'ק-אין מ-09:05. מופעל ע\"י Flydubai."
+      "seats": { "natan": null, "anat": null, "ilay": null, "lotem": null }
     }
   ],
-  "summary": {
-    "confirmed": {
-      "flights": 6,
-      "hotels": 12,
-      "car": 1,
-      "total": 19
-    },
-    "pending": {
-      "hotels": 1,
-      "items": [
-        "דובאי — 2 לילות (20-22/8)"
-      ]
-    },
-    "missingDetails": [
-      "מלון אוסקה (&Here) — חסר מספר אישור, כתובת",
-      "מלון קיוטו (Mitsui Garden) — חסר מספר אישור, כתובת",
-      "מלון קנזאווה (Nikko) — חסר מספר אישור, כתובת",
-      "מלון שירטוקו (The SUNSET) — חסר מספר אישור, כתובת",
-      "מלון אכאן (Tsuruga) — חסר מספר אישור, כתובת",
-      "מלון קושארו (Prince) — חסר מספר אישור, כתובת",
-      "מלון סואונקיו — חסר שם מלון, מספר אישור, כתובת"
-    ],
-    "alerts": [
-      "2/8: יציאה מוקדמת מקנזאווה! טיסה 08:50 — קומה 07:00-07:15",
-      "14/8: קונפליקט תזמון — החזרת רכב 15:00 אבל טיסת Peach 14:50. להחזיר עד 12:30!",
-      "14/8: נחיתה בנאריטה (לא האנדה) — נאריטה אקספרס לטוקיו ~90 דק",
-      "19/8: יום מלא בטוקיו + טיסת לילה. צ'ק-אאוט מהמלון, מזוודות ב-coin lockers או takkyubin",
-      "רישיון נהיגה בינלאומי — לוודא שבתוקף!",
-      "לבדיקה: תאריכי אכאן וקושארו שונים בין מקורות הנתונים — יש לאמת מול ההזמנה"
-    ]
+  "alerts": [
+    { "date": "2026-08-02", "severity": "high", "text": "יציאה מוקדמת! טיסה 08:50 מקומאטסו — קומה 06:30, מונית/רכבת מקנזאווה" },
+    { "date": "2026-08-05", "severity": "medium", "text": "צ'ק-אין אכאן עד 19:00 לארוחת ערב" },
+    { "date": "2026-08-07", "severity": "medium", "text": "צ'ק-אין סואונקיו עד 19:30 לארוחת ערב" },
+    { "date": "2026-08-14", "severity": "high", "text": "החזרת רכב + טיסה! צ'ק-אאוט טויה 10:00, נסיעה ~2שע לצ'יטוסה, החזרת רכב עד 12:30, טיסת Peach 14:50" },
+    { "date": "2026-08-14", "severity": "medium", "text": "נחיתה בנאריטה 16:35 — נאריטה אקספרס ~90 דק למלון (תחנת טוקיו)" },
+    { "date": "2026-08-19", "severity": "medium", "text": "יום אחרון בטוקיו. צ'ק-אאוט 11:00, טיסה 22:30 מנאריטה. מזוודות: coin lockers או takkyubin" },
+    { "date": "general", "severity": "high", "text": "רישיון נהיגה בינלאומי — לוודא בתוקף!" },
+    { "date": "general", "severity": "high", "text": "דובאי חזרה: 2 לילות לא מוזמנים (20-22/8)" }
+  ],
+  "costSummary": {
+    "flights": { "emirates": { "total": 6127.08, "currency": "USD" }, "jal": { "total": 94240, "currency": "JPY" }, "peach": { "total": 106840, "currency": "JPY" } },
+    "car": { "total": 200750, "currency": "JPY" },
+    "hotels": {
+      "osaka": { "total": 220012, "currency": "JPY" },
+      "kyoto": { "total": 136297, "currency": "JPY" },
+      "kanazawa": { "total": 76041, "currency": "JPY" },
+      "shiretoko": { "total": 152400, "currency": "JPY" },
+      "kussharo": { "total": 51609, "currency": "JPY" },
+      "akan": { "total": 202776, "currency": "JPY" },
+      "sounkyo": { "total": 40996, "currency": "JPY" },
+      "furano": { "total": 92175, "currency": "JPY" },
+      "otaru": { "total": 67200, "currency": "JPY" },
+      "niseko": { "total": 129726, "currency": "JPY" },
+      "toya": { "total": 66000, "currency": "JPY" },
+      "tokyo": { "total": 250711, "currency": "JPY" }
+    }
   }
 }

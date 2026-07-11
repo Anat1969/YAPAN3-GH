@@ -20,9 +20,17 @@
     "price": 4091,
     "currency": "ILS",
     "phone": "+81-6-6643-9660",
-    "notes": "3 דק׳ מ-Nankai Namba, ליד דוטונבורי",
+    "notes": "3 דק׳ מ-Nankai Namba, ליד דוטונבורי · מטבח בחדר. ללא חניה. ביטול חינם עד 19/7.",
     "booked": true,
-    "bookingRef": null
+    "bookingRef": "6096.321.909",
+    "pin": "8618",
+    "address": "7-9 Sennichimae, Namba, Chuo-ku, Osaka, 542-0075",
+    "checkinTime": "15:00-23:30",
+    "checkoutTime": "11:00",
+    "meals": "ללא",
+    "parking": "אין",
+    "roomType": "חדר סופיריור משפחתי",
+    "nameJp": "大阪府大阪市中央区難波千日前7-9"
   },
   {
     "id": 2,
@@ -45,9 +53,17 @@
     "price": 2534,
     "currency": "ILS",
     "phone": "+81-75-354-1131",
-    "notes": "דקה מ-Kawaramachi, מקדש בתוך המלון",
+    "notes": "דקה מ-Kawaramachi, מקדש בתוך המלון · 2 חדרים, ביקשו קרובים. מס מקום אירוח נוסף לא כלול. ללא חניה.",
     "booked": true,
-    "bookingRef": null
+    "bookingRef": "6833.565.042",
+    "pin": "0047",
+    "address": "Teianmaenocho 620, Shimogyo-ku, Kyoto, 600-8031",
+    "checkinTime": "15:00-00:00",
+    "checkoutTime": "11:00",
+    "meals": "ללא",
+    "parking": "אין",
+    "roomType": "חדר סטנדרטי קווין ללא עישון x2",
+    "nameJp": "三井ガーデンホテル京都河原町浄教寺"
   },
   {
     "id": 3,
@@ -70,9 +86,17 @@
     "price": 1414,
     "currency": "ILS",
     "phone": "+81-76-234-1111",
-    "notes": "30 קומות, 2 דק׳ מ-JR Kanazawa",
+    "notes": "30 קומות, 2 דק׳ מ-JR Kanazawa · צ'ק-אאוט 12:00. חניה ¥1,500/יום. מס מקום אירוח נוסף. הפסקת חשמל 4/8 14:30-16:30 (לא רלוונטי). טיסה ב-2/8 ב-08:50 מקומאטסו — קומה 06:30!",
     "booked": true,
-    "bookingRef": null
+    "bookingRef": "6874.900.401",
+    "pin": "9770",
+    "address": "Honmachi 2-15-1, Kanazawa, 920-0853",
+    "checkinTime": "15:00",
+    "checkoutTime": "12:00",
+    "meals": "ללא",
+    "parking": "ציבורית ¥1,500/יום",
+    "roomType": "חדר קומפורט זוגי ללא עישון x2",
+    "nameJp": "ホテル日航金沢"
   },
   {
     "id": 4,
@@ -95,9 +119,17 @@
     "price": 2834,
     "currency": "ILS",
     "phone": "+81-152-24-2764",
-    "notes": "נוף לים, אונסן, מטבח משותף",
+    "notes": "נוף לים, אונסן, מטבח משותף · אונסן הוסטל. חדר רחצה משותף. קעקועים אסורים באונסן. נוף לים.",
     "booked": true,
-    "bookingRef": null
+    "bookingRef": "6292.753.519",
+    "pin": "0886",
+    "address": "Utorokagawa 189, Shari, 099-4351",
+    "checkinTime": "15:00-19:00",
+    "checkoutTime": "07:00-10:00",
+    "meals": "ללא",
+    "parking": "חינם",
+    "roomType": "Twin Room with Tatami, Shared Bathroom",
+    "nameJp": "ザ・サンセット知床"
   },
   {
     "id": 5,
@@ -120,9 +152,17 @@
     "price": 960,
     "currency": "ILS",
     "phone": "+81-15-484-2111",
-    "notes": "חוף אגם קושארו",
+    "notes": "חוף אגם קושארו · מלון עונתי. קעקועים אסורים. נוף לאגם קושארו.",
     "booked": true,
-    "bookingRef": null
+    "bookingRef": "5285.642.679",
+    "pin": "4286",
+    "address": "Kussharo Onsen, Teshikaga, 088-3395",
+    "checkinTime": "15:00-22:00",
+    "checkoutTime": "06:00-11:00",
+    "meals": "ללא",
+    "parking": "חינם",
+    "roomType": "Twin ללא עישון + Twin Lake View Top Floor",
+    "nameJp": "屈斜路プリンスホテル"
   },
   {
     "id": 6,
@@ -145,9 +185,17 @@
     "price": 3770,
     "currency": "ILS",
     "phone": "+81-154-67-4000",
-    "notes": "ריוקאן 5 כוכבים, כפר איינו",
+    "notes": "ריוקאן 5 כוכבים, כפר איינו · חובה צ'ק-אין עד 19:00 לארוחת ערב! 4 פוטונים. קעקועים אסורים באונסן.",
     "booked": true,
-    "bookingRef": null
+    "bookingRef": "5010.793.201",
+    "pin": "5392",
+    "address": "Akancho Akankoonsen 4-6-10, Kushiro, 085-0467",
+    "checkinTime": "15:00-19:00",
+    "checkoutTime": "10:00",
+    "meals": "ארוחת בוקר + ארוחת ערב כלולות",
+    "parking": "חינם בסמוך",
+    "roomType": "Japanese-Style Room with Shower, Wings BLD",
+    "nameJp": "あかん遊久の里 鶴雅"
   },
   {
     "id": 7,
@@ -170,9 +218,17 @@
     "price": 762,
     "currency": "ILS",
     "phone": "+81-1658-7-7138",
-    "notes": "ריוקאן קטן, דקה מרכבל קורודאקה",
+    "notes": "ריוקאן קטן, דקה מרכבל קורודאקה · צ'ק-אין עד 19:30 לארוחת ערב. נוף להרים. טאטמי.",
     "booked": true,
-    "bookingRef": null
+    "bookingRef": "6335.821.111",
+    "pin": "8684",
+    "address": "Sounkyo Onsen, Kamikawa, 078-1701",
+    "checkinTime": "15:00-21:00",
+    "checkoutTime": "10:00",
+    "meals": "ארוחת בוקר כלולה",
+    "parking": "חינם",
+    "roomType": "Standard Triple x2",
+    "nameJp": "層雲峡温泉 ホテル雲井"
   },
   {
     "id": 8,
@@ -195,9 +251,16 @@
     "price": 2052,
     "currency": "ILS",
     "phone": "+81-70-7661-6381",
-    "notes": "בית נופש, 3 חדרי שינה, מטבח, טאטאמי, חניה חינם, WiFi. אישור 6440.444.080",
+    "notes": "בית נופש, 3 חדרי שינה, מטבח, טאטאמי, חניה חינם, WiFi. אישור 6440.444.080 · בית עצמאי! מטבח מלא, מכונת כביסה, 3 חדרי שינה. דמי ניקיון ¥18,000 כלולים.",
     "booked": true,
-    "bookingRef": null
+    "bookingRef": "6440.444.080",
+    "pin": "2275",
+    "address": "10-32 Kitanominecho, Furano, 076-0034",
+    "checkinTime": "16:00-23:00",
+    "checkoutTime": "06:00-10:00",
+    "meals": "ללא (מטבח מלא)",
+    "parking": "חינם",
+    "roomType": "בית נופש עם 3 חדרי שינה"
   },
   {
     "id": 12,
@@ -220,9 +283,17 @@
     "price": 1494,
     "currency": "ILS",
     "phone": "+81-134-24-0500",
-    "notes": "2 חדרי טווין, ליד התעלה. חניה 1,200 ין. אישור 5285.645.636",
+    "notes": "2 חדרי טווין, ליד התעלה. חניה 1,200 ין. אישור 5285.645.636 · מס מקום אירוח נוסף לא כלול. נוף לעיר.",
     "booked": true,
-    "bookingRef": null
+    "bookingRef": "5285.645.636",
+    "pin": "0118",
+    "address": "Ironai 1-4-16, Otaru, 047-0031",
+    "checkinTime": "15:00-00:00",
+    "checkoutTime": "11:00",
+    "meals": "ללא",
+    "parking": "¥1,200 לשהייה",
+    "roomType": "Standard Twin ללא עישון x2",
+    "nameJp": "ホテルノルド小樽"
   },
   {
     "id": 13,
@@ -245,9 +316,17 @@
     "price": 2887,
     "currency": "ILS",
     "phone": "+81-136-44-1115",
-    "notes": "חדר משפחה דלוקס, נוף להר יוטיי, ארוחת בוקר כלולה, חניה חינם. אישור 6834.909.116",
+    "notes": "חדר משפחה דלוקס, נוף להר יוטיי, ארוחת בוקר כלולה, חניה חינם. אישור 6834.909.116 · נוף להר יוטיי. קעקועים אסורים באונסן. WiFi בתשלום בחדרים.",
     "booked": true,
-    "bookingRef": null
+    "bookingRef": "6834.909.116",
+    "pin": "0865",
+    "address": "Higashiyama Onsen, Niseko, 048-1592",
+    "checkinTime": "15:00",
+    "checkoutTime": "11:00",
+    "meals": "ארוחת בוקר כלולה",
+    "parking": "חינם",
+    "roomType": "חדר משפחה דלוקס טווין — נוף להר יוטיי",
+    "nameJp": "ヒルトンニセコビレッジ"
   },
   {
     "id": 9,
@@ -269,10 +348,18 @@
     "rooms": 2,
     "price": 1228,
     "currency": "ILS",
-    "phone": "",
-    "notes": "טריילרים, 6 דק׳ מהאגם, חניה חינם",
+    "phone": "+81 142 75 1085",
+    "notes": "טריילרים, 6 דק׳ מהאגם, חניה חינם · טריילר האוס! 2 יחידות. צ'ק-אאוט 10:00. נסיעה לצ'יטוסה ~2 שעות — להחזיר רכב עד 12:30 לטיסת 14:50.",
     "booked": true,
-    "bookingRef": null
+    "bookingRef": "6468.473.105",
+    "pin": "3347",
+    "address": "Toyako Onsen 105, Toyako-Cho, Abuta-Gun, 049-5721",
+    "checkinTime": "15:00-00:00",
+    "checkoutTime": "10:00",
+    "meals": "ללא (מטבחון)",
+    "parking": "חינם",
+    "roomType": "Trailer House 2Bed x2",
+    "nameJp": "洞爺湖温泉105番地"
   },
   {
     "id": 10,
@@ -291,13 +378,21 @@
     "checkin": "2026-08-14",
     "checkout": "2026-08-19",
     "nights": 5,
-    "rooms": null,
+    "rooms": 1,
     "price": 4664,
     "currency": "ILS",
     "phone": "+81-3-6880-6602",
-    "notes": "6 דק׳ מ-Tokyo Station, חדרי connecting",
+    "notes": "6 דק׳ מ-Tokyo Station, חדרי connecting · ליד תחנת טוקיו (לא שינג'וקו). מס מקום אירוח נוסף. מיטות 151-180 ס\"מ. ביטול חינם עד 12/8.",
     "booked": true,
-    "bookingRef": null
+    "bookingRef": "5762.695.452",
+    "pin": "3496",
+    "address": "Nihombashi 3-5-13, Chuo Ward, Tokyo, 103-0027",
+    "checkinTime": "15:00-00:00",
+    "checkoutTime": "11:00",
+    "meals": "ללא",
+    "parking": "אין",
+    "roomType": "חדר דלוקס טווין עם מיטות רחבות",
+    "nameJp": "からくさホテルカラーズ東京八重洲"
   },
   {
     "id": 11,
@@ -320,7 +415,7 @@
     "price": null,
     "currency": "ILS",
     "phone": "",
-    "notes": "עצירת ביניים — צריך להזמין",
+    "notes": "עצירת ביניים — צריך להזמין · לא הוזמן! נחיתה 04:05 ב-20/8, טיסה 12:05 ב-22/8.",
     "booked": false,
     "bookingRef": null
   }

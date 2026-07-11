@@ -244,6 +244,7 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .bk-alerts h3{font-size:13px;font-weight:900;color:var(--warn);margin-bottom:6px}
 .bk-alerts ul{margin:0;padding-right:18px}
 .bk-alerts li{font-size:12px;color:#7a5b2e;line-height:1.7}
+.bk-alerts li.bk-alert-high{color:var(--err);font-weight:700}
 .bk-summary{font-size:12px;font-weight:700;color:var(--ink-2);margin-bottom:12px}
 .bk-timeline{display:flex;flex-direction:column;gap:10px}
 .bk-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 15px;border-right:3px solid var(--ok)}
@@ -1159,8 +1160,14 @@ function renderBookings() {
   const el = document.getElementById('bookingsWrap');
   if (!B || !B.bookings) { el.innerHTML = '<div class="tr-intro">אין נתוני הזמנות.</div>'; return; }
 
-  // התראות בראש המסך
-  const alerts = (B.summary?.alerts || []).map(a=>`<li>${a}</li>`).join('');
+  // התראות בראש המסך — מבנה חדש: {date, severity, text} ברמה העליונה
+  const rawAlerts = B.alerts || B.summary?.alerts || [];
+  const alerts = rawAlerts.map(a=>{
+    if (typeof a === 'string') return `<li>${a}</li>`;
+    const dt = a.date && a.date!=='general' ? `<b>${fmtDate(a.date)}:</b> ` : (a.date==='general'?'<b>כללי:</b> ':'');
+    const cls = a.severity==='high' ? ' bk-alert-high' : '';
+    return `<li class="${cls}">${dt}${a.text||''}</li>`;
+  }).join('');
   const alertsHtml = alerts ? `<div class="bk-alerts"><h3>התראות חשובות</h3><ul>${alerts}</ul></div>` : '';
 
   // מיון לפי תאריך (מלון = checkin, טיסה = date, רכב = pickup.date)
@@ -1177,11 +1184,18 @@ function renderBookings() {
            ${b.seats&&Object.values(b.seats).some(Boolean)?`<div class="bk-field"><span>מושבים</span>${Object.entries(b.seats).filter(([,v])=>v).map(([k,v])=>v).join(', ')}</div>`:''}`;
       body = `<div class="bk-field"><span>טיסה</span>${b.flightNumber||''} · ${b.provider||''}</div>${legs}${refRow(b.bookingRef)}`;
     } else if (b.type === 'hotel') {
-      body = `<div class="bk-field"><span>תאריכים</span>${fmtDate(b.checkin)} → ${fmtDate(b.checkout)} · ${b.nights} לילות</div>${refRow(b.bookingRef)}`;
+      body = `<div class="bk-field"><span>תאריכים</span>${fmtDate(b.checkin)} → ${fmtDate(b.checkout)} · ${b.nights} לילות</div>
+        ${b.rooms||b.roomType?`<div class="bk-field"><span>חדרים</span>${b.rooms?b.rooms+' × ':''}${b.roomType||''}</div>`:''}
+        ${b.checkinTime||b.checkoutTime?`<div class="bk-field"><span>צ׳ק-אין / אאוט</span>${b.checkinTime||'—'} · יציאה ${b.checkoutTime||'—'}</div>`:''}
+        ${b.meals?`<div class="bk-field"><span>ארוחות</span>${b.meals}</div>`:''}
+        ${b.parking?`<div class="bk-field"><span>חניה</span>${b.parking}</div>`:''}
+        ${refRow(b.bookingRef)}
+        ${b.pin?`<div class="bk-field"><span>קוד כניסה</span><b class="bk-ref">${b.pin}</b> <button class="bk-copy" onclick="copyRef('${b.pin}',this)">העתק</button></div>`:''}`;
     } else if (b.type === 'car') {
-      body = `<div class="bk-field"><span>ספק</span>${b.provider||''} · ${b.carModel||''}</div>
+      body = `<div class="bk-field"><span>ספק</span>${b.provider||''} · ${b.car||b.carModel||''}</div>
         <div class="bk-field"><span>איסוף</span>${fmtDate(b.pickup.date)} ${b.pickup.time} · ${b.pickup.location}</div>
         <div class="bk-field"><span>החזרה</span>${fmtDate(b.dropoff.date)} ${b.dropoff.time} · ${b.dropoff.location}</div>
+        ${b.includes&&b.includes.length?`<div class="bk-field"><span>כולל</span>${b.includes.join(' · ')}</div>`:''}
         ${refRow(b.bookingRef)}
         ${b.warning?`<div class="bk-warn">${b.warning}</div>`:''}`;
     }
@@ -1198,8 +1212,10 @@ function renderBookings() {
     </div>`;
   }).join('');
 
-  const s = B.summary || {};
-  const summaryLine = s.confirmed ? `<div class="bk-summary">${s.confirmed.total} הזמנות מאושרות · ${s.pending?.hotels||0} מלונות ממתינים להזמנה</div>` : '';
+  // סיכום מחושב מהנתונים (מקור אמת יחיד)
+  const conf = B.bookings.filter(b=>b.status==='confirmed').length;
+  const pend = B.bookings.filter(b=>b.status==='pending').length;
+  const summaryLine = `<div class="bk-summary">${conf} הזמנות מאושרות${pend?` · ${pend} ממתינות להזמנה`:''}</div>`;
 
   el.innerHTML = `${alertsHtml}
     <div class="tr-intro">כל ההזמנות של הטיול לפי ציר זמן.</div>
