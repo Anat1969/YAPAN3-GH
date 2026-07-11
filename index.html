@@ -284,6 +284,13 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 /* badge "דורש הזמנה" בציר הזמן */
 .needs-booking{display:inline-block;font-size:10px;font-weight:800;color:var(--warn);background:var(--warn-bg);border-radius:999px;padding:1px 8px;margin-right:6px}
 /* דף עלויות מקיף */
+/* סרגל קטגוריות עלויות */
+.cost-filterbar{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 12px}
+.cfb{padding:5px 12px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--ink-2);font:700 12px/1.4 inherit;cursor:pointer;transition:.12s;white-space:nowrap}
+.cfb:hover{background:var(--bg);border-color:var(--border-strong)}
+.cfb.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.cfb.cfb-toggle{margin-right:auto;color:var(--action)}
+.cfb:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
 .cost-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
 .cost-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px}
 .cost-card span{font-size:11px;font-weight:800;color:var(--ink-3);display:block;margin-bottom:3px}
@@ -1080,32 +1087,47 @@ function collectCosts() {
   return rows;
 }
 
+let costsFilter = 'all';  // קטגוריה פעילה לסינון
+function setCostsFilter(c){ costsFilter = c; renderCosts(); }
+
 function renderCosts() {
-  const rows = collectCosts();
+  const allRows = collectCosts();
   const showAll = window._costsShowAll || false;
 
-  // סיכום לפי קטגוריה
-  const byCat = {};
-  rows.forEach(r=>{ (byCat[r.cat]=byCat[r.cat]||{ils:0,paid:0,items:0,hasData:false}); byCat[r.cat].ils+=r.ils; if(r.paid)byCat[r.cat].paid+=r.ils; byCat[r.cat].items++; if(r.ils>0)byCat[r.cat].hasData=true; });
+  // כל הקטגוריות (לסרגל) + ספירה/סכום
+  const catStat = {};
+  allRows.forEach(r=>{ (catStat[r.cat]=catStat[r.cat]||{ils:0,items:0,hasData:false}); catStat[r.cat].ils+=r.ils; catStat[r.cat].items++; if(r.ils>0)catStat[r.cat].hasData=true; });
+  // ודא שהקטגוריה הפעילה עדיין קיימת
+  if(costsFilter!=='all' && !catStat[costsFilter]) costsFilter='all';
+
+  // רשומות מסוננות לפי הקטגוריה הפעילה
+  const rows = costsFilter==='all' ? allRows : allRows.filter(r=>r.cat===costsFilter);
+
+  // סיכומים — תמיד על הרשומות המסוננות (סה"כ רלוונטי)
   const total = rows.reduce((s,r)=>s+r.ils,0);
   const paidTotal = rows.filter(r=>r.paid).reduce((s,r)=>s+r.ils,0);
   const estTotal = rows.filter(r=>r.estimate).reduce((s,r)=>s+r.ils,0);
+  const scope = costsFilter==='all' ? 'כל הטיול' : costsFilter;
 
-  // כרטיסי סיכום
+  // סרגל קטגוריות לחיץ — "הכל" + כל קטגוריה עם סכום
+  const catList = Object.entries(catStat)
+    .filter(([c,v])=>showAll || v.hasData)
+    .sort((a,b)=>b[1].ils-a[1].ils);
+  const bar = `<div class="cost-filterbar">
+    <button class="cfb${costsFilter==='all'?' on':''}" onclick="setCostsFilter('all')">הכל · ${fmtILS(allRows.reduce((s,r)=>s+r.ils,0))}</button>
+    ${catList.map(([c,v])=>`<button class="cfb${costsFilter===c?' on':''}" onclick="setCostsFilter('${c}')">${c}${v.ils?' · '+fmtILS(v.ils):''}</button>`).join('')}
+    <button class="cfb cfb-toggle" onclick="window._costsShowAll=!window._costsShowAll;renderCosts()">${showAll?'הסתר ריקות':'הצג הכול'}</button>
+  </div>`;
+
+  // כרטיסי סיכום — לפי הקטגוריה הפעילה
   const cards = `<div class="cost-cards">
-    <div class="cost-card"><span>עלות כוללת</span><b>${fmtILS(total)}</b></div>
+    <div class="cost-card"><span>סה״כ · ${scope}</span><b>${fmtILS(total)}</b></div>
     <div class="cost-card st-ok"><span>שולם</span><b>${fmtILS(paidTotal)}</b></div>
     <div class="cost-card st-warn"><span>טרם שולם</span><b>${fmtILS(total-paidTotal)}</b></div>
     <div class="cost-card"><span>מזה משוער</span><b>${fmtILS(estTotal)}</b></div>
   </div>`;
 
-  // סיכום לפי קטגוריה (רק עם נתונים, אלא אם "הצג הכול")
-  const catRows = Object.entries(byCat)
-    .filter(([c,v])=>showAll || v.hasData)
-    .sort((a,b)=>b[1].ils-a[1].ils)
-    .map(([c,v])=>`<div class="cost-catrow"><span class="cc-name">${c}</span><span class="cc-count">${v.items} פריטים</span><b class="cc-sum">${v.ils?fmtILS(v.ils):'—'}</b></div>`).join('');
-
-  // טבלת פירוט
+  // טבלת פירוט — רק הרשומות המסוננות
   const detail = rows
     .filter(r=>showAll || r.ils>0)
     .map(r=>`<tr class="${r.verify?'cost-verify':''}">
@@ -1118,14 +1140,12 @@ function renderCosts() {
     </tr>`).join('');
 
   document.getElementById('costsWrap').innerHTML = `
-    <div class="view-bar"><div class="tr-intro">כל הוצאות הטיול ממקור אחד. סכומים במטבע המקור + המרה ל-₪ (שער משוער).</div>
-      <button class="mvb-reset" onclick="window._costsShowAll=!window._costsShowAll;renderCosts()">${showAll?'הסתר קטגוריות ריקות':'הצג הכול'}</button></div>
+    <div class="tr-intro">כל הוצאות הטיול ממקור אחד. בחרי קטגוריה לבודד נושא — הסיכומים מתעדכנים.</div>
+    ${bar}
     ${cards}
-    <h3 class="tr-sec">לפי קטגוריה</h3>
-    <div class="cost-catlist">${catRows}</div>
-    <h3 class="tr-sec">פירוט מלא</h3>
+    <h3 class="tr-sec">פירוט — ${scope}</h3>
     <div class="tw" style="padding:0"><table class="cost-table"><thead><tr><th>קטגוריה</th><th>פריט</th><th>מקור</th><th>₪ (משוער)</th><th>תשלום</th><th>הערות</th></tr></thead>
-      <tbody>${detail}<tr class="cost-total"><td colspan="3">סה״כ</td><td>${fmtILS(total)}</td><td colspan="2"></td></tr></tbody></table></div>
+      <tbody>${detail}<tr class="cost-total"><td colspan="3">סה״כ · ${scope}</td><td>${fmtILS(total)}</td><td colspan="2"></td></tr></tbody></table></div>
     <div class="cost-note">שערי המרה משוערים: 1¥≈₪0.024 · 1$≈₪3.7. הסכומים במטבע המקור מדויקים מהמסמכים; ההמרה ל-₪ משוערת.</div>`;
 }
 
