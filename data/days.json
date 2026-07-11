@@ -369,19 +369,40 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
+      "type": "רכבת + הליכה",
       "from": "",
       "to": "",
       "duration": "",
-      "cost": null
+      "cost": null,
+      "details": "כרטיס יומי אוטובוס 700¥ או Keihan לפושימי (270¥ לכיוון)"
     },
     "meals": {
-      "breakfast": "",
-      "lunch": "",
-      "dinner": ""
+      "breakfast": "ארוחת בוקר יפנית במלון Mitsui Garden",
+      "lunch": "Torisei Honten — פושימי — יאקיטורי + סאקה מקומי (1-2 Torisucho, Fushimi-ku). צמחוני: טופו + אדממה + אורז",
+      "dinner": "Gion Kappa — איזאקאיה ברחוב Nawate-dori, גיון",
+      "icecream": "Gion Kinana — גלידת קינאקו (אבקת סויה קלויה), 325 Gionmachi Kitagawa, 12:00-18:00"
     },
     "freeDay": false,
-    "notes": ""
+    "notes": "",
+    "dayId": 8,
+    "title": "קיוטו שקטה — גנים, סאקה וסמטאות",
+    "subtitle": "יום חופשי",
+    "story": "הקיוטו שלא בברושורים: גנים סודיים, רובע סאקה היסטורי, וסמטאות ההיסטוריה בשעות שקטות",
+    "area": "היגאשיאמה → פושימי → גיון",
+    "isRestDay": true,
+    "experiencePhase": "rest",
+    "familyBalance": {
+      "anat": "מורין-אן — גן מודרני של אוגאווה ג'יהיי. קנין-ג'י — זן מ-1202",
+      "ilay": "הליכה בסמטאות + שייט תעלה בפושימי",
+      "lotem": "קניות בניניזאקה + חנויות קוסמטיקה + גלידת קינאקו",
+      "natan": "שוטטות חופשית בפושימי + רחוב שימבאשי בדמדומים"
+    },
+    "layers": {
+      "intellectual": "אדריכלות גנים מודרנית (מייג'י) + היסטוריה פוליטית של ועידת מורין-אן",
+      "emotional": "שקט בגנים + קסם הדמדומים בגיון",
+      "physical": "הליכה + שייט תעלה + קניות"
+    },
+    "tips": "מורין-אן — הזמנה מראש באתר murin-an.jp. פושימי — טעימות סאקה קטנות (ילדים). ניניזאקה אחרי 16:00 בלבד. יום חופשי — כל תחנה אופציונלית."
   },
   {
     "id": 9,
@@ -474,10 +495,11 @@
     "meals": {
       "breakfast": "",
       "lunch": "",
-      "dinner": ""
+      "dinner": "ארוחת ערב במלון The SUNSET Shiretoko — קאיסקי פירות ים מקומיים (סלמון, סרטנים, אוני). כלול בלינה. חלופה חיצונית: Umi no Banyanoki באוטורו — מסעדת דייגים, מ-1000¥"
     },
     "freeDay": false,
-    "notes": ""
+    "notes": "",
+    "tips_addition": "אחרי טיסה + 2 שעות נסיעה ממאמאנבצו — שקיעה + אונסן + ארוחה = ערב מושלם. השקיעה בשירטוקו מהחוויות הכי חזקות בטיול."
   },
   {
     "id": 11,
@@ -856,12 +878,13 @@
       "cost": null
     },
     "meals": {
-      "breakfast": "",
+      "breakfast": "Biei Senka — שוק חקלאי ליד תחנת ביאי. לחם מקומי + חמאה הוקאידית + חלב טרי. או: ארוחת בוקר במלון",
       "lunch": "",
-      "dinner": ""
+      "dinner": "Bi.ble (ביבל) — מסעדת חווה-לשולחן בביאי (Mita, Biei-cho). תפריט עונתי. הזמנה מראש. חלופה: Ferme La Terre — צרפתית-הוקאידית (Okubo, Biei-cho), מ-3500¥"
     },
     "freeDay": false,
-    "notes": ""
+    "notes": "",
+    "tips_addition": "אחרי יום אופניים — אונסן חובה. Shirogane Onsen אפשר לשלב עם ביקור שני בבריכה הכחולה בדמדומים. Bi.ble — מקום קטן, הזמנה מראש."
   },
   {
     "id": 19,
@@ -904,12 +927,14 @@
       "cost": null
     },
     "meals": {
-      "breakfast": "",
+      "breakfast": "Farm Tomita — Hanabito Cafe (בתוך החווה, 08:30-17:00) — גלידת לבנדר + לחם + קפה. או: ארוחת בוקר במלון",
       "lunch": "",
-      "dinner": ""
+      "dinner": "Kumagera — Hinodemachi 3-22, Furano. בשר הוקאידי + נבה (סיר תבשיל). מ-1500¥. צמחוני: קארי ירקות מקומיים. הגיעו 17:30 — מקום קטן, תור",
+      "icecream": "Popura Farm Nakafurano — גלידת מלון יובארי + לבנדר. או: Furano Cheese Factory — גלידת גבינה (~350¥)"
     },
     "freeDay": false,
-    "notes": ""
+    "notes": "",
+    "tips_addition": "Kumagera — מנת נבה מומלצת למשפחה (סיר לשיתוף). יקב פוראנו — שילוב מפתיע של שקיעה + טעימות."
   },
   {
     "id": 20,
@@ -945,19 +970,40 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
+      "type": "רכב שכור + אופניים חשמליים",
       "from": "",
       "to": "",
       "duration": "",
-      "cost": null
+      "cost": null,
+      "details": "אופניים חשמליים — השכרה ליד JR Biei (~2500¥ חצי יום)"
     },
     "meals": {
-      "breakfast": "",
-      "lunch": "",
-      "dinner": ""
+      "breakfast": "Biei Senka (שוק חקלאי ליד תחנת ביאי) או ארוחת בוקר במלון",
+      "lunch": "Shikisai-no-Oka Farm Restaurant — קארי ירקות מקומי. או: פיקניק מ-Biei Senka",
+      "dinner": "Asperges — מסעדה צרפתית-הוקאידית (Motomachi, Biei-cho). קורס מ-5500¥. הזמנה מראש חובה. חלופה: Biei Soba — סובה מקמח מקומי",
+      "icecream": "Shikisai-no-Oka — גלידת לבנדר/מלון. או: Soft Cream ליד הבריכה הכחולה"
     },
     "freeDay": false,
-    "notes": ""
+    "notes": "",
+    "dayId": 20,
+    "title": "ביאי/פוראנו חופשי — גבעות, בריכה, אונסן",
+    "subtitle": "יום חופשי — בחרו אפשרות אחת",
+    "story": "יום של בחירה: אופניים בכבישי הגבעות, בריכה כחולה, חוות אלפקות, או אונסן ביער",
+    "area": "ביאי / פוראנו",
+    "isRestDay": true,
+    "experiencePhase": "rest",
+    "familyBalance": {
+      "anat": "כביש פנורמה באופניים או אונסן טוקאצ'ידאקה עם נוף להרים",
+      "ilay": "אופניים חשמליים בגבעות או טיול הר + אונסן",
+      "lotem": "בריכה כחולה + צילום + חוות גבינות + סדנה",
+      "natan": "שוטטות בשדות + גלידה + שוק חקלאי"
+    },
+    "layers": {
+      "intellectual": "גיאולוגיה וולקנית — מינרלים שצובעים בריכות ומפלים",
+      "emotional": "נוף פתוח, שקט כפרי, ירוק אינסופי",
+      "physical": "אופניים / טיול הר / סדנת גבינה"
+    },
+    "tips": "יום חופשי — בחרו אפשרות אחת או שתיים, לא את כולן. בריכה כחולה — לפני 09:00 או אחרי 16:00. Asperges — המסעדה הטובה ביותר באזור, מוגבלת, הזמנה חובה."
   },
   {
     "id": 21,
@@ -1000,12 +1046,14 @@
       "cost": null
     },
     "meals": {
-      "breakfast": "",
+      "breakfast": "ארוחת בוקר במלון או LeTao Main Store, Otaru — קפה + עוגת גבינה (פתוח מ-09:00)",
       "lunch": "",
-      "dinner": ""
+      "dinner": "סושי ב-Masazushi Main Branch — רחוב הסושי, אוטארו. סט טאקומי 6,050¥. אומאקאסה 5,000-15,000¥. צמחוני: Inari sushi + טמפורה ירקות + מיסו. הגיעו 17:00-17:30.",
+      "icecream": "LeTao Double Fromage Soft Cream — גלידת גבינה כפולה. או: Otaru Amato — גלידה במבנה היסטורי ברחוב סאקאימאצ'י"
     },
     "freeDay": false,
-    "notes": ""
+    "notes": "",
+    "tips_addition": "Masazushi — לא חייב הזמנה אבל יש תור, הגיעו 17:00. Isezushi (כוכב מישלן) — חלופה לענת+נתן, חודשים מראש. סושי אוטארו זול בהרבה מטוקיו. תעלת אוטארו — טיילו בלילה אחרי ארוחה."
   },
   {
     "id": 22,
@@ -1377,19 +1425,40 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
+      "type": "מטרו + מונית",
       "from": "",
       "to": "",
       "duration": "",
-      "cost": null
+      "cost": null,
+      "details": "מטרו Red Line → Burj Khalifa/Dubai Mall (5 AED). מונית מהמלון 30-80 AED. משדה 75 AED"
     },
     "meals": {
-      "breakfast": "",
-      "lunch": "",
-      "dinner": ""
+      "breakfast": "—",
+      "lunch": "—",
+      "dinner": "Time Out Market — Souk Al Bahar, ממול למזרקה. מגוון סגנונות (מזרח תיכוני, אסייתי, איטלקי). טרסה חוצות עם נוף למזרקה + בורג' ח'ליפה. ידידותי למשפחות. אימות חניה ל-4 שעות חינם. חלופה: Social House — Dubai Mall LG Floor",
+      "icecream": "Salt — דובאי מול — גלידה אמריקאית"
     },
     "freeDay": false,
-    "notes": ""
+    "notes": "",
+    "dayId": 29,
+    "title": "דובאי — נחיתה רכה",
+    "subtitle": "עצירת ביניים",
+    "story": "קניון ממוזג, מזרקות, ארוחה טובה — אחרי טיסה ארוכה מטוקיו",
+    "area": "Downtown Dubai",
+    "isRestDay": false,
+    "experiencePhase": "descending",
+    "familyBalance": {
+      "anat": "אדריכלות דובאי מול + Souk Al Bahar",
+      "ilay": "VR Park / אקווריום בדובאי מול",
+      "lotem": "קניות אופנה בדובאי מול",
+      "natan": "מזרקת דובאי + ארוחת ערב עם נוף"
+    },
+    "layers": {
+      "intellectual": "אדריכלות של עודפות — מה קורה כשכסף אינסופי פוגש מדבר",
+      "emotional": "פליאה מול מזרקות + ניגוד ליפן",
+      "physical": "הליכה בקניון + ישיבה ליד המזרקות"
+    },
+    "tips": "אוגוסט = 45°C+. אל תצאו מקירור אוויר אלא בערב. המזרקה חינם מכל נקודה. Souk Al Bahar — שוק ערבי (בסגנון) ליד הקניון. אחרי טיסה מטוקיו — קניון + מזרקה + ארוחה = מספיק."
   },
   {
     "id": 30,
@@ -1425,19 +1494,40 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
+      "type": "מטרו + Abra + מונית",
       "from": "",
       "to": "",
       "duration": "",
-      "cost": null
+      "cost": null,
+      "details": "Nol Day Pass 22 AED. Abra (סירה על הנחל) 1 AED. Red Line ↔ Green Line ↔ מונית ל-JBR"
     },
     "meals": {
-      "breakfast": "",
-      "lunch": "",
-      "dinner": ""
+      "breakfast": "ארוחת בוקר במלון. חלופה: Al Seef — בתי קפה על הנחל",
+      "lunch": "Arabian Tea House, Al Fahidi — אוכל אמירטי מסורתי בבניין ישן, מנות מ-45 AED",
+      "dinner": "Pier 7, Dubai Marina — 7 מסעדות ב-7 קומות, נוף למרינה. חלופה: The Maine, DoubleTree JBR — פירות ים על החוף",
+      "icecream": "Gelato Divino — JBR Walk — גלידה איטלקית"
     },
     "freeDay": false,
-    "notes": ""
+    "notes": "",
+    "dayId": 30,
+    "title": "דובאי — גובה, זהב וחוף",
+    "subtitle": "יום מלא",
+    "story": "בורג' ח'ליפה, שוק הזהב, חוף — דובאי בשלושה מימדים",
+    "area": "Downtown → Deira → JBR",
+    "isRestDay": false,
+    "experiencePhase": "descending",
+    "familyBalance": {
+      "anat": "בורג' ח'ליפה — אדריכלות (Adrian Smith, SOM)",
+      "ilay": "גובה של 828 מ' + Jet Ski בחוף JBR",
+      "lotem": "שוק הזהב + חוף JBR",
+      "natan": "Abra על נחל דובאי + שוטטות בדיירה"
+    },
+    "layers": {
+      "intellectual": "איך נבנה המבנה הגבוה בעולם + היסטוריית סחר הזהב בדובאי",
+      "emotional": "תחושת גובה + צבעי שוק מסורתי + ים בשקיעה",
+      "physical": "הליכה בשוק + חוף + ספורט ימי"
+    },
+    "tips": "בורג' ח'ליפה — הזמנה Non-prime בוקר מראש, חוסכים ~50%. שוק הזהב — סוחרים דוחקים, אל תקנו בלחץ. JBR — אחרי 16:00 בלבד באוגוסט. טיסה מחר — אל תחזרו מאוחר."
   },
   {
     "id": 31,
@@ -1485,6 +1575,7 @@
       "dinner": ""
     },
     "freeDay": false,
-    "notes": ""
+    "notes": "",
+    "tips_addition": "צ'ק-אאוט + luggage storage במלון. אם טיסה מאוחרת — Al Seef/Al Fahidi שכונה היסטורית (30 דק' ממול לשוק הזהב). אל תתכננו כלום חדש — אם יש אנרגיה תלכו, אם אין — זה בסדר. 23 ימים של יפן הם הרבה."
   }
 ]
