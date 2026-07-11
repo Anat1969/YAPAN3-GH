@@ -283,7 +283,7 @@ a.ml:hover{text-decoration:underline}
   </div>
 </nav>
 
-<section class="hero">
+<section class="hero" id="hero">
   <div class="hero-card">
     <div>
       <div class="hero-eyebrow">מסלול יפן 2026</div>
@@ -501,6 +501,8 @@ function filtered(arr) {
 // ══════════════════════════════════
 function render() {
   renderFilters();
+  // כותרת ה-hero מוצגת רק בדף הראשי (סיכומים) — אין חזרתיות בשאר הדפים
+  document.getElementById('hero').style.display = activeTab==='summary' ? '' : 'none';
   // שורת כרטיסיות הסטטיסטיקה הישנה הוסרה — כל הסיכומים מרוכזים בדף «סיכומים»
   document.getElementById('stats').innerHTML = '';
   renderHelp();
