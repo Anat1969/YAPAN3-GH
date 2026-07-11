@@ -84,6 +84,22 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .cal-legend i{width:14px;height:14px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.08)}
 @media(max-width:640px){.cal-cell{min-height:60px;font-size:9px}.cal-city{font-size:10px}.cal-hotel{display:none}}
 
+/* SUMMARY PAGE (דף סיכומים מרכזי) */
+.sum-intro{margin:2px 0 14px;font-size:13px;color:#6b7280}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.sum-card{display:block;background:#fff;border:1px solid #e5e3de;border-radius:14px;padding:14px 15px;text-decoration:none;color:inherit;box-shadow:0 4px 14px rgba(0,0,0,.05);transition:.15s;position:relative;overflow:hidden}
+.sum-card::before{content:'';position:absolute;top:0;right:0;width:4px;height:100%;background:var(--accent,#1f2937)}
+.sum-card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.12);border-color:#d4ccc0}
+.sum-card:active{transform:translateY(-1px)}
+.sum-ic{font-size:20px;margin-bottom:6px}
+.sum-topic{font-size:12px;font-weight:800;color:#6b7280;letter-spacing:.02em}
+.sum-main{font-size:24px;font-weight:900;color:#111827;line-height:1.1;margin:3px 0}
+.sum-sub{font-size:12px;color:#6b7280;line-height:1.5}
+.sum-go{margin-top:8px;font-size:11px;font-weight:800;color:var(--accent,#1f2937);display:inline-flex;align-items:center;gap:3px}
+.sum-empty .sum-main{color:#c0392b;font-size:15px;font-weight:800}
+.sum-note{margin-top:6px;font-size:11px;color:#92766a;background:#faf6f1;border-radius:6px;padding:5px 8px;line-height:1.5}
+@media(max-width:520px){.sum-grid{grid-template-columns:1fr 1fr;gap:8px}.sum-main{font-size:20px}}
+
 /* HELP + SUMMARY */
 .help{max-width:1200px;margin:4px auto 0;padding:0 12px}
 .help-box{background:#fff;border:1px solid #e7dccf;border-radius:12px;padding:12px 14px;margin-bottom:8px}
@@ -137,7 +153,8 @@ a.ml:hover{text-decoration:underline}
 
 <nav class="nav">
   <h1>יפן 2026</h1>
-  <button class="tab on" data-tab="days">לוח ימים</button>
+  <button class="tab on" data-tab="summary">סיכומים</button>
+  <button class="tab" data-tab="days">לוח ימים</button>
   <button class="tab" data-tab="calendar">לוח שנה</button>
   <button class="tab" data-tab="hotels">מלונות</button>
   <button class="tab" data-tab="places">אתרים</button>
@@ -167,7 +184,8 @@ a.ml:hover{text-decoration:underline}
 <div class="help" id="help"></div>
 <div class="filters" id="filters"></div>
 
-<div class="panel on" id="p-days"><div class="tw"><table id="t-days"></table></div></div>
+<div class="panel on" id="p-summary"><div class="tw"><div id="sumWrap"></div></div></div>
+<div class="panel" id="p-days"><div class="tw"><table id="t-days"></table></div></div>
 <div class="panel" id="p-calendar"><div class="tw" id="calWrap"></div></div>
 <div class="panel" id="p-hotels"><div class="tw"><table id="t-hotels"></table></div></div>
 <div class="panel" id="p-places"><div class="tw"><table id="t-places"></table></div></div>
@@ -193,7 +211,7 @@ a.ml:hover{text-decoration:underline}
 // STATE
 // ══════════════════════════════════
 let DATA = { hotels:[], days:[], places:[], costs:[], flights:[] };
-let activeTab = 'days';
+let activeTab = 'summary';
 let sortState = {};
 let regionFilter = '';
 let mapObj = null;
@@ -222,16 +240,18 @@ async function loadData() {
 // TABS
 // ══════════════════════════════════
 document.querySelectorAll('.tab').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
-    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
-    btn.classList.add('on');
-    activeTab = btn.dataset.tab;
-    document.getElementById('p-'+activeTab).classList.add('on');
-    render();
-    if (activeTab==='map') initMap();
-  });
+  btn.addEventListener('click', () => goTab(btn.dataset.tab));
 });
+
+function goTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===tab));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById('p-'+tab).classList.add('on');
+  window.scrollTo({top:0, behavior:'smooth'});
+  render();
+  if (tab==='map') initMap();
+}
 
 // ══════════════════════════════════
 // SORT
@@ -297,7 +317,8 @@ function render() {
   renderFilters();
   renderStats();
   renderHelp();
-  if (activeTab==='days') renderDays();
+  if (activeTab==='summary') renderSummary();
+  else if (activeTab==='days') renderDays();
   else if (activeTab==='calendar') renderCalendar();
   else if (activeTab==='hotels') renderHotels();
   else if (activeTab==='places') renderPlaces();
@@ -337,7 +358,9 @@ function renderHelp() {
   const H = DATA.hotels, D = DATA.days, P = DATA.places, C = DATA.costs, F = DATA.flights;
   let summary = [], instr = [], title = '';
 
-  if (activeTab==='days') {
+  if (activeTab==='summary') {
+    el.innerHTML = ''; return; // דף הסיכומים עצמו — אין צורך בבלוק עזרה נוסף
+  } else if (activeTab==='days') {
     title = 'לוח ימים';
     const regions = [...new Set(D.map(d=>d.regionHe).filter(Boolean))];
     summary = [`<b>${D.length}</b> ימים`, `<b>${regions.length}</b> אזורים`, `${D[0]?.day}/${D[0]?.month} → ${D[D.length-1]?.day}/${D[D.length-1]?.month}`];
@@ -396,6 +419,57 @@ function renderHelp() {
     <button class="help-toggle" onclick="toggleHelp()">מה אפשר לעשות בדף «${title}»? <span id="help-caret">${helpOpen?'▲':'▼'}</span></button>
     <div class="help-body${helpOpen?' open':''}" id="help-body"><ul>${instr.map(i=>`<li>${i}</li>`).join('')}</ul></div>
   </div>`;
+}
+
+// ══════════════════════════════════
+// דף סיכומים מרכזי
+// ══════════════════════════════════
+function renderSummary() {
+  const H=DATA.hotels, D=DATA.days, P=DATA.places, C=DATA.costs, F=DATA.flights;
+
+  // חישובים מהנתונים הקיימים בלבד
+  const first=D[0], last=D[D.length-1];
+  const dateRange = first&&last ? `${first.day}/${first.month} – ${last.day}/${last.month}` : '—';
+  const regions = [...new Set(D.map(d=>d.regionHe).filter(Boolean))];
+  const cities  = [...new Set(D.map(d=>d.city).filter(Boolean))];
+  const booked = H.filter(h=>h.booked), missH = H.length-booked.length;
+  const nights = booked.reduce((s,h)=>s+(h.nights||0),0);
+  const hotelPrice = booked.reduce((s,h)=>s+(h.price||0),0);
+  const placeTypes = [...new Set(P.map(p=>p.type).filter(Boolean))];
+  const transTypes = [...new Set(F.map(f=>f.type).filter(Boolean))];
+  const costTotal = C.reduce((s,c)=>s+(c.amount||0),0);
+  const hasCost = costTotal>0;
+
+  // מרחק/זמן — אין נתונים כאלה עדיין (ימולא ידנית בהמשך)
+  const totalKm = D.reduce((s,d)=>s+(d.distanceKm||0),0);
+  const totalTravel = D.reduce((s,d)=>s+(d.travelMin||0),0);
+
+  const cards = [
+    {ic:'📅', topic:'ימים', main:`${D.length}`, sub:'ימי טיול מתוכננים', accent:'#1f2937', tab:'days'},
+    {ic:'🗓️', topic:'תאריכים', main:dateRange, sub:`${regions.length} אזורים · ${cities.length} ערים`, accent:'#7c3aed', tab:'calendar'},
+    {ic:'🛣️', topic:'מרחק כולל', main: totalKm?`${totalKm} ק״מ`:'טרם הוזן', sub:'סה״כ מרחק המסלול', accent:'#0891b2', tab:'map', empty:!totalKm, note:!totalKm?'אין עדיין נתוני מרחק — יתמלא כשיוזנו ק״מ לימים':''},
+    {ic:'📍', topic:'מרחק לפי יום', main: totalKm?`${(totalKm/(D.length||1)).toFixed(0)} ק״מ`:'טרם הוזן', sub:'ממוצע ליום טיול', accent:'#0891b2', tab:'days', empty:!totalKm, note:!totalKm?'יחושב אוטומטית מרגע שיוזנו מרחקים':''},
+    {ic:'⏱️', topic:'זמני נסיעה', main: totalTravel?`${Math.round(totalTravel/60)} שע׳`:'טרם הוזן', sub:'סה״כ זמן בדרכים', accent:'#ea580c', tab:'flights', empty:!totalTravel, note:!totalTravel?'יתמלא כשיוזנו זמני נסיעה':''},
+    {ic:'🏙️', topic:'יעדים ומקומות', main:`${cities.length}`, sub:`${cities.slice(0,3).join(' · ')}${cities.length>3?'…':''}`, accent:'#059669', tab:'days'},
+    {ic:'🏨', topic:'לינה', main:`${booked.length}/${H.length}`, sub:`${nights} לילות · ${missH} טרם הוזמנו`, accent:'#2563eb', tab:'hotels'},
+    {ic:'🎎', topic:'אטרקציות וחוויות', main:`${P.length}`, sub:`${placeTypes.length} סוגים של אתרים`, accent:'#db2777', tab:'places'},
+    {ic:'🚄', topic:'תחבורה', main:`${F.length}`, sub: transTypes.length?transTypes.slice(0,3).join(' · '):'טיסות ותחבורה פנימית', accent:'#d97706', tab:'flights'},
+    {ic:'💰', topic:'עלויות', main: hasCost?`₪${costTotal.toLocaleString()}`:`₪${hotelPrice.toLocaleString()}`, sub: hasCost?'סה״כ הוצאות שנרשמו':'עלות מלונות (אין עדיין תקציב)', accent:'#16a34a', tab:'costs'},
+  ];
+
+  const html = cards.map(c=>`
+    <a class="sum-card${c.empty?' sum-empty':''}" style="--accent:${c.accent}" href="#" onclick="goTab('${c.tab}');return false">
+      <div class="sum-ic">${c.ic}</div>
+      <div class="sum-topic">${c.topic}</div>
+      <div class="sum-main">${c.main}</div>
+      <div class="sum-sub">${c.sub}</div>
+      ${c.note?`<div class="sum-note">${c.note}</div>`:''}
+      <div class="sum-go">מעבר לדף ›</div>
+    </a>`).join('');
+
+  document.getElementById('sumWrap').innerHTML =
+    `<div class="sum-intro">כל נתוני הטיול במבט אחד. לחיצה על כרטיסייה פותחת את הדף המפורט. הנתונים מתעדכנים אוטומטית לפי המסלול.</div>
+     <div class="sum-grid">${html}</div>`;
 }
 
 function regionTag(r) {
