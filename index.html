@@ -405,6 +405,11 @@ a.bk:hover{background:#00224f}
 .hotel-link{color:var(--action);text-decoration:none;font-weight:700}
 .hotel-link:hover{text-decoration:underline}
 .hotel-thumb-mini{width:44px;height:32px;object-fit:cover;border-radius:5px;flex:none}
+.hotel-imgcell{display:flex;flex-direction:column;align-items:center;gap:3px}
+.hotel-imgcell .hotel-thumb-mini{width:70px;height:50px}
+.hotel-noimg{width:70px;height:50px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#a8a29e;background:#f5f4f0;border:1px dashed #d6d3ce;border-radius:5px}
+.hotel-imgbtn{font-size:9px;font-weight:700;color:var(--action);background:none;border:1px solid var(--border);border-radius:4px;padding:1px 6px;cursor:pointer}
+.hotel-imgbtn:hover{background:var(--bg)}
 a.ml{color:var(--action);text-decoration:none;font-size:11px}
 a.ml:hover{text-decoration:underline}
 
@@ -897,12 +902,17 @@ function hotelByName(n){ if(!n)return null; n=n.replace(/^מלון\s+/,'').trim(
 function dayHotelName(d){ if(d.hotelName) return d.hotelName; const h=hotelById(d.hotelId); return h?h.name:''; }
 function dayCity(d){ if(d.city) return d.city; const h=hotelById(d.hotelId); return h?h.city:''; }
 // שם מלון כקישור Booking + תמונה קטנה — לשימוש בטבלה/לוח שנה
-function hotelThumbMini(h){ if(!h)return ''; const src=h.image||h.mapImage; return src?`<img class="hotel-thumb-mini" src="${src}" alt="מלון ${h.name}" loading="lazy" onerror="this.style.display='none'">`:''; }
+function hotelThumbMini(h){ if(!h)return ''; const src=localStorage.getItem('hotelimg-'+h.id)||h.image||h.mapImage; return src?`<img class="hotel-thumb-mini" src="${src}" alt="מלון ${h.name}" loading="lazy" onerror="this.style.display='none'">`:''; }
 function hotelNameLinked(d){
   const name = dayHotelName(d);
   const h = hotelById(d.hotelId) || hotelByName(name);
   if(!h || !name) return name;
-  return `<a href="${bookingLink(h)}" target="_blank" rel="noopener" class="hotel-link" data-tip="הזמנה בבוקינג — ${h.checkin?.slice(5)}→${h.checkout?.slice(5)}, 2 מבוגרים + 2 בני נוער (17,15)">${name}</a>`;
+  return hotelNameLink2(h, name);
+}
+// שם מלון כקישור Booking (מקבל אובייקט)
+function hotelNameLink2(h, txt){
+  if(!h) return txt||'';
+  return `<a href="${bookingLink(h)}" target="_blank" rel="noopener" class="hotel-link" data-tip="הזמנה בבוקינג — ${(h.checkin||'').slice(5)}→${(h.checkout||'').slice(5)}, 2 מבוגרים + 2 בני נוער (17,15)">${txt||h.name}</a>`;
 }
 
 // קישור Booking עם הרכב המשפחה בפועל: 2 מבוגרים + 2 בני נוער (17, 15), חדר ל-4
@@ -1014,10 +1024,24 @@ function renderCalendar() {
 // ══════════════════════════════════
 // HOTELS TABLE
 // ══════════════════════════════════
+// תמונת מלון: תמונה שהמשתמש שמר (localStorage) גוברת, אחרת image, אחרת מפת מיקום
+function hotelImgSrc(h){ return localStorage.getItem('hotelimg-'+h.id) || h.image || h.mapImage || ''; }
+// הוספת/החלפת תמונה — URL או קובץ (base64), נשמר ב-localStorage
+function setHotelImage(id){
+  const url = prompt('הדביקי URL של תמונת המלון (או השאירי ריק לבחירת קובץ):');
+  if(url && url.trim()){ localStorage.setItem('hotelimg-'+id, url.trim()); render(); return; }
+  // בחירת קובץ
+  const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*';
+  inp.onchange=()=>{ const f=inp.files[0]; if(!f)return; const r=new FileReader(); r.onload=()=>{ localStorage.setItem('hotelimg-'+id, r.result); render(); toast('תמונה נשמרה'); }; r.readAsDataURL(f); };
+  inp.click();
+}
+function clearHotelImage(id){ localStorage.removeItem('hotelimg-'+id); render(); }
+
 function renderHotels() {
   const data = sorted(filtered(DATA.hotels), 'hotels');
   const t = document.getElementById('t-hotels');
   t.innerHTML = `<thead><tr>
+    <th>תמונה</th>
     ${th('hotels','name','שם')}
     ${th('hotels','city','עיר')}
     ${th('hotels','regionHe','אזור')}
@@ -1029,7 +1053,12 @@ function renderHotels() {
     <th>סטטוס</th><th>בוקינג</th><th>מפה</th>
     <th>הערות</th>
   </tr></thead><tbody>${data.map(h => `<tr class="${h.booked?'':'miss'}">
-    <td><b>${h.name}</b><br><span style="font-size:10px;color:#888">${h.he}</span></td>
+    <td><div class="hotel-imgcell">
+      ${hotelImgSrc(h)?`<img class="hotel-thumb-mini" src="${hotelImgSrc(h)}" alt="מלון ${h.name}" loading="lazy" onerror="this.style.display='none'">`:'<div class="hotel-noimg">אין</div>'}
+      <button class="hotel-imgbtn" onclick="setHotelImage(${h.id})" data-tip="הוספת/החלפת תמונה — URL או קובץ">${localStorage.getItem('hotelimg-'+h.id)?'החלף':'הוסף'}</button>
+      ${localStorage.getItem('hotelimg-'+h.id)?`<button class="hotel-imgbtn" onclick="clearHotelImage(${h.id})" data-tip="חזרה למפת מיקום">איפוס</button>`:''}
+    </div></td>
+    <td><b>${hotelNameLink2(h)}</b><br><span style="font-size:10px;color:#888">${h.he||''}</span></td>
     <td>${h.city}</td>
     <td>${regionTag(h.region)}</td>
     <td>${h.checkin.slice(5)}</td>

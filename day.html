@@ -399,7 +399,7 @@ function hotelNameLink(h, txt){
 // תמונת מלון (תמונה אמיתית אם יש, אחרת מפת מיקום)
 function hotelThumb(h, cls){
   if(!h) return '';
-  const src=h.image||h.mapImage;
+  const src=localStorage.getItem('hotelimg-'+h.id)||h.image||h.mapImage;
   if(!src) return '';
   return `<img class="${cls||'hotel-thumb'}" src="${src}" alt="מלון ${h.name}" loading="lazy" onerror="this.style.display='none'">`;
 }
