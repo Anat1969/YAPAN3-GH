@@ -269,8 +269,8 @@ function regionTag(r) {
 }
 
 function mapsLink(h) {
-  if (h.pid) return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name)}&query_place_id=${h.pid}`;
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.addr||h.name)}`;
+  if (h.pid) return `https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(h.name)}&query_place_id=${h.pid}`;
+  return `https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(h.addr||h.name)}`;
 }
 
 function th(tab, key, label) {

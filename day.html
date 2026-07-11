@@ -220,8 +220,8 @@ function renderDay() {
   const hotel = hotels.find(h => h.id === d.hotelId);
   if (hotel) {
     const mapUrl = hotel.pid
-      ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(hotel.name)}&query_place_id=${hotel.pid}`
-      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(hotel.addr||hotel.name)}`;
+      ? `https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(hotel.name)}&query_place_id=${hotel.pid}`
+      : `https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(hotel.addr||hotel.name)}`;
     document.getElementById('hotelBar').innerHTML =
       `<div style="flex:1"><span class="hl">${hotel.name}</span><br><span class="ha">${hotel.addr}</span></div>
        <a href="${mapUrl}" target="_blank">מפה</a>`;
@@ -272,7 +272,7 @@ function renderSpots(tod, spots) {
     return;
   }
   el.innerHTML = spots.map((s, i) => {
-    const mapsSearch = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.nameEn || s.name)}`;
+    const mapsSearch = `https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(s.nameEn || s.name)}`;
     return `<div class="spot">
       <div class="spot-name">${s.name} <span class="spot-name-en">${s.nameEn || ''}</span></div>
       <div class="spot-meta">
@@ -285,8 +285,8 @@ function renderSpots(tod, spots) {
       ${s.notes ? `<div class="spot-notes">${s.notes}</div>` : ''}
       <div class="spot-links">
         <a class="sl" href="${mapsSearch}" target="_blank">חפש במפות</a>
-        ${s.lat && s.lng ? `<a class="sl" href="https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}&travelmode=transit" target="_blank">ניווט תח״צ</a>` : ''}
-        ${s.lat && s.lng ? `<a class="sl" href="https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}&travelmode=driving" target="_blank">ניווט רכב</a>` : ''}
+        ${s.lat && s.lng ? `<a class="sl" href="https://www.google.com/maps/dir/?api=1&hl=he&destination=${s.lat},${s.lng}&travelmode=transit" target="_blank">ניווט תח״צ</a>` : ''}
+        ${s.lat && s.lng ? `<a class="sl" href="https://www.google.com/maps/dir/?api=1&hl=he&destination=${s.lat},${s.lng}&travelmode=driving" target="_blank">ניווט רכב</a>` : ''}
         <button class="sl" style="cursor:pointer;border-color:#fee2e2;color:#991b1b" onclick="removeSpot('${tod}',${i})">מחק</button>
       </div>
     </div>`;
@@ -342,13 +342,13 @@ function buildMap() {
   let directionsUrl, embedUrl;
 
   if (spots.length === 1) {
-    directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${names[0]}&travelmode=transit`;
-    embedUrl = `https://www.google.com/maps?q=${names[0]}&output=embed`;
+    directionsUrl = `https://www.google.com/maps/dir/?api=1&hl=he&origin=${origin}&destination=${names[0]}&travelmode=transit`;
+    embedUrl = `https://www.google.com/maps?hl=he&q=${names[0]}&output=embed`;
   } else {
     const dest = names[names.length - 1];
     const waypoints = names.slice(0, -1).join('|');
-    directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${dest}&waypoints=${waypoints}&travelmode=transit`;
-    embedUrl = `https://www.google.com/maps?q=${names[0]}&output=embed`;
+    directionsUrl = `https://www.google.com/maps/dir/?api=1&hl=he&origin=${origin}&destination=${dest}&waypoints=${waypoints}&travelmode=transit`;
+    embedUrl = `https://www.google.com/maps?hl=he&q=${names[0]}&output=embed`;
   }
 
   document.getElementById('mapFrame').innerHTML =
@@ -361,7 +361,7 @@ function buildMap() {
     <a class="rl" href="${directionsUrl}" target="_blank">מסלול תח״צ / רכבת</a>
     <a class="rl" href="${drivingUrl}" target="_blank">מסלול נהיגה</a>
     <a class="rl" href="${walkingUrl}" target="_blank">מסלול הליכה</a>
-    <a class="rl" href="https://www.google.com/maps/dir/${names.join('/')}" target="_blank">מסלול מלא במפות</a>
+    <a class="rl" href="https://www.google.com/maps/dir/${names.join('/')}?hl=he" target="_blank">מסלול מלא במפות</a>
   `;
 }
 
