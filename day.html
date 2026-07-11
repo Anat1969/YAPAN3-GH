@@ -239,10 +239,7 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
   <!-- STORY / EXPERIENCE (שדות עשירים — מוצג רק כשיש) -->
   <div id="dayStory"></div>
 
-  <!-- TRANSPORT SUMMARY -->
-  <div id="transSummary"></div>
-
-  <!-- ROUTE MAPS — שתי מפות זו לצד זו -->
+  <!-- ROUTE MAPS — שתי מפות זו לצד זו (קודם) -->
   <div class="map-section">
     <h2>מסלול היום</h2>
     <div class="maps-dual">
@@ -263,6 +260,9 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
     </div>
     <div class="route-links" id="routeLinks"></div>
   </div>
+
+  <!-- TRANSPORT SUMMARY (רצף המסלול — אחרי המפות) -->
+  <div id="transSummary"></div>
 
   <!-- MORNING -->
   <div class="block">
@@ -736,8 +736,15 @@ function buildMap() {
     }).addTo(rtMap);
     // פופאפ דו-לשוני (עברית + אנגלית יחד, בסדר קבוע)
     marker.bindPopup(`<div class="rt-pop"><b>${n}. ${s.name}</b><span class="en">${s.nameEn||''}</span>${s.time?`<div class="meta">${s.time}${s.duration?' · '+s.duration:''}</div>`:''}</div>`);
-    // לחיצה על נקודה במפה → הדגשת האתר ברשימה (סעיף 1.7)
-    marker.on('click', () => highlightSpot(s.tod, s.idx, true));
+    // לחיצה על נקודה במפה הכללית → הדגשה ברשימה + זום במפת הניווט למקטע המתאים
+    marker.on('click', () => {
+      highlightSpot(s.tod, s.idx, true);
+      // מצא את המקטע שהיעד שלו הוא הנקודה הזו → הצג במפה המפורטת (זום)
+      const segs = dayData.transport?.segments || [];
+      let segIdx = segs.findIndex(seg => Math.abs(seg.to.lat-s.lat)<1e-4 && Math.abs(seg.to.lng-s.lng)<1e-4);
+      if (segIdx<0) segIdx = segs.findIndex(seg => Math.abs(seg.from.lat-s.lat)<1e-4 && Math.abs(seg.from.lng-s.lng)<1e-4);
+      if (segIdx>=0) showSegment(segIdx);
+    });
     rtMarkers.push({ marker, tod:s.tod, idx:s.idx, n });
   });
 
