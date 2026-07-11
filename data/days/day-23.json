@@ -84,79 +84,38 @@
   "transport": {
     "segments": [
       {
-        "id": "d23-s1",
+        "id": "d23-f1",
         "from": {
-          "name": "מלון karaksa hotel colors Tokyo Yaesu",
-          "nameEn": "karaksa hotel colors Tokyo Yaesu",
-          "lat": 35.6812,
-          "lng": 139.7745
+          "name": "ניו צ׳יטוסה",
+          "nameEn": "New Chitose (CTS)",
+          "lat": 42.7752,
+          "lng": 141.6923
         },
         "to": {
-          "name": "נסיעה ל-New Chitose",
-          "nameEn": "Drive to New Chitose Airport",
-          "lat": 42.7791,
-          "lng": 141.6866
+          "name": "טוקיו נריטה",
+          "nameEn": "Tokyo Narita (NRT)",
+          "lat": 35.772,
+          "lng": 140.3929
         },
         "mode": "flight",
         "details": {
-          "note": "טיסה — פרטים בדף ההזמנות",
+          "flightNo": "MM576",
+          "departure": "14:50",
+          "arrival": "16:35",
+          "note": "טיסה מוזמנת (bookings.json)",
           "transfers": 0
         },
         "totalMinutes": null,
-        "distanceKm": 0,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=42.7791,141.6866&travelmode=transit"
-      },
-      {
-        "id": "d23-s2",
-        "from": {
-          "name": "נסיעה ל-New Chitose",
-          "nameEn": "Drive to New Chitose Airport",
-          "lat": 42.7791,
-          "lng": 141.6866
-        },
-        "to": {
-          "name": "טיסה לנאריטה",
-          "nameEn": "Flight CTS → NRT",
-          "lat": 35.7648,
-          "lng": 140.3862
-        },
-        "mode": "flight",
-        "details": {
-          "note": "טיסה — פרטים בדף ההזמנות",
-          "transfers": 0
-        },
-        "totalMinutes": null,
-        "distanceKm": 0,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=42.7791,141.6866&destination=35.7648,140.3862&travelmode=transit"
+        "distanceKm": null,
+        "departureTime": "14:50",
+        "arrivalTime": "16:35",
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=42.7752,141.6923&destination=35.772,140.3929&travelmode=flying"
       },
       {
         "id": "d23-s3",
         "from": {
           "name": "טיסה לנאריטה",
           "nameEn": "Flight CTS → NRT",
-          "lat": 35.7648,
-          "lng": 140.3862
-        },
-        "to": {
-          "name": "מיניוואן לטוקיו",
-          "nameEn": "Minivan Narita → Hotel",
-          "lat": 35.7648,
-          "lng": 140.3862
-        },
-        "mode": "flight",
-        "details": {
-          "note": "טיסה — פרטים בדף ההזמנות",
-          "transfers": 0
-        },
-        "totalMinutes": null,
-        "distanceKm": 0,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.7648,140.3862&destination=35.7648,140.3862&travelmode=transit"
-      },
-      {
-        "id": "d23-s4",
-        "from": {
-          "name": "מיניוואן לטוקיו",
-          "nameEn": "Minivan Narita → Hotel",
           "lat": 35.7648,
           "lng": 140.3862
         },
@@ -179,7 +138,7 @@
         "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.7648,140.3862&destination=35.6812,139.7745&travelmode=transit"
       },
       {
-        "id": "d23-s5",
+        "id": "d23-s4",
         "from": {
           "name": "צ׳ק-אין",
           "nameEn": "karaksa hotel colors Tokyo Yaesu",
@@ -205,7 +164,7 @@
         "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=35.6838,139.7744&travelmode=walking"
       },
       {
-        "id": "d23-s6",
+        "id": "d23-s5",
         "from": {
           "name": "ניהונבאשי ערב",
           "nameEn": "Nihonbashi evening walk",

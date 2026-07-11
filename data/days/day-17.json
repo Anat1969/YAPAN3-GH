@@ -118,32 +118,6 @@
           "lng": 142.6142
         },
         "to": {
-          "name": "הבריכה הכחולה",
-          "nameEn": "Shirogane Blue Pond (Aoiike)",
-          "lat": 43.4935,
-          "lng": 142.6142
-        },
-        "mode": "walk",
-        "details": {
-          "walkToStation": 0,
-          "rideTime": 0,
-          "transfers": 0,
-          "cost": null,
-          "currency": "JPY"
-        },
-        "totalMinutes": 0,
-        "distanceKm": 0,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4935,142.6142&destination=43.4935,142.6142&travelmode=walking"
-      },
-      {
-        "id": "d17-s3",
-        "from": {
-          "name": "הבריכה הכחולה",
-          "nameEn": "Shirogane Blue Pond (Aoiike)",
-          "lat": 43.4935,
-          "lng": 142.6142
-        },
-        "to": {
           "name": "מפלי שירוגנה",
           "nameEn": "Shirahige Falls",
           "lat": 43.5021,
@@ -162,7 +136,7 @@
         "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4935,142.6142&destination=43.5021,142.621&travelmode=driving"
       },
       {
-        "id": "d17-s4",
+        "id": "d17-s3",
         "from": {
           "name": "מפלי שירוגנה",
           "nameEn": "Shirahige Falls",
@@ -188,7 +162,7 @@
         "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.5021,142.621&destination=43.59,142.47&travelmode=driving"
       },
       {
-        "id": "d17-s5",
+        "id": "d17-s4",
         "from": {
           "name": "גבעות ביאי",
           "nameEn": "Biei Patchwork Hills",
@@ -214,7 +188,7 @@
         "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.59,142.47&destination=43.587,142.472&travelmode=walking"
       },
       {
-        "id": "d17-s6",
+        "id": "d17-s5",
         "from": {
           "name": "לינה בביאי",
           "nameEn": "Biei accommodation",

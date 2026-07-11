@@ -145,7 +145,7 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .m-walk{background:#15803d}.m-bus{background:#b45309}.m-car{background:#6b7280}
 .m-flight{background:#b91c1c}.m-taxi{background:#7c3aed}.m-shuttle{background:#0891b2}
 .seg-mode.t-train,.seg-mode.t-metro,.seg-mode.t-shinkansen{color:#1d4ed8}
-.seg-mode.t-walk{color:#15803d}.seg-mode.t-bus{color:#b45309}.seg-mode.t-car{color:#57534e}
+.seg-mode.t-walk{color:#15803d}.seg-mode.t-bus{color:#b45309}.seg-mode.t-car{color:#57534e}.seg-mode.t-flight{color:#b91c1c}
 .route-seq{margin-top:10px;padding-top:10px;border-top:1px solid #eee}
 .route-stop{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#1a1a1a;padding:3px 0}
 .route-stop .rs-num{font-size:10px;font-weight:800;color:#fff;background:#1a1a1a;border-radius:999px;padding:1px 7px;min-width:20px;text-align:center;flex:none}
@@ -529,14 +529,18 @@ function renderTransportSummary(d) {
 function segBar(seg, i) {
   if (!seg) return '';
   const c = 'm-'+seg.mode;
-  const km = seg.distanceKm ? ` · ${seg.distanceKm} ק״מ` : '';
   const nav = `<a class="seg-nav" href="${seg.mapsUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()" data-tip="פתיחה ב-Google Maps">נווט</a>`;
+  // טיסה — מציג מספר טיסה + שעות. שאר — דקות + מרחק.
+  let label;
+  if (seg.mode==='flight') {
+    label = `<span class="seg-mode t-flight">${MODE_HE[seg.mode]||'טיסה'} ${seg.details?.flightNo||''}</span>${seg.departureTime?` · ${seg.departureTime}–${seg.arrivalTime}`:''}`;
+  } else {
+    const km = seg.distanceKm ? ` · ${seg.distanceKm} ק״מ` : '';
+    label = `<span class="seg-mode t-${seg.mode}">${seg.totalMinutes||''} דק׳ ${MODE_HE[seg.mode]||seg.mode}</span>${km}`;
+  }
   return `<div class="seg" data-seg="${i}" onclick="showSegment(${i})">
     <span class="seg-line ${c}"></span>
-    <div class="seg-body">
-      <span class="seg-mode t-${seg.mode}">${seg.totalMinutes||''} דק׳ ${MODE_HE[seg.mode]||seg.mode}</span>${km}
-      ${nav}
-    </div>
+    <div class="seg-body">${label}${nav}</div>
   </div>`;
 }
 

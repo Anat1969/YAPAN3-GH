@@ -162,17 +162,17 @@
           "lat": 36.5632,
           "lng": 136.6518
         },
-        "mode": "walk",
+        "mode": "metro",
         "details": {
-          "walkToStation": 0,
-          "rideTime": 16,
+          "walkToStation": 8,
+          "rideTime": 2,
           "transfers": 0,
           "cost": null,
           "currency": "JPY"
         },
-        "totalMinutes": 16,
+        "totalMinutes": 10,
         "distanceKm": 1.2,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5624,136.6624&destination=36.5632,136.6518&travelmode=walking"
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5624,136.6624&destination=36.5632,136.6518&travelmode=transit"
       },
       {
         "id": "d9-s4",
@@ -280,8 +280,8 @@
       }
     ],
     "summary": {
-      "totalTransitMinutes": 50,
-      "totalWalkingMinutes": 36,
+      "totalTransitMinutes": 60,
+      "totalWalkingMinutes": 20,
       "totalDistanceKm": 11.2,
       "modes": [
         "metro",

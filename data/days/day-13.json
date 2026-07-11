@@ -212,32 +212,6 @@
         "totalMinutes": 23,
         "distanceKm": 17.1,
         "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.6355,144.4464&destination=43.5858,144.2745&travelmode=driving"
-      },
-      {
-        "id": "d13-s6",
-        "from": {
-          "name": "צ׳ק-אין קושארו פרינס",
-          "nameEn": "Kussharo Prince Hotel",
-          "lat": 43.5858,
-          "lng": 144.2745
-        },
-        "to": {
-          "name": "מלון Kussharo Prince Hotel",
-          "nameEn": "Kussharo Prince Hotel",
-          "lat": 43.5858,
-          "lng": 144.2745
-        },
-        "mode": "walk",
-        "details": {
-          "walkToStation": 0,
-          "rideTime": 0,
-          "transfers": 0,
-          "cost": null,
-          "currency": "JPY"
-        },
-        "totalMinutes": 0,
-        "distanceKm": 0,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.5858,144.2745&destination=43.5858,144.2745&travelmode=walking"
       }
     ],
     "summary": {
@@ -245,8 +219,7 @@
       "totalWalkingMinutes": 0,
       "totalDistanceKm": 207.9,
       "modes": [
-        "car",
-        "walk"
+        "car"
       ]
     }
   },

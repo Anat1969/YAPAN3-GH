@@ -79,32 +79,6 @@
           "lng": 142.9471
         },
         "to": {
-          "name": "נסיעה לסואנקיו",
-          "nameEn": "Drive Akan to Sounkyo",
-          "lat": 43.7253,
-          "lng": 142.9471
-        },
-        "mode": "walk",
-        "details": {
-          "walkToStation": 0,
-          "rideTime": 0,
-          "transfers": 0,
-          "cost": null,
-          "currency": "JPY"
-        },
-        "totalMinutes": 0,
-        "distanceKm": 0,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.7253,142.9471&destination=43.7253,142.9471&travelmode=walking"
-      },
-      {
-        "id": "d16-s2",
-        "from": {
-          "name": "נסיעה לסואנקיו",
-          "nameEn": "Drive Akan to Sounkyo",
-          "lat": 43.7253,
-          "lng": 142.9471
-        },
-        "to": {
           "name": "רכבל קורודאקה",
           "nameEn": "Kurodake Ropeway",
           "lat": 43.7072,
@@ -123,7 +97,7 @@
         "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.7253,142.9471&destination=43.7072,142.9508&travelmode=driving"
       },
       {
-        "id": "d16-s3",
+        "id": "d16-s2",
         "from": {
           "name": "רכבל קורודאקה",
           "nameEn": "Kurodake Ropeway",
@@ -149,7 +123,7 @@
         "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.7072,142.9508&destination=43.732,142.968&travelmode=driving"
       },
       {
-        "id": "d16-s4",
+        "id": "d16-s3",
         "from": {
           "name": "מפלי סואנקיו",
           "nameEn": "Ginga & Ryusei Falls",
@@ -173,32 +147,6 @@
         "totalMinutes": 3,
         "distanceKm": 2.1,
         "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.732,142.968&destination=43.7253,142.9471&travelmode=driving"
-      },
-      {
-        "id": "d16-s5",
-        "from": {
-          "name": "אונסן בסואנקיו",
-          "nameEn": "Sounkyo Onsen",
-          "lat": 43.7253,
-          "lng": 142.9471
-        },
-        "to": {
-          "name": "מלון Hotel Kumoi — Sounkyo Onsen",
-          "nameEn": "Hotel Kumoi — Sounkyo Onsen",
-          "lat": 43.7253,
-          "lng": 142.9471
-        },
-        "mode": "walk",
-        "details": {
-          "walkToStation": 0,
-          "rideTime": 0,
-          "transfers": 0,
-          "cost": null,
-          "currency": "JPY"
-        },
-        "totalMinutes": 0,
-        "distanceKm": 0,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.7253,142.9471&destination=43.7253,142.9471&travelmode=walking"
       }
     ],
     "summary": {
@@ -206,7 +154,6 @@
       "totalWalkingMinutes": 0,
       "totalDistanceKm": 7.9,
       "modes": [
-        "walk",
         "car"
       ]
     }

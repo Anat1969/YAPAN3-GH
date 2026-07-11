@@ -173,32 +173,6 @@
         "totalMinutes": 21,
         "distanceKm": 15.7,
         "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.1494,145.1345&destination=44.0731,145.0007&travelmode=driving"
-      },
-      {
-        "id": "d12-s5",
-        "from": {
-          "name": "ערב באוטורו",
-          "nameEn": "Utoro evening",
-          "lat": 44.0731,
-          "lng": 145.0007
-        },
-        "to": {
-          "name": "מלון The SUNSET Shiretoko",
-          "nameEn": "The SUNSET Shiretoko",
-          "lat": 44.0731,
-          "lng": 145.0007
-        },
-        "mode": "walk",
-        "details": {
-          "walkToStation": 0,
-          "rideTime": 0,
-          "transfers": 0,
-          "cost": null,
-          "currency": "JPY"
-        },
-        "totalMinutes": 0,
-        "distanceKm": 0,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.0731,145.0007&destination=44.0731,145.0007&travelmode=walking"
       }
     ],
     "summary": {

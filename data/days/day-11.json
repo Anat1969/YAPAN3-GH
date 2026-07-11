@@ -57,6 +57,62 @@
   "transport": {
     "segments": [
       {
+        "id": "d11-f1",
+        "from": {
+          "name": "שדה קומאטסו",
+          "nameEn": "Komatsu Airport (KMQ)",
+          "lat": 36.3946,
+          "lng": 136.4074
+        },
+        "to": {
+          "name": "טוקיו האנדה",
+          "nameEn": "Tokyo Haneda (HND)",
+          "lat": 35.5494,
+          "lng": 139.7798
+        },
+        "mode": "flight",
+        "details": {
+          "flightNo": "JAL 184",
+          "departure": "08:50",
+          "arrival": "10:00",
+          "note": "טיסה מוזמנת (bookings.json)",
+          "transfers": 0
+        },
+        "totalMinutes": null,
+        "distanceKm": null,
+        "departureTime": "08:50",
+        "arrivalTime": "10:00",
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.3946,136.4074&destination=35.5494,139.7798&travelmode=flying"
+      },
+      {
+        "id": "d11-f2",
+        "from": {
+          "name": "טוקיו האנדה",
+          "nameEn": "Tokyo Haneda (HND)",
+          "lat": 35.5494,
+          "lng": 139.7798
+        },
+        "to": {
+          "name": "שדה ממנבטסו",
+          "nameEn": "Memanbetsu Airport (MMB)",
+          "lat": 43.8806,
+          "lng": 144.164
+        },
+        "mode": "flight",
+        "details": {
+          "flightNo": "JAL 567",
+          "departure": "12:25",
+          "arrival": "14:10",
+          "note": "טיסה מוזמנת (bookings.json)",
+          "transfers": 0
+        },
+        "totalMinutes": null,
+        "distanceKm": null,
+        "departureTime": "12:25",
+        "arrivalTime": "14:10",
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.5494,139.7798&destination=43.8806,144.164&travelmode=flying"
+      },
+      {
         "id": "d11-s1",
         "from": {
           "name": "מלון The SUNSET Shiretoko",
@@ -70,14 +126,17 @@
           "lat": 43.8816,
           "lng": 144.1586
         },
-        "mode": "flight",
+        "mode": "car",
         "details": {
-          "note": "טיסה — פרטים בדף ההזמנות",
-          "transfers": 0
+          "walkToStation": 0,
+          "rideTime": 108,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
         },
-        "totalMinutes": null,
-        "distanceKm": 0,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.0731,145.0007&destination=43.8816,144.1586&travelmode=transit"
+        "totalMinutes": 108,
+        "distanceKm": 81.3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.0731,145.0007&destination=43.8816,144.1586&travelmode=driving"
       },
       {
         "id": "d11-s2",
@@ -93,75 +152,26 @@
           "lat": 44.0731,
           "lng": 145.0007
         },
-        "mode": "flight",
-        "details": {
-          "note": "טיסה — פרטים בדף ההזמנות",
-          "transfers": 0
-        },
-        "totalMinutes": null,
-        "distanceKm": 0,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.8816,144.1586&destination=44.0731,145.0007&travelmode=transit"
-      },
-      {
-        "id": "d11-s3",
-        "from": {
-          "name": "נסיעה לאוטורו",
-          "nameEn": "Drive to Utoro",
-          "lat": 44.0731,
-          "lng": 145.0007
-        },
-        "to": {
-          "name": "צ׳ק-אין + שקיעה",
-          "nameEn": "The SUNSET Shiretoko",
-          "lat": 44.0731,
-          "lng": 145.0007
-        },
-        "mode": "walk",
+        "mode": "car",
         "details": {
           "walkToStation": 0,
-          "rideTime": 0,
+          "rideTime": 108,
           "transfers": 0,
           "cost": null,
           "currency": "JPY"
         },
-        "totalMinutes": 0,
-        "distanceKm": 0,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.0731,145.0007&destination=44.0731,145.0007&travelmode=walking"
-      },
-      {
-        "id": "d11-s4",
-        "from": {
-          "name": "צ׳ק-אין + שקיעה",
-          "nameEn": "The SUNSET Shiretoko",
-          "lat": 44.0731,
-          "lng": 145.0007
-        },
-        "to": {
-          "name": "מלון The SUNSET Shiretoko",
-          "nameEn": "The SUNSET Shiretoko",
-          "lat": 44.0731,
-          "lng": 145.0007
-        },
-        "mode": "walk",
-        "details": {
-          "walkToStation": 0,
-          "rideTime": 0,
-          "transfers": 0,
-          "cost": null,
-          "currency": "JPY"
-        },
-        "totalMinutes": 0,
-        "distanceKm": 0,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.0731,145.0007&destination=44.0731,145.0007&travelmode=walking"
+        "totalMinutes": 108,
+        "distanceKm": 81.3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.8816,144.1586&destination=44.0731,145.0007&travelmode=driving"
       }
     ],
     "summary": {
-      "totalTransitMinutes": 0,
+      "totalTransitMinutes": 216,
       "totalWalkingMinutes": 0,
-      "totalDistanceKm": 0,
+      "totalDistanceKm": 162.6,
       "modes": [
         "flight",
-        "walk"
+        "car"
       ]
     }
   },

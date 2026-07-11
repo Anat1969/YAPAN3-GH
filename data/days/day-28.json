@@ -41,40 +41,5 @@
     "dinner": "",
     "icecream": ""
   },
-  "transport": {
-    "segments": [
-      {
-        "id": "d28-s1",
-        "from": {
-          "name": "צ׳ק-אאוט + נסיעה לשדה תעופה",
-          "nameEn": "Checkout & airport",
-          "lat": 35.6812,
-          "lng": 139.7745
-        },
-        "to": {
-          "name": "טיסה טוקיו → דובאי",
-          "nameEn": "Flight to Dubai",
-          "lat": 25.2532,
-          "lng": 55.3657
-        },
-        "mode": "flight",
-        "details": {
-          "note": "טיסה — פרטים בדף ההזמנות",
-          "transfers": 0
-        },
-        "totalMinutes": null,
-        "distanceKm": 0,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=25.2532,55.3657&travelmode=transit"
-      }
-    ],
-    "summary": {
-      "totalTransitMinutes": 0,
-      "totalWalkingMinutes": 0,
-      "totalDistanceKm": 0,
-      "modes": [
-        "flight"
-      ]
-    }
-  },
   "notes": "פרידה מיפן"
 }

@@ -83,13 +83,16 @@
           "lat": 36.3936,
           "lng": 136.4066
         },
-        "mode": "flight",
+        "mode": "train",
         "details": {
-          "note": "טיסה — פרטים בדף ההזמנות",
-          "transfers": 0
+          "walkToStation": 10,
+          "rideTime": 50,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
         },
-        "totalMinutes": null,
-        "distanceKm": 0,
+        "totalMinutes": 60,
+        "distanceKm": 37.6,
         "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5632,136.6518&destination=36.3936,136.4066&travelmode=transit"
       },
       {
@@ -106,23 +109,26 @@
           "lat": 36.5763,
           "lng": 136.6494
         },
-        "mode": "flight",
+        "mode": "train",
         "details": {
-          "note": "טיסה — פרטים בדף ההזמנות",
-          "transfers": 0
+          "walkToStation": 10,
+          "rideTime": 52,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
         },
-        "totalMinutes": null,
-        "distanceKm": 0,
+        "totalMinutes": 62,
+        "distanceKm": 38.6,
         "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.3936,136.4066&destination=36.5763,136.6494&travelmode=transit"
       }
     ],
     "summary": {
-      "totalTransitMinutes": 12,
+      "totalTransitMinutes": 134,
       "totalWalkingMinutes": 0,
-      "totalDistanceKm": 1.9,
+      "totalDistanceKm": 78.1,
       "modes": [
         "metro",
-        "flight"
+        "train"
       ]
     }
   },

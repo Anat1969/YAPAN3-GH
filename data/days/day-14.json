@@ -92,32 +92,6 @@
           "lng": 144.0909
         },
         "to": {
-          "name": "נסיעה לאקאן",
-          "nameEn": "Drive to Akan",
-          "lat": 43.4347,
-          "lng": 144.0909
-        },
-        "mode": "walk",
-        "details": {
-          "walkToStation": 0,
-          "rideTime": 0,
-          "transfers": 0,
-          "cost": null,
-          "currency": "JPY"
-        },
-        "totalMinutes": 0,
-        "distanceKm": 0,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4347,144.0909&destination=43.4347,144.0909&travelmode=walking"
-      },
-      {
-        "id": "d14-s2",
-        "from": {
-          "name": "נסיעה לאקאן",
-          "nameEn": "Drive to Akan",
-          "lat": 43.4347,
-          "lng": 144.0909
-        },
-        "to": {
           "name": "כפר איינו",
           "nameEn": "Ainu Kotan Village",
           "lat": 43.438,
@@ -136,7 +110,7 @@
         "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4347,144.0909&destination=43.438,144.096&travelmode=walking"
       },
       {
-        "id": "d14-s3",
+        "id": "d14-s2",
         "from": {
           "name": "כפר איינו",
           "nameEn": "Ainu Kotan Village",
@@ -162,7 +136,7 @@
         "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.438,144.096&destination=43.436,144.091&travelmode=walking"
       },
       {
-        "id": "d14-s4",
+        "id": "d14-s3",
         "from": {
           "name": "שייט אגם אקאן",
           "nameEn": "Lake Akan Cruise",
@@ -175,20 +149,20 @@
           "lat": 43.43,
           "lng": 144.085
         },
-        "mode": "walk",
+        "mode": "car",
         "details": {
           "walkToStation": 0,
-          "rideTime": 14,
+          "rideTime": 1,
           "transfers": 0,
           "cost": null,
           "currency": "JPY"
         },
-        "totalMinutes": 14,
-        "distanceKm": 1.1,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.436,144.091&destination=43.43,144.085&travelmode=walking"
+        "totalMinutes": 1,
+        "distanceKm": 0.9,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.436,144.091&destination=43.43,144.085&travelmode=driving"
       },
       {
-        "id": "d14-s5",
+        "id": "d14-s4",
         "from": {
           "name": "הליכת בוקאצ׳ו",
           "nameEn": "Bokakko Trail",
@@ -214,7 +188,7 @@
         "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.43,144.085&destination=43.438,144.096&travelmode=driving"
       },
       {
-        "id": "d14-s6",
+        "id": "d14-s5",
         "from": {
           "name": "מופע איינו",
           "nameEn": "Ainu Performance",
@@ -241,9 +215,9 @@
       }
     ],
     "summary": {
-      "totalTransitMinutes": 2,
-      "totalWalkingMinutes": 42,
-      "totalDistanceKm": 4.5,
+      "totalTransitMinutes": 3,
+      "totalWalkingMinutes": 28,
+      "totalDistanceKm": 4.3,
       "modes": [
         "walk",
         "car"

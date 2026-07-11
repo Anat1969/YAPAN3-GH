@@ -66,32 +66,6 @@
           "lng": 139.7745
         },
         "to": {
-          "name": "יום חופשי — השלמות",
-          "nameEn": "Free morning",
-          "lat": 35.6812,
-          "lng": 139.7745
-        },
-        "mode": "walk",
-        "details": {
-          "walkToStation": 0,
-          "rideTime": 0,
-          "transfers": 0,
-          "cost": null,
-          "currency": "JPY"
-        },
-        "totalMinutes": 0,
-        "distanceKm": 0,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=35.6812,139.7745&travelmode=walking"
-      },
-      {
-        "id": "d27-s2",
-        "from": {
-          "name": "יום חופשי — השלמות",
-          "nameEn": "Free morning",
-          "lat": 35.6812,
-          "lng": 139.7745
-        },
-        "to": {
           "name": "נקמגורו",
           "nameEn": "Nakameguro",
           "lat": 35.644,
@@ -110,7 +84,7 @@
         "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=35.644,139.698&travelmode=transit"
       },
       {
-        "id": "d27-s3",
+        "id": "d27-s2",
         "from": {
           "name": "נקמגורו",
           "nameEn": "Nakameguro",
@@ -134,32 +108,6 @@
         "totalMinutes": 24,
         "distanceKm": 10.5,
         "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.644,139.698&destination=35.6812,139.7745&travelmode=transit"
-      },
-      {
-        "id": "d27-s4",
-        "from": {
-          "name": "ארוחת פרידה",
-          "nameEn": "Farewell dinner",
-          "lat": 35.6812,
-          "lng": 139.7745
-        },
-        "to": {
-          "name": "מלון karaksa hotel colors Tokyo Yaesu",
-          "nameEn": "karaksa hotel colors Tokyo Yaesu",
-          "lat": 35.6812,
-          "lng": 139.7745
-        },
-        "mode": "walk",
-        "details": {
-          "walkToStation": 0,
-          "rideTime": 0,
-          "transfers": 0,
-          "cost": null,
-          "currency": "JPY"
-        },
-        "totalMinutes": 0,
-        "distanceKm": 0,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=35.6812,139.7745&travelmode=walking"
       }
     ],
     "summary": {
@@ -167,7 +115,6 @@
       "totalWalkingMinutes": 0,
       "totalDistanceKm": 21,
       "modes": [
-        "walk",
         "train"
       ]
     }
