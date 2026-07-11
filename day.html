@@ -147,8 +147,9 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .seg-mode.t-train,.seg-mode.t-metro,.seg-mode.t-shinkansen{color:#1d4ed8}
 .seg-mode.t-walk{color:#15803d}.seg-mode.t-bus{color:#b45309}.seg-mode.t-car{color:#57534e}
 .route-seq{margin-top:10px;padding-top:10px;border-top:1px solid #eee}
-.route-stop{display:flex;align-items:baseline;gap:8px;font-size:13px;font-weight:700;color:#1a1a1a;padding:2px 0}
+.route-stop{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#1a1a1a;padding:3px 0}
 .route-stop .rs-num{font-size:10px;font-weight:800;color:#fff;background:#1a1a1a;border-radius:999px;padding:1px 7px;min-width:20px;text-align:center;flex:none}
+.route-stop .stop-thumb{width:40px;height:32px;object-fit:cover;border-radius:6px;flex:none}
 .route-stop .rs-en{font-size:11px;font-weight:400;color:#8a857e;direction:ltr}
 
 /* NOTES */
@@ -494,13 +495,21 @@ function renderTransportSummary(d) {
     alertsHtml = `<div class="trans-alerts">${dayAlerts.map(a=>`<div class="trans-alert">${a}</div>`).join('')}</div>`;
   }
 
-  // רצף מלא: מלון → אתרים → מלון, עם תחנות ופסי תחבורה ביניהן
+  // רצף מלא: מלון → אתרים → מלון, עם תחנות (כולל תמונה) ופסי תחבורה ביניהן
+  const stopRow = (label, pt) => {
+    const m = placesData.find(p => p.nameEn && pt.nameEn && p.nameEn===pt.nameEn) || placesData.find(p=>p.name===pt.name);
+    const alt = `${pt.name}${pt.nameEn?' — '+pt.nameEn:''}`;
+    const thumb = m && m.image
+      ? `<img class="stop-thumb" src="${m.image}" alt="${alt}" loading="lazy" onerror="this.style.display='none'">`
+      : '';
+    return `<div class="route-stop">${thumb}<span class="rs-num">${label}</span> ${pt.name}${pt.nameEn?` <span class="rs-en">${pt.nameEn}</span>`:''}</div>`;
+  };
   let routeHtml = '';
   t.segments.forEach((seg, i) => {
-    if (i === 0) routeHtml += `<div class="route-stop"><span class="rs-num">התחלה</span> ${seg.from.name}${seg.from.nameEn?` <span class="rs-en">${seg.from.nameEn}</span>`:''}</div>`;
+    if (i === 0) routeHtml += stopRow('התחלה', seg.from);
     routeHtml += segBar(seg, i);
     const last = i === t.segments.length-1;
-    routeHtml += `<div class="route-stop"><span class="rs-num">${last?'סיום':i+1}</span> ${seg.to.name}${seg.to.nameEn?` <span class="rs-en">${seg.to.nameEn}</span>`:''}</div>`;
+    routeHtml += stopRow(last?'סיום':String(i+1), seg.to);
   });
 
   el.innerHTML = `<div class="trans-summary">
