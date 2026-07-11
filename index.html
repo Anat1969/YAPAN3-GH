@@ -225,6 +225,17 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .tr-badge-primary .ic{width:13px;height:13px;stroke:var(--ok)}
 .tr-note{margin-top:10px;font-size:11px;color:var(--ink-2);background:var(--bg);border-radius:8px;padding:8px 10px;line-height:1.6}
 .tr-note ul{margin:4px 8px 0 0;padding-right:16px}
+/* המלצות חיסכון תחבורה */
+.ts-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.ts-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 15px}
+.ts-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.ts-head b{font-size:14px;color:var(--ink)}
+.ts-verdict{font-size:11px;font-weight:800;color:var(--ok);background:var(--ok-bg);border-radius:999px;padding:2px 9px}
+.ts-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px 12px;font-size:12px;margin-bottom:8px}
+.ts-grid > div.ts-full{grid-column:1/-1}
+.ts-grid span{display:block;font-size:10px;font-weight:800;color:var(--ink-3);margin-bottom:1px}
+.tr-nav-link{font-size:11px;font-weight:700;color:var(--action);text-decoration:none}
+.tr-nav-link:hover{text-decoration:underline}
 .tr-note li{margin-bottom:3px}
 .tr-alert{margin-top:9px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:4px}
 @media(max-width:560px){.tr-cards{grid-template-columns:1fr}.tr-grid{grid-template-columns:1fr}}
@@ -882,13 +893,14 @@ function hotelById(id){ return DATA.hotels.find(h=>h.id===id); }
 function dayHotelName(d){ if(d.hotelName) return d.hotelName; const h=hotelById(d.hotelId); return h?h.name:''; }
 function dayCity(d){ if(d.city) return d.city; const h=hotelById(d.hotelId); return h?h.city:''; }
 
+// קישור Booking עם הרכב המשפחה בפועל: 2 מבוגרים + 2 בני נוער (17, 15), חדר ל-4
 function bookingLink(h) {
-  // חיפוש בבוקינג לפי שם+עיר, עם תאריכי צ׳ק-אין/אאוט ומספר חדרים
   const ss = encodeURIComponent(`${h.name} ${h.cityEn||h.city||''}`.trim());
   let url = `https://www.booking.com/searchresults.he.html?ss=${ss}`;
   if (h.checkin)  url += `&checkin=${h.checkin}`;
   if (h.checkout) url += `&checkout=${h.checkout}`;
-  url += `&group_adults=2&no_rooms=${h.rooms||1}&group_children=0`;
+  // 2 מבוגרים + 2 ילדים (17, 15) — חדר המתאים ל-4 אורחים בפועל (סעיף 5, 6)
+  url += `&group_adults=2&group_children=2&age=17&age=15&no_rooms=${h.rooms||1}`;
   return url;
 }
 
@@ -1331,7 +1343,62 @@ function renderTransport() {
     <div class="view-bar"><div class="tr-intro">כל התחבורה של הטיול במקום אחד — טיסות, רכב שכור, שאטלים.</div>${viewToggle()}</div>
     ${legend?`<div class="tr-legend">${legend}</div>`:''}
     ${viewMode==='cards' ? cardsView : `<div class="tr-list">${listHtml}</div>`}
+    ${transitSavings()}
   `;
+}
+
+// המלצות חיסכון בתחבורה ציבורית — חישוב אמיתי (רכב בהוקאידו לא נכלל, סעיף 10)
+function transitSavings() {
+  // ספירת נסיעות תח״צ (train/metro/bus) לפי אזור — רכב וטיסה לא נספרים
+  const reg = {};
+  DATA.days.forEach(d=>{
+    (d.transport?.segments||[]).forEach(s=>{
+      if(['train','metro','bus'].includes(s.mode)){
+        const r = d.region||'';
+        reg[r] = reg[r] || {rides:0, days:new Set()};
+        reg[r].rides++; reg[r].days.add(d.tripDay);
+      }
+    });
+  });
+  const AVG_FARE = 240;  // ¥ ממוצע לנסיעה (הערכה)
+  const recs = [];
+  // קנסאי — ICOCA (IC) מול בודדים; אין יומי משתלם ברור → IC נוחות
+  if(reg.kansai){
+    const rides=reg.kansai.rides, single=rides*AVG_FARE;
+    recs.push({name:'ICOCA (כרטיס IC)', area:'קנסאי · אוסקה/קיוטו', validity:'ללא הגבלת זמן', price:'2,000¥ (כולל 1,500¥ ערך + פיקדon 500¥)',
+      covers:`${rides} נסיעות ב-${reg.kansai.days.size} ימים`, without:`~${single.toLocaleString()}¥`, with:`~${single.toLocaleString()}¥ (טעינה)`,
+      saving:'נוחות בעיקר — אין הנחה, אך חוסך קניית כרטיס בכל נסיעה', limits:'הפיקדon מוחזר בהחזרה', link:'https://www.westjr.co.jp/global/en/ticket/icoca-haruka/',
+      verdict:'מומלץ לנוחות'});
+  }
+  // טוקיו — Tokyo Subway 72h pass מול בודדים
+  if(reg.tokyo){
+    const rides=reg.tokyo.rides, single=rides*AVG_FARE, pass=1500; // 72h ל-4 אנשים = 6000, אבל לאדם 1500
+    const saving = single - pass;
+    recs.push({name:'Tokyo Subway 72-hour Ticket', area:'טוקיו · מטרו', validity:'72 שעות', price:'1,500¥ לאדם (×4 = 6,000¥)',
+      covers:`${rides} נסיעות ב-${reg.tokyo.days.size} ימים במטרו`, without:`~${single.toLocaleString()}¥ לאדם`, with:'1,500¥ לאדם',
+      saving: saving>0?`~${saving.toLocaleString()}¥ לאדם`:'שולי — לבדוק מול נסיעות בפועל', limits:'מטרו בלבד (Tokyo Metro + Toei), לא JR', link:'https://www.tokyometro.jp/en/ticket/travel/',
+      verdict: saving>0?'כדאי לבדוק':'גבולי'});
+  }
+
+  if(!recs.length) return '';
+  const cards = recs.map(r=>`<div class="ts-card">
+    <div class="ts-head"><b>${r.name}</b><span class="ts-verdict">${r.verdict}</span></div>
+    <div class="ts-grid">
+      <div><span>אזור</span>${r.area}</div>
+      <div><span>תוקף</span>${r.validity}</div>
+      <div><span>מחיר</span>${r.price}</div>
+      <div><span>מכסה</span>${r.covers}</div>
+      <div><span>ללא הכרטיס</span>${r.without}</div>
+      <div><span>עם הכרטיס</span>${r.with}</div>
+      <div class="ts-full"><span>חיסכון צפוי</span>${r.saving}</div>
+      <div class="ts-full"><span>מגבלות</span>${r.limits}</div>
+    </div>
+    <a class="tr-nav-link" href="${r.link}" target="_blank" rel="noopener">מידע רשמי ›</a>
+  </div>`).join('');
+  return `<h3 class="tr-sec">המלצות חיסכון בתחבורה ציבורית</h3>
+    <div class="tr-intro" style="margin-bottom:8px">חישוב לפי מספר הנסיעות בפועל במסלול. רכב בהוקאידו (2-14/8) אינו נכלל.</div>
+    <div class="ts-cards">${cards}</div>
+    <div class="cost-note">המחירים והחיסכון משוערים (ממוצע ~240¥/נסיעה). לבדוק מול המחיר בפועל לפני רכישה. <b>לא ממליץ על JR Pass אוטומטית</b> — לא משתלם למסלול הזה (רוב הנסיעות מקומיות, לא בין-עירוניות ברכבת).</div>`;
 }
 
 // ══════════════════════════════════
