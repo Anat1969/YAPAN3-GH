@@ -293,9 +293,26 @@ a.bk .ic{width:12px;height:12px;stroke:#fff}
 a.bk:hover{background:#00224f}
 
 /* MAP LEGEND */
-.map-legend{max-width:1200px;margin:0 auto 10px;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;display:flex;gap:16px;flex-wrap:wrap;font-size:12px;font-weight:700;color:var(--ink-2)}
+/* סרגל החלפת תצוגות מפה */
+.mapview-bar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.mvb{padding:6px 14px;border:1px solid var(--border);border-radius:7px;background:var(--surface);color:var(--ink-2);font:700 12px/1.4 inherit;cursor:pointer;transition:.12s}
+.mvb:hover{background:var(--bg);border-color:var(--border-strong)}
+.mvb.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.mvb:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
+.mvb-controls{display:inline-flex;gap:6px;align-items:center;margin-right:auto}
+#mapDaySel{padding:5px 9px;border:1px solid var(--border);border-radius:6px;font:600 12px inherit;background:var(--surface);color:var(--ink)}
+.mvb-reset{padding:5px 11px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--action);font:700 11px inherit;cursor:pointer}
+.mvb-reset:hover{background:var(--bg)}
+.map-place-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.mpf{padding:3px 10px;border:1px solid var(--border);border-radius:999px;background:var(--surface);font:600 11px inherit;cursor:pointer;color:var(--ink-3)}
+.mpf.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+/* מקרא — עדכני לתצוגה, סימן זהה למפה */
+.map-legend{max-width:1200px;margin:10px auto 0;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;display:flex;gap:16px;flex-wrap:wrap;font-size:12px;font-weight:700;color:var(--ink-2)}
+.map-legend:empty{display:none}
 .map-legend span{display:inline-flex;align-items:center;gap:6px}
-.map-legend i{width:13px;height:13px;border-radius:50%;display:inline-block;border:1.5px solid var(--ink)}
+.map-legend i{width:14px;height:14px;display:inline-block;opacity:.85}
+.map-legend i.circle{border-radius:50%}.map-legend i.square{border-radius:3px}.map-legend i.line{width:20px;height:4px;border-radius:2px}
+.map-legend i.diamond{transform:rotate(45deg);width:11px;height:11px}
 
 /* LINK */
 a.ml{color:var(--action);text-decoration:none;font-size:11px}
@@ -375,12 +392,19 @@ a.ml:hover{text-decoration:underline}
 <div class="panel" id="p-transport"><div class="tw" id="transportWrap"></div></div>
 <div class="panel" id="p-flights"><div class="tw"><table id="t-flights"></table></div></div>
 <div class="panel" id="p-map">
-  <div class="map-legend">
-    <span><i style="background:var(--ok)"></i>מלון מוזמן</span>
-    <span><i style="background:var(--warn)"></i>מלון שטרם הוזמן</span>
-    <span><i style="background:var(--region-3);border-radius:3px"></i>אתר / נקודת עניין</span>
+  <div class="mapview-bar" role="group" aria-label="בחירת תצוגת מפה">
+    <button class="mvb on" data-view="days" onclick="setMapView('days')" data-tip="מסלול כל יום — תחנות ממוספרות וקו מסלול" aria-label="תצוגה לפי יום ותאריך">לפי יום</button>
+    <button class="mvb" data-view="nights" onclick="setMapView('nights')" data-tip="מקום הלינה בכל לילה — לפי תאריכים" aria-label="תצוגה לפי לילות">לפי לילות</button>
+    <button class="mvb" data-view="transport" onclick="setMapView('transport')" data-tip="מקטעי תחבורה צבועים לפי אמצעי" aria-label="תצוגה לפי תחבורה">לפי תחבורה</button>
+    <button class="mvb" data-view="places" onclick="setMapView('places')" data-tip="אתרים לפי סוג, עם סינון" aria-label="תצוגה לפי אתרים">לפי אתרים</button>
+    <span class="mvb-controls">
+      <select id="mapDaySel" onchange="renderMapLayer()" data-tip="בחירת יום להצגה" style="display:none"></select>
+      <button class="mvb-reset" onclick="resetMapFilters()" data-tip="איפוס סינונים וזום">איפוס</button>
+    </span>
   </div>
+  <div id="mapPlaceFilters" class="map-place-filters" style="display:none"></div>
   <div id="map"></div>
+  <div class="map-legend" id="mapLegendBox"></div>
 </div>
 
 <div class="foot">נשמר אוטומטית ל-JSON · גיבוי עם כפתור שמור</div>
@@ -1192,35 +1216,165 @@ function editCell(el) {
 // ══════════════════════════════════
 // MAP (Leaflet)
 // ══════════════════════════════════
+// ── דף מפה: 4 תצוגות על אותה מפה ──
+let mapView = localStorage.getItem('mapView') || 'days';
+let mapLayer = null;              // שכבת המידע הנוכחית (LayerGroup)
+let mapPlaceTypes = new Set();    // סינון סוגי אתרים בתצוגת אתרים
+const MODE_COLOR_M = {train:'#1d4ed8', metro:'#2563eb', shinkansen:'#1e3a8a', walk:'#15803d', bus:'#b45309', car:'#6b7280', flight:'#b91c1c', taxi:'#7c3aed', shuttle:'#0891b2'};
+const MODE_HE_M = {walk:'הליכה', metro:'מטרו', train:'רכבת', bus:'אוטובוס', car:'רכב', taxi:'מונית', shuttle:'שאטל', flight:'טיסה', shinkansen:'שינקנסן'};
+const bilingual = (he, en) => `<b style="font-size:13px">${he||en||''}</b>${en&&en!==he?`<br><span style="font-size:11px;color:#666;direction:ltr">${en}</span>`:''}`;
+
 function initMap() {
-  if (mapObj) return;
+  if (mapObj) { setTimeout(()=>{mapObj.invalidateSize(); renderMapLayer();},80); return; }
   setTimeout(() => {
     mapObj = L.map('map').setView([37, 138], 5);
-    // שכבת CARTO Voyager — שמות מקומות בכתב לטיני/אנגלי (לא יפנית)
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      attribution: '© OpenStreetMap © CARTO',
-      subdomains: 'abcd',
-      maxZoom: 20
+      attribution: '© OpenStreetMap © CARTO', subdomains: 'abcd', maxZoom: 20
     }).addTo(mapObj);
-
-    // צבעים מתוך מערכת העיצוב: ok=מוזמן, warn=טרם, region-3=אתר
-    const C_OK='#15803d', C_WARN='#b45309', C_PLACE='#3b82f6';
-    // פופאפ דו-לשוני אחיד: עברית מודגש + אנגלית מתחת (סעיף 2.5)
-    const bilingual = (he, en) => `<b style="font-size:13px">${he||en||''}</b>${en&&en!==he?`<br><span style="font-size:11px;color:#666;direction:ltr">${en}</span>`:''}`;
-    DATA.hotels.forEach(h => {
-      if (!h.lat || !h.lng) return;
-      L.circleMarker([h.lat, h.lng], {radius:8, fillColor: h.booked?C_OK:C_WARN, color:'#fff', weight:2, fillOpacity:.9})
-        .addTo(mapObj)
-        .bindPopup(`${bilingual(h.he, h.name)}<br><span style="font-size:11px">${h.city||''} · ${h.checkin} → ${h.checkout}</span>`);
-    });
-
-    // אתרים — ריבוע (צורה שונה) כדי שההבחנה לא תהיה תלויה בצבע בלבד
-    DATA.places.forEach(p => {
-      if (!p.lat || !p.lng) return;
-      const s = 9, ic = L.divIcon({className:'', html:`<div style="width:${s}px;height:${s}px;background:${C_PLACE};border:2px solid #fff;border-radius:2px;box-shadow:0 0 2px rgba(0,0,0,.4)"></div>`, iconSize:[s,s]});
-      L.marker([p.lat, p.lng], {icon:ic}).addTo(mapObj).bindPopup(`${bilingual(p.name, p.nameEn)}<br><span style="font-size:11px">${p.city||''}</span>`);
-    });
+    // סנכרון כפתור התצוגה השמורה
+    document.querySelectorAll('.mvb').forEach(b=>b.classList.toggle('on', b.dataset.view===mapView));
+    buildDaySelector();
+    renderMapLayer();
   }, 100);
+}
+
+function setMapView(v) {
+  mapView = v;
+  localStorage.setItem('mapView', v);
+  document.querySelectorAll('.mvb').forEach(b=>b.classList.toggle('on', b.dataset.view===v));
+  document.getElementById('mapDaySel').style.display = v==='days' ? '' : 'none';
+  document.getElementById('mapPlaceFilters').style.display = v==='places' ? '' : 'none';
+  if (v==='places') buildPlaceFilters();
+  renderMapLayer();
+}
+
+function resetMapFilters() {
+  mapPlaceTypes.clear();
+  document.getElementById('mapDaySel').value = 'all';
+  if (mapView==='places') buildPlaceFilters();
+  renderMapLayer();
+  const b = mapDaysBounds(); if (b) mapObj.fitBounds(b.pad(0.1));
+}
+
+// בוחר יום (תצוגת ימים)
+function buildDaySelector() {
+  const sel = document.getElementById('mapDaySel');
+  const opts = ['<option value="all">כל הימים</option>'];
+  DATA.days.filter(d=>hasGeo(d)).forEach(d=>opts.push(`<option value="${d.id}">יום ${d.tripDay} — ${d.day}/${d.month} ${dayCity(d)}</option>`));
+  sel.innerHTML = opts.join('');
+  sel.style.display = mapView==='days' ? '' : 'none';
+}
+function hasGeo(d){ return (d.transport?.segments||[]).length>0; }
+
+// סינון סוגי אתרים
+function buildPlaceFilters() {
+  const types = [...new Set(DATA.places.map(p=>p.type).filter(Boolean))];
+  const el = document.getElementById('mapPlaceFilters');
+  el.innerHTML = types.map(t=>`<button class="mpf${mapPlaceTypes.has(t)?' on':''}" onclick="togglePlaceType('${t}')">${t}</button>`).join('');
+}
+function togglePlaceType(t){ mapPlaceTypes.has(t)?mapPlaceTypes.delete(t):mapPlaceTypes.add(t); buildPlaceFilters(); renderMapLayer(); }
+
+function mapDaysBounds(){
+  const pts=[];
+  DATA.hotels.forEach(h=>h.lat&&pts.push([h.lat,h.lng]));
+  DATA.places.forEach(p=>p.lat&&pts.push([p.lat,p.lng]));
+  return pts.length?L.latLngBounds(pts):null;
+}
+
+// ציור השכבה לפי התצוגה הפעילה
+function renderMapLayer() {
+  if (!mapObj) return;
+  if (mapLayer) mapObj.removeLayer(mapLayer);
+  mapLayer = L.layerGroup().addTo(mapObj);
+  const legend = [];
+
+  if (mapView==='days') renderMapDays(legend);
+  else if (mapView==='nights') renderMapNights(legend);
+  else if (mapView==='transport') renderMapTransport(legend);
+  else if (mapView==='places') renderMapPlaces(legend);
+
+  // מקרא דינמי — רק קטגוריות פעילות (סעיף 9.5)
+  document.getElementById('mapLegendBox').innerHTML = legend.map(l=>
+    `<span><i class="${l.shape||'circle'}" style="background:${l.color}"></i>${l.label}</span>`).join('');
+}
+
+function numMarker(n, color, latlng, popup, aria) {
+  const html = `<div style="width:24px;height:24px;border-radius:50%;background:${color};color:#fff;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font:900 12px 'Noto Sans Hebrew',sans-serif" role="button" aria-label="${aria||''}" tabindex="0">${n}</div>`;
+  return L.marker(latlng, {icon:L.divIcon({className:'',html,iconSize:[24,24],iconAnchor:[12,12]}), keyboard:true}).bindPopup(popup);
+}
+
+// תצוגה 1: לפי יום — תחנות ממוספרות + קווי מסלול
+function renderMapDays(legend) {
+  const sel = document.getElementById('mapDaySel').value || 'all';
+  const days = sel==='all' ? DATA.days.filter(hasGeo) : DATA.days.filter(d=>String(d.id)===sel);
+  const allPts=[];
+  days.forEach(d=>{
+    (d.transport?.segments||[]).forEach((seg,i)=>{
+      const color = MODE_COLOR_M[seg.mode]||'#1d4ed8';
+      L.polyline([[seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]],{color,weight:3,opacity:.6,dashArray:seg.mode==='walk'?'4,6':null}).addTo(mapLayer);
+      allPts.push([seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]);
+      // תחנה ממוספרת (רק היעד, למעט הראשון)
+      if(i===0){
+        numMarker('התחלה'.slice(0,1), '#1a1a1a', [seg.from.lat,seg.from.lng],
+          `${bilingual(seg.from.name,seg.from.nameEn)}<br><span style="font-size:11px">יום ${d.tripDay} · ${d.day}/${d.month}</span>`, seg.from.name).addTo(mapLayer);
+      }
+      const isLast = i===d.transport.segments.length-1;
+      const popup = `${bilingual(seg.to.name,seg.to.nameEn)}<br><span style="font-size:11px">יום ${d.tripDay} · ${d.day}/${d.month}${seg.arrivalTime?' · '+seg.arrivalTime:''}</span><br><a href="day.html?d=${d.tripDay}" style="font-size:11px;color:#1d4ed8">לדף היום ›</a>`;
+      numMarker(isLast?'ס':String(i+1), '#1d4ed8', [seg.to.lat,seg.to.lng], popup, seg.to.name).addTo(mapLayer);
+    });
+  });
+  if(allPts.length) mapObj.fitBounds(L.latLngBounds(allPts).pad(0.12));
+  legend.push({label:'התחלה/מלון', color:'#1a1a1a'}, {label:'תחנה במסלול', color:'#1d4ed8'});
+}
+
+// תצוגה 2: לפי לילות — מלון לכל לילה
+function renderMapNights(legend) {
+  const pts=[];
+  DATA.hotels.forEach(h=>{
+    if(!h.lat||!h.lng) return;
+    const color = h.booked ? '#15803d' : '#b45309';
+    const nights = h.nights?`${h.nights} לילות`:'';
+    const popup = `${bilingual(h.he,h.name)}<br><span style="font-size:11px">${h.checkin} — ${h.checkout} · ${nights}</span><br>
+      <a href="index.html?tab=hotels" style="font-size:11px;color:#1d4ed8">פרטי מלון ›</a>
+      ${h.pid||h.addr?` · <a href="${mapsLink(h)}" target="_blank" style="font-size:11px;color:#1d4ed8">ניווט</a>`:''}`;
+    L.circleMarker([h.lat,h.lng],{radius:9,fillColor:color,color:'#fff',weight:2,fillOpacity:.85}).addTo(mapLayer)
+      .bindPopup(popup); pts.push([h.lat,h.lng]);
+  });
+  if(pts.length) mapObj.fitBounds(L.latLngBounds(pts).pad(0.12));
+  legend.push({label:'מלון מוזמן', color:'#15803d'}, {label:'טרם הוזמן', color:'#b45309'});
+}
+
+// תצוגה 3: לפי תחבורה — מקטעים צבועים לפי mode
+function renderMapTransport(legend) {
+  const usedModes=new Set(); const pts=[];
+  DATA.days.filter(hasGeo).forEach(d=>{
+    d.transport.segments.forEach(seg=>{
+      const color=MODE_COLOR_M[seg.mode]||'#888'; usedModes.add(seg.mode);
+      const popup=`<b>${MODE_HE_M[seg.mode]||seg.mode}</b>${seg.totalMinutes?` · ${seg.totalMinutes} דק׳`:''}${seg.distanceKm?` · ${seg.distanceKm} ק״מ`:''}<br>${seg.from.name} → ${seg.to.name}<br><a href="${seg.mapsUrl}" target="_blank" style="font-size:11px;color:#1d4ed8">ניווט ›</a>`;
+      L.polyline([[seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]],{color,weight:4,opacity:.7,dashArray:seg.mode==='walk'?'4,6':null}).addTo(mapLayer).bindPopup(popup);
+      pts.push([seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]);
+    });
+  });
+  if(pts.length) mapObj.fitBounds(L.latLngBounds(pts).pad(0.12));
+  [...usedModes].forEach(m=>legend.push({label:MODE_HE_M[m]||m, color:MODE_COLOR_M[m]||'#888', shape:'line'}));
+}
+
+// תצוגה 4: לפי אתרים — סימן לכל אתר, סינון לפי סוג
+function renderMapPlaces(legend) {
+  const active = mapPlaceTypes.size ? DATA.places.filter(p=>mapPlaceTypes.has(p.type)) : DATA.places;
+  const pts=[]; const typesShown=new Set();
+  active.forEach(p=>{
+    if(!p.lat||!p.lng) return;
+    typesShown.add(p.type);
+    const day = DATA.days.find(d=>d.id===p.dayId);
+    const thumb = p.image?`<img src="${p.image}" style="width:100%;max-width:180px;border-radius:6px;margin-bottom:4px" alt="${p.name}">`:'';
+    const popup=`${thumb}${bilingual(p.name,p.nameEn)}<br><span style="font-size:11px">${p.type||''}${p.dayId?` · יום ${p.dayId}`:''}${p.timeOfDay?` · ${p.timeOfDay}`:''}</span><br><a href="index.html?tab=places" style="font-size:11px;color:#1d4ed8">מידע מלא ›</a>`;
+    const s=11, ic=L.divIcon({className:'',html:`<div style="width:${s}px;height:${s}px;background:#3b82f6;border:2px solid #fff;border-radius:2px;box-shadow:0 0 3px rgba(0,0,0,.4);opacity:.85" role="button" aria-label="${p.name} — ${p.type||'אתר'}" tabindex="0"></div>`,iconSize:[s,s]});
+    L.marker([p.lat,p.lng],{icon:ic,keyboard:true}).addTo(mapLayer).bindPopup(popup);
+    pts.push([p.lat,p.lng]);
+  });
+  if(pts.length) mapObj.fitBounds(L.latLngBounds(pts).pad(0.15));
+  legend.push({label:`אתרים${mapPlaceTypes.size?' (מסונן)':''}`, color:'#3b82f6', shape:'square'});
 }
 
 // ══════════════════════════════════
