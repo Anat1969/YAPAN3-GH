@@ -39,6 +39,17 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 .ic{width:16px;height:16px;flex:none;stroke:var(--icon);stroke-width:1.75;fill:none;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle}
 .ic-lg{width:22px;height:22px}
 
+/* Tooltip אחיד — כל אלמנט עם data-tip. מסביר את יעד הפעולה, לא רק את השם. */
+[data-tip]{position:relative}
+[data-tip]:hover::after,[data-tip]:focus-visible::after{
+  content:attr(data-tip);position:absolute;bottom:calc(100% + 7px);right:50%;transform:translateX(50%);
+  background:#1c1c1a;color:#f5f4f0;font:600 11px/1.4 'Noto Sans Hebrew',sans-serif;white-space:nowrap;
+  padding:5px 9px;border-radius:6px;box-shadow:0 4px 14px rgba(0,0,0,.28);z-index:200;pointer-events:none;
+  max-width:240px;white-space:normal;width:max-content;text-align:center}
+[data-tip]:hover::before,[data-tip]:focus-visible::before{
+  content:'';position:absolute;bottom:calc(100% + 2px);right:50%;transform:translateX(50%);
+  border:5px solid transparent;border-top-color:#1c1c1a;z-index:200;pointer-events:none}
+
 /* NAV — סרגל ניווט ראשי קבוע בראש המסך */
 .nav{background:#1a1a1a;padding:8px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:0;z-index:50;box-shadow:0 1px 0 rgba(255,255,255,.06)}
 .nav h1{color:#e8e6e1;font-size:16px;font-weight:900;order:1}
@@ -160,6 +171,15 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 
 /* רשימת נושאים — כל שורה קישור לדף שלה */
 .sum-list-title{margin:22px 0 8px;font-size:13px;font-weight:800;color:var(--ink-2)}
+/* בר תצוגה + מתג כרטיסים/רשימה (אחיד בכל דף כרטיסים) */
+.view-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.view-toggle{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;flex:none}
+.vt{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border:none;background:var(--surface);color:var(--ink-3);font:700 12px/1 'Noto Sans Hebrew',sans-serif;cursor:pointer;transition:.12s}
+.vt+.vt{border-right:1px solid var(--border)}
+.vt .ic{width:14px;height:14px;stroke:currentColor}
+.vt:hover{background:var(--bg);color:var(--ink-2)}
+.vt.on{background:var(--brand);color:var(--brand-ink)}
+.vt:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
 .sum-list{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
 .sum-row{display:flex;align-items:center;gap:12px;padding:11px 14px;text-decoration:none;color:inherit;border-bottom:1px solid var(--border);transition:.12s}
 .sum-row:last-child{border-bottom:none}
@@ -203,6 +223,16 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .tr-note li{margin-bottom:3px}
 .tr-alert{margin-top:9px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:4px}
 @media(max-width:560px){.tr-cards{grid-template-columns:1fr}.tr-grid{grid-template-columns:1fr}}
+/* תצוגת רשימה לתחבורה — היררכיה קבועה */
+.tr-list{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.tr-row{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--border);font-size:12px}
+.tr-row:last-child{border-bottom:none}
+.tr-row .trr-ic{flex:none;display:inline-flex}.tr-row .trr-ic .ic{stroke:var(--icon)}
+.trr-main{font-weight:800;color:var(--ink);min-width:180px}
+.trr-val{font-weight:900;color:var(--ink);min-width:70px}
+.trr-date{color:var(--ink-3);font-weight:700;min-width:70px}
+.trr-sub{flex:1;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:640px){.trr-sub,.trr-date{display:none}.trr-main{min-width:auto;flex:1}}
 
 /* HELP + SUMMARY */
 .help{max-width:1200px;margin:4px auto 0;padding:0 12px}
@@ -265,21 +295,21 @@ a.ml:hover{text-decoration:underline}
 <nav class="nav">
   <h1>יפן 2026</h1>
   <div class="tabs">
-    <button class="tab on" data-tab="summary">סיכומים</button>
-    <button class="tab" data-tab="days">לוח ימים</button>
-    <button class="tab" data-tab="calendar">לוח שנה</button>
-    <button class="tab" data-tab="hotels">מלונות</button>
-    <button class="tab" data-tab="places">אתרים</button>
-    <button class="tab" data-tab="costs">תקציב</button>
-    <button class="tab" data-tab="transport">תחבורה</button>
-    <button class="tab" data-tab="flights">טיסות</button>
-    <button class="tab" data-tab="map">מפה</button>
+    <button class="tab on" data-tab="summary" data-tip="דף הבית — כל נתוני הטיול במבט אחד" aria-label="מעבר לדף סיכומים">סיכומים</button>
+    <button class="tab" data-tab="days" data-tip="טבלת 31 ימי הטיול — מלון, עיר ותוכנית לכל יום" aria-label="מעבר ללוח הימים">לוח ימים</button>
+    <button class="tab" data-tab="calendar" data-tip="יולי–אוגוסט בתצוגת לוח שנה חודשי" aria-label="מעבר ללוח השנה">לוח שנה</button>
+    <button class="tab" data-tab="hotels" data-tip="11 המלונות — תאריכים, מחירים וקישורי הזמנה" aria-label="מעבר לדף המלונות">מלונות</button>
+    <button class="tab" data-tab="places" data-tip="אתרים ונקודות עניין במסלול" aria-label="מעבר לדף האתרים">אתרים</button>
+    <button class="tab" data-tab="costs" data-tip="מעקב הוצאות ותקציב הטיול" aria-label="מעבר לדף התקציב">תקציב</button>
+    <button class="tab" data-tab="transport" data-tip="טיסות, רכב שכור ושאטלים — כל התחבורה" aria-label="מעבר לדף התחבורה">תחבורה</button>
+    <button class="tab" data-tab="flights" data-tip="טבלת טיסות ותחבורה בין-עירונית" aria-label="מעבר לטבלת הטיסות">טיסות</button>
+    <button class="tab" data-tab="map" data-tip="מפת כל המלונות והאתרים" aria-label="מעבר למפה">מפה</button>
   </div>
   <div class="actions">
-    <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none" aria-label="חזרה לדף הקודם"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor"><path d="M5 12h14M12 5l-7 7 7 7"/></svg><span class="back-lbl">חזרה</span></button>
-    <button class="nav-btn save" onclick="saveAll()">שמור</button>
-    <button class="nav-btn" onclick="exportJSON()">JSON</button>
-    <button class="nav-btn" onclick="copyTable()">אקסל</button>
+    <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none" data-tip="חזרה לדף הקודם שביקרת בו" aria-label="חזרה לדף הקודם"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor"><path d="M5 12h14M12 5l-7 7 7 7"/></svg><span class="back-lbl">חזרה</span></button>
+    <button class="nav-btn save" onclick="saveAll()" data-tip="הורדת כל קובצי הנתונים לגיבוי מקומי" aria-label="שמירת גיבוי">שמור</button>
+    <button class="nav-btn" onclick="exportJSON()" data-tip="ייצוא הנתונים כקובץ JSON" aria-label="ייצוא JSON">JSON</button>
+    <button class="nav-btn" onclick="copyTable()" data-tip="העתקת הטבלה הנוכחית להדבקה באקסל" aria-label="העתקה לאקסל">אקסל</button>
   </div>
 </nav>
 
@@ -350,7 +380,9 @@ const ICON_PATHS = {
   plane:     '<path d="M17.8 19.2 16 11l3.5-3.5a2.1 2.1 0 0 0-3-3L13 8 4.8 6.2a1 1 0 0 0-.9 1.7l5.6 3.3-2.4 2.4-2-.4a.8.8 0 0 0-.7 1.3l1.9 1.9 1.9 1.9a.8.8 0 0 0 1.3-.7l-.4-2 2.4-2.4 3.3 5.6a1 1 0 0 0 1.7-.9z"/>',
   car:       '<path d="M5 13l1.5-4.5A2 2 0 0 1 8.4 7h7.2a2 2 0 0 1 1.9 1.5L19 13m-14 0h14m-14 0v4m14-4v4M5 17h2m10 0h2M7 13.5v.01M17 13.5v.01"/>',
   shuttle:   '<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M3 11h18M7 17v1M17 17v1M7 8h4"/>',
-  'arrow-l': '<path d="M19 12H5M11 6l-6 6 6 6"/>'
+  'arrow-l': '<path d="M19 12H5M11 6l-6 6 6 6"/>',
+  grid:      '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+  list:      '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>'
 };
 function icon(name, cls){
   const p = ICON_PATHS[name] || '';
@@ -366,6 +398,9 @@ let navHistory = [];   // מחסנית ניווט — לחזרה לדף הקוד
 let sortState = {};
 let regionFilter = '';
 let mapObj = null;
+// מצב תצוגה (כרטיסים/רשימה) — נשמר בין דפים (סעיף 3.5)
+let viewMode = localStorage.getItem('viewMode') || 'cards';
+function setView(mode){ viewMode = mode; try{localStorage.setItem('viewMode',mode);}catch(e){} render(); }
 
 // ══════════════════════════════════
 // LOAD DATA
@@ -671,10 +706,16 @@ function renderSummary() {
     </a>`).join('');
 
   document.getElementById('sumWrap').innerHTML =
-    `<div class="sum-intro">כל נתוני הטיול במבט אחד. לחיצה על כרטיסייה או שורה פותחת את הדף המפורט. הנתונים מתעדכנים אוטומטית לפי המסלול.</div>
-     <div class="sum-grid">${html}</div>
-     <div class="sum-list-title">רשימת נושאים</div>
-     <div class="sum-list">${list}</div>`;
+    `<div class="view-bar"><div class="sum-intro">כל נתוני הטיול במבט אחד. לחיצה על כרטיסייה או שורה פותחת את הדף המפורט.</div>${viewToggle()}</div>
+     ${viewMode==='cards' ? `<div class="sum-grid">${html}</div>` : `<div class="sum-list">${list}</div>`}`;
+}
+
+// כפתור מעבר אחיד בין תצוגת כרטיסים לרשימה (סעיף 3.2)
+function viewToggle() {
+  return `<div class="view-toggle" role="group" aria-label="מצב תצוגה">
+    <button class="vt${viewMode==='cards'?' on':''}" onclick="setView('cards')" data-tip="תצוגת כרטיסים" aria-label="תצוגת כרטיסים" aria-pressed="${viewMode==='cards'}">${icon('grid')} כרטיסים</button>
+    <button class="vt${viewMode==='list'?' on':''}" onclick="setView('list')" data-tip="תצוגת רשימה" aria-label="תצוגת רשימה" aria-pressed="${viewMode==='list'}">${icon('list')} רשימה</button>
+  </div>`;
 }
 
 function regionTag(r) {
@@ -682,6 +723,12 @@ function regionTag(r) {
   const he = {kansai:'קנסאי',hokkaido:'הוקאידו',tokyo:'טוקיו',dubai:'דובאי'}[r]||r;
   return `<span class="tg ${cls}">${he}</span>`;
 }
+
+// ── השלמת נתונים ממקור אמת (סעיף 5-6) ──
+// hotels.json הוא מקור האמת למלונות. אם ליום חסר שם/עיר — משלימים לפי hotelId.
+function hotelById(id){ return DATA.hotels.find(h=>h.id===id); }
+function dayHotelName(d){ if(d.hotelName) return d.hotelName; const h=hotelById(d.hotelId); return h?h.name:''; }
+function dayCity(d){ if(d.city) return d.city; const h=hotelById(d.hotelId); return h?h.city:''; }
 
 function bookingLink(h) {
   // חיפוש בבוקינג לפי שם+עיר, עם תאריכי צ׳ק-אין/אאוט ומספר חדרים
@@ -728,8 +775,8 @@ function renderDays() {
       <td><a href="day.html?d=${d.tripDay}" style="color:#1d4ed8;text-decoration:none">${d.day}/${d.month}</a></td>
       <td>${d.weekday}</td>
       <td>${d.region?regionTag(d.region):''}</td>
-      <td>${d.hotelName||''}</td>
-      <td>${d.city||''}</td>
+      <td>${dayHotelName(d)}</td>
+      <td>${dayCity(d)}</td>
       <td ${ed('days.'+d.id+'.morning.place', d.morning?.place)}>${d.morning?.place||''}</td>
       <td ${ed('days.'+d.id+'.afternoon.place', d.afternoon?.place)}>${d.afternoon?.place||''}</td>
       <td ${ed('days.'+d.id+'.evening.place', d.evening?.place)}>${d.evening?.place||''}</td>
@@ -766,8 +813,8 @@ function renderCalendar() {
         const cls = regCls[d.region] || 'cal-d';
         cells += `<a class="cal-cell ${cls}" href="day.html?d=${d.tripDay}">
           <div class="cal-dnum">${day}<span class="cal-trip">י${d.tripDay}</span></div>
-          <div class="cal-city">${d.city||''}</div>
-          <div class="cal-hotel">${d.hotelName||''}</div>
+          <div class="cal-city">${dayCity(d)}</div>
+          <div class="cal-hotel">${dayHotelName(d)}</div>
         </a>`;
       }
     }
@@ -970,13 +1017,29 @@ function renderTransport() {
   // ── מקרא ──
   const legend = (T.legend||[]).map(l=>`<span><i style="background:${l.color}"></i>${l.he}</span>`).join('');
 
-  document.getElementById('transportWrap').innerHTML = `
-    <div class="tr-intro">כל התחבורה של הטיול במקום אחד — טיסות, רכב שכור, שאטלים. הקטעים היומיים בין אתרים יתווספו בהמשך.</div>
-    ${legend?`<div class="tr-legend">${legend}</div>`:''}
+  // תצוגת רשימה — אותו מקור נתונים (סעיף 3.3), היררכיה קבועה: יעד → נתון → תאריך → משני
+  const rows = [];
+  flights.forEach(f=>rows.push({ic:'plane',main:`${f.from} → ${f.to}`,val:f.flightNo||'טיסה',date:fmtDate(f.date),sub:f.dep&&f.arr?`${f.dep}–${f.arr}${f.toTerminal?' · '+f.toTerminal:''}`:'פרטים להשלמה'}));
+  if (T.carRental&&T.carRental.active){const c=T.carRental;rows.push({ic:'car',main:'רכב שכור — הוקאידו',val:'חד-כיווני',date:`${fmtDate(c.from)}–${fmtDate(c.to)}`,sub:`${c.pickup.location} → ${c.dropoff.location}`});}
+  if (T.shuttle&&T.shuttle.narita){const s=T.shuttle.narita;rows.push({ic:'shuttle',main:s.name,val:'ראשי',date:fmtDate(s.date),sub:s.hotel});}
+  const listHtml = rows.map(r=>`<div class="tr-row">
+    <span class="trr-ic">${icon(r.ic)}</span>
+    <span class="trr-main">${r.main}</span>
+    <span class="trr-val">${r.val}</span>
+    <span class="trr-date">${r.date}</span>
+    <span class="trr-sub">${r.sub}</span>
+  </div>`).join('');
+
+  const cardsView = `
     <h3 class="tr-sec">✈️ טיסות</h3>
     <div class="tr-cards">${flightCards}</div>
     ${carHtml?`<h3 class="tr-sec">🚗 רכב שכור</h3><div class="tr-cards">${carHtml}</div>`:''}
-    ${shuttleHtml?`<h3 class="tr-sec">🚐 שאטל</h3><div class="tr-cards">${shuttleHtml}</div>`:''}
+    ${shuttleHtml?`<h3 class="tr-sec">🚐 שאטל</h3><div class="tr-cards">${shuttleHtml}</div>`:''}`;
+
+  document.getElementById('transportWrap').innerHTML = `
+    <div class="view-bar"><div class="tr-intro">כל התחבורה של הטיול במקום אחד — טיסות, רכב שכור, שאטלים.</div>${viewToggle()}</div>
+    ${legend?`<div class="tr-legend">${legend}</div>`:''}
+    ${viewMode==='cards' ? cardsView : `<div class="tr-list">${listHtml}</div>`}
   `;
 }
 

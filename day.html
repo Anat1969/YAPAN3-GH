@@ -109,6 +109,11 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(50px);background:#292524;color:#fafaf9;padding:7px 16px;border-radius:5px;font-size:12px;opacity:0;transition:.2s;z-index:100;pointer-events:none}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 
+/* Tooltip אחיד — זהה ל-index */
+[data-tip]{position:relative}
+[data-tip]:hover::after,[data-tip]:focus-visible::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 7px);right:50%;transform:translateX(50%);background:#1c1c1a;color:#f5f4f0;font:600 11px/1.4 'Noto Sans Hebrew',sans-serif;padding:5px 9px;border-radius:6px;box-shadow:0 4px 14px rgba(0,0,0,.28);z-index:200;pointer-events:none;width:max-content;max-width:240px;text-align:center}
+[data-tip]:hover::before,[data-tip]:focus-visible::before{content:'';position:absolute;bottom:calc(100% + 2px);right:50%;transform:translateX(50%);border:5px solid transparent;border-top-color:#1c1c1a;z-index:200;pointer-events:none}
+
 /* ── בלוקים עשירים: סיפור, איזון משפחתי, שכבות, טיפים ── */
 .story-card{background:#fff;border:1px solid #e5e3de;border-radius:10px;padding:14px 16px;margin-bottom:12px}
 .story-top{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:6px}
@@ -146,7 +151,7 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
     <a class="tab" href="index.html?tab=map">מפה</a>
   </div>
   <div class="actions">
-    <button class="back-btn" onclick="goBack()" aria-label="חזרה לדף הקודם"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l-7 7 7 7"/></svg>חזרה</button>
+    <button class="back-btn" onclick="goBack()" data-tip="חזרה לדף הקודם שביקרת בו" aria-label="חזרה לדף הקודם"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l-7 7 7 7"/></svg>חזרה</button>
   </div>
 </nav>
 
