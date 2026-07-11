@@ -95,11 +95,199 @@
     "icecream": "גלידת זהב — Hakuichi"
   },
   "transport": {
-    "type": "רכבת Thunderbird",
-    "from": "Kyoto",
-    "to": "Kanazawa",
-    "duration": "2.5 שעות",
-    "cost": "7,260 ין"
+    "segments": [
+      {
+        "id": "d9-s1",
+        "from": {
+          "name": "מלון Hotel Nikko Kanazawa",
+          "nameEn": "Hotel Nikko Kanazawa",
+          "lat": 36.5763,
+          "lng": 136.6494
+        },
+        "to": {
+          "name": "מוזיאון 21 לאמנות עכשווית",
+          "nameEn": "21st Century Museum of Contemporary Art",
+          "lat": 36.5607,
+          "lng": 136.6586
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 5,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 13,
+        "distanceKm": 2.5,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5763,136.6494&destination=36.5607,136.6586&travelmode=transit"
+      },
+      {
+        "id": "d9-s2",
+        "from": {
+          "name": "מוזיאון 21 לאמנות עכשווית",
+          "nameEn": "21st Century Museum of Contemporary Art",
+          "lat": 36.5607,
+          "lng": 136.6586
+        },
+        "to": {
+          "name": "גן קנרוקואן",
+          "nameEn": "Kenrokuen Garden",
+          "lat": 36.5624,
+          "lng": 136.6624
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 7,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 7,
+        "distanceKm": 0.5,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5607,136.6586&destination=36.5624,136.6624&travelmode=walking"
+      },
+      {
+        "id": "d9-s3",
+        "from": {
+          "name": "גן קנרוקואן",
+          "nameEn": "Kenrokuen Garden",
+          "lat": 36.5624,
+          "lng": 136.6624
+        },
+        "to": {
+          "name": "רובע הסמוראי נאגאמאצ׳י",
+          "nameEn": "Nagamachi Samurai District",
+          "lat": 36.5632,
+          "lng": 136.6518
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 16,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 16,
+        "distanceKm": 1.2,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5624,136.6624&destination=36.5632,136.6518&travelmode=walking"
+      },
+      {
+        "id": "d9-s4",
+        "from": {
+          "name": "רובע הסמוראי נאגאמאצ׳י",
+          "nameEn": "Nagamachi Samurai District",
+          "lat": 36.5632,
+          "lng": 136.6518
+        },
+        "to": {
+          "name": "שוק אומיצ׳ו",
+          "nameEn": "Omicho Market",
+          "lat": 36.5721,
+          "lng": 136.6571
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 3,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 11,
+        "distanceKm": 1.4,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5632,136.6518&destination=36.5721,136.6571&travelmode=transit"
+      },
+      {
+        "id": "d9-s5",
+        "from": {
+          "name": "שוק אומיצ׳ו",
+          "nameEn": "Omicho Market",
+          "lat": 36.5721,
+          "lng": 136.6571
+        },
+        "to": {
+          "name": "רובע היגאשי צ׳איה",
+          "nameEn": "Higashi Chaya District",
+          "lat": 36.5737,
+          "lng": 136.6654
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 13,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 13,
+        "distanceKm": 1,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5721,136.6571&destination=36.5737,136.6654&travelmode=walking"
+      },
+      {
+        "id": "d9-s6",
+        "from": {
+          "name": "רובע היגאשי צ׳איה",
+          "nameEn": "Higashi Chaya District",
+          "lat": 36.5737,
+          "lng": 136.6654
+        },
+        "to": {
+          "name": "ערב בקנאזאווה",
+          "nameEn": "Kanazawa evening",
+          "lat": 36.561,
+          "lng": 136.654
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 5,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 13,
+        "distanceKm": 2.3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5737,136.6654&destination=36.561,136.654&travelmode=transit"
+      },
+      {
+        "id": "d9-s7",
+        "from": {
+          "name": "ערב בקנאזאווה",
+          "nameEn": "Kanazawa evening",
+          "lat": 36.561,
+          "lng": 136.654
+        },
+        "to": {
+          "name": "מלון Hotel Nikko Kanazawa",
+          "nameEn": "Hotel Nikko Kanazawa",
+          "lat": 36.5763,
+          "lng": 136.6494
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 5,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 13,
+        "distanceKm": 2.3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.561,136.654&destination=36.5763,136.6494&travelmode=transit"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 50,
+      "totalWalkingMinutes": 36,
+      "totalDistanceKm": 11.2,
+      "modes": [
+        "metro",
+        "walk"
+      ]
+    }
   },
   "notes": "Takkyubin מקיוטו. רכבת Thunderbird/Hokuriku Shinkansen"
 }

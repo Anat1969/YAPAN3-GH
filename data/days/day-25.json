@@ -95,11 +95,200 @@
     "icecream": ""
   },
   "transport": {
-    "type": "מטרו JR",
-    "from": "Tokyo Station",
-    "to": "Shibuya (JR Yamanote)",
-    "duration": "25 דק׳",
-    "cost": "200 ין"
+    "segments": [
+      {
+        "id": "d25-s1",
+        "from": {
+          "name": "מלון karaksa hotel colors Tokyo Yaesu",
+          "nameEn": "karaksa hotel colors Tokyo Yaesu",
+          "lat": 35.6812,
+          "lng": 139.7745
+        },
+        "to": {
+          "name": "צומת שיבויה",
+          "nameEn": "Shibuya Crossing",
+          "lat": 35.6595,
+          "lng": 139.7004
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 12,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 22,
+        "distanceKm": 9.3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=35.6595,139.7004&travelmode=transit"
+      },
+      {
+        "id": "d25-s2",
+        "from": {
+          "name": "צומת שיבויה",
+          "nameEn": "Shibuya Crossing",
+          "lat": 35.6595,
+          "lng": 139.7004
+        },
+        "to": {
+          "name": "הראג׳וקו — טקשיטה",
+          "nameEn": "Takeshita Street",
+          "lat": 35.6702,
+          "lng": 139.7028
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 3,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 11,
+        "distanceKm": 1.6,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6595,139.7004&destination=35.6702,139.7028&travelmode=transit"
+      },
+      {
+        "id": "d25-s3",
+        "from": {
+          "name": "הראג׳וקו — טקשיטה",
+          "nameEn": "Takeshita Street",
+          "lat": 35.6702,
+          "lng": 139.7028
+        },
+        "to": {
+          "name": "מקדש מייג׳י",
+          "nameEn": "Meiji Jingu",
+          "lat": 35.6764,
+          "lng": 139.6993
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 13,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 13,
+        "distanceKm": 1,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6702,139.7028&destination=35.6764,139.6993&travelmode=walking"
+      },
+      {
+        "id": "d25-s4",
+        "from": {
+          "name": "מקדש מייג׳י",
+          "nameEn": "Meiji Jingu",
+          "lat": 35.6764,
+          "lng": 139.6993
+        },
+        "to": {
+          "name": "קאט סטריט",
+          "nameEn": "Cat Street (Ura-Harajuku)",
+          "lat": 35.668,
+          "lng": 139.705
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 3,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 11,
+        "distanceKm": 1.4,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6764,139.6993&destination=35.668,139.705&travelmode=transit"
+      },
+      {
+        "id": "d25-s5",
+        "from": {
+          "name": "קאט סטריט",
+          "nameEn": "Cat Street (Ura-Harajuku)",
+          "lat": 35.668,
+          "lng": 139.705
+        },
+        "to": {
+          "name": "שימוקיטזאווה",
+          "nameEn": "Shimokitazawa",
+          "lat": 35.6613,
+          "lng": 139.668
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 9,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 17,
+        "distanceKm": 4.4,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.668,139.705&destination=35.6613,139.668&travelmode=transit"
+      },
+      {
+        "id": "d25-s6",
+        "from": {
+          "name": "שימוקיטזאווה",
+          "nameEn": "Shimokitazawa",
+          "lat": 35.6613,
+          "lng": 139.668
+        },
+        "to": {
+          "name": "שיבויה ערב",
+          "nameEn": "Shibuya evening",
+          "lat": 35.6595,
+          "lng": 139.7004
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 8,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 16,
+        "distanceKm": 3.8,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6613,139.668&destination=35.6595,139.7004&travelmode=transit"
+      },
+      {
+        "id": "d25-s7",
+        "from": {
+          "name": "שיבויה ערב",
+          "nameEn": "Shibuya evening",
+          "lat": 35.6595,
+          "lng": 139.7004
+        },
+        "to": {
+          "name": "מלון karaksa hotel colors Tokyo Yaesu",
+          "nameEn": "karaksa hotel colors Tokyo Yaesu",
+          "lat": 35.6812,
+          "lng": 139.7745
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 12,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 22,
+        "distanceKm": 9.3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6595,139.7004&destination=35.6812,139.7745&travelmode=transit"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 99,
+      "totalWalkingMinutes": 13,
+      "totalDistanceKm": 30.8,
+      "modes": [
+        "train",
+        "metro",
+        "walk"
+      ]
+    }
   },
   "notes": "היום של לוטם"
 }

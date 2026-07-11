@@ -97,6 +97,34 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .transport{background:#fff;border-radius:6px;border:1px solid #e5e3de;padding:10px 14px;margin-bottom:10px}
 .transport h3{font-size:12px;font-weight:700;color:#666;margin-bottom:6px}
 
+/* ── שכבת תחבורה ── */
+/* צבע לפי mode: כחול=רכבת, ירוק=הליכה, כתום=אוטובוס, אפור=רכב, אדום=טיסה */
+.trans-summary{background:#fff;border:1px solid #e5e3de;border-radius:10px;padding:12px 15px;margin-bottom:12px}
+.trans-summary h3{font-size:13px;font-weight:800;color:#57534e;margin-bottom:8px}
+.trans-stats{display:flex;gap:18px;flex-wrap:wrap;font-size:13px}
+.trans-stats b{font-size:16px;font-weight:900;color:#1a1a1a;display:block}
+.trans-stats span{font-size:11px;color:#8a857e}
+.trans-alerts{margin-top:10px;padding-top:10px;border-top:1px solid #eee}
+.trans-alert{font-size:12px;color:#b45309;background:#fbf1e3;border-radius:6px;padding:6px 9px;margin-bottom:5px;line-height:1.5}
+/* פס תחבורה בין תחנות */
+.seg{display:flex;align-items:center;gap:8px;margin:2px 0 2px 0;padding:4px 0;cursor:pointer}
+.seg-line{width:3px;align-self:stretch;min-height:22px;border-radius:2px;margin-right:14px;flex:none}
+.seg-body{flex:1;font-size:12px;color:#57534e;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.seg-mode{font-weight:800;color:#1a1a1a}
+.seg-nav{font-size:11px;font-weight:700;color:#1d4ed8;text-decoration:none;border:1px solid #e5e3de;border-radius:5px;padding:2px 8px;white-space:nowrap}
+.seg-nav:hover{background:#f5f4f0}
+.seg-detail{display:none;flex-basis:100%;font-size:11px;color:#8a857e;background:#faf9f7;border-radius:6px;padding:6px 9px;margin-top:4px;line-height:1.6}
+.seg.open .seg-detail{display:block}
+.m-train{background:#1d4ed8}.m-metro{background:#2563eb}.m-shinkansen{background:#1e3a8a}
+.m-walk{background:#15803d}.m-bus{background:#b45309}.m-car{background:#6b7280}
+.m-flight{background:#b91c1c}.m-taxi{background:#7c3aed}.m-shuttle{background:#0891b2}
+.seg-mode.t-train,.seg-mode.t-metro,.seg-mode.t-shinkansen{color:#1d4ed8}
+.seg-mode.t-walk{color:#15803d}.seg-mode.t-bus{color:#b45309}.seg-mode.t-car{color:#57534e}
+.route-seq{margin-top:10px;padding-top:10px;border-top:1px solid #eee}
+.route-stop{display:flex;align-items:baseline;gap:8px;font-size:13px;font-weight:700;color:#1a1a1a;padding:2px 0}
+.route-stop .rs-num{font-size:10px;font-weight:800;color:#fff;background:#1a1a1a;border-radius:999px;padding:1px 7px;min-width:20px;text-align:center;flex:none}
+.route-stop .rs-en{font-size:11px;font-weight:400;color:#8a857e;direction:ltr}
+
 /* NOTES */
 .day-notes{width:100%;min-height:60px;border:1px solid #e5e3de;border-radius:6px;padding:10px 14px;font:13px/1.5 inherit;resize:vertical;transition:.12s}
 .day-notes:focus{outline:2px solid #b8860b;border-color:#b8860b}
@@ -177,6 +205,9 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
   <!-- STORY / EXPERIENCE (שדות עשירים — מוצג רק כשיש) -->
   <div id="dayStory"></div>
 
+  <!-- TRANSPORT SUMMARY -->
+  <div id="transSummary"></div>
+
   <!-- ROUTE MAP -->
   <div class="map-section">
     <h2>מסלול היום</h2>
@@ -246,6 +277,7 @@ const MO=['','ינואר','פברואר','מרץ','אפריל','מאי','יונ�
 
 let dayData = null;
 let hotels = [];
+let bookingsData = null;
 let dayId = 1;
 
 // כפתור חזרה — לפי היסטוריית הדפדפן; אם אין, חזרה ללוח הראשי
@@ -280,10 +312,14 @@ async function load() {
         const empty = v==null || v==='' || (typeof v==='object' && !Array.isArray(v) && Object.keys(v).length===0);
         if (!empty) merged[k] = v;
       }
-      // spots — תמיד מהקובץ הייעודי אם יש בו תוכן
+      // spots + transport — תמיד מהקובץ הייעודי (המקור המעודכן שלהם)
       if (dayFile.spots) merged.spots = dayFile.spots;
+      if (dayFile.transport && dayFile.transport.segments) merged.transport = dayFile.transport;
       dayData = merged;
     } catch(e) {}
+
+    // התראות מ-bookings (מקור אמת יחיד)
+    try { bookingsData = await fetch('data/bookings.json').then(r=>r.json()); } catch(e) {}
 
     renderDay();
   } catch(e) {
@@ -319,6 +355,9 @@ function renderDay() {
 
   // Story / rich fields
   renderStory(d);
+
+  // Transport summary + alerts
+  renderTransportSummary(d);
 
   // Spots
   ['morning','afternoon','evening'].forEach(tod => {
@@ -393,6 +432,65 @@ function renderStory(d) {
   }
 
   el.innerHTML = html;
+}
+
+// ══════════════════════════════════
+// TRANSPORT — סיכום, פסים, מפה
+// ══════════════════════════════════
+const MODE_HE = {walk:'הליכה', metro:'מטרו', train:'רכבת', bus:'אוטובוס', car:'רכב', taxi:'מונית', shuttle:'שאטל', flight:'טיסה', shinkansen:'שינקנסן'};
+const MODE_COLOR = {train:'#1d4ed8', metro:'#2563eb', shinkansen:'#1e3a8a', walk:'#15803d', bus:'#b45309', car:'#6b7280', flight:'#b91c1c', taxi:'#7c3aed', shuttle:'#0891b2'};
+
+function renderTransportSummary(d) {
+  const el = document.getElementById('transSummary');
+  const t = d.transport;
+  if (!t || !t.segments || !t.segments.length) { el.innerHTML=''; return; }
+  const s = t.summary || {};
+
+  // התראות מ-bookings ליום הנוכחי (מקור אמת יחיד)
+  let alertsHtml = '';
+  const alerts = bookingsData?.summary?.alerts || [];
+  const dayAlerts = alerts.filter(a => a.includes(`${d.day}/${d.month}`) || a.includes(`${d.day}/8`) || a.includes(`${d.day}/7`));
+  if (dayAlerts.length) {
+    alertsHtml = `<div class="trans-alerts">${dayAlerts.map(a=>`<div class="trans-alert">${a}</div>`).join('')}</div>`;
+  }
+
+  // רצף מלא: מלון → אתרים → מלון, עם תחנות ופסי תחבורה ביניהן
+  let routeHtml = '';
+  t.segments.forEach((seg, i) => {
+    if (i === 0) routeHtml += `<div class="route-stop"><span class="rs-num">התחלה</span> ${seg.from.name}${seg.from.nameEn?` <span class="rs-en">${seg.from.nameEn}</span>`:''}</div>`;
+    routeHtml += segBar(seg);
+    const last = i === t.segments.length-1;
+    routeHtml += `<div class="route-stop"><span class="rs-num">${last?'סיום':i+1}</span> ${seg.to.name}${seg.to.nameEn?` <span class="rs-en">${seg.to.nameEn}</span>`:''}</div>`;
+  });
+
+  el.innerHTML = `<div class="trans-summary">
+    <h3>תחבורה היום</h3>
+    <div class="trans-stats">
+      <div><b>${s.totalTransitMinutes||0} דק׳</b><span>נסיעה</span></div>
+      <div><b>${s.totalWalkingMinutes||0} דק׳</b><span>הליכה</span></div>
+      <div><b>${s.totalDistanceKm||0} ק״מ</b><span>מרחק כולל</span></div>
+      <div><b>${(s.modes||[]).map(m=>MODE_HE[m]||m).join(' · ')}</b><span>אמצעים</span></div>
+    </div>
+    ${alertsHtml}
+    <div class="route-seq">${routeHtml}</div>
+  </div>`;
+}
+
+// פס תחבורה בין שני ספוטים ברשימה (מקבל אינדקס segment)
+function segBar(seg) {
+  if (!seg) return '';
+  const c = 'm-'+seg.mode;
+  const km = seg.distanceKm ? ` · ${seg.distanceKm} ק״מ` : '';
+  const nav = `<a class="seg-nav" href="${seg.mapsUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">נווט</a>`;
+  const detail = `<div class="seg-detail">${seg.from.name} → ${seg.to.name}${seg.details?.walkToStation?` · ${seg.details.walkToStation} דק׳ הליכה לתחנה`:''}${seg.details?.rideTime?` · ${seg.details.rideTime} דק׳ נסיעה`:''}</div>`;
+  return `<div class="seg" onclick="this.classList.toggle('open')">
+    <span class="seg-line ${c}"></span>
+    <div class="seg-body">
+      <span class="seg-mode t-${seg.mode}">${seg.totalMinutes} דק׳ ${MODE_HE[seg.mode]||seg.mode}</span>${km}
+      ${nav}
+      ${detail}
+    </div>
+  </div>`;
 }
 
 // ══════════════════════════════════
@@ -500,8 +598,17 @@ function buildMap() {
   const geo = spots.filter(s => s.lat && s.lng);
   rtMarkers = [];
 
-  // קו מסלול רציף לפי סדר הביקור
-  if (geo.length > 1) {
+  // קווי מסלול צבועים לפי mode (מתוך שכבת התחבורה)
+  const segs = dayData.transport?.segments;
+  if (segs && segs.length) {
+    segs.forEach(seg => {
+      const color = MODE_COLOR[seg.mode] || '#1d4ed8';
+      const dash = seg.mode==='walk' ? '4,6' : null;
+      L.polyline([[seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]], {color, weight:3.5, opacity:.7, dashArray:dash})
+        .addTo(rtMap)
+        .bindPopup(`<b>${seg.totalMinutes} דק׳ ${MODE_HE[seg.mode]||seg.mode}</b><br>${seg.from.name} → ${seg.to.name}`);
+    });
+  } else if (geo.length > 1) {
     L.polyline(geo.map(s => [s.lat, s.lng]), {color:'#1d4ed8', weight:3, opacity:.65, dashArray:'6,6'}).addTo(rtMap);
   }
 

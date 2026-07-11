@@ -82,11 +82,174 @@
     "icecream": ""
   },
   "transport": {
-    "type": "מטרו",
-    "from": "Nihonbashi",
-    "to": "Asakusa (Ginza Line)",
-    "duration": "15 דק׳",
-    "cost": "180 ין"
+    "segments": [
+      {
+        "id": "d24-s1",
+        "from": {
+          "name": "מלון karaksa hotel colors Tokyo Yaesu",
+          "nameEn": "karaksa hotel colors Tokyo Yaesu",
+          "lat": 35.6812,
+          "lng": 139.7745
+        },
+        "to": {
+          "name": "סנסו-ג׳י",
+          "nameEn": "Senso-ji Temple",
+          "lat": 35.7148,
+          "lng": 139.7967
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 7,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 17,
+        "distanceKm": 5.5,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=35.7148,139.7967&travelmode=transit"
+      },
+      {
+        "id": "d24-s2",
+        "from": {
+          "name": "סנסו-ג׳י",
+          "nameEn": "Senso-ji Temple",
+          "lat": 35.7148,
+          "lng": 139.7967
+        },
+        "to": {
+          "name": "רחוב נאקאמיסה",
+          "nameEn": "Nakamise-dori",
+          "lat": 35.7127,
+          "lng": 139.7966
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 4,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 4,
+        "distanceKm": 0.3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.7148,139.7967&destination=35.7127,139.7966&travelmode=walking"
+      },
+      {
+        "id": "d24-s3",
+        "from": {
+          "name": "רחוב נאקאמיסה",
+          "nameEn": "Nakamise-dori",
+          "lat": 35.7127,
+          "lng": 139.7966
+        },
+        "to": {
+          "name": "טוקיו סקיי-טרי",
+          "nameEn": "Tokyo Skytree",
+          "lat": 35.7101,
+          "lng": 139.8107
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 3,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 11,
+        "distanceKm": 1.7,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.7127,139.7966&destination=35.7101,139.8107&travelmode=transit"
+      },
+      {
+        "id": "d24-s4",
+        "from": {
+          "name": "טוקיו סקיי-טרי",
+          "nameEn": "Tokyo Skytree",
+          "lat": 35.7101,
+          "lng": 139.8107
+        },
+        "to": {
+          "name": "יאנאקה גינזה",
+          "nameEn": "Yanaka Ginza",
+          "lat": 35.7274,
+          "lng": 139.768
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 7,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 17,
+        "distanceKm": 5.6,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.7101,139.8107&destination=35.7274,139.768&travelmode=transit"
+      },
+      {
+        "id": "d24-s5",
+        "from": {
+          "name": "יאנאקה גינזה",
+          "nameEn": "Yanaka Ginza",
+          "lat": 35.7274,
+          "lng": 139.768
+        },
+        "to": {
+          "name": "אסאקוסה ערב",
+          "nameEn": "Asakusa evening",
+          "lat": 35.7148,
+          "lng": 139.7967
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 8,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 16,
+        "distanceKm": 3.8,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.7274,139.768&destination=35.7148,139.7967&travelmode=transit"
+      },
+      {
+        "id": "d24-s6",
+        "from": {
+          "name": "אסאקוסה ערב",
+          "nameEn": "Asakusa evening",
+          "lat": 35.7148,
+          "lng": 139.7967
+        },
+        "to": {
+          "name": "מלון karaksa hotel colors Tokyo Yaesu",
+          "nameEn": "karaksa hotel colors Tokyo Yaesu",
+          "lat": 35.6812,
+          "lng": 139.7745
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 7,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 17,
+        "distanceKm": 5.5,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.7148,139.7967&destination=35.6812,139.7745&travelmode=transit"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 78,
+      "totalWalkingMinutes": 4,
+      "totalDistanceKm": 22.4,
+      "modes": [
+        "train",
+        "walk",
+        "metro"
+      ]
+    }
   },
   "notes": ""
 }

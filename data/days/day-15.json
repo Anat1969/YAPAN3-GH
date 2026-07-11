@@ -55,11 +55,121 @@
     "icecream": ""
   },
   "transport": {
-    "type": "",
-    "from": "",
-    "to": "",
-    "duration": "",
-    "cost": ""
+    "segments": [
+      {
+        "id": "d15-s1",
+        "from": {
+          "name": "מלון Akan Yuku no Sato Tsuruga",
+          "nameEn": "Akan Yuku no Sato Tsuruga",
+          "lat": 43.4347,
+          "lng": 144.0909
+        },
+        "to": {
+          "name": "הליכת הר אואקאן",
+          "nameEn": "Mt. Oakan Hike",
+          "lat": 43.45,
+          "lng": 144.16
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 9,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 9,
+        "distanceKm": 6.7,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4347,144.0909&destination=43.45,144.16&travelmode=driving"
+      },
+      {
+        "id": "d15-s2",
+        "from": {
+          "name": "הליכת הר אואקאן",
+          "nameEn": "Mt. Oakan Hike",
+          "lat": 43.45,
+          "lng": 144.16
+        },
+        "to": {
+          "name": "אונסן + מנוחה",
+          "nameEn": "Onsen & rest",
+          "lat": 43.4347,
+          "lng": 144.0909
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 9,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 9,
+        "distanceKm": 6.7,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.45,144.16&destination=43.4347,144.0909&travelmode=driving"
+      },
+      {
+        "id": "d15-s3",
+        "from": {
+          "name": "אונסן + מנוחה",
+          "nameEn": "Onsen & rest",
+          "lat": 43.4347,
+          "lng": 144.0909
+        },
+        "to": {
+          "name": "שוטטות באקאן",
+          "nameEn": "Akan Onsen town walk",
+          "lat": 43.438,
+          "lng": 144.096
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 10,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 10,
+        "distanceKm": 0.7,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4347,144.0909&destination=43.438,144.096&travelmode=walking"
+      },
+      {
+        "id": "d15-s4",
+        "from": {
+          "name": "שוטטות באקאן",
+          "nameEn": "Akan Onsen town walk",
+          "lat": 43.438,
+          "lng": 144.096
+        },
+        "to": {
+          "name": "מלון Akan Yuku no Sato Tsuruga",
+          "nameEn": "Akan Yuku no Sato Tsuruga",
+          "lat": 43.4347,
+          "lng": 144.0909
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 10,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 10,
+        "distanceKm": 0.7,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.438,144.096&destination=43.4347,144.0909&travelmode=walking"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 18,
+      "totalWalkingMinutes": 20,
+      "totalDistanceKm": 14.8,
+      "modes": [
+        "car",
+        "walk"
+      ]
+    }
   },
   "notes": "פיצול: עילאי להר, השאר אונסן ושוטטות. יום חופשי למעשה"
 }

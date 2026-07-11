@@ -95,11 +95,200 @@
     "icecream": ""
   },
   "transport": {
-    "type": "רכבת + הליכה",
-    "from": "Namba",
-    "to": "Nakanoshima → Ibaraki → Namba",
-    "duration": "",
-    "cost": ""
+    "segments": [
+      {
+        "id": "d2-s1",
+        "from": {
+          "name": "מלון &Here OSAKA NAMBA",
+          "nameEn": "&Here OSAKA NAMBA",
+          "lat": 34.6632,
+          "lng": 135.5045
+        },
+        "to": {
+          "name": "ספריית הילדים של נאקאנושימה",
+          "nameEn": "Nakanoshima Children's Book Forest",
+          "lat": 34.6938,
+          "lng": 135.5044
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 6,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 16,
+        "distanceKm": 4.4,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6632,135.5045&destination=34.6938,135.5044&travelmode=transit"
+      },
+      {
+        "id": "d2-s2",
+        "from": {
+          "name": "ספריית הילדים של נאקאנושימה",
+          "nameEn": "Nakanoshima Children's Book Forest",
+          "lat": 34.6938,
+          "lng": 135.5044
+        },
+        "to": {
+          "name": "הליכה על אי נאקאנושימה",
+          "nameEn": "Nakanoshima Island Walk",
+          "lat": 34.6929,
+          "lng": 135.502
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 4,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 4,
+        "distanceKm": 0.3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6938,135.5044&destination=34.6929,135.502&travelmode=walking"
+      },
+      {
+        "id": "d2-s3",
+        "from": {
+          "name": "הליכה על אי נאקאנושימה",
+          "nameEn": "Nakanoshima Island Walk",
+          "lat": 34.6929,
+          "lng": 135.502
+        },
+        "to": {
+          "name": "כנסיית האור",
+          "nameEn": "Church of the Light",
+          "lat": 34.8106,
+          "lng": 135.5608
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 25,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 35,
+        "distanceKm": 18.4,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6929,135.502&destination=34.8106,135.5608&travelmode=transit"
+      },
+      {
+        "id": "d2-s4",
+        "from": {
+          "name": "כנסיית האור",
+          "nameEn": "Church of the Light",
+          "lat": 34.8106,
+          "lng": 135.5608
+        },
+        "to": {
+          "name": "דן דן טאון",
+          "nameEn": "Den Den Town (Nipponbashi)",
+          "lat": 34.6598,
+          "lng": 135.5058
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 30,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 40,
+        "distanceKm": 22.8,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.8106,135.5608&destination=34.6598,135.5058&travelmode=transit"
+      },
+      {
+        "id": "d2-s5",
+        "from": {
+          "name": "דן דן טאון",
+          "nameEn": "Den Den Town (Nipponbashi)",
+          "lat": 34.6598,
+          "lng": 135.5058
+        },
+        "to": {
+          "name": "שינסקאי",
+          "nameEn": "Shinsekai",
+          "lat": 34.6524,
+          "lng": 135.5061
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 14,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 14,
+        "distanceKm": 1.1,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6598,135.5058&destination=34.6524,135.5061&travelmode=walking"
+      },
+      {
+        "id": "d2-s6",
+        "from": {
+          "name": "שינסקאי",
+          "nameEn": "Shinsekai",
+          "lat": 34.6524,
+          "lng": 135.5061
+        },
+        "to": {
+          "name": "שוק קורומון",
+          "nameEn": "Kuromon Market",
+          "lat": 34.6629,
+          "lng": 135.5068
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 3,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 11,
+        "distanceKm": 1.5,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6524,135.5061&destination=34.6629,135.5068&travelmode=transit"
+      },
+      {
+        "id": "d2-s7",
+        "from": {
+          "name": "שוק קורומון",
+          "nameEn": "Kuromon Market",
+          "lat": 34.6629,
+          "lng": 135.5068
+        },
+        "to": {
+          "name": "מלון &Here OSAKA NAMBA",
+          "nameEn": "&Here OSAKA NAMBA",
+          "lat": 34.6632,
+          "lng": 135.5045
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 4,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 4,
+        "distanceKm": 0.3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6629,135.5068&destination=34.6632,135.5045&travelmode=walking"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 102,
+      "totalWalkingMinutes": 22,
+      "totalDistanceKm": 48.8,
+      "modes": [
+        "train",
+        "walk",
+        "metro"
+      ]
+    }
   },
   "notes": "היום של ענת — אנדו. עילאי ולוטם מצטרפים אחה״צ בדן דן טאון"
 }

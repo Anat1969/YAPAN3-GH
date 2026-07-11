@@ -42,11 +42,89 @@
     "icecream": ""
   },
   "transport": {
-    "type": "אוטובוס + טיסה",
-    "from": "Kanazawa",
-    "to": "Komatsu Airport → Memanbetsu",
-    "duration": "",
-    "cost": ""
+    "segments": [
+      {
+        "id": "d10-s1",
+        "from": {
+          "name": "מלון Hotel Nikko Kanazawa",
+          "nameEn": "Hotel Nikko Kanazawa",
+          "lat": 36.5763,
+          "lng": 136.6494
+        },
+        "to": {
+          "name": "נאגאמאצ׳י בוקר",
+          "nameEn": "Nagamachi morning walk",
+          "lat": 36.5632,
+          "lng": 136.6518
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 4,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 12,
+        "distanceKm": 1.9,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5763,136.6494&destination=36.5632,136.6518&travelmode=transit"
+      },
+      {
+        "id": "d10-s2",
+        "from": {
+          "name": "נאגאמאצ׳י בוקר",
+          "nameEn": "Nagamachi morning walk",
+          "lat": 36.5632,
+          "lng": 136.6518
+        },
+        "to": {
+          "name": "טיסה להוקאידו",
+          "nameEn": "Flight to Memanbetsu",
+          "lat": 36.3936,
+          "lng": 136.4066
+        },
+        "mode": "flight",
+        "details": {
+          "note": "טיסה — פרטים בדף ההזמנות",
+          "transfers": 0
+        },
+        "totalMinutes": null,
+        "distanceKm": 0,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5632,136.6518&destination=36.3936,136.4066&travelmode=transit"
+      },
+      {
+        "id": "d10-s3",
+        "from": {
+          "name": "טיסה להוקאידו",
+          "nameEn": "Flight to Memanbetsu",
+          "lat": 36.3936,
+          "lng": 136.4066
+        },
+        "to": {
+          "name": "מלון Hotel Nikko Kanazawa",
+          "nameEn": "Hotel Nikko Kanazawa",
+          "lat": 36.5763,
+          "lng": 136.6494
+        },
+        "mode": "flight",
+        "details": {
+          "note": "טיסה — פרטים בדף ההזמנות",
+          "transfers": 0
+        },
+        "totalMinutes": null,
+        "distanceKm": 0,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.3936,136.4066&destination=36.5763,136.6494&travelmode=transit"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 12,
+      "totalWalkingMinutes": 0,
+      "totalDistanceKm": 1.9,
+      "modes": [
+        "metro",
+        "flight"
+      ]
+    }
   },
   "notes": "מזוודות ב-Takkyubin ישירות למלון בשירטוקו"
 }

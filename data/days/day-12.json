@@ -69,11 +69,147 @@
     "icecream": ""
   },
   "transport": {
-    "type": "רכב",
-    "from": "Utoro",
-    "to": "Five Lakes → Kamuiwakka → Utoro",
-    "duration": "",
-    "cost": ""
+    "segments": [
+      {
+        "id": "d12-s1",
+        "from": {
+          "name": "מלון The SUNSET Shiretoko",
+          "nameEn": "The SUNSET Shiretoko",
+          "lat": 44.0731,
+          "lng": 145.0007
+        },
+        "to": {
+          "name": "שייט שירטוקו",
+          "nameEn": "Shiretoko Sightseeing Cruise",
+          "lat": 44.0698,
+          "lng": 145.0013
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 6,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 6,
+        "distanceKm": 0.5,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.0731,145.0007&destination=44.0698,145.0013&travelmode=walking"
+      },
+      {
+        "id": "d12-s2",
+        "from": {
+          "name": "שייט שירטוקו",
+          "nameEn": "Shiretoko Sightseeing Cruise",
+          "lat": 44.0698,
+          "lng": 145.0013
+        },
+        "to": {
+          "name": "5 האגמות של שירטוקו",
+          "nameEn": "Shiretoko Five Lakes",
+          "lat": 44.1262,
+          "lng": 145.1
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 15,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 15,
+        "distanceKm": 11.6,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.0698,145.0013&destination=44.1262,145.1&travelmode=driving"
+      },
+      {
+        "id": "d12-s3",
+        "from": {
+          "name": "5 האגמות של שירטוקו",
+          "nameEn": "Shiretoko Five Lakes",
+          "lat": 44.1262,
+          "lng": 145.1
+        },
+        "to": {
+          "name": "מפל קאמואיוואקי",
+          "nameEn": "Kamuiwakka Hot Falls",
+          "lat": 44.1494,
+          "lng": 145.1345
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 6,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 6,
+        "distanceKm": 4.3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.1262,145.1&destination=44.1494,145.1345&travelmode=driving"
+      },
+      {
+        "id": "d12-s4",
+        "from": {
+          "name": "מפל קאמואיוואקי",
+          "nameEn": "Kamuiwakka Hot Falls",
+          "lat": 44.1494,
+          "lng": 145.1345
+        },
+        "to": {
+          "name": "ערב באוטורו",
+          "nameEn": "Utoro evening",
+          "lat": 44.0731,
+          "lng": 145.0007
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 21,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 21,
+        "distanceKm": 15.7,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.1494,145.1345&destination=44.0731,145.0007&travelmode=driving"
+      },
+      {
+        "id": "d12-s5",
+        "from": {
+          "name": "ערב באוטורו",
+          "nameEn": "Utoro evening",
+          "lat": 44.0731,
+          "lng": 145.0007
+        },
+        "to": {
+          "name": "מלון The SUNSET Shiretoko",
+          "nameEn": "The SUNSET Shiretoko",
+          "lat": 44.0731,
+          "lng": 145.0007
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 0,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 0,
+        "distanceKm": 0,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.0731,145.0007&destination=44.0731,145.0007&travelmode=walking"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 42,
+      "totalWalkingMinutes": 6,
+      "totalDistanceKm": 32.1,
+      "modes": [
+        "walk",
+        "car"
+      ]
+    }
   },
   "notes": "להזמין שייט מראש. מפל קאמואיוואקי — לבדוק אם פתוח (עונתי)"
 }

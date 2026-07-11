@@ -23,7 +23,7 @@
         "name": "סדנת קרמיקה",
         "nameEn": "Kyoto Ceramic Workshop",
         "addr": "Various locations, Higashiyama",
-        "lat": 35.0,
+        "lat": 35,
         "lng": 135.78,
         "time": "13:00",
         "duration": "2 שעות",
@@ -69,11 +69,148 @@
     "icecream": "מאצ׳ה פרפה — Saryo Suisen"
   },
   "transport": {
-    "type": "אוטובוס + הליכה",
-    "from": "Kawaramachi",
-    "to": "Daitoku-ji → Higashiyama → Kawaramachi",
-    "duration": "",
-    "cost": ""
+    "segments": [
+      {
+        "id": "d7-s1",
+        "from": {
+          "name": "מלון Mitsui Garden Kyoto Kawaramachi Jokyoji",
+          "nameEn": "Mitsui Garden Kyoto Kawaramachi Jokyoji",
+          "lat": 35.0028,
+          "lng": 135.7671
+        },
+        "to": {
+          "name": "דאיטוקו-ג׳י",
+          "nameEn": "Daitoku-ji Temple",
+          "lat": 35.0437,
+          "lng": 135.7452
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 9,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 19,
+        "distanceKm": 6.5,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.0028,135.7671&destination=35.0437,135.7452&travelmode=transit"
+      },
+      {
+        "id": "d7-s2",
+        "from": {
+          "name": "דאיטוקו-ג׳י",
+          "nameEn": "Daitoku-ji Temple",
+          "lat": 35.0437,
+          "lng": 135.7452
+        },
+        "to": {
+          "name": "סדנת קרמיקה",
+          "nameEn": "Kyoto Ceramic Workshop",
+          "lat": 35,
+          "lng": 135.78
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 10,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 20,
+        "distanceKm": 7.5,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.0437,135.7452&destination=35,135.78&travelmode=transit"
+      },
+      {
+        "id": "d7-s3",
+        "from": {
+          "name": "סדנת קרמיקה",
+          "nameEn": "Kyoto Ceramic Workshop",
+          "lat": 35,
+          "lng": 135.78
+        },
+        "to": {
+          "name": "טראמאצ׳י",
+          "nameEn": "Teramachi Shopping Street",
+          "lat": 35.007,
+          "lng": 135.766
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 4,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 12,
+        "distanceKm": 1.9,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35,135.78&destination=35.007,135.766&travelmode=transit"
+      },
+      {
+        "id": "d7-s4",
+        "from": {
+          "name": "טראמאצ׳י",
+          "nameEn": "Teramachi Shopping Street",
+          "lat": 35.007,
+          "lng": 135.766
+        },
+        "to": {
+          "name": "נישיקי שוק ערב",
+          "nameEn": "Nishiki Market evening",
+          "lat": 35.005,
+          "lng": 135.7649
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 4,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 4,
+        "distanceKm": 0.3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.007,135.766&destination=35.005,135.7649&travelmode=walking"
+      },
+      {
+        "id": "d7-s5",
+        "from": {
+          "name": "נישיקי שוק ערב",
+          "nameEn": "Nishiki Market evening",
+          "lat": 35.005,
+          "lng": 135.7649
+        },
+        "to": {
+          "name": "מלון Mitsui Garden Kyoto Kawaramachi Jokyoji",
+          "nameEn": "Mitsui Garden Kyoto Kawaramachi Jokyoji",
+          "lat": 35.0028,
+          "lng": 135.7671
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 6,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 6,
+        "distanceKm": 0.4,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.005,135.7649&destination=35.0028,135.7671&travelmode=walking"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 51,
+      "totalWalkingMinutes": 10,
+      "totalDistanceKm": 16.6,
+      "modes": [
+        "train",
+        "metro",
+        "walk"
+      ]
+    }
   },
   "notes": "יום איטי — סדנאות דורשות הזמנה מראש"
 }

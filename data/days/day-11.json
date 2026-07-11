@@ -55,11 +55,115 @@
     "icecream": ""
   },
   "transport": {
-    "type": "רכב שכור",
-    "from": "Memanbetsu Airport",
-    "to": "Utoro",
-    "duration": "2 שעות",
-    "cost": ""
+    "segments": [
+      {
+        "id": "d11-s1",
+        "from": {
+          "name": "מלון The SUNSET Shiretoko",
+          "nameEn": "The SUNSET Shiretoko",
+          "lat": 44.0731,
+          "lng": 145.0007
+        },
+        "to": {
+          "name": "נחיתה במאנבצו, איסוף רכב",
+          "nameEn": "Memanbetsu Airport",
+          "lat": 43.8816,
+          "lng": 144.1586
+        },
+        "mode": "flight",
+        "details": {
+          "note": "טיסה — פרטים בדף ההזמנות",
+          "transfers": 0
+        },
+        "totalMinutes": null,
+        "distanceKm": 0,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.0731,145.0007&destination=43.8816,144.1586&travelmode=transit"
+      },
+      {
+        "id": "d11-s2",
+        "from": {
+          "name": "נחיתה במאנבצו, איסוף רכב",
+          "nameEn": "Memanbetsu Airport",
+          "lat": 43.8816,
+          "lng": 144.1586
+        },
+        "to": {
+          "name": "נסיעה לאוטורו",
+          "nameEn": "Drive to Utoro",
+          "lat": 44.0731,
+          "lng": 145.0007
+        },
+        "mode": "flight",
+        "details": {
+          "note": "טיסה — פרטים בדף ההזמנות",
+          "transfers": 0
+        },
+        "totalMinutes": null,
+        "distanceKm": 0,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.8816,144.1586&destination=44.0731,145.0007&travelmode=transit"
+      },
+      {
+        "id": "d11-s3",
+        "from": {
+          "name": "נסיעה לאוטורו",
+          "nameEn": "Drive to Utoro",
+          "lat": 44.0731,
+          "lng": 145.0007
+        },
+        "to": {
+          "name": "צ׳ק-אין + שקיעה",
+          "nameEn": "The SUNSET Shiretoko",
+          "lat": 44.0731,
+          "lng": 145.0007
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 0,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 0,
+        "distanceKm": 0,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.0731,145.0007&destination=44.0731,145.0007&travelmode=walking"
+      },
+      {
+        "id": "d11-s4",
+        "from": {
+          "name": "צ׳ק-אין + שקיעה",
+          "nameEn": "The SUNSET Shiretoko",
+          "lat": 44.0731,
+          "lng": 145.0007
+        },
+        "to": {
+          "name": "מלון The SUNSET Shiretoko",
+          "nameEn": "The SUNSET Shiretoko",
+          "lat": 44.0731,
+          "lng": 145.0007
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 0,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 0,
+        "distanceKm": 0,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.0731,145.0007&destination=44.0731,145.0007&travelmode=walking"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 0,
+      "totalWalkingMinutes": 0,
+      "totalDistanceKm": 0,
+      "modes": [
+        "flight",
+        "walk"
+      ]
+    }
   },
   "notes": "תחילת שליש הטבע. רכב שכור עד 14/8"
 }

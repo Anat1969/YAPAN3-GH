@@ -55,11 +55,120 @@
     "icecream": "גלידת לבנדר — Farm Tomita (חובה)"
   },
   "transport": {
-    "type": "רכב",
-    "from": "Biei",
-    "to": "Furano",
-    "duration": "30 דק׳",
-    "cost": ""
+    "segments": [
+      {
+        "id": "d19-s1",
+        "from": {
+          "name": "מלון Hotel Nord Otaru",
+          "nameEn": "Hotel Nord Otaru",
+          "lat": 43.1994,
+          "lng": 141.0013
+        },
+        "to": {
+          "name": "Farm Tomita",
+          "nameEn": "Farm Tomita",
+          "lat": 43.4182,
+          "lng": 142.428
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 181,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 181,
+        "distanceKm": 135.7,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.1994,141.0013&destination=43.4182,142.428&travelmode=driving"
+      },
+      {
+        "id": "d19-s2",
+        "from": {
+          "name": "Farm Tomita",
+          "nameEn": "Farm Tomita",
+          "lat": 43.4182,
+          "lng": 142.428
+        },
+        "to": {
+          "name": "Ningle Terrace",
+          "nameEn": "Ningle Terrace",
+          "lat": 43.339,
+          "lng": 142.383
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 15,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 15,
+        "distanceKm": 11,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4182,142.428&destination=43.339,142.383&travelmode=driving"
+      },
+      {
+        "id": "d19-s3",
+        "from": {
+          "name": "Ningle Terrace",
+          "nameEn": "Ningle Terrace",
+          "lat": 43.339,
+          "lng": 142.383
+        },
+        "to": {
+          "name": "Furano Cheese Factory",
+          "nameEn": "Furano Cheese Factory",
+          "lat": 43.3602,
+          "lng": 142.3872
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 4,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 4,
+        "distanceKm": 2.7,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.339,142.383&destination=43.3602,142.3872&travelmode=driving"
+      },
+      {
+        "id": "d19-s4",
+        "from": {
+          "name": "Furano Cheese Factory",
+          "nameEn": "Furano Cheese Factory",
+          "lat": 43.3602,
+          "lng": 142.3872
+        },
+        "to": {
+          "name": "מלון Hotel Nord Otaru",
+          "nameEn": "Hotel Nord Otaru",
+          "lat": 43.1994,
+          "lng": 141.0013
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 174,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 174,
+        "distanceKm": 130.7,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.3602,142.3872&destination=43.1994,141.0013&travelmode=driving"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 374,
+      "totalWalkingMinutes": 0,
+      "totalDistanceKm": 280.1,
+      "modes": [
+        "car"
+      ]
+    }
   },
   "notes": "שיא פריחת הלבנדר ביולי-אוגוסט",
   "hotelId": 12,

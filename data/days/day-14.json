@@ -82,11 +82,173 @@
     "icecream": ""
   },
   "transport": {
-    "type": "רכב",
-    "from": "Kussharo",
-    "to": "Akan",
-    "duration": "1 שעה",
-    "cost": ""
+    "segments": [
+      {
+        "id": "d14-s1",
+        "from": {
+          "name": "מלון Akan Yuku no Sato Tsuruga",
+          "nameEn": "Akan Yuku no Sato Tsuruga",
+          "lat": 43.4347,
+          "lng": 144.0909
+        },
+        "to": {
+          "name": "נסיעה לאקאן",
+          "nameEn": "Drive to Akan",
+          "lat": 43.4347,
+          "lng": 144.0909
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 0,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 0,
+        "distanceKm": 0,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4347,144.0909&destination=43.4347,144.0909&travelmode=walking"
+      },
+      {
+        "id": "d14-s2",
+        "from": {
+          "name": "נסיעה לאקאן",
+          "nameEn": "Drive to Akan",
+          "lat": 43.4347,
+          "lng": 144.0909
+        },
+        "to": {
+          "name": "כפר איינו",
+          "nameEn": "Ainu Kotan Village",
+          "lat": 43.438,
+          "lng": 144.096
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 10,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 10,
+        "distanceKm": 0.7,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4347,144.0909&destination=43.438,144.096&travelmode=walking"
+      },
+      {
+        "id": "d14-s3",
+        "from": {
+          "name": "כפר איינו",
+          "nameEn": "Ainu Kotan Village",
+          "lat": 43.438,
+          "lng": 144.096
+        },
+        "to": {
+          "name": "שייט אגם אקאן",
+          "nameEn": "Lake Akan Cruise",
+          "lat": 43.436,
+          "lng": 144.091
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 8,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 8,
+        "distanceKm": 0.6,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.438,144.096&destination=43.436,144.091&travelmode=walking"
+      },
+      {
+        "id": "d14-s4",
+        "from": {
+          "name": "שייט אגם אקאן",
+          "nameEn": "Lake Akan Cruise",
+          "lat": 43.436,
+          "lng": 144.091
+        },
+        "to": {
+          "name": "הליכת בוקאצ׳ו",
+          "nameEn": "Bokakko Trail",
+          "lat": 43.43,
+          "lng": 144.085
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 14,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 14,
+        "distanceKm": 1.1,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.436,144.091&destination=43.43,144.085&travelmode=walking"
+      },
+      {
+        "id": "d14-s5",
+        "from": {
+          "name": "הליכת בוקאצ׳ו",
+          "nameEn": "Bokakko Trail",
+          "lat": 43.43,
+          "lng": 144.085
+        },
+        "to": {
+          "name": "מופע איינו",
+          "nameEn": "Ainu Performance",
+          "lat": 43.438,
+          "lng": 144.096
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 2,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 2,
+        "distanceKm": 1.4,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.43,144.085&destination=43.438,144.096&travelmode=driving"
+      },
+      {
+        "id": "d14-s6",
+        "from": {
+          "name": "מופע איינו",
+          "nameEn": "Ainu Performance",
+          "lat": 43.438,
+          "lng": 144.096
+        },
+        "to": {
+          "name": "מלון Akan Yuku no Sato Tsuruga",
+          "nameEn": "Akan Yuku no Sato Tsuruga",
+          "lat": 43.4347,
+          "lng": 144.0909
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 10,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 10,
+        "distanceKm": 0.7,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.438,144.096&destination=43.4347,144.0909&travelmode=walking"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 2,
+      "totalWalkingMinutes": 42,
+      "totalDistanceKm": 4.5,
+      "modes": [
+        "walk",
+        "car"
+      ]
+    }
   },
   "notes": "צורוגה — ריוקאן מפואר. ארוחת ערב קאיסקי כלולה"
 }

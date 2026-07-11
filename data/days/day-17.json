@@ -82,11 +82,173 @@
     "icecream": "גלידת לבנדר — Biei area"
   },
   "transport": {
-    "type": "רכב",
-    "from": "Sounkyo",
-    "to": "Biei",
-    "duration": "1.5 שעות",
-    "cost": ""
+    "segments": [
+      {
+        "id": "d17-s1",
+        "from": {
+          "name": "מלון Grouse Lodge",
+          "nameEn": "Grouse Lodge",
+          "lat": 43.3432,
+          "lng": 142.3643
+        },
+        "to": {
+          "name": "נסיעה מסואנקיו לביאי",
+          "nameEn": "Drive to Biei",
+          "lat": 43.4935,
+          "lng": 142.6142
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 40,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 40,
+        "distanceKm": 30.1,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.3432,142.3643&destination=43.4935,142.6142&travelmode=driving"
+      },
+      {
+        "id": "d17-s2",
+        "from": {
+          "name": "נסיעה מסואנקיו לביאי",
+          "nameEn": "Drive to Biei",
+          "lat": 43.4935,
+          "lng": 142.6142
+        },
+        "to": {
+          "name": "הבריכה הכחולה",
+          "nameEn": "Shirogane Blue Pond (Aoiike)",
+          "lat": 43.4935,
+          "lng": 142.6142
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 0,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 0,
+        "distanceKm": 0,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4935,142.6142&destination=43.4935,142.6142&travelmode=walking"
+      },
+      {
+        "id": "d17-s3",
+        "from": {
+          "name": "הבריכה הכחולה",
+          "nameEn": "Shirogane Blue Pond (Aoiike)",
+          "lat": 43.4935,
+          "lng": 142.6142
+        },
+        "to": {
+          "name": "מפלי שירוגנה",
+          "nameEn": "Shirahige Falls",
+          "lat": 43.5021,
+          "lng": 142.621
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 2,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 2,
+        "distanceKm": 1.3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4935,142.6142&destination=43.5021,142.621&travelmode=driving"
+      },
+      {
+        "id": "d17-s4",
+        "from": {
+          "name": "מפלי שירוגנה",
+          "nameEn": "Shirahige Falls",
+          "lat": 43.5021,
+          "lng": 142.621
+        },
+        "to": {
+          "name": "גבעות ביאי",
+          "nameEn": "Biei Patchwork Hills",
+          "lat": 43.59,
+          "lng": 142.47
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 24,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 24,
+        "distanceKm": 18,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.5021,142.621&destination=43.59,142.47&travelmode=driving"
+      },
+      {
+        "id": "d17-s5",
+        "from": {
+          "name": "גבעות ביאי",
+          "nameEn": "Biei Patchwork Hills",
+          "lat": 43.59,
+          "lng": 142.47
+        },
+        "to": {
+          "name": "לינה בביאי",
+          "nameEn": "Biei accommodation",
+          "lat": 43.587,
+          "lng": 142.472
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 6,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 6,
+        "distanceKm": 0.5,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.59,142.47&destination=43.587,142.472&travelmode=walking"
+      },
+      {
+        "id": "d17-s6",
+        "from": {
+          "name": "לינה בביאי",
+          "nameEn": "Biei accommodation",
+          "lat": 43.587,
+          "lng": 142.472
+        },
+        "to": {
+          "name": "מלון Grouse Lodge",
+          "nameEn": "Grouse Lodge",
+          "lat": 43.3432,
+          "lng": 142.3643
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 44,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 44,
+        "distanceKm": 32.7,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.587,142.472&destination=43.3432,142.3643&travelmode=driving"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 110,
+      "totalWalkingMinutes": 6,
+      "totalDistanceKm": 82.6,
+      "modes": [
+        "car",
+        "walk"
+      ]
+    }
   },
   "notes": "אופניים להשכרה בביאי — מסלול C (18 ק״מ) מושלם",
   "hotelId": 8,

@@ -42,11 +42,94 @@
     "icecream": ""
   },
   "transport": {
-    "type": "אופניים + רכב",
-    "from": "Biei",
-    "to": "Biei area",
-    "duration": "",
-    "cost": ""
+    "segments": [
+      {
+        "id": "d18-s1",
+        "from": {
+          "name": "מלון Grouse Lodge",
+          "nameEn": "Grouse Lodge",
+          "lat": 43.3432,
+          "lng": 142.3643
+        },
+        "to": {
+          "name": "רכיבת אופניים — מסלול C",
+          "nameEn": "Biei Cycling Route C",
+          "lat": 43.587,
+          "lng": 142.472
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 44,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 44,
+        "distanceKm": 32.7,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.3432,142.3643&destination=43.587,142.472&travelmode=driving"
+      },
+      {
+        "id": "d18-s2",
+        "from": {
+          "name": "רכיבת אופניים — מסלול C",
+          "nameEn": "Biei Cycling Route C",
+          "lat": 43.587,
+          "lng": 142.472
+        },
+        "to": {
+          "name": "Four Seasons Hill",
+          "nameEn": "Shikisai no Oka",
+          "lat": 43.551,
+          "lng": 142.475
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 6,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 6,
+        "distanceKm": 4.6,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.587,142.472&destination=43.551,142.475&travelmode=driving"
+      },
+      {
+        "id": "d18-s3",
+        "from": {
+          "name": "Four Seasons Hill",
+          "nameEn": "Shikisai no Oka",
+          "lat": 43.551,
+          "lng": 142.475
+        },
+        "to": {
+          "name": "מלון Grouse Lodge",
+          "nameEn": "Grouse Lodge",
+          "lat": 43.3432,
+          "lng": 142.3643
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 38,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 38,
+        "distanceKm": 28.5,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.551,142.475&destination=43.3432,142.3643&travelmode=driving"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 88,
+      "totalWalkingMinutes": 0,
+      "totalDistanceKm": 65.8,
+      "modes": [
+        "car"
+      ]
+    }
   },
   "notes": "עילאי — מסלול A (88 ק״מ) אם רוצה אתגר",
   "hotelId": 8,

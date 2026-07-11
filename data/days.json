@@ -33,11 +33,141 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d1-s1",
+          "from": {
+            "name": "מלון &Here OSAKA NAMBA",
+            "nameEn": "&Here OSAKA NAMBA",
+            "lat": 34.6632,
+            "lng": 135.5045
+          },
+          "to": {
+            "name": "הגעה לנמל התעופה קנסאי",
+            "nameEn": "Kansai International Airport (KIX)",
+            "lat": 34.4347,
+            "lng": 135.244
+          },
+          "mode": "flight",
+          "details": {
+            "note": "טיסה — פרטים בדף ההזמנות",
+            "transfers": 0
+          },
+          "totalMinutes": null,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6632,135.5045&destination=34.4347,135.244&travelmode=transit"
+        },
+        {
+          "id": "d1-s2",
+          "from": {
+            "name": "הגעה לנמל התעופה קנסאי",
+            "nameEn": "Kansai International Airport (KIX)",
+            "lat": 34.4347,
+            "lng": 135.244
+          },
+          "to": {
+            "name": "צ׳ק-אין במלון",
+            "nameEn": "&Here OSAKA NAMBA",
+            "lat": 34.6632,
+            "lng": 135.5045
+          },
+          "mode": "flight",
+          "details": {
+            "note": "טיסה — פרטים בדף ההזמנות",
+            "transfers": 0
+          },
+          "totalMinutes": null,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.4347,135.244&destination=34.6632,135.5045&travelmode=transit"
+        },
+        {
+          "id": "d1-s3",
+          "from": {
+            "name": "צ׳ק-אין במלון",
+            "nameEn": "&Here OSAKA NAMBA",
+            "lat": 34.6632,
+            "lng": 135.5045
+          },
+          "to": {
+            "name": "דוטונבורי",
+            "nameEn": "Dotonbori",
+            "lat": 34.6687,
+            "lng": 135.5031
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 11,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 11,
+          "distanceKm": 0.8,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6632,135.5045&destination=34.6687,135.5031&travelmode=walking"
+        },
+        {
+          "id": "d1-s4",
+          "from": {
+            "name": "דוטונבורי",
+            "nameEn": "Dotonbori",
+            "lat": 34.6687,
+            "lng": 135.5031
+          },
+          "to": {
+            "name": "הוזנג׳י יוקוצ׳ו",
+            "nameEn": "Hozenji Yokocho",
+            "lat": 34.6688,
+            "lng": 135.5012
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 3,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 3,
+          "distanceKm": 0.2,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6687,135.5031&destination=34.6688,135.5012&travelmode=walking"
+        },
+        {
+          "id": "d1-s5",
+          "from": {
+            "name": "הוזנג׳י יוקוצ׳ו",
+            "nameEn": "Hozenji Yokocho",
+            "lat": 34.6688,
+            "lng": 135.5012
+          },
+          "to": {
+            "name": "מלון &Here OSAKA NAMBA",
+            "nameEn": "&Here OSAKA NAMBA",
+            "lat": 34.6632,
+            "lng": 135.5045
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 12,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 12,
+          "distanceKm": 0.9,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6688,135.5012&destination=34.6632,135.5045&travelmode=walking"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 0,
+        "totalWalkingMinutes": 26,
+        "totalDistanceKm": 1.9,
+        "modes": [
+          "flight",
+          "walk"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -81,11 +211,200 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d2-s1",
+          "from": {
+            "name": "מלון &Here OSAKA NAMBA",
+            "nameEn": "&Here OSAKA NAMBA",
+            "lat": 34.6632,
+            "lng": 135.5045
+          },
+          "to": {
+            "name": "ספריית הילדים של נאקאנושימה",
+            "nameEn": "Nakanoshima Children's Book Forest",
+            "lat": 34.6938,
+            "lng": 135.5044
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 6,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 16,
+          "distanceKm": 4.4,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6632,135.5045&destination=34.6938,135.5044&travelmode=transit"
+        },
+        {
+          "id": "d2-s2",
+          "from": {
+            "name": "ספריית הילדים של נאקאנושימה",
+            "nameEn": "Nakanoshima Children's Book Forest",
+            "lat": 34.6938,
+            "lng": 135.5044
+          },
+          "to": {
+            "name": "הליכה על אי נאקאנושימה",
+            "nameEn": "Nakanoshima Island Walk",
+            "lat": 34.6929,
+            "lng": 135.502
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 4,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 4,
+          "distanceKm": 0.3,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6938,135.5044&destination=34.6929,135.502&travelmode=walking"
+        },
+        {
+          "id": "d2-s3",
+          "from": {
+            "name": "הליכה על אי נאקאנושימה",
+            "nameEn": "Nakanoshima Island Walk",
+            "lat": 34.6929,
+            "lng": 135.502
+          },
+          "to": {
+            "name": "כנסיית האור",
+            "nameEn": "Church of the Light",
+            "lat": 34.8106,
+            "lng": 135.5608
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 25,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 35,
+          "distanceKm": 18.4,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6929,135.502&destination=34.8106,135.5608&travelmode=transit"
+        },
+        {
+          "id": "d2-s4",
+          "from": {
+            "name": "כנסיית האור",
+            "nameEn": "Church of the Light",
+            "lat": 34.8106,
+            "lng": 135.5608
+          },
+          "to": {
+            "name": "דן דן טאון",
+            "nameEn": "Den Den Town (Nipponbashi)",
+            "lat": 34.6598,
+            "lng": 135.5058
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 30,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 40,
+          "distanceKm": 22.8,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.8106,135.5608&destination=34.6598,135.5058&travelmode=transit"
+        },
+        {
+          "id": "d2-s5",
+          "from": {
+            "name": "דן דן טאון",
+            "nameEn": "Den Den Town (Nipponbashi)",
+            "lat": 34.6598,
+            "lng": 135.5058
+          },
+          "to": {
+            "name": "שינסקאי",
+            "nameEn": "Shinsekai",
+            "lat": 34.6524,
+            "lng": 135.5061
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 14,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 14,
+          "distanceKm": 1.1,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6598,135.5058&destination=34.6524,135.5061&travelmode=walking"
+        },
+        {
+          "id": "d2-s6",
+          "from": {
+            "name": "שינסקאי",
+            "nameEn": "Shinsekai",
+            "lat": 34.6524,
+            "lng": 135.5061
+          },
+          "to": {
+            "name": "שוק קורומון",
+            "nameEn": "Kuromon Market",
+            "lat": 34.6629,
+            "lng": 135.5068
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 3,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 11,
+          "distanceKm": 1.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6524,135.5061&destination=34.6629,135.5068&travelmode=transit"
+        },
+        {
+          "id": "d2-s7",
+          "from": {
+            "name": "שוק קורומון",
+            "nameEn": "Kuromon Market",
+            "lat": 34.6629,
+            "lng": 135.5068
+          },
+          "to": {
+            "name": "מלון &Here OSAKA NAMBA",
+            "nameEn": "&Here OSAKA NAMBA",
+            "lat": 34.6632,
+            "lng": 135.5045
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 4,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 4,
+          "distanceKm": 0.3,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6629,135.5068&destination=34.6632,135.5045&travelmode=walking"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 102,
+        "totalWalkingMinutes": 22,
+        "totalDistanceKm": 48.8,
+        "modes": [
+          "train",
+          "walk",
+          "metro"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -129,11 +448,174 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d3-s1",
+          "from": {
+            "name": "מלון &Here OSAKA NAMBA",
+            "nameEn": "&Here OSAKA NAMBA",
+            "lat": 34.6632,
+            "lng": 135.5045
+          },
+          "to": {
+            "name": "פארק נארה + צבאים",
+            "nameEn": "Nara Park",
+            "lat": 34.6851,
+            "lng": 135.843
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 54,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 64,
+          "distanceKm": 40.4,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6632,135.5045&destination=34.6851,135.843&travelmode=transit"
+        },
+        {
+          "id": "d3-s2",
+          "from": {
+            "name": "פארק נארה + צבאים",
+            "nameEn": "Nara Park",
+            "lat": 34.6851,
+            "lng": 135.843
+          },
+          "to": {
+            "name": "מקדש טודאי-ג׳י",
+            "nameEn": "Todai-ji Temple",
+            "lat": 34.6891,
+            "lng": 135.8399
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 9,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 9,
+          "distanceKm": 0.7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6851,135.843&destination=34.6891,135.8399&travelmode=walking"
+        },
+        {
+          "id": "d3-s3",
+          "from": {
+            "name": "מקדש טודאי-ג׳י",
+            "nameEn": "Todai-ji Temple",
+            "lat": 34.6891,
+            "lng": 135.8399
+          },
+          "to": {
+            "name": "נאראמאצ׳י",
+            "nameEn": "Naramachi",
+            "lat": 34.6785,
+            "lng": 135.833
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 3,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 11,
+          "distanceKm": 1.7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6891,135.8399&destination=34.6785,135.833&travelmode=transit"
+        },
+        {
+          "id": "d3-s4",
+          "from": {
+            "name": "נאראמאצ׳י",
+            "nameEn": "Naramachi",
+            "lat": 34.6785,
+            "lng": 135.833
+          },
+          "to": {
+            "name": "מקדש קאסוגה טאישה",
+            "nameEn": "Kasuga Taisha",
+            "lat": 34.681,
+            "lng": 135.8497
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 4,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 12,
+          "distanceKm": 2,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6785,135.833&destination=34.681,135.8497&travelmode=transit"
+        },
+        {
+          "id": "d3-s5",
+          "from": {
+            "name": "מקדש קאסוגה טאישה",
+            "nameEn": "Kasuga Taisha",
+            "lat": 34.681,
+            "lng": 135.8497
+          },
+          "to": {
+            "name": "חזרה לאוסקה — ערב חופשי",
+            "nameEn": "Free evening Osaka",
+            "lat": 34.6659,
+            "lng": 135.5013
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 55,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 65,
+          "distanceKm": 41.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.681,135.8497&destination=34.6659,135.5013&travelmode=transit"
+        },
+        {
+          "id": "d3-s6",
+          "from": {
+            "name": "חזרה לאוסקה — ערב חופשי",
+            "nameEn": "Free evening Osaka",
+            "lat": 34.6659,
+            "lng": 135.5013
+          },
+          "to": {
+            "name": "מלון &Here OSAKA NAMBA",
+            "nameEn": "&Here OSAKA NAMBA",
+            "lat": 34.6632,
+            "lng": 135.5045
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 7,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 7,
+          "distanceKm": 0.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6659,135.5013&destination=34.6632,135.5045&travelmode=walking"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 152,
+        "totalWalkingMinutes": 16,
+        "totalDistanceKm": 86.8,
+        "modes": [
+          "train",
+          "walk",
+          "metro"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -177,11 +659,174 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d4-s1",
+          "from": {
+            "name": "מלון &Here OSAKA NAMBA",
+            "nameEn": "&Here OSAKA NAMBA",
+            "lat": 34.6632,
+            "lng": 135.5045
+          },
+          "to": {
+            "name": "הרבור קובה",
+            "nameEn": "Kobe Harborland",
+            "lat": 34.6801,
+            "lng": 135.1853
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 51,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 61,
+          "distanceKm": 38,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6632,135.5045&destination=34.6801,135.1853&travelmode=transit"
+        },
+        {
+          "id": "d4-s2",
+          "from": {
+            "name": "הרבור קובה",
+            "nameEn": "Kobe Harborland",
+            "lat": 34.6801,
+            "lng": 135.1853
+          },
+          "to": {
+            "name": "שכונת קיטאנו",
+            "nameEn": "Kitano-cho",
+            "lat": 34.702,
+            "lng": 135.1901
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 6,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 14,
+          "distanceKm": 3.2,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6801,135.1853&destination=34.702,135.1901&travelmode=transit"
+        },
+        {
+          "id": "d4-s3",
+          "from": {
+            "name": "שכונת קיטאנו",
+            "nameEn": "Kitano-cho",
+            "lat": 34.702,
+            "lng": 135.1901
+          },
+          "to": {
+            "name": "מוזיאון רעידת אדמה",
+            "nameEn": "Disaster Reduction Museum",
+            "lat": 34.696,
+            "lng": 135.2062
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 4,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 12,
+          "distanceKm": 2.1,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.702,135.1901&destination=34.696,135.2062&travelmode=transit"
+        },
+        {
+          "id": "d4-s4",
+          "from": {
+            "name": "מוזיאון רעידת אדמה",
+            "nameEn": "Disaster Reduction Museum",
+            "lat": 34.696,
+            "lng": 135.2062
+          },
+          "to": {
+            "name": "בשר קובה — ארוחה",
+            "nameEn": "Kobe Beef Lunch",
+            "lat": 34.695,
+            "lng": 135.195
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 3,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 11,
+          "distanceKm": 1.3,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.696,135.2062&destination=34.695,135.195&travelmode=transit"
+        },
+        {
+          "id": "d4-s5",
+          "from": {
+            "name": "בשר קובה — ארוחה",
+            "nameEn": "Kobe Beef Lunch",
+            "lat": 34.695,
+            "lng": 135.195
+          },
+          "to": {
+            "name": "חזרה לאוסקה",
+            "nameEn": "Return to Osaka",
+            "lat": 34.6659,
+            "lng": 135.5013
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 49,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 59,
+          "distanceKm": 36.6,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.695,135.195&destination=34.6659,135.5013&travelmode=transit"
+        },
+        {
+          "id": "d4-s6",
+          "from": {
+            "name": "חזרה לאוסקה",
+            "nameEn": "Return to Osaka",
+            "lat": 34.6659,
+            "lng": 135.5013
+          },
+          "to": {
+            "name": "מלון &Here OSAKA NAMBA",
+            "nameEn": "&Here OSAKA NAMBA",
+            "lat": 34.6632,
+            "lng": 135.5045
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 7,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 7,
+          "distanceKm": 0.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6659,135.5013&destination=34.6632,135.5045&travelmode=walking"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 157,
+        "totalWalkingMinutes": 7,
+        "totalDistanceKm": 81.7,
+        "modes": [
+          "train",
+          "metro",
+          "walk"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -225,11 +870,147 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d5-s1",
+          "from": {
+            "name": "מלון Mitsui Garden Kyoto Kawaramachi Jokyoji",
+            "nameEn": "Mitsui Garden Kyoto Kawaramachi Jokyoji",
+            "lat": 35.0028,
+            "lng": 135.7671
+          },
+          "to": {
+            "name": "פושימי אינארי",
+            "nameEn": "Fushimi Inari Taisha",
+            "lat": 34.9671,
+            "lng": 135.7727
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 7,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 17,
+          "distanceKm": 5.2,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.0028,135.7671&destination=34.9671,135.7727&travelmode=transit"
+        },
+        {
+          "id": "d5-s2",
+          "from": {
+            "name": "פושימי אינארי",
+            "nameEn": "Fushimi Inari Taisha",
+            "lat": 34.9671,
+            "lng": 135.7727
+          },
+          "to": {
+            "name": "הליכה ניננזאקה — סאננזאקה",
+            "nameEn": "Ninenzaka & Sannenzaka",
+            "lat": 34.9966,
+            "lng": 135.7816
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 6,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 16,
+          "distanceKm": 4.4,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.9671,135.7727&destination=34.9966,135.7816&travelmode=transit"
+        },
+        {
+          "id": "d5-s3",
+          "from": {
+            "name": "הליכה ניננזאקה — סאננזאקה",
+            "nameEn": "Ninenzaka & Sannenzaka",
+            "lat": 34.9966,
+            "lng": 135.7816
+          },
+          "to": {
+            "name": "גיון",
+            "nameEn": "Gion District",
+            "lat": 35.0037,
+            "lng": 135.7756
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 17,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 17,
+          "distanceKm": 1.2,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.9966,135.7816&destination=35.0037,135.7756&travelmode=walking"
+        },
+        {
+          "id": "d5-s4",
+          "from": {
+            "name": "גיון",
+            "nameEn": "Gion District",
+            "lat": 35.0037,
+            "lng": 135.7756
+          },
+          "to": {
+            "name": "פונטוצ׳ו",
+            "nameEn": "Pontocho Alley",
+            "lat": 35.0071,
+            "lng": 135.7708
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 10,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 10,
+          "distanceKm": 0.8,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.0037,135.7756&destination=35.0071,135.7708&travelmode=walking"
+        },
+        {
+          "id": "d5-s5",
+          "from": {
+            "name": "פונטוצ׳ו",
+            "nameEn": "Pontocho Alley",
+            "lat": 35.0071,
+            "lng": 135.7708
+          },
+          "to": {
+            "name": "מלון Mitsui Garden Kyoto Kawaramachi Jokyoji",
+            "nameEn": "Mitsui Garden Kyoto Kawaramachi Jokyoji",
+            "lat": 35.0028,
+            "lng": 135.7671
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 10,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 10,
+          "distanceKm": 0.8,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.0071,135.7708&destination=35.0028,135.7671&travelmode=walking"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 33,
+        "totalWalkingMinutes": 37,
+        "totalDistanceKm": 12.4,
+        "modes": [
+          "train",
+          "walk"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -273,11 +1054,199 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d6-s1",
+          "from": {
+            "name": "מלון Mitsui Garden Kyoto Kawaramachi Jokyoji",
+            "nameEn": "Mitsui Garden Kyoto Kawaramachi Jokyoji",
+            "lat": 35.0028,
+            "lng": 135.7671
+          },
+          "to": {
+            "name": "יער הבמבוק אראשיאמה",
+            "nameEn": "Arashiyama Bamboo Grove",
+            "lat": 35.017,
+            "lng": 135.6713
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 15,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 25,
+          "distanceKm": 11.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.0028,135.7671&destination=35.017,135.6713&travelmode=transit"
+        },
+        {
+          "id": "d6-s2",
+          "from": {
+            "name": "יער הבמבוק אראשיאמה",
+            "nameEn": "Arashiyama Bamboo Grove",
+            "lat": 35.017,
+            "lng": 135.6713
+          },
+          "to": {
+            "name": "מקדש טנריו-ג׳י",
+            "nameEn": "Tenryu-ji Temple",
+            "lat": 35.0155,
+            "lng": 135.6745
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 6,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 6,
+          "distanceKm": 0.4,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.017,135.6713&destination=35.0155,135.6745&travelmode=walking"
+        },
+        {
+          "id": "d6-s3",
+          "from": {
+            "name": "מקדש טנריו-ג׳י",
+            "nameEn": "Tenryu-ji Temple",
+            "lat": 35.0155,
+            "lng": 135.6745
+          },
+          "to": {
+            "name": "גשר טוגצוקיו",
+            "nameEn": "Togetsukyo Bridge",
+            "lat": 35.0104,
+            "lng": 135.678
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 11,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 11,
+          "distanceKm": 0.8,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.0155,135.6745&destination=35.0104,135.678&travelmode=walking"
+        },
+        {
+          "id": "d6-s4",
+          "from": {
+            "name": "גשר טוגצוקיו",
+            "nameEn": "Togetsukyo Bridge",
+            "lat": 35.0104,
+            "lng": 135.678
+          },
+          "to": {
+            "name": "וילה קאצורה",
+            "nameEn": "Katsura Imperial Villa",
+            "lat": 34.9836,
+            "lng": 135.713
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 8,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 18,
+          "distanceKm": 5.7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.0104,135.678&destination=34.9836,135.713&travelmode=transit"
+        },
+        {
+          "id": "d6-s5",
+          "from": {
+            "name": "וילה קאצורה",
+            "nameEn": "Katsura Imperial Villa",
+            "lat": 34.9836,
+            "lng": 135.713
+          },
+          "to": {
+            "name": "נישיקי שוק",
+            "nameEn": "Nishiki Market",
+            "lat": 35.005,
+            "lng": 135.7649
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 9,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 19,
+          "distanceKm": 6.9,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.9836,135.713&destination=35.005,135.7649&travelmode=transit"
+        },
+        {
+          "id": "d6-s6",
+          "from": {
+            "name": "נישיקי שוק",
+            "nameEn": "Nishiki Market",
+            "lat": 35.005,
+            "lng": 135.7649
+          },
+          "to": {
+            "name": "ערב חופשי בקיוטו",
+            "nameEn": "Free evening Kyoto",
+            "lat": 35.004,
+            "lng": 135.769
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 7,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 7,
+          "distanceKm": 0.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.005,135.7649&destination=35.004,135.769&travelmode=walking"
+        },
+        {
+          "id": "d6-s7",
+          "from": {
+            "name": "ערב חופשי בקיוטו",
+            "nameEn": "Free evening Kyoto",
+            "lat": 35.004,
+            "lng": 135.769
+          },
+          "to": {
+            "name": "מלון Mitsui Garden Kyoto Kawaramachi Jokyoji",
+            "nameEn": "Mitsui Garden Kyoto Kawaramachi Jokyoji",
+            "lat": 35.0028,
+            "lng": 135.7671
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 4,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 4,
+          "distanceKm": 0.3,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.004,135.769&destination=35.0028,135.7671&travelmode=walking"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 62,
+        "totalWalkingMinutes": 28,
+        "totalDistanceKm": 26.1,
+        "modes": [
+          "train",
+          "walk"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -321,11 +1290,148 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d7-s1",
+          "from": {
+            "name": "מלון Mitsui Garden Kyoto Kawaramachi Jokyoji",
+            "nameEn": "Mitsui Garden Kyoto Kawaramachi Jokyoji",
+            "lat": 35.0028,
+            "lng": 135.7671
+          },
+          "to": {
+            "name": "דאיטוקו-ג׳י",
+            "nameEn": "Daitoku-ji Temple",
+            "lat": 35.0437,
+            "lng": 135.7452
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 9,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 19,
+          "distanceKm": 6.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.0028,135.7671&destination=35.0437,135.7452&travelmode=transit"
+        },
+        {
+          "id": "d7-s2",
+          "from": {
+            "name": "דאיטוקו-ג׳י",
+            "nameEn": "Daitoku-ji Temple",
+            "lat": 35.0437,
+            "lng": 135.7452
+          },
+          "to": {
+            "name": "סדנת קרמיקה",
+            "nameEn": "Kyoto Ceramic Workshop",
+            "lat": 35,
+            "lng": 135.78
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 10,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 20,
+          "distanceKm": 7.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.0437,135.7452&destination=35,135.78&travelmode=transit"
+        },
+        {
+          "id": "d7-s3",
+          "from": {
+            "name": "סדנת קרמיקה",
+            "nameEn": "Kyoto Ceramic Workshop",
+            "lat": 35,
+            "lng": 135.78
+          },
+          "to": {
+            "name": "טראמאצ׳י",
+            "nameEn": "Teramachi Shopping Street",
+            "lat": 35.007,
+            "lng": 135.766
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 4,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 12,
+          "distanceKm": 1.9,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35,135.78&destination=35.007,135.766&travelmode=transit"
+        },
+        {
+          "id": "d7-s4",
+          "from": {
+            "name": "טראמאצ׳י",
+            "nameEn": "Teramachi Shopping Street",
+            "lat": 35.007,
+            "lng": 135.766
+          },
+          "to": {
+            "name": "נישיקי שוק ערב",
+            "nameEn": "Nishiki Market evening",
+            "lat": 35.005,
+            "lng": 135.7649
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 4,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 4,
+          "distanceKm": 0.3,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.007,135.766&destination=35.005,135.7649&travelmode=walking"
+        },
+        {
+          "id": "d7-s5",
+          "from": {
+            "name": "נישיקי שוק ערב",
+            "nameEn": "Nishiki Market evening",
+            "lat": 35.005,
+            "lng": 135.7649
+          },
+          "to": {
+            "name": "מלון Mitsui Garden Kyoto Kawaramachi Jokyoji",
+            "nameEn": "Mitsui Garden Kyoto Kawaramachi Jokyoji",
+            "lat": 35.0028,
+            "lng": 135.7671
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 6,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 6,
+          "distanceKm": 0.4,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.005,135.7649&destination=35.0028,135.7671&travelmode=walking"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 51,
+        "totalWalkingMinutes": 10,
+        "totalDistanceKm": 16.6,
+        "modes": [
+          "train",
+          "metro",
+          "walk"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -438,11 +1544,199 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d9-s1",
+          "from": {
+            "name": "מלון Hotel Nikko Kanazawa",
+            "nameEn": "Hotel Nikko Kanazawa",
+            "lat": 36.5763,
+            "lng": 136.6494
+          },
+          "to": {
+            "name": "מוזיאון 21 לאמנות עכשווית",
+            "nameEn": "21st Century Museum of Contemporary Art",
+            "lat": 36.5607,
+            "lng": 136.6586
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 5,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 13,
+          "distanceKm": 2.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5763,136.6494&destination=36.5607,136.6586&travelmode=transit"
+        },
+        {
+          "id": "d9-s2",
+          "from": {
+            "name": "מוזיאון 21 לאמנות עכשווית",
+            "nameEn": "21st Century Museum of Contemporary Art",
+            "lat": 36.5607,
+            "lng": 136.6586
+          },
+          "to": {
+            "name": "גן קנרוקואן",
+            "nameEn": "Kenrokuen Garden",
+            "lat": 36.5624,
+            "lng": 136.6624
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 7,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 7,
+          "distanceKm": 0.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5607,136.6586&destination=36.5624,136.6624&travelmode=walking"
+        },
+        {
+          "id": "d9-s3",
+          "from": {
+            "name": "גן קנרוקואן",
+            "nameEn": "Kenrokuen Garden",
+            "lat": 36.5624,
+            "lng": 136.6624
+          },
+          "to": {
+            "name": "רובע הסמוראי נאגאמאצ׳י",
+            "nameEn": "Nagamachi Samurai District",
+            "lat": 36.5632,
+            "lng": 136.6518
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 16,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 16,
+          "distanceKm": 1.2,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5624,136.6624&destination=36.5632,136.6518&travelmode=walking"
+        },
+        {
+          "id": "d9-s4",
+          "from": {
+            "name": "רובע הסמוראי נאגאמאצ׳י",
+            "nameEn": "Nagamachi Samurai District",
+            "lat": 36.5632,
+            "lng": 136.6518
+          },
+          "to": {
+            "name": "שוק אומיצ׳ו",
+            "nameEn": "Omicho Market",
+            "lat": 36.5721,
+            "lng": 136.6571
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 3,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 11,
+          "distanceKm": 1.4,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5632,136.6518&destination=36.5721,136.6571&travelmode=transit"
+        },
+        {
+          "id": "d9-s5",
+          "from": {
+            "name": "שוק אומיצ׳ו",
+            "nameEn": "Omicho Market",
+            "lat": 36.5721,
+            "lng": 136.6571
+          },
+          "to": {
+            "name": "רובע היגאשי צ׳איה",
+            "nameEn": "Higashi Chaya District",
+            "lat": 36.5737,
+            "lng": 136.6654
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 13,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 13,
+          "distanceKm": 1,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5721,136.6571&destination=36.5737,136.6654&travelmode=walking"
+        },
+        {
+          "id": "d9-s6",
+          "from": {
+            "name": "רובע היגאשי צ׳איה",
+            "nameEn": "Higashi Chaya District",
+            "lat": 36.5737,
+            "lng": 136.6654
+          },
+          "to": {
+            "name": "ערב בקנאזאווה",
+            "nameEn": "Kanazawa evening",
+            "lat": 36.561,
+            "lng": 136.654
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 5,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 13,
+          "distanceKm": 2.3,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5737,136.6654&destination=36.561,136.654&travelmode=transit"
+        },
+        {
+          "id": "d9-s7",
+          "from": {
+            "name": "ערב בקנאזאווה",
+            "nameEn": "Kanazawa evening",
+            "lat": 36.561,
+            "lng": 136.654
+          },
+          "to": {
+            "name": "מלון Hotel Nikko Kanazawa",
+            "nameEn": "Hotel Nikko Kanazawa",
+            "lat": 36.5763,
+            "lng": 136.6494
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 5,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 13,
+          "distanceKm": 2.3,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.561,136.654&destination=36.5763,136.6494&travelmode=transit"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 50,
+        "totalWalkingMinutes": 36,
+        "totalDistanceKm": 11.2,
+        "modes": [
+          "metro",
+          "walk"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -486,11 +1780,89 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d10-s1",
+          "from": {
+            "name": "מלון Hotel Nikko Kanazawa",
+            "nameEn": "Hotel Nikko Kanazawa",
+            "lat": 36.5763,
+            "lng": 136.6494
+          },
+          "to": {
+            "name": "נאגאמאצ׳י בוקר",
+            "nameEn": "Nagamachi morning walk",
+            "lat": 36.5632,
+            "lng": 136.6518
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 4,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 12,
+          "distanceKm": 1.9,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5763,136.6494&destination=36.5632,136.6518&travelmode=transit"
+        },
+        {
+          "id": "d10-s2",
+          "from": {
+            "name": "נאגאמאצ׳י בוקר",
+            "nameEn": "Nagamachi morning walk",
+            "lat": 36.5632,
+            "lng": 136.6518
+          },
+          "to": {
+            "name": "טיסה להוקאידו",
+            "nameEn": "Flight to Memanbetsu",
+            "lat": 36.3936,
+            "lng": 136.4066
+          },
+          "mode": "flight",
+          "details": {
+            "note": "טיסה — פרטים בדף ההזמנות",
+            "transfers": 0
+          },
+          "totalMinutes": null,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5632,136.6518&destination=36.3936,136.4066&travelmode=transit"
+        },
+        {
+          "id": "d10-s3",
+          "from": {
+            "name": "טיסה להוקאידו",
+            "nameEn": "Flight to Memanbetsu",
+            "lat": 36.3936,
+            "lng": 136.4066
+          },
+          "to": {
+            "name": "מלון Hotel Nikko Kanazawa",
+            "nameEn": "Hotel Nikko Kanazawa",
+            "lat": 36.5763,
+            "lng": 136.6494
+          },
+          "mode": "flight",
+          "details": {
+            "note": "טיסה — פרטים בדף ההזמנות",
+            "transfers": 0
+          },
+          "totalMinutes": null,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.3936,136.4066&destination=36.5763,136.6494&travelmode=transit"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 12,
+        "totalWalkingMinutes": 0,
+        "totalDistanceKm": 1.9,
+        "modes": [
+          "metro",
+          "flight"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -535,11 +1907,115 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d11-s1",
+          "from": {
+            "name": "מלון The SUNSET Shiretoko",
+            "nameEn": "The SUNSET Shiretoko",
+            "lat": 44.0731,
+            "lng": 145.0007
+          },
+          "to": {
+            "name": "נחיתה במאנבצו, איסוף רכב",
+            "nameEn": "Memanbetsu Airport",
+            "lat": 43.8816,
+            "lng": 144.1586
+          },
+          "mode": "flight",
+          "details": {
+            "note": "טיסה — פרטים בדף ההזמנות",
+            "transfers": 0
+          },
+          "totalMinutes": null,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.0731,145.0007&destination=43.8816,144.1586&travelmode=transit"
+        },
+        {
+          "id": "d11-s2",
+          "from": {
+            "name": "נחיתה במאנבצו, איסוף רכב",
+            "nameEn": "Memanbetsu Airport",
+            "lat": 43.8816,
+            "lng": 144.1586
+          },
+          "to": {
+            "name": "נסיעה לאוטורו",
+            "nameEn": "Drive to Utoro",
+            "lat": 44.0731,
+            "lng": 145.0007
+          },
+          "mode": "flight",
+          "details": {
+            "note": "טיסה — פרטים בדף ההזמנות",
+            "transfers": 0
+          },
+          "totalMinutes": null,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.8816,144.1586&destination=44.0731,145.0007&travelmode=transit"
+        },
+        {
+          "id": "d11-s3",
+          "from": {
+            "name": "נסיעה לאוטורו",
+            "nameEn": "Drive to Utoro",
+            "lat": 44.0731,
+            "lng": 145.0007
+          },
+          "to": {
+            "name": "צ׳ק-אין + שקיעה",
+            "nameEn": "The SUNSET Shiretoko",
+            "lat": 44.0731,
+            "lng": 145.0007
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 0,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 0,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.0731,145.0007&destination=44.0731,145.0007&travelmode=walking"
+        },
+        {
+          "id": "d11-s4",
+          "from": {
+            "name": "צ׳ק-אין + שקיעה",
+            "nameEn": "The SUNSET Shiretoko",
+            "lat": 44.0731,
+            "lng": 145.0007
+          },
+          "to": {
+            "name": "מלון The SUNSET Shiretoko",
+            "nameEn": "The SUNSET Shiretoko",
+            "lat": 44.0731,
+            "lng": 145.0007
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 0,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 0,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.0731,145.0007&destination=44.0731,145.0007&travelmode=walking"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 0,
+        "totalWalkingMinutes": 0,
+        "totalDistanceKm": 0,
+        "modes": [
+          "flight",
+          "walk"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -583,11 +2059,147 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d12-s1",
+          "from": {
+            "name": "מלון The SUNSET Shiretoko",
+            "nameEn": "The SUNSET Shiretoko",
+            "lat": 44.0731,
+            "lng": 145.0007
+          },
+          "to": {
+            "name": "שייט שירטוקו",
+            "nameEn": "Shiretoko Sightseeing Cruise",
+            "lat": 44.0698,
+            "lng": 145.0013
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 6,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 6,
+          "distanceKm": 0.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.0731,145.0007&destination=44.0698,145.0013&travelmode=walking"
+        },
+        {
+          "id": "d12-s2",
+          "from": {
+            "name": "שייט שירטוקו",
+            "nameEn": "Shiretoko Sightseeing Cruise",
+            "lat": 44.0698,
+            "lng": 145.0013
+          },
+          "to": {
+            "name": "5 האגמות של שירטוקו",
+            "nameEn": "Shiretoko Five Lakes",
+            "lat": 44.1262,
+            "lng": 145.1
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 15,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 15,
+          "distanceKm": 11.6,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.0698,145.0013&destination=44.1262,145.1&travelmode=driving"
+        },
+        {
+          "id": "d12-s3",
+          "from": {
+            "name": "5 האגמות של שירטוקו",
+            "nameEn": "Shiretoko Five Lakes",
+            "lat": 44.1262,
+            "lng": 145.1
+          },
+          "to": {
+            "name": "מפל קאמואיוואקי",
+            "nameEn": "Kamuiwakka Hot Falls",
+            "lat": 44.1494,
+            "lng": 145.1345
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 6,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 6,
+          "distanceKm": 4.3,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.1262,145.1&destination=44.1494,145.1345&travelmode=driving"
+        },
+        {
+          "id": "d12-s4",
+          "from": {
+            "name": "מפל קאמואיוואקי",
+            "nameEn": "Kamuiwakka Hot Falls",
+            "lat": 44.1494,
+            "lng": 145.1345
+          },
+          "to": {
+            "name": "ערב באוטורו",
+            "nameEn": "Utoro evening",
+            "lat": 44.0731,
+            "lng": 145.0007
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 21,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 21,
+          "distanceKm": 15.7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.1494,145.1345&destination=44.0731,145.0007&travelmode=driving"
+        },
+        {
+          "id": "d12-s5",
+          "from": {
+            "name": "ערב באוטורו",
+            "nameEn": "Utoro evening",
+            "lat": 44.0731,
+            "lng": 145.0007
+          },
+          "to": {
+            "name": "מלון The SUNSET Shiretoko",
+            "nameEn": "The SUNSET Shiretoko",
+            "lat": 44.0731,
+            "lng": 145.0007
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 0,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 0,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=44.0731,145.0007&destination=44.0731,145.0007&travelmode=walking"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 42,
+        "totalWalkingMinutes": 6,
+        "totalDistanceKm": 32.1,
+        "modes": [
+          "walk",
+          "car"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -631,11 +2243,173 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d13-s1",
+          "from": {
+            "name": "מלון Kussharo Prince Hotel",
+            "nameEn": "Kussharo Prince Hotel",
+            "lat": 43.5858,
+            "lng": 144.2745
+          },
+          "to": {
+            "name": "מעבר שירטוקו",
+            "nameEn": "Shiretoko Pass",
+            "lat": 43.9614,
+            "lng": 145.0872
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 119,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 119,
+          "distanceKm": 89.1,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.5858,144.2745&destination=43.9614,145.0872&travelmode=driving"
+        },
+        {
+          "id": "d13-s2",
+          "from": {
+            "name": "מעבר שירטוקו",
+            "nameEn": "Shiretoko Pass",
+            "lat": 43.9614,
+            "lng": 145.0872
+          },
+          "to": {
+            "name": "אגם מאשו",
+            "nameEn": "Lake Mashu",
+            "lat": 43.5757,
+            "lng": 144.5303
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 95,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 95,
+          "distanceKm": 71.3,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.9614,145.0872&destination=43.5757,144.5303&travelmode=driving"
+        },
+        {
+          "id": "d13-s3",
+          "from": {
+            "name": "אגם מאשו",
+            "nameEn": "Lake Mashu",
+            "lat": 43.5757,
+            "lng": 144.5303
+          },
+          "to": {
+            "name": "אגם קושארו",
+            "nameEn": "Lake Kussharo",
+            "lat": 43.61,
+            "lng": 144.33
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 25,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 25,
+          "distanceKm": 19.1,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.5757,144.5303&destination=43.61,144.33&travelmode=driving"
+        },
+        {
+          "id": "d13-s4",
+          "from": {
+            "name": "אגם קושארו",
+            "nameEn": "Lake Kussharo",
+            "lat": 43.61,
+            "lng": 144.33
+          },
+          "to": {
+            "name": "קאוואיו אונסן",
+            "nameEn": "Kawayu Onsen area",
+            "lat": 43.6355,
+            "lng": 144.4464
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 15,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 15,
+          "distanceKm": 11.3,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.61,144.33&destination=43.6355,144.4464&travelmode=driving"
+        },
+        {
+          "id": "d13-s5",
+          "from": {
+            "name": "קאוואיו אונסן",
+            "nameEn": "Kawayu Onsen area",
+            "lat": 43.6355,
+            "lng": 144.4464
+          },
+          "to": {
+            "name": "צ׳ק-אין קושארו פרינס",
+            "nameEn": "Kussharo Prince Hotel",
+            "lat": 43.5858,
+            "lng": 144.2745
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 23,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 23,
+          "distanceKm": 17.1,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.6355,144.4464&destination=43.5858,144.2745&travelmode=driving"
+        },
+        {
+          "id": "d13-s6",
+          "from": {
+            "name": "צ׳ק-אין קושארו פרינס",
+            "nameEn": "Kussharo Prince Hotel",
+            "lat": 43.5858,
+            "lng": 144.2745
+          },
+          "to": {
+            "name": "מלון Kussharo Prince Hotel",
+            "nameEn": "Kussharo Prince Hotel",
+            "lat": 43.5858,
+            "lng": 144.2745
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 0,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 0,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.5858,144.2745&destination=43.5858,144.2745&travelmode=walking"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 277,
+        "totalWalkingMinutes": 0,
+        "totalDistanceKm": 207.9,
+        "modes": [
+          "car",
+          "walk"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -679,11 +2453,173 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d14-s1",
+          "from": {
+            "name": "מלון Akan Yuku no Sato Tsuruga",
+            "nameEn": "Akan Yuku no Sato Tsuruga",
+            "lat": 43.4347,
+            "lng": 144.0909
+          },
+          "to": {
+            "name": "נסיעה לאקאן",
+            "nameEn": "Drive to Akan",
+            "lat": 43.4347,
+            "lng": 144.0909
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 0,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 0,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4347,144.0909&destination=43.4347,144.0909&travelmode=walking"
+        },
+        {
+          "id": "d14-s2",
+          "from": {
+            "name": "נסיעה לאקאן",
+            "nameEn": "Drive to Akan",
+            "lat": 43.4347,
+            "lng": 144.0909
+          },
+          "to": {
+            "name": "כפר איינו",
+            "nameEn": "Ainu Kotan Village",
+            "lat": 43.438,
+            "lng": 144.096
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 10,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 10,
+          "distanceKm": 0.7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4347,144.0909&destination=43.438,144.096&travelmode=walking"
+        },
+        {
+          "id": "d14-s3",
+          "from": {
+            "name": "כפר איינו",
+            "nameEn": "Ainu Kotan Village",
+            "lat": 43.438,
+            "lng": 144.096
+          },
+          "to": {
+            "name": "שייט אגם אקאן",
+            "nameEn": "Lake Akan Cruise",
+            "lat": 43.436,
+            "lng": 144.091
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 8,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 8,
+          "distanceKm": 0.6,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.438,144.096&destination=43.436,144.091&travelmode=walking"
+        },
+        {
+          "id": "d14-s4",
+          "from": {
+            "name": "שייט אגם אקאן",
+            "nameEn": "Lake Akan Cruise",
+            "lat": 43.436,
+            "lng": 144.091
+          },
+          "to": {
+            "name": "הליכת בוקאצ׳ו",
+            "nameEn": "Bokakko Trail",
+            "lat": 43.43,
+            "lng": 144.085
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 14,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 14,
+          "distanceKm": 1.1,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.436,144.091&destination=43.43,144.085&travelmode=walking"
+        },
+        {
+          "id": "d14-s5",
+          "from": {
+            "name": "הליכת בוקאצ׳ו",
+            "nameEn": "Bokakko Trail",
+            "lat": 43.43,
+            "lng": 144.085
+          },
+          "to": {
+            "name": "מופע איינו",
+            "nameEn": "Ainu Performance",
+            "lat": 43.438,
+            "lng": 144.096
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 2,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 2,
+          "distanceKm": 1.4,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.43,144.085&destination=43.438,144.096&travelmode=driving"
+        },
+        {
+          "id": "d14-s6",
+          "from": {
+            "name": "מופע איינו",
+            "nameEn": "Ainu Performance",
+            "lat": 43.438,
+            "lng": 144.096
+          },
+          "to": {
+            "name": "מלון Akan Yuku no Sato Tsuruga",
+            "nameEn": "Akan Yuku no Sato Tsuruga",
+            "lat": 43.4347,
+            "lng": 144.0909
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 10,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 10,
+          "distanceKm": 0.7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.438,144.096&destination=43.4347,144.0909&travelmode=walking"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 2,
+        "totalWalkingMinutes": 42,
+        "totalDistanceKm": 4.5,
+        "modes": [
+          "walk",
+          "car"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -727,11 +2663,121 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d15-s1",
+          "from": {
+            "name": "מלון Akan Yuku no Sato Tsuruga",
+            "nameEn": "Akan Yuku no Sato Tsuruga",
+            "lat": 43.4347,
+            "lng": 144.0909
+          },
+          "to": {
+            "name": "הליכת הר אואקאן",
+            "nameEn": "Mt. Oakan Hike",
+            "lat": 43.45,
+            "lng": 144.16
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 9,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 9,
+          "distanceKm": 6.7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4347,144.0909&destination=43.45,144.16&travelmode=driving"
+        },
+        {
+          "id": "d15-s2",
+          "from": {
+            "name": "הליכת הר אואקאן",
+            "nameEn": "Mt. Oakan Hike",
+            "lat": 43.45,
+            "lng": 144.16
+          },
+          "to": {
+            "name": "אונסן + מנוחה",
+            "nameEn": "Onsen & rest",
+            "lat": 43.4347,
+            "lng": 144.0909
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 9,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 9,
+          "distanceKm": 6.7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.45,144.16&destination=43.4347,144.0909&travelmode=driving"
+        },
+        {
+          "id": "d15-s3",
+          "from": {
+            "name": "אונסן + מנוחה",
+            "nameEn": "Onsen & rest",
+            "lat": 43.4347,
+            "lng": 144.0909
+          },
+          "to": {
+            "name": "שוטטות באקאן",
+            "nameEn": "Akan Onsen town walk",
+            "lat": 43.438,
+            "lng": 144.096
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 10,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 10,
+          "distanceKm": 0.7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4347,144.0909&destination=43.438,144.096&travelmode=walking"
+        },
+        {
+          "id": "d15-s4",
+          "from": {
+            "name": "שוטטות באקאן",
+            "nameEn": "Akan Onsen town walk",
+            "lat": 43.438,
+            "lng": 144.096
+          },
+          "to": {
+            "name": "מלון Akan Yuku no Sato Tsuruga",
+            "nameEn": "Akan Yuku no Sato Tsuruga",
+            "lat": 43.4347,
+            "lng": 144.0909
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 10,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 10,
+          "distanceKm": 0.7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.438,144.096&destination=43.4347,144.0909&travelmode=walking"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 18,
+        "totalWalkingMinutes": 20,
+        "totalDistanceKm": 14.8,
+        "modes": [
+          "car",
+          "walk"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -775,11 +2821,147 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d16-s1",
+          "from": {
+            "name": "מלון Hotel Kumoi — Sounkyo Onsen",
+            "nameEn": "Hotel Kumoi — Sounkyo Onsen",
+            "lat": 43.7253,
+            "lng": 142.9471
+          },
+          "to": {
+            "name": "נסיעה לסואנקיו",
+            "nameEn": "Drive Akan to Sounkyo",
+            "lat": 43.7253,
+            "lng": 142.9471
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 0,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 0,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.7253,142.9471&destination=43.7253,142.9471&travelmode=walking"
+        },
+        {
+          "id": "d16-s2",
+          "from": {
+            "name": "נסיעה לסואנקיו",
+            "nameEn": "Drive Akan to Sounkyo",
+            "lat": 43.7253,
+            "lng": 142.9471
+          },
+          "to": {
+            "name": "רכבל קורודאקה",
+            "nameEn": "Kurodake Ropeway",
+            "lat": 43.7072,
+            "lng": 142.9508
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 3,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 3,
+          "distanceKm": 2.3,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.7253,142.9471&destination=43.7072,142.9508&travelmode=driving"
+        },
+        {
+          "id": "d16-s3",
+          "from": {
+            "name": "רכבל קורודאקה",
+            "nameEn": "Kurodake Ropeway",
+            "lat": 43.7072,
+            "lng": 142.9508
+          },
+          "to": {
+            "name": "מפלי סואנקיו",
+            "nameEn": "Ginga & Ryusei Falls",
+            "lat": 43.732,
+            "lng": 142.968
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 5,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 5,
+          "distanceKm": 3.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.7072,142.9508&destination=43.732,142.968&travelmode=driving"
+        },
+        {
+          "id": "d16-s4",
+          "from": {
+            "name": "מפלי סואנקיו",
+            "nameEn": "Ginga & Ryusei Falls",
+            "lat": 43.732,
+            "lng": 142.968
+          },
+          "to": {
+            "name": "אונסן בסואנקיו",
+            "nameEn": "Sounkyo Onsen",
+            "lat": 43.7253,
+            "lng": 142.9471
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 3,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 3,
+          "distanceKm": 2.1,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.732,142.968&destination=43.7253,142.9471&travelmode=driving"
+        },
+        {
+          "id": "d16-s5",
+          "from": {
+            "name": "אונסן בסואנקיו",
+            "nameEn": "Sounkyo Onsen",
+            "lat": 43.7253,
+            "lng": 142.9471
+          },
+          "to": {
+            "name": "מלון Hotel Kumoi — Sounkyo Onsen",
+            "nameEn": "Hotel Kumoi — Sounkyo Onsen",
+            "lat": 43.7253,
+            "lng": 142.9471
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 0,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 0,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.7253,142.9471&destination=43.7253,142.9471&travelmode=walking"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 11,
+        "totalWalkingMinutes": 0,
+        "totalDistanceKm": 7.9,
+        "modes": [
+          "walk",
+          "car"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -823,11 +3005,173 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d17-s1",
+          "from": {
+            "name": "מלון Grouse Lodge",
+            "nameEn": "Grouse Lodge",
+            "lat": 43.3432,
+            "lng": 142.3643
+          },
+          "to": {
+            "name": "נסיעה מסואנקיו לביאי",
+            "nameEn": "Drive to Biei",
+            "lat": 43.4935,
+            "lng": 142.6142
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 40,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 40,
+          "distanceKm": 30.1,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.3432,142.3643&destination=43.4935,142.6142&travelmode=driving"
+        },
+        {
+          "id": "d17-s2",
+          "from": {
+            "name": "נסיעה מסואנקיו לביאי",
+            "nameEn": "Drive to Biei",
+            "lat": 43.4935,
+            "lng": 142.6142
+          },
+          "to": {
+            "name": "הבריכה הכחולה",
+            "nameEn": "Shirogane Blue Pond (Aoiike)",
+            "lat": 43.4935,
+            "lng": 142.6142
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 0,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 0,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4935,142.6142&destination=43.4935,142.6142&travelmode=walking"
+        },
+        {
+          "id": "d17-s3",
+          "from": {
+            "name": "הבריכה הכחולה",
+            "nameEn": "Shirogane Blue Pond (Aoiike)",
+            "lat": 43.4935,
+            "lng": 142.6142
+          },
+          "to": {
+            "name": "מפלי שירוגנה",
+            "nameEn": "Shirahige Falls",
+            "lat": 43.5021,
+            "lng": 142.621
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 2,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 2,
+          "distanceKm": 1.3,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4935,142.6142&destination=43.5021,142.621&travelmode=driving"
+        },
+        {
+          "id": "d17-s4",
+          "from": {
+            "name": "מפלי שירוגנה",
+            "nameEn": "Shirahige Falls",
+            "lat": 43.5021,
+            "lng": 142.621
+          },
+          "to": {
+            "name": "גבעות ביאי",
+            "nameEn": "Biei Patchwork Hills",
+            "lat": 43.59,
+            "lng": 142.47
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 24,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 24,
+          "distanceKm": 18,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.5021,142.621&destination=43.59,142.47&travelmode=driving"
+        },
+        {
+          "id": "d17-s5",
+          "from": {
+            "name": "גבעות ביאי",
+            "nameEn": "Biei Patchwork Hills",
+            "lat": 43.59,
+            "lng": 142.47
+          },
+          "to": {
+            "name": "לינה בביאי",
+            "nameEn": "Biei accommodation",
+            "lat": 43.587,
+            "lng": 142.472
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 6,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 6,
+          "distanceKm": 0.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.59,142.47&destination=43.587,142.472&travelmode=walking"
+        },
+        {
+          "id": "d17-s6",
+          "from": {
+            "name": "לינה בביאי",
+            "nameEn": "Biei accommodation",
+            "lat": 43.587,
+            "lng": 142.472
+          },
+          "to": {
+            "name": "מלון Grouse Lodge",
+            "nameEn": "Grouse Lodge",
+            "lat": 43.3432,
+            "lng": 142.3643
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 44,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 44,
+          "distanceKm": 32.7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.587,142.472&destination=43.3432,142.3643&travelmode=driving"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 110,
+        "totalWalkingMinutes": 6,
+        "totalDistanceKm": 82.6,
+        "modes": [
+          "car",
+          "walk"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -871,11 +3215,94 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d18-s1",
+          "from": {
+            "name": "מלון Grouse Lodge",
+            "nameEn": "Grouse Lodge",
+            "lat": 43.3432,
+            "lng": 142.3643
+          },
+          "to": {
+            "name": "רכיבת אופניים — מסלול C",
+            "nameEn": "Biei Cycling Route C",
+            "lat": 43.587,
+            "lng": 142.472
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 44,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 44,
+          "distanceKm": 32.7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.3432,142.3643&destination=43.587,142.472&travelmode=driving"
+        },
+        {
+          "id": "d18-s2",
+          "from": {
+            "name": "רכיבת אופניים — מסלול C",
+            "nameEn": "Biei Cycling Route C",
+            "lat": 43.587,
+            "lng": 142.472
+          },
+          "to": {
+            "name": "Four Seasons Hill",
+            "nameEn": "Shikisai no Oka",
+            "lat": 43.551,
+            "lng": 142.475
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 6,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 6,
+          "distanceKm": 4.6,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.587,142.472&destination=43.551,142.475&travelmode=driving"
+        },
+        {
+          "id": "d18-s3",
+          "from": {
+            "name": "Four Seasons Hill",
+            "nameEn": "Shikisai no Oka",
+            "lat": 43.551,
+            "lng": 142.475
+          },
+          "to": {
+            "name": "מלון Grouse Lodge",
+            "nameEn": "Grouse Lodge",
+            "lat": 43.3432,
+            "lng": 142.3643
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 38,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 38,
+          "distanceKm": 28.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.551,142.475&destination=43.3432,142.3643&travelmode=driving"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 88,
+        "totalWalkingMinutes": 0,
+        "totalDistanceKm": 65.8,
+        "modes": [
+          "car"
+        ]
+      }
     },
     "meals": {
       "breakfast": "Biei Senka — שוק חקלאי ליד תחנת ביאי. לחם מקומי + חמאה הוקאידית + חלב טרי. או: ארוחת בוקר במלון",
@@ -920,11 +3347,120 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d19-s1",
+          "from": {
+            "name": "מלון Hotel Nord Otaru",
+            "nameEn": "Hotel Nord Otaru",
+            "lat": 43.1994,
+            "lng": 141.0013
+          },
+          "to": {
+            "name": "Farm Tomita",
+            "nameEn": "Farm Tomita",
+            "lat": 43.4182,
+            "lng": 142.428
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 181,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 181,
+          "distanceKm": 135.7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.1994,141.0013&destination=43.4182,142.428&travelmode=driving"
+        },
+        {
+          "id": "d19-s2",
+          "from": {
+            "name": "Farm Tomita",
+            "nameEn": "Farm Tomita",
+            "lat": 43.4182,
+            "lng": 142.428
+          },
+          "to": {
+            "name": "Ningle Terrace",
+            "nameEn": "Ningle Terrace",
+            "lat": 43.339,
+            "lng": 142.383
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 15,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 15,
+          "distanceKm": 11,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.4182,142.428&destination=43.339,142.383&travelmode=driving"
+        },
+        {
+          "id": "d19-s3",
+          "from": {
+            "name": "Ningle Terrace",
+            "nameEn": "Ningle Terrace",
+            "lat": 43.339,
+            "lng": 142.383
+          },
+          "to": {
+            "name": "Furano Cheese Factory",
+            "nameEn": "Furano Cheese Factory",
+            "lat": 43.3602,
+            "lng": 142.3872
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 4,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 4,
+          "distanceKm": 2.7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.339,142.383&destination=43.3602,142.3872&travelmode=driving"
+        },
+        {
+          "id": "d19-s4",
+          "from": {
+            "name": "Furano Cheese Factory",
+            "nameEn": "Furano Cheese Factory",
+            "lat": 43.3602,
+            "lng": 142.3872
+          },
+          "to": {
+            "name": "מלון Hotel Nord Otaru",
+            "nameEn": "Hotel Nord Otaru",
+            "lat": 43.1994,
+            "lng": 141.0013
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 174,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 174,
+          "distanceKm": 130.7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.3602,142.3872&destination=43.1994,141.0013&travelmode=driving"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 374,
+        "totalWalkingMinutes": 0,
+        "totalDistanceKm": 280.1,
+        "modes": [
+          "car"
+        ]
+      }
     },
     "meals": {
       "breakfast": "Farm Tomita — Hanabito Cafe (בתוך החווה, 08:30-17:00) — גלידת לבנדר + לחם + קפה. או: ארוחת בוקר במלון",
@@ -1039,11 +3575,95 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d21-s1",
+          "from": {
+            "name": "מלון Hilton Niseko Village",
+            "nameEn": "Hilton Niseko Village",
+            "lat": 42.8466,
+            "lng": 140.6847
+          },
+          "to": {
+            "name": "נסיעה לאוטארו",
+            "nameEn": "Drive to Otaru/Shakotan",
+            "lat": 43.1907,
+            "lng": 140.9946
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 70,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 70,
+          "distanceKm": 52.7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=42.8466,140.6847&destination=43.1907,140.9946&travelmode=driving"
+        },
+        {
+          "id": "d21-s2",
+          "from": {
+            "name": "נסיעה לאוטארו",
+            "nameEn": "Drive to Otaru/Shakotan",
+            "lat": 43.1907,
+            "lng": 140.9946
+          },
+          "to": {
+            "name": "אוטארו — תעלה ומוזיאונים",
+            "nameEn": "Otaru Canal",
+            "lat": 43.197,
+            "lng": 140.999
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 14,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 14,
+          "distanceKm": 1,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.1907,140.9946&destination=43.197,140.999&travelmode=walking"
+        },
+        {
+          "id": "d21-s3",
+          "from": {
+            "name": "אוטארו — תעלה ומוזיאונים",
+            "nameEn": "Otaru Canal",
+            "lat": 43.197,
+            "lng": 140.999
+          },
+          "to": {
+            "name": "מלון Hilton Niseko Village",
+            "nameEn": "Hilton Niseko Village",
+            "lat": 42.8466,
+            "lng": 140.6847
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 71,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 71,
+          "distanceKm": 53.6,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.197,140.999&destination=42.8466,140.6847&travelmode=driving"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 141,
+        "totalWalkingMinutes": 14,
+        "totalDistanceKm": 107.3,
+        "modes": [
+          "car",
+          "walk"
+        ]
+      }
     },
     "meals": {
       "breakfast": "ארוחת בוקר במלון או LeTao Main Store, Otaru — קפה + עוגת גבינה (פתוח מ-09:00)",
@@ -1089,11 +3709,173 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d22-s1",
+          "from": {
+            "name": "מלון TOYA Center Village",
+            "nameEn": "TOYA Center Village",
+            "lat": 42.5667,
+            "lng": 140.85
+          },
+          "to": {
+            "name": "נסיעה ללייק טויה",
+            "nameEn": "Drive to Lake Toya",
+            "lat": 42.5667,
+            "lng": 140.85
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 0,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 0,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=42.5667,140.85&destination=42.5667,140.85&travelmode=walking"
+        },
+        {
+          "id": "d22-s2",
+          "from": {
+            "name": "נסיעה ללייק טויה",
+            "nameEn": "Drive to Lake Toya",
+            "lat": 42.5667,
+            "lng": 140.85
+          },
+          "to": {
+            "name": "רכבל הר אוסו",
+            "nameEn": "Mt. Usu Ropeway",
+            "lat": 42.5442,
+            "lng": 140.8411
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 4,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 4,
+          "distanceKm": 3,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=42.5667,140.85&destination=42.5442,140.8411&travelmode=driving"
+        },
+        {
+          "id": "d22-s3",
+          "from": {
+            "name": "רכבל הר אוסו",
+            "nameEn": "Mt. Usu Ropeway",
+            "lat": 42.5442,
+            "lng": 140.8411
+          },
+          "to": {
+            "name": "שביל הר געש 2000",
+            "nameEn": "Nishiyama Crater Trail",
+            "lat": 42.543,
+            "lng": 140.783
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 7,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 7,
+          "distanceKm": 5.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=42.5442,140.8411&destination=42.543,140.783&travelmode=driving"
+        },
+        {
+          "id": "d22-s4",
+          "from": {
+            "name": "שביל הר געש 2000",
+            "nameEn": "Nishiyama Crater Trail",
+            "lat": 42.543,
+            "lng": 140.783
+          },
+          "to": {
+            "name": "טיילת אגם טויה",
+            "nameEn": "Lake Toya Promenade",
+            "lat": 42.5667,
+            "lng": 140.85
+          },
+          "mode": "car",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 9,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 9,
+          "distanceKm": 7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=42.543,140.783&destination=42.5667,140.85&travelmode=driving"
+        },
+        {
+          "id": "d22-s5",
+          "from": {
+            "name": "טיילת אגם טויה",
+            "nameEn": "Lake Toya Promenade",
+            "lat": 42.5667,
+            "lng": 140.85
+          },
+          "to": {
+            "name": "זיקוקים",
+            "nameEn": "Lake Toya Fireworks",
+            "lat": 42.5667,
+            "lng": 140.85
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 0,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 0,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=42.5667,140.85&destination=42.5667,140.85&travelmode=walking"
+        },
+        {
+          "id": "d22-s6",
+          "from": {
+            "name": "זיקוקים",
+            "nameEn": "Lake Toya Fireworks",
+            "lat": 42.5667,
+            "lng": 140.85
+          },
+          "to": {
+            "name": "מלון TOYA Center Village",
+            "nameEn": "TOYA Center Village",
+            "lat": 42.5667,
+            "lng": 140.85
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 0,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 0,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=42.5667,140.85&destination=42.5667,140.85&travelmode=walking"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 20,
+        "totalWalkingMinutes": 0,
+        "totalDistanceKm": 15.5,
+        "modes": [
+          "walk",
+          "car"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -1137,11 +3919,165 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d23-s1",
+          "from": {
+            "name": "מלון karaksa hotel colors Tokyo Yaesu",
+            "nameEn": "karaksa hotel colors Tokyo Yaesu",
+            "lat": 35.6812,
+            "lng": 139.7745
+          },
+          "to": {
+            "name": "נסיעה ל-New Chitose",
+            "nameEn": "Drive to New Chitose Airport",
+            "lat": 42.7791,
+            "lng": 141.6866
+          },
+          "mode": "flight",
+          "details": {
+            "note": "טיסה — פרטים בדף ההזמנות",
+            "transfers": 0
+          },
+          "totalMinutes": null,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=42.7791,141.6866&travelmode=transit"
+        },
+        {
+          "id": "d23-s2",
+          "from": {
+            "name": "נסיעה ל-New Chitose",
+            "nameEn": "Drive to New Chitose Airport",
+            "lat": 42.7791,
+            "lng": 141.6866
+          },
+          "to": {
+            "name": "טיסה לנאריטה",
+            "nameEn": "Flight CTS → NRT",
+            "lat": 35.7648,
+            "lng": 140.3862
+          },
+          "mode": "flight",
+          "details": {
+            "note": "טיסה — פרטים בדף ההזמנות",
+            "transfers": 0
+          },
+          "totalMinutes": null,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=42.7791,141.6866&destination=35.7648,140.3862&travelmode=transit"
+        },
+        {
+          "id": "d23-s3",
+          "from": {
+            "name": "טיסה לנאריטה",
+            "nameEn": "Flight CTS → NRT",
+            "lat": 35.7648,
+            "lng": 140.3862
+          },
+          "to": {
+            "name": "מיניוואן לטוקיו",
+            "nameEn": "Minivan Narita → Hotel",
+            "lat": 35.7648,
+            "lng": 140.3862
+          },
+          "mode": "flight",
+          "details": {
+            "note": "טיסה — פרטים בדף ההזמנות",
+            "transfers": 0
+          },
+          "totalMinutes": null,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.7648,140.3862&destination=35.7648,140.3862&travelmode=transit"
+        },
+        {
+          "id": "d23-s4",
+          "from": {
+            "name": "מיניוואן לטוקיו",
+            "nameEn": "Minivan Narita → Hotel",
+            "lat": 35.7648,
+            "lng": 140.3862
+          },
+          "to": {
+            "name": "צ׳ק-אין",
+            "nameEn": "karaksa hotel colors Tokyo Yaesu",
+            "lat": 35.6812,
+            "lng": 139.7745
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 97,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 107,
+          "distanceKm": 72.8,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.7648,140.3862&destination=35.6812,139.7745&travelmode=transit"
+        },
+        {
+          "id": "d23-s5",
+          "from": {
+            "name": "צ׳ק-אין",
+            "nameEn": "karaksa hotel colors Tokyo Yaesu",
+            "lat": 35.6812,
+            "lng": 139.7745
+          },
+          "to": {
+            "name": "ניהונבאשי ערב",
+            "nameEn": "Nihonbashi evening walk",
+            "lat": 35.6838,
+            "lng": 139.7744
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 5,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 5,
+          "distanceKm": 0.4,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=35.6838,139.7744&travelmode=walking"
+        },
+        {
+          "id": "d23-s6",
+          "from": {
+            "name": "ניהונבאשי ערב",
+            "nameEn": "Nihonbashi evening walk",
+            "lat": 35.6838,
+            "lng": 139.7744
+          },
+          "to": {
+            "name": "מלון karaksa hotel colors Tokyo Yaesu",
+            "nameEn": "karaksa hotel colors Tokyo Yaesu",
+            "lat": 35.6812,
+            "lng": 139.7745
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 5,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 5,
+          "distanceKm": 0.4,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6838,139.7744&destination=35.6812,139.7745&travelmode=walking"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 107,
+        "totalWalkingMinutes": 10,
+        "totalDistanceKm": 73.6,
+        "modes": [
+          "flight",
+          "train",
+          "walk"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -1185,11 +4121,174 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d24-s1",
+          "from": {
+            "name": "מלון karaksa hotel colors Tokyo Yaesu",
+            "nameEn": "karaksa hotel colors Tokyo Yaesu",
+            "lat": 35.6812,
+            "lng": 139.7745
+          },
+          "to": {
+            "name": "סנסו-ג׳י",
+            "nameEn": "Senso-ji Temple",
+            "lat": 35.7148,
+            "lng": 139.7967
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 7,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 17,
+          "distanceKm": 5.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=35.7148,139.7967&travelmode=transit"
+        },
+        {
+          "id": "d24-s2",
+          "from": {
+            "name": "סנסו-ג׳י",
+            "nameEn": "Senso-ji Temple",
+            "lat": 35.7148,
+            "lng": 139.7967
+          },
+          "to": {
+            "name": "רחוב נאקאמיסה",
+            "nameEn": "Nakamise-dori",
+            "lat": 35.7127,
+            "lng": 139.7966
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 4,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 4,
+          "distanceKm": 0.3,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.7148,139.7967&destination=35.7127,139.7966&travelmode=walking"
+        },
+        {
+          "id": "d24-s3",
+          "from": {
+            "name": "רחוב נאקאמיסה",
+            "nameEn": "Nakamise-dori",
+            "lat": 35.7127,
+            "lng": 139.7966
+          },
+          "to": {
+            "name": "טוקיו סקיי-טרי",
+            "nameEn": "Tokyo Skytree",
+            "lat": 35.7101,
+            "lng": 139.8107
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 3,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 11,
+          "distanceKm": 1.7,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.7127,139.7966&destination=35.7101,139.8107&travelmode=transit"
+        },
+        {
+          "id": "d24-s4",
+          "from": {
+            "name": "טוקיו סקיי-טרי",
+            "nameEn": "Tokyo Skytree",
+            "lat": 35.7101,
+            "lng": 139.8107
+          },
+          "to": {
+            "name": "יאנאקה גינזה",
+            "nameEn": "Yanaka Ginza",
+            "lat": 35.7274,
+            "lng": 139.768
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 7,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 17,
+          "distanceKm": 5.6,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.7101,139.8107&destination=35.7274,139.768&travelmode=transit"
+        },
+        {
+          "id": "d24-s5",
+          "from": {
+            "name": "יאנאקה גינזה",
+            "nameEn": "Yanaka Ginza",
+            "lat": 35.7274,
+            "lng": 139.768
+          },
+          "to": {
+            "name": "אסאקוסה ערב",
+            "nameEn": "Asakusa evening",
+            "lat": 35.7148,
+            "lng": 139.7967
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 8,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 16,
+          "distanceKm": 3.8,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.7274,139.768&destination=35.7148,139.7967&travelmode=transit"
+        },
+        {
+          "id": "d24-s6",
+          "from": {
+            "name": "אסאקוסה ערב",
+            "nameEn": "Asakusa evening",
+            "lat": 35.7148,
+            "lng": 139.7967
+          },
+          "to": {
+            "name": "מלון karaksa hotel colors Tokyo Yaesu",
+            "nameEn": "karaksa hotel colors Tokyo Yaesu",
+            "lat": 35.6812,
+            "lng": 139.7745
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 7,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 17,
+          "distanceKm": 5.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.7148,139.7967&destination=35.6812,139.7745&travelmode=transit"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 78,
+        "totalWalkingMinutes": 4,
+        "totalDistanceKm": 22.4,
+        "modes": [
+          "train",
+          "walk",
+          "metro"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -1233,11 +4332,200 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d25-s1",
+          "from": {
+            "name": "מלון karaksa hotel colors Tokyo Yaesu",
+            "nameEn": "karaksa hotel colors Tokyo Yaesu",
+            "lat": 35.6812,
+            "lng": 139.7745
+          },
+          "to": {
+            "name": "צומת שיבויה",
+            "nameEn": "Shibuya Crossing",
+            "lat": 35.6595,
+            "lng": 139.7004
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 12,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 22,
+          "distanceKm": 9.3,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=35.6595,139.7004&travelmode=transit"
+        },
+        {
+          "id": "d25-s2",
+          "from": {
+            "name": "צומת שיבויה",
+            "nameEn": "Shibuya Crossing",
+            "lat": 35.6595,
+            "lng": 139.7004
+          },
+          "to": {
+            "name": "הראג׳וקו — טקשיטה",
+            "nameEn": "Takeshita Street",
+            "lat": 35.6702,
+            "lng": 139.7028
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 3,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 11,
+          "distanceKm": 1.6,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6595,139.7004&destination=35.6702,139.7028&travelmode=transit"
+        },
+        {
+          "id": "d25-s3",
+          "from": {
+            "name": "הראג׳וקו — טקשיטה",
+            "nameEn": "Takeshita Street",
+            "lat": 35.6702,
+            "lng": 139.7028
+          },
+          "to": {
+            "name": "מקדש מייג׳י",
+            "nameEn": "Meiji Jingu",
+            "lat": 35.6764,
+            "lng": 139.6993
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 13,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 13,
+          "distanceKm": 1,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6702,139.7028&destination=35.6764,139.6993&travelmode=walking"
+        },
+        {
+          "id": "d25-s4",
+          "from": {
+            "name": "מקדש מייג׳י",
+            "nameEn": "Meiji Jingu",
+            "lat": 35.6764,
+            "lng": 139.6993
+          },
+          "to": {
+            "name": "קאט סטריט",
+            "nameEn": "Cat Street (Ura-Harajuku)",
+            "lat": 35.668,
+            "lng": 139.705
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 3,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 11,
+          "distanceKm": 1.4,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6764,139.6993&destination=35.668,139.705&travelmode=transit"
+        },
+        {
+          "id": "d25-s5",
+          "from": {
+            "name": "קאט סטריט",
+            "nameEn": "Cat Street (Ura-Harajuku)",
+            "lat": 35.668,
+            "lng": 139.705
+          },
+          "to": {
+            "name": "שימוקיטזאווה",
+            "nameEn": "Shimokitazawa",
+            "lat": 35.6613,
+            "lng": 139.668
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 9,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 17,
+          "distanceKm": 4.4,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.668,139.705&destination=35.6613,139.668&travelmode=transit"
+        },
+        {
+          "id": "d25-s6",
+          "from": {
+            "name": "שימוקיטזאווה",
+            "nameEn": "Shimokitazawa",
+            "lat": 35.6613,
+            "lng": 139.668
+          },
+          "to": {
+            "name": "שיבויה ערב",
+            "nameEn": "Shibuya evening",
+            "lat": 35.6595,
+            "lng": 139.7004
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 8,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 16,
+          "distanceKm": 3.8,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6613,139.668&destination=35.6595,139.7004&travelmode=transit"
+        },
+        {
+          "id": "d25-s7",
+          "from": {
+            "name": "שיבויה ערב",
+            "nameEn": "Shibuya evening",
+            "lat": 35.6595,
+            "lng": 139.7004
+          },
+          "to": {
+            "name": "מלון karaksa hotel colors Tokyo Yaesu",
+            "nameEn": "karaksa hotel colors Tokyo Yaesu",
+            "lat": 35.6812,
+            "lng": 139.7745
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 12,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 22,
+          "distanceKm": 9.3,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6595,139.7004&destination=35.6812,139.7745&travelmode=transit"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 99,
+        "totalWalkingMinutes": 13,
+        "totalDistanceKm": 30.8,
+        "modes": [
+          "train",
+          "metro",
+          "walk"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -1281,11 +4569,174 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d26-s1",
+          "from": {
+            "name": "מלון karaksa hotel colors Tokyo Yaesu",
+            "nameEn": "karaksa hotel colors Tokyo Yaesu",
+            "lat": 35.6812,
+            "lng": 139.7745
+          },
+          "to": {
+            "name": "שינג׳וקו גיואן",
+            "nameEn": "Shinjuku Gyoen",
+            "lat": 35.6852,
+            "lng": 139.71
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 10,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 20,
+          "distanceKm": 7.6,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=35.6852,139.71&travelmode=transit"
+        },
+        {
+          "id": "d26-s2",
+          "from": {
+            "name": "שינג׳וקו גיואן",
+            "nameEn": "Shinjuku Gyoen",
+            "lat": 35.6852,
+            "lng": 139.71
+          },
+          "to": {
+            "name": "אקיהאברה",
+            "nameEn": "Akihabara",
+            "lat": 35.7023,
+            "lng": 139.7745
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 11,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 21,
+          "distanceKm": 8,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6852,139.71&destination=35.7023,139.7745&travelmode=transit"
+        },
+        {
+          "id": "d26-s3",
+          "from": {
+            "name": "אקיהאברה",
+            "nameEn": "Akihabara",
+            "lat": 35.7023,
+            "lng": 139.7745
+          },
+          "to": {
+            "name": "גינזה",
+            "nameEn": "Ginza",
+            "lat": 35.6717,
+            "lng": 139.7649
+          },
+          "mode": "metro",
+          "details": {
+            "walkToStation": 8,
+            "rideTime": 9,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 17,
+          "distanceKm": 4.6,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.7023,139.7745&destination=35.6717,139.7649&travelmode=transit"
+        },
+        {
+          "id": "d26-s4",
+          "from": {
+            "name": "גינזה",
+            "nameEn": "Ginza",
+            "lat": 35.6717,
+            "lng": 139.7649
+          },
+          "to": {
+            "name": "גולדן גאי",
+            "nameEn": "Golden Gai",
+            "lat": 35.6938,
+            "lng": 139.7036
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 11,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 21,
+          "distanceKm": 7.9,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6717,139.7649&destination=35.6938,139.7036&travelmode=transit"
+        },
+        {
+          "id": "d26-s5",
+          "from": {
+            "name": "גולדן גאי",
+            "nameEn": "Golden Gai",
+            "lat": 35.6938,
+            "lng": 139.7036
+          },
+          "to": {
+            "name": "אומויידה יוקוצ׳ו",
+            "nameEn": "Omoide Yokocho (Piss Alley)",
+            "lat": 35.6936,
+            "lng": 139.6986
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 8,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 8,
+          "distanceKm": 0.6,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6938,139.7036&destination=35.6936,139.6986&travelmode=walking"
+        },
+        {
+          "id": "d26-s6",
+          "from": {
+            "name": "אומויידה יוקוצ׳ו",
+            "nameEn": "Omoide Yokocho (Piss Alley)",
+            "lat": 35.6936,
+            "lng": 139.6986
+          },
+          "to": {
+            "name": "מלון karaksa hotel colors Tokyo Yaesu",
+            "nameEn": "karaksa hotel colors Tokyo Yaesu",
+            "lat": 35.6812,
+            "lng": 139.7745
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 12,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 22,
+          "distanceKm": 9.1,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6936,139.6986&destination=35.6812,139.7745&travelmode=transit"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 101,
+        "totalWalkingMinutes": 8,
+        "totalDistanceKm": 37.8,
+        "modes": [
+          "train",
+          "metro",
+          "walk"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -1329,11 +4780,121 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d27-s1",
+          "from": {
+            "name": "מלון karaksa hotel colors Tokyo Yaesu",
+            "nameEn": "karaksa hotel colors Tokyo Yaesu",
+            "lat": 35.6812,
+            "lng": 139.7745
+          },
+          "to": {
+            "name": "יום חופשי — השלמות",
+            "nameEn": "Free morning",
+            "lat": 35.6812,
+            "lng": 139.7745
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 0,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 0,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=35.6812,139.7745&travelmode=walking"
+        },
+        {
+          "id": "d27-s2",
+          "from": {
+            "name": "יום חופשי — השלמות",
+            "nameEn": "Free morning",
+            "lat": 35.6812,
+            "lng": 139.7745
+          },
+          "to": {
+            "name": "נקמגורו",
+            "nameEn": "Nakameguro",
+            "lat": 35.644,
+            "lng": 139.698
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 14,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 24,
+          "distanceKm": 10.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=35.644,139.698&travelmode=transit"
+        },
+        {
+          "id": "d27-s3",
+          "from": {
+            "name": "נקמגורו",
+            "nameEn": "Nakameguro",
+            "lat": 35.644,
+            "lng": 139.698
+          },
+          "to": {
+            "name": "ארוחת פרידה",
+            "nameEn": "Farewell dinner",
+            "lat": 35.6812,
+            "lng": 139.7745
+          },
+          "mode": "train",
+          "details": {
+            "walkToStation": 10,
+            "rideTime": 14,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 24,
+          "distanceKm": 10.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.644,139.698&destination=35.6812,139.7745&travelmode=transit"
+        },
+        {
+          "id": "d27-s4",
+          "from": {
+            "name": "ארוחת פרידה",
+            "nameEn": "Farewell dinner",
+            "lat": 35.6812,
+            "lng": 139.7745
+          },
+          "to": {
+            "name": "מלון karaksa hotel colors Tokyo Yaesu",
+            "nameEn": "karaksa hotel colors Tokyo Yaesu",
+            "lat": 35.6812,
+            "lng": 139.7745
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 0,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 0,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=35.6812,139.7745&travelmode=walking"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 48,
+        "totalWalkingMinutes": 0,
+        "totalDistanceKm": 21,
+        "modes": [
+          "walk",
+          "train"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",
@@ -1377,11 +4938,39 @@
       "notes": ""
     },
     "transport": {
-      "type": "",
-      "from": "",
-      "to": "",
-      "duration": "",
-      "cost": null
+      "segments": [
+        {
+          "id": "d28-s1",
+          "from": {
+            "name": "צ׳ק-אאוט + נסיעה לשדה תעופה",
+            "nameEn": "Checkout & airport",
+            "lat": 35.6812,
+            "lng": 139.7745
+          },
+          "to": {
+            "name": "טיסה טוקיו → דובאי",
+            "nameEn": "Flight to Dubai",
+            "lat": 25.2532,
+            "lng": 55.3657
+          },
+          "mode": "flight",
+          "details": {
+            "note": "טיסה — פרטים בדף ההזמנות",
+            "transfers": 0
+          },
+          "totalMinutes": null,
+          "distanceKm": 0,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=25.2532,55.3657&travelmode=transit"
+        }
+      ],
+      "summary": {
+        "totalTransitMinutes": 0,
+        "totalWalkingMinutes": 0,
+        "totalDistanceKm": 0,
+        "modes": [
+          "flight"
+        ]
+      }
     },
     "meals": {
       "breakfast": "",

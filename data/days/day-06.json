@@ -95,11 +95,199 @@
     "icecream": ""
   },
   "transport": {
-    "type": "רכבת + אוטובוס",
-    "from": "Kawaramachi",
-    "to": "Arashiyama (JR Saga)",
-    "duration": "15 דק׳",
-    "cost": "240 ין"
+    "segments": [
+      {
+        "id": "d6-s1",
+        "from": {
+          "name": "מלון Mitsui Garden Kyoto Kawaramachi Jokyoji",
+          "nameEn": "Mitsui Garden Kyoto Kawaramachi Jokyoji",
+          "lat": 35.0028,
+          "lng": 135.7671
+        },
+        "to": {
+          "name": "יער הבמבוק אראשיאמה",
+          "nameEn": "Arashiyama Bamboo Grove",
+          "lat": 35.017,
+          "lng": 135.6713
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 15,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 25,
+        "distanceKm": 11.5,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.0028,135.7671&destination=35.017,135.6713&travelmode=transit"
+      },
+      {
+        "id": "d6-s2",
+        "from": {
+          "name": "יער הבמבוק אראשיאמה",
+          "nameEn": "Arashiyama Bamboo Grove",
+          "lat": 35.017,
+          "lng": 135.6713
+        },
+        "to": {
+          "name": "מקדש טנריו-ג׳י",
+          "nameEn": "Tenryu-ji Temple",
+          "lat": 35.0155,
+          "lng": 135.6745
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 6,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 6,
+        "distanceKm": 0.4,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.017,135.6713&destination=35.0155,135.6745&travelmode=walking"
+      },
+      {
+        "id": "d6-s3",
+        "from": {
+          "name": "מקדש טנריו-ג׳י",
+          "nameEn": "Tenryu-ji Temple",
+          "lat": 35.0155,
+          "lng": 135.6745
+        },
+        "to": {
+          "name": "גשר טוגצוקיו",
+          "nameEn": "Togetsukyo Bridge",
+          "lat": 35.0104,
+          "lng": 135.678
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 11,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 11,
+        "distanceKm": 0.8,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.0155,135.6745&destination=35.0104,135.678&travelmode=walking"
+      },
+      {
+        "id": "d6-s4",
+        "from": {
+          "name": "גשר טוגצוקיו",
+          "nameEn": "Togetsukyo Bridge",
+          "lat": 35.0104,
+          "lng": 135.678
+        },
+        "to": {
+          "name": "וילה קאצורה",
+          "nameEn": "Katsura Imperial Villa",
+          "lat": 34.9836,
+          "lng": 135.713
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 8,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 18,
+        "distanceKm": 5.7,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.0104,135.678&destination=34.9836,135.713&travelmode=transit"
+      },
+      {
+        "id": "d6-s5",
+        "from": {
+          "name": "וילה קאצורה",
+          "nameEn": "Katsura Imperial Villa",
+          "lat": 34.9836,
+          "lng": 135.713
+        },
+        "to": {
+          "name": "נישיקי שוק",
+          "nameEn": "Nishiki Market",
+          "lat": 35.005,
+          "lng": 135.7649
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 9,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 19,
+        "distanceKm": 6.9,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.9836,135.713&destination=35.005,135.7649&travelmode=transit"
+      },
+      {
+        "id": "d6-s6",
+        "from": {
+          "name": "נישיקי שוק",
+          "nameEn": "Nishiki Market",
+          "lat": 35.005,
+          "lng": 135.7649
+        },
+        "to": {
+          "name": "ערב חופשי בקיוטו",
+          "nameEn": "Free evening Kyoto",
+          "lat": 35.004,
+          "lng": 135.769
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 7,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 7,
+        "distanceKm": 0.5,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.005,135.7649&destination=35.004,135.769&travelmode=walking"
+      },
+      {
+        "id": "d6-s7",
+        "from": {
+          "name": "ערב חופשי בקיוטו",
+          "nameEn": "Free evening Kyoto",
+          "lat": 35.004,
+          "lng": 135.769
+        },
+        "to": {
+          "name": "מלון Mitsui Garden Kyoto Kawaramachi Jokyoji",
+          "nameEn": "Mitsui Garden Kyoto Kawaramachi Jokyoji",
+          "lat": 35.0028,
+          "lng": 135.7671
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 4,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 4,
+        "distanceKm": 0.3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.004,135.769&destination=35.0028,135.7671&travelmode=walking"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 62,
+      "totalWalkingMinutes": 28,
+      "totalDistanceKm": 26.1,
+      "modes": [
+        "train",
+        "walk"
+      ]
+    }
   },
   "notes": "וילה קאצורה — להזמין חודש מראש באתר IHA. עילאי — אופניים לאורך הנהר באראשיאמה"
 }

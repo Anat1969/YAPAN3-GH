@@ -68,11 +68,141 @@
     "icecream": ""
   },
   "transport": {
-    "type": "רכבת",
-    "from": "KIX",
-    "to": "Namba",
-    "duration": "38 דק׳",
-    "cost": "1450 ין"
+    "segments": [
+      {
+        "id": "d1-s1",
+        "from": {
+          "name": "מלון &Here OSAKA NAMBA",
+          "nameEn": "&Here OSAKA NAMBA",
+          "lat": 34.6632,
+          "lng": 135.5045
+        },
+        "to": {
+          "name": "הגעה לנמל התעופה קנסאי",
+          "nameEn": "Kansai International Airport (KIX)",
+          "lat": 34.4347,
+          "lng": 135.244
+        },
+        "mode": "flight",
+        "details": {
+          "note": "טיסה — פרטים בדף ההזמנות",
+          "transfers": 0
+        },
+        "totalMinutes": null,
+        "distanceKm": 0,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6632,135.5045&destination=34.4347,135.244&travelmode=transit"
+      },
+      {
+        "id": "d1-s2",
+        "from": {
+          "name": "הגעה לנמל התעופה קנסאי",
+          "nameEn": "Kansai International Airport (KIX)",
+          "lat": 34.4347,
+          "lng": 135.244
+        },
+        "to": {
+          "name": "צ׳ק-אין במלון",
+          "nameEn": "&Here OSAKA NAMBA",
+          "lat": 34.6632,
+          "lng": 135.5045
+        },
+        "mode": "flight",
+        "details": {
+          "note": "טיסה — פרטים בדף ההזמנות",
+          "transfers": 0
+        },
+        "totalMinutes": null,
+        "distanceKm": 0,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.4347,135.244&destination=34.6632,135.5045&travelmode=transit"
+      },
+      {
+        "id": "d1-s3",
+        "from": {
+          "name": "צ׳ק-אין במלון",
+          "nameEn": "&Here OSAKA NAMBA",
+          "lat": 34.6632,
+          "lng": 135.5045
+        },
+        "to": {
+          "name": "דוטונבורי",
+          "nameEn": "Dotonbori",
+          "lat": 34.6687,
+          "lng": 135.5031
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 11,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 11,
+        "distanceKm": 0.8,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6632,135.5045&destination=34.6687,135.5031&travelmode=walking"
+      },
+      {
+        "id": "d1-s4",
+        "from": {
+          "name": "דוטונבורי",
+          "nameEn": "Dotonbori",
+          "lat": 34.6687,
+          "lng": 135.5031
+        },
+        "to": {
+          "name": "הוזנג׳י יוקוצ׳ו",
+          "nameEn": "Hozenji Yokocho",
+          "lat": 34.6688,
+          "lng": 135.5012
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 3,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 3,
+        "distanceKm": 0.2,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6687,135.5031&destination=34.6688,135.5012&travelmode=walking"
+      },
+      {
+        "id": "d1-s5",
+        "from": {
+          "name": "הוזנג׳י יוקוצ׳ו",
+          "nameEn": "Hozenji Yokocho",
+          "lat": 34.6688,
+          "lng": 135.5012
+        },
+        "to": {
+          "name": "מלון &Here OSAKA NAMBA",
+          "nameEn": "&Here OSAKA NAMBA",
+          "lat": 34.6632,
+          "lng": 135.5045
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 12,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 12,
+        "distanceKm": 0.9,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6688,135.5012&destination=34.6632,135.5045&travelmode=walking"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 0,
+      "totalWalkingMinutes": 26,
+      "totalDistanceKm": 1.9,
+      "modes": [
+        "flight",
+        "walk"
+      ]
+    }
   },
   "notes": "יום הגעה — לא להעמיס. לישון מוקדם להתגבר על ג׳ט לג"
 }

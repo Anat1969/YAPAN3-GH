@@ -82,11 +82,173 @@
     "icecream": ""
   },
   "transport": {
-    "type": "רכב",
-    "from": "Utoro",
-    "to": "Mashu → Kussharo",
-    "duration": "2 שעות סה״כ",
-    "cost": ""
+    "segments": [
+      {
+        "id": "d13-s1",
+        "from": {
+          "name": "מלון Kussharo Prince Hotel",
+          "nameEn": "Kussharo Prince Hotel",
+          "lat": 43.5858,
+          "lng": 144.2745
+        },
+        "to": {
+          "name": "מעבר שירטוקו",
+          "nameEn": "Shiretoko Pass",
+          "lat": 43.9614,
+          "lng": 145.0872
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 119,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 119,
+        "distanceKm": 89.1,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.5858,144.2745&destination=43.9614,145.0872&travelmode=driving"
+      },
+      {
+        "id": "d13-s2",
+        "from": {
+          "name": "מעבר שירטוקו",
+          "nameEn": "Shiretoko Pass",
+          "lat": 43.9614,
+          "lng": 145.0872
+        },
+        "to": {
+          "name": "אגם מאשו",
+          "nameEn": "Lake Mashu",
+          "lat": 43.5757,
+          "lng": 144.5303
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 95,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 95,
+        "distanceKm": 71.3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.9614,145.0872&destination=43.5757,144.5303&travelmode=driving"
+      },
+      {
+        "id": "d13-s3",
+        "from": {
+          "name": "אגם מאשו",
+          "nameEn": "Lake Mashu",
+          "lat": 43.5757,
+          "lng": 144.5303
+        },
+        "to": {
+          "name": "אגם קושארו",
+          "nameEn": "Lake Kussharo",
+          "lat": 43.61,
+          "lng": 144.33
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 25,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 25,
+        "distanceKm": 19.1,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.5757,144.5303&destination=43.61,144.33&travelmode=driving"
+      },
+      {
+        "id": "d13-s4",
+        "from": {
+          "name": "אגם קושארו",
+          "nameEn": "Lake Kussharo",
+          "lat": 43.61,
+          "lng": 144.33
+        },
+        "to": {
+          "name": "קאוואיו אונסן",
+          "nameEn": "Kawayu Onsen area",
+          "lat": 43.6355,
+          "lng": 144.4464
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 15,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 15,
+        "distanceKm": 11.3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.61,144.33&destination=43.6355,144.4464&travelmode=driving"
+      },
+      {
+        "id": "d13-s5",
+        "from": {
+          "name": "קאוואיו אונסן",
+          "nameEn": "Kawayu Onsen area",
+          "lat": 43.6355,
+          "lng": 144.4464
+        },
+        "to": {
+          "name": "צ׳ק-אין קושארו פרינס",
+          "nameEn": "Kussharo Prince Hotel",
+          "lat": 43.5858,
+          "lng": 144.2745
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 23,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 23,
+        "distanceKm": 17.1,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.6355,144.4464&destination=43.5858,144.2745&travelmode=driving"
+      },
+      {
+        "id": "d13-s6",
+        "from": {
+          "name": "צ׳ק-אין קושארו פרינס",
+          "nameEn": "Kussharo Prince Hotel",
+          "lat": 43.5858,
+          "lng": 144.2745
+        },
+        "to": {
+          "name": "מלון Kussharo Prince Hotel",
+          "nameEn": "Kussharo Prince Hotel",
+          "lat": 43.5858,
+          "lng": 144.2745
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 0,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 0,
+        "distanceKm": 0,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.5858,144.2745&destination=43.5858,144.2745&travelmode=walking"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 277,
+      "totalWalkingMinutes": 0,
+      "totalDistanceKm": 207.9,
+      "modes": [
+        "car",
+        "walk"
+      ]
+    }
   },
   "notes": "נסיעה יפה דרך מעבר שירטוקו. מזוודות ברכב"
 }

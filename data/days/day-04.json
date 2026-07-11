@@ -82,11 +82,174 @@
     "icecream": ""
   },
   "transport": {
-    "type": "רכבת JR",
-    "from": "Osaka",
-    "to": "Sannomiya (Kobe)",
-    "duration": "20 דק׳",
-    "cost": "420 ין"
+    "segments": [
+      {
+        "id": "d4-s1",
+        "from": {
+          "name": "מלון &Here OSAKA NAMBA",
+          "nameEn": "&Here OSAKA NAMBA",
+          "lat": 34.6632,
+          "lng": 135.5045
+        },
+        "to": {
+          "name": "הרבור קובה",
+          "nameEn": "Kobe Harborland",
+          "lat": 34.6801,
+          "lng": 135.1853
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 51,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 61,
+        "distanceKm": 38,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6632,135.5045&destination=34.6801,135.1853&travelmode=transit"
+      },
+      {
+        "id": "d4-s2",
+        "from": {
+          "name": "הרבור קובה",
+          "nameEn": "Kobe Harborland",
+          "lat": 34.6801,
+          "lng": 135.1853
+        },
+        "to": {
+          "name": "שכונת קיטאנו",
+          "nameEn": "Kitano-cho",
+          "lat": 34.702,
+          "lng": 135.1901
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 6,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 14,
+        "distanceKm": 3.2,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6801,135.1853&destination=34.702,135.1901&travelmode=transit"
+      },
+      {
+        "id": "d4-s3",
+        "from": {
+          "name": "שכונת קיטאנו",
+          "nameEn": "Kitano-cho",
+          "lat": 34.702,
+          "lng": 135.1901
+        },
+        "to": {
+          "name": "מוזיאון רעידת אדמה",
+          "nameEn": "Disaster Reduction Museum",
+          "lat": 34.696,
+          "lng": 135.2062
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 4,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 12,
+        "distanceKm": 2.1,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.702,135.1901&destination=34.696,135.2062&travelmode=transit"
+      },
+      {
+        "id": "d4-s4",
+        "from": {
+          "name": "מוזיאון רעידת אדמה",
+          "nameEn": "Disaster Reduction Museum",
+          "lat": 34.696,
+          "lng": 135.2062
+        },
+        "to": {
+          "name": "בשר קובה — ארוחה",
+          "nameEn": "Kobe Beef Lunch",
+          "lat": 34.695,
+          "lng": 135.195
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 3,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 11,
+        "distanceKm": 1.3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.696,135.2062&destination=34.695,135.195&travelmode=transit"
+      },
+      {
+        "id": "d4-s5",
+        "from": {
+          "name": "בשר קובה — ארוחה",
+          "nameEn": "Kobe Beef Lunch",
+          "lat": 34.695,
+          "lng": 135.195
+        },
+        "to": {
+          "name": "חזרה לאוסקה",
+          "nameEn": "Return to Osaka",
+          "lat": 34.6659,
+          "lng": 135.5013
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 49,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 59,
+        "distanceKm": 36.6,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.695,135.195&destination=34.6659,135.5013&travelmode=transit"
+      },
+      {
+        "id": "d4-s6",
+        "from": {
+          "name": "חזרה לאוסקה",
+          "nameEn": "Return to Osaka",
+          "lat": 34.6659,
+          "lng": 135.5013
+        },
+        "to": {
+          "name": "מלון &Here OSAKA NAMBA",
+          "nameEn": "&Here OSAKA NAMBA",
+          "lat": 34.6632,
+          "lng": 135.5045
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 7,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 7,
+        "distanceKm": 0.5,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6659,135.5013&destination=34.6632,135.5045&travelmode=walking"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 157,
+      "totalWalkingMinutes": 7,
+      "totalDistanceKm": 81.7,
+      "modes": [
+        "train",
+        "metro",
+        "walk"
+      ]
+    }
   },
   "notes": "אלטרנטיבה: יום חופשי באוסקה + יוניברסל סטודיוס"
 }

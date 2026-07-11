@@ -82,11 +82,174 @@
     "icecream": ""
   },
   "transport": {
-    "type": "מטרו JR",
-    "from": "Tokyo Station",
-    "to": "Shinjuku (JR Chuo)",
-    "duration": "15 דק׳",
-    "cost": "200 ין"
+    "segments": [
+      {
+        "id": "d26-s1",
+        "from": {
+          "name": "מלון karaksa hotel colors Tokyo Yaesu",
+          "nameEn": "karaksa hotel colors Tokyo Yaesu",
+          "lat": 35.6812,
+          "lng": 139.7745
+        },
+        "to": {
+          "name": "שינג׳וקו גיואן",
+          "nameEn": "Shinjuku Gyoen",
+          "lat": 35.6852,
+          "lng": 139.71
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 10,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 20,
+        "distanceKm": 7.6,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=35.6852,139.71&travelmode=transit"
+      },
+      {
+        "id": "d26-s2",
+        "from": {
+          "name": "שינג׳וקו גיואן",
+          "nameEn": "Shinjuku Gyoen",
+          "lat": 35.6852,
+          "lng": 139.71
+        },
+        "to": {
+          "name": "אקיהאברה",
+          "nameEn": "Akihabara",
+          "lat": 35.7023,
+          "lng": 139.7745
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 11,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 21,
+        "distanceKm": 8,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6852,139.71&destination=35.7023,139.7745&travelmode=transit"
+      },
+      {
+        "id": "d26-s3",
+        "from": {
+          "name": "אקיהאברה",
+          "nameEn": "Akihabara",
+          "lat": 35.7023,
+          "lng": 139.7745
+        },
+        "to": {
+          "name": "גינזה",
+          "nameEn": "Ginza",
+          "lat": 35.6717,
+          "lng": 139.7649
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 9,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 17,
+        "distanceKm": 4.6,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.7023,139.7745&destination=35.6717,139.7649&travelmode=transit"
+      },
+      {
+        "id": "d26-s4",
+        "from": {
+          "name": "גינזה",
+          "nameEn": "Ginza",
+          "lat": 35.6717,
+          "lng": 139.7649
+        },
+        "to": {
+          "name": "גולדן גאי",
+          "nameEn": "Golden Gai",
+          "lat": 35.6938,
+          "lng": 139.7036
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 11,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 21,
+        "distanceKm": 7.9,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6717,139.7649&destination=35.6938,139.7036&travelmode=transit"
+      },
+      {
+        "id": "d26-s5",
+        "from": {
+          "name": "גולדן גאי",
+          "nameEn": "Golden Gai",
+          "lat": 35.6938,
+          "lng": 139.7036
+        },
+        "to": {
+          "name": "אומויידה יוקוצ׳ו",
+          "nameEn": "Omoide Yokocho (Piss Alley)",
+          "lat": 35.6936,
+          "lng": 139.6986
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 8,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 8,
+        "distanceKm": 0.6,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6938,139.7036&destination=35.6936,139.6986&travelmode=walking"
+      },
+      {
+        "id": "d26-s6",
+        "from": {
+          "name": "אומויידה יוקוצ׳ו",
+          "nameEn": "Omoide Yokocho (Piss Alley)",
+          "lat": 35.6936,
+          "lng": 139.6986
+        },
+        "to": {
+          "name": "מלון karaksa hotel colors Tokyo Yaesu",
+          "nameEn": "karaksa hotel colors Tokyo Yaesu",
+          "lat": 35.6812,
+          "lng": 139.7745
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 12,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 22,
+        "distanceKm": 9.1,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6936,139.6986&destination=35.6812,139.7745&travelmode=transit"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 101,
+      "totalWalkingMinutes": 8,
+      "totalDistanceKm": 37.8,
+      "modes": [
+        "train",
+        "metro",
+        "walk"
+      ]
+    }
   },
   "notes": "ערב בגולדן גאי — לא מתאים לילדים מתחת 18 (חלק מהבארים). עילאי ולוטם — שיבויה/הראג׳וקו?"
 }

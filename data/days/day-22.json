@@ -82,11 +82,173 @@
     "icecream": ""
   },
   "transport": {
-    "type": "רכב",
-    "from": "Biei/Otaru",
-    "to": "Lake Toya",
-    "duration": "2 שעות",
-    "cost": ""
+    "segments": [
+      {
+        "id": "d22-s1",
+        "from": {
+          "name": "מלון TOYA Center Village",
+          "nameEn": "TOYA Center Village",
+          "lat": 42.5667,
+          "lng": 140.85
+        },
+        "to": {
+          "name": "נסיעה ללייק טויה",
+          "nameEn": "Drive to Lake Toya",
+          "lat": 42.5667,
+          "lng": 140.85
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 0,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 0,
+        "distanceKm": 0,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=42.5667,140.85&destination=42.5667,140.85&travelmode=walking"
+      },
+      {
+        "id": "d22-s2",
+        "from": {
+          "name": "נסיעה ללייק טויה",
+          "nameEn": "Drive to Lake Toya",
+          "lat": 42.5667,
+          "lng": 140.85
+        },
+        "to": {
+          "name": "רכבל הר אוסו",
+          "nameEn": "Mt. Usu Ropeway",
+          "lat": 42.5442,
+          "lng": 140.8411
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 4,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 4,
+        "distanceKm": 3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=42.5667,140.85&destination=42.5442,140.8411&travelmode=driving"
+      },
+      {
+        "id": "d22-s3",
+        "from": {
+          "name": "רכבל הר אוסו",
+          "nameEn": "Mt. Usu Ropeway",
+          "lat": 42.5442,
+          "lng": 140.8411
+        },
+        "to": {
+          "name": "שביל הר געש 2000",
+          "nameEn": "Nishiyama Crater Trail",
+          "lat": 42.543,
+          "lng": 140.783
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 7,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 7,
+        "distanceKm": 5.5,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=42.5442,140.8411&destination=42.543,140.783&travelmode=driving"
+      },
+      {
+        "id": "d22-s4",
+        "from": {
+          "name": "שביל הר געש 2000",
+          "nameEn": "Nishiyama Crater Trail",
+          "lat": 42.543,
+          "lng": 140.783
+        },
+        "to": {
+          "name": "טיילת אגם טויה",
+          "nameEn": "Lake Toya Promenade",
+          "lat": 42.5667,
+          "lng": 140.85
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 9,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 9,
+        "distanceKm": 7,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=42.543,140.783&destination=42.5667,140.85&travelmode=driving"
+      },
+      {
+        "id": "d22-s5",
+        "from": {
+          "name": "טיילת אגם טויה",
+          "nameEn": "Lake Toya Promenade",
+          "lat": 42.5667,
+          "lng": 140.85
+        },
+        "to": {
+          "name": "זיקוקים",
+          "nameEn": "Lake Toya Fireworks",
+          "lat": 42.5667,
+          "lng": 140.85
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 0,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 0,
+        "distanceKm": 0,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=42.5667,140.85&destination=42.5667,140.85&travelmode=walking"
+      },
+      {
+        "id": "d22-s6",
+        "from": {
+          "name": "זיקוקים",
+          "nameEn": "Lake Toya Fireworks",
+          "lat": 42.5667,
+          "lng": 140.85
+        },
+        "to": {
+          "name": "מלון TOYA Center Village",
+          "nameEn": "TOYA Center Village",
+          "lat": 42.5667,
+          "lng": 140.85
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 0,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 0,
+        "distanceKm": 0,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=42.5667,140.85&destination=42.5667,140.85&travelmode=walking"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 20,
+      "totalWalkingMinutes": 0,
+      "totalDistanceKm": 15.5,
+      "modes": [
+        "walk",
+        "car"
+      ]
+    }
   },
   "notes": "TOYA Center Village — טריילרים מאובזרים, 6 דק׳ מהאגם. החזרת רכב למחרת?"
 }

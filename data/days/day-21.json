@@ -42,11 +42,95 @@
     "icecream": "LeTAO — עוגת גבינה כפולה"
   },
   "transport": {
-    "type": "רכב",
-    "from": "Biei/Furano",
-    "to": "Otaru",
-    "duration": "2.5 שעות",
-    "cost": ""
+    "segments": [
+      {
+        "id": "d21-s1",
+        "from": {
+          "name": "מלון Hilton Niseko Village",
+          "nameEn": "Hilton Niseko Village",
+          "lat": 42.8466,
+          "lng": 140.6847
+        },
+        "to": {
+          "name": "נסיעה לאוטארו",
+          "nameEn": "Drive to Otaru/Shakotan",
+          "lat": 43.1907,
+          "lng": 140.9946
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 70,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 70,
+        "distanceKm": 52.7,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=42.8466,140.6847&destination=43.1907,140.9946&travelmode=driving"
+      },
+      {
+        "id": "d21-s2",
+        "from": {
+          "name": "נסיעה לאוטארו",
+          "nameEn": "Drive to Otaru/Shakotan",
+          "lat": 43.1907,
+          "lng": 140.9946
+        },
+        "to": {
+          "name": "אוטארו — תעלה ומוזיאונים",
+          "nameEn": "Otaru Canal",
+          "lat": 43.197,
+          "lng": 140.999
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 14,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 14,
+        "distanceKm": 1,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.1907,140.9946&destination=43.197,140.999&travelmode=walking"
+      },
+      {
+        "id": "d21-s3",
+        "from": {
+          "name": "אוטארו — תעלה ומוזיאונים",
+          "nameEn": "Otaru Canal",
+          "lat": 43.197,
+          "lng": 140.999
+        },
+        "to": {
+          "name": "מלון Hilton Niseko Village",
+          "nameEn": "Hilton Niseko Village",
+          "lat": 42.8466,
+          "lng": 140.6847
+        },
+        "mode": "car",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 71,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 71,
+        "distanceKm": 53.6,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=43.197,140.999&destination=42.8466,140.6847&travelmode=driving"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 141,
+      "totalWalkingMinutes": 14,
+      "totalDistanceKm": 107.3,
+      "modes": [
+        "car",
+        "walk"
+      ]
+    }
   },
   "notes": "לינה בביאי או באוטארו — תלוי בתכנון",
   "hotelId": 13,

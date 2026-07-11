@@ -69,11 +69,147 @@
     "icecream": "גלידת מאצ׳ה — Tsujiri בגיון"
   },
   "transport": {
-    "type": "רכבת",
-    "from": "Osaka (Namba)",
-    "to": "Kyoto (Kawaramachi)",
-    "duration": "45 דק׳ Hankyu",
-    "cost": "410 ין"
+    "segments": [
+      {
+        "id": "d5-s1",
+        "from": {
+          "name": "מלון Mitsui Garden Kyoto Kawaramachi Jokyoji",
+          "nameEn": "Mitsui Garden Kyoto Kawaramachi Jokyoji",
+          "lat": 35.0028,
+          "lng": 135.7671
+        },
+        "to": {
+          "name": "פושימי אינארי",
+          "nameEn": "Fushimi Inari Taisha",
+          "lat": 34.9671,
+          "lng": 135.7727
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 7,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 17,
+        "distanceKm": 5.2,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.0028,135.7671&destination=34.9671,135.7727&travelmode=transit"
+      },
+      {
+        "id": "d5-s2",
+        "from": {
+          "name": "פושימי אינארי",
+          "nameEn": "Fushimi Inari Taisha",
+          "lat": 34.9671,
+          "lng": 135.7727
+        },
+        "to": {
+          "name": "הליכה ניננזאקה — סאננזאקה",
+          "nameEn": "Ninenzaka & Sannenzaka",
+          "lat": 34.9966,
+          "lng": 135.7816
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 6,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 16,
+        "distanceKm": 4.4,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.9671,135.7727&destination=34.9966,135.7816&travelmode=transit"
+      },
+      {
+        "id": "d5-s3",
+        "from": {
+          "name": "הליכה ניננזאקה — סאננזאקה",
+          "nameEn": "Ninenzaka & Sannenzaka",
+          "lat": 34.9966,
+          "lng": 135.7816
+        },
+        "to": {
+          "name": "גיון",
+          "nameEn": "Gion District",
+          "lat": 35.0037,
+          "lng": 135.7756
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 17,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 17,
+        "distanceKm": 1.2,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.9966,135.7816&destination=35.0037,135.7756&travelmode=walking"
+      },
+      {
+        "id": "d5-s4",
+        "from": {
+          "name": "גיון",
+          "nameEn": "Gion District",
+          "lat": 35.0037,
+          "lng": 135.7756
+        },
+        "to": {
+          "name": "פונטוצ׳ו",
+          "nameEn": "Pontocho Alley",
+          "lat": 35.0071,
+          "lng": 135.7708
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 10,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 10,
+        "distanceKm": 0.8,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.0037,135.7756&destination=35.0071,135.7708&travelmode=walking"
+      },
+      {
+        "id": "d5-s5",
+        "from": {
+          "name": "פונטוצ׳ו",
+          "nameEn": "Pontocho Alley",
+          "lat": 35.0071,
+          "lng": 135.7708
+        },
+        "to": {
+          "name": "מלון Mitsui Garden Kyoto Kawaramachi Jokyoji",
+          "nameEn": "Mitsui Garden Kyoto Kawaramachi Jokyoji",
+          "lat": 35.0028,
+          "lng": 135.7671
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 10,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 10,
+        "distanceKm": 0.8,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.0071,135.7708&destination=35.0028,135.7671&travelmode=walking"
+      }
+    ],
+    "summary": {
+      "totalTransitMinutes": 33,
+      "totalWalkingMinutes": 37,
+      "totalDistanceKm": 12.4,
+      "modes": [
+        "train",
+        "walk"
+      ]
+    }
   },
   "notes": "מעבר מאוסקה לקיוטו. Takkyubin למזוודות. צ׳ק-אין ב-Mitsui Garden"
 }
