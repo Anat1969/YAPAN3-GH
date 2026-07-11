@@ -22,7 +22,11 @@
     "timeOfDay": "",
     "booked": false,
     "notes": "אוכל רחוב, אורות ניאון, שלטים",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Osaka_Dotonbori_Ebisu_Bridge.jpg/500px-Osaka_Dotonbori_Ebisu_Bridge.jpg"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Osaka_Dotonbori_Ebisu_Bridge.jpg/500px-Osaka_Dotonbori_Ebisu_Bridge.jpg",
+    "category": [
+      "אוכל",
+      "תרבות ואמנות"
+    ]
   },
   {
     "id": 2,
@@ -47,7 +51,11 @@
     "timeOfDay": "",
     "booked": false,
     "notes": "10,000 שערי טורי, מסלול הליכה על ההר",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Torii_path_with_lantern_at_Fushimi_Inari_Taisha_Shrine%2C_Kyoto%2C_Japan.jpg/500px-Torii_path_with_lantern_at_Fushimi_Inari_Taisha_Shrine%2C_Kyoto%2C_Japan.jpg"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Torii_path_with_lantern_at_Fushimi_Inari_Taisha_Shrine%2C_Kyoto%2C_Japan.jpg/500px-Torii_path_with_lantern_at_Fushimi_Inari_Taisha_Shrine%2C_Kyoto%2C_Japan.jpg",
+    "category": [
+      "אתר דתי או רוחני",
+      "טבע"
+    ]
   },
   {
     "id": 3,
@@ -72,7 +80,11 @@
     "timeOfDay": "",
     "booked": false,
     "notes": "אחד מ-3 הגנים היפים ביפן",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Stone_lantern_Kenrokuen.jpg/500px-Stone_lantern_Kenrokuen.jpg"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Stone_lantern_Kenrokuen.jpg/500px-Stone_lantern_Kenrokuen.jpg",
+    "category": [
+      "טבע",
+      "היסטוריה"
+    ]
   },
   {
     "id": 201,
@@ -97,7 +109,11 @@
     "timeOfDay": "09:30",
     "booked": false,
     "notes": "גן יפני מודרני מתקופת מייג'י. עיצוב אוגאווה ג'יהיי — אדריכל הנוף הגדול. שאקיי (נוף מושאל) — הרי היגאשיאמה כחלק מהקומפוזיציה. שני מבנים: יפני מסורתי + מערבי. בקומה 2 — חדר ועידת מורין-אן 1903 (לפני מלחמת רוסיה-יפן). הזמנה מראש באתר murin-an.jp",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Murinan01r.jpg/500px-Murinan01r.jpg"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Murinan01r.jpg/500px-Murinan01r.jpg",
+    "category": [
+      "טבע",
+      "אדריכלות"
+    ]
   },
   {
     "id": 202,
@@ -124,7 +140,11 @@
     "timeOfDay": "11:00",
     "booked": false,
     "notes": "המקדש הזן הוותיק ביותר בקיוטו (1202). מוסתר בלב גיון. ציור התאומים הדרקונים על התקרה — אחד הגדולים ביפן. גנים זן מינימליסטיים. שקט למרות המיקום",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/150124_Kenninji_Kyoto_Japan01s3.jpg/500px-150124_Kenninji_Kyoto_Japan01s3.jpg"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/150124_Kenninji_Kyoto_Japan01s3.jpg/500px-150124_Kenninji_Kyoto_Japan01s3.jpg",
+    "category": [
+      "אתר דתי או רוחני",
+      "היסטוריה"
+    ]
   },
   {
     "id": 203,
@@ -149,7 +169,11 @@
     "timeOfDay": "13:00",
     "booked": false,
     "notes": "37 מבשלות סאקה פעילות. תעלות + מחסני עץ. טעימות: Gekkeikan Okura Museum (400¥), Kizakura Kappa Country (חינם). שייט ג'וקה-בונה על התעלות (1200¥, 55 דק'). 20 דק' רכבת Keihan מגיון",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Fushimi_momoyaja_jyou_04.jpg/500px-Fushimi_momoyaja_jyou_04.jpg"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Fushimi_momoyaja_jyou_04.jpg/500px-Fushimi_momoyaja_jyou_04.jpg",
+    "category": [
+      "אוכל",
+      "היסטוריה"
+    ]
   },
   {
     "id": 204,
@@ -174,7 +198,11 @@
     "timeOfDay": "16:00",
     "booked": false,
     "notes": "הסמטאות ההיסטוריות — אחרי 16:00 הקהל מתפזר, החנויות נסגרות ~17:00. אבני מדרכה + פנסים ללא המונים. פגודת יאסאקה ברקע. קניות קונספט + קוסמטיקה יפנית לפני הסגירה",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Pedestrian_road_with_pavements_and_paper_umbrellas%2C_Higashiyama-ku%2C_Kyoto%2C_Japan%2C_early_morning.jpg/500px-Pedestrian_road_with_pavements_and_paper_umbrellas%2C_Higashiyama-ku%2C_Kyoto%2C_Japan%2C_early_morning.jpg"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Pedestrian_road_with_pavements_and_paper_umbrellas%2C_Higashiyama-ku%2C_Kyoto%2C_Japan%2C_early_morning.jpg/500px-Pedestrian_road_with_pavements_and_paper_umbrellas%2C_Higashiyama-ku%2C_Kyoto%2C_Japan%2C_early_morning.jpg",
+    "category": [
+      "היסטוריה",
+      "קניות"
+    ]
   },
   {
     "id": 205,
@@ -201,7 +229,10 @@
     "timeOfDay": "18:00",
     "booked": false,
     "notes": "נחשב לרחוב היפה ביותר באסיה. פנסי נייר, בתי גיישה מעץ, גשר טאטסומי מעל תעלת שיראקאווה. בין השקיעה לחשיכה — הרגע הכי קסום",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/150124_Gion_Kyoto_Japan01s3.jpg/500px-150124_Gion_Kyoto_Japan01s3.jpg"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/150124_Gion_Kyoto_Japan01s3.jpg/500px-150124_Gion_Kyoto_Japan01s3.jpg",
+    "category": [
+      "תרבות ואמנות"
+    ]
   },
   {
     "id": 210,
@@ -228,7 +259,10 @@
     "timeOfDay": "18:00",
     "booked": false,
     "notes": "תצפית על גבעה מעל אוטורו. שקיעה שוקעת לתוך ים אוחוצק — אחת היפות בהוקאידו. חינם, חניה חינם. 15 דק' הליכה ממרכז אוטורו. באוגוסט שקיעה ~18:30-19:00",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Uji-Utoro_district3.JPG/500px-Uji-Utoro_district3.JPG"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Uji-Utoro_district3.JPG/500px-Uji-Utoro_district3.JPG",
+    "category": [
+      "טבע"
+    ]
   },
   {
     "id": 211,
@@ -255,7 +289,10 @@
     "timeOfDay": "19:00",
     "booked": true,
     "notes": "כלול בלינה. אמבטיות חמות עם נוף לים. אחרי יום טיסה + נסיעה — הדרך הנכונה לסיים",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Uji-Utoro_district3.JPG/500px-Uji-Utoro_district3.JPG"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Uji-Utoro_district3.JPG/500px-Uji-Utoro_district3.JPG",
+    "category": [
+      "סדנה והתנסות"
+    ]
   },
   {
     "id": 220,
@@ -280,7 +317,10 @@
     "timeOfDay": "18:15",
     "booked": false,
     "notes": "נקודת שקיעה פנורמית — שדות טלאים + הרי טוקאצ'י ברקע. פחות תיירותי מהגבעות המפורסמות. באוגוסט שקיעה ~18:45. 10 דק' רכב מביאי",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Biei_Hokkaido.jpg/500px-Biei_Hokkaido.jpg"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Biei_Hokkaido.jpg/500px-Biei_Hokkaido.jpg",
+    "category": [
+      "טבע"
+    ]
   },
   {
     "id": 221,
@@ -307,7 +347,10 @@
     "timeOfDay": "19:00",
     "booked": false,
     "notes": "עיירת אונסן ליד הבריכה הכחולה. מי מעיינות עשירים במינרלים — אותם מינרלים שצובעים את הבריכה. Hotel Park Hills מקבל מבקרי יום (800-1500¥). אמבטיות חוץ בין עצים",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Biei_Hokkaido.jpg/500px-Biei_Hokkaido.jpg"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Biei_Hokkaido.jpg/500px-Biei_Hokkaido.jpg",
+    "category": [
+      "סדנה והתנסות"
+    ]
   },
   {
     "id": 230,
@@ -332,7 +375,11 @@
     "timeOfDay": "17:00",
     "booked": false,
     "notes": "יקב עירוני — הוקאידו מייצרת את היין הטוב ביותר ביפן. טעימות חינם. גן לבנדר + נקודת שקיעה מאחורי היקב",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Furano_Snow_Resort_view2.JPG/500px-Furano_Snow_Resort_view2.JPG"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Furano_Snow_Resort_view2.JPG/500px-Furano_Snow_Resort_view2.JPG",
+    "category": [
+      "אוכל",
+      "סדנה והתנסות"
+    ]
   },
   {
     "id": 231,
@@ -357,7 +404,10 @@
     "timeOfDay": "18:00",
     "booked": false,
     "notes": "שוק תוצרת מקומית — גבינות, חמאה, ריבות, מלון יובארי. גלידת לבנדר + מלון. חנויות מזכרות הוקאידיות. 3 דק' הליכה מתחנת JR Furano",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Furano_Snow_Resort_view2.JPG/500px-Furano_Snow_Resort_view2.JPG"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Furano_Snow_Resort_view2.JPG/500px-Furano_Snow_Resort_view2.JPG",
+    "category": [
+      "קניות"
+    ]
   },
   {
     "id": 240,
@@ -382,7 +432,11 @@
     "timeOfDay": "09:30",
     "booked": false,
     "notes": "לולאה דרומית — שדות צבעוניים, גבעות מתגלגלות, הרי טוקאצ'י. עצירות: Shikisai-no-Oka (חינם), חוות אלפקות (500¥). אופניים חשמליים ~2500¥ חצי יום",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Biei_Hokkaido.jpg/500px-Biei_Hokkaido.jpg"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Biei_Hokkaido.jpg/500px-Biei_Hokkaido.jpg",
+    "category": [
+      "פעילות ספורטיבית",
+      "טבע"
+    ]
   },
   {
     "id": 241,
@@ -407,7 +461,10 @@
     "timeOfDay": "14:00",
     "booked": false,
     "notes": "בריכה טורקיז + גזעי עצים שלדיים — תמונת ברירת מחדל של Apple Mac. צבע ממינרלים וולקניים. חניה 500¥. עמוס — לפני 09:00 או אחרי 16:00",
-    "image": null
+    "image": null,
+    "category": [
+      "טבע"
+    ]
   },
   {
     "id": 242,
@@ -432,7 +489,10 @@
     "timeOfDay": "14:45",
     "booked": false,
     "notes": "מפל מסלעי געש ישירות לנהר ביאי — אותם מינרלים שצובעים את הבריכה. נצפה מגשר. 5 דק' רכב מהבריכה",
-    "image": null
+    "image": null,
+    "category": [
+      "טבע"
+    ]
   },
   {
     "id": 243,
@@ -457,7 +517,11 @@
     "timeOfDay": "10:00",
     "booked": false,
     "notes": "סדנת חמאה/גלידה (800¥, 40 דק'). טעימות גבינות חינם. גלידת גבינה מעולה. אפשרות לבוקר רגוע",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Furano_Snow_Resort_view2.JPG/500px-Furano_Snow_Resort_view2.JPG"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Furano_Snow_Resort_view2.JPG/500px-Furano_Snow_Resort_view2.JPG",
+    "category": [
+      "סדנה והתנסות",
+      "אוכל"
+    ]
   },
   {
     "id": 244,
@@ -482,7 +546,10 @@
     "timeOfDay": "10:00",
     "booked": false,
     "notes": "אונסן הר בגובה 1280 מ'. טיול קצר 1-2 שעות לתצפיות על שרשרת הרי טוקאצ'י. Kamihoro-so — ריוקאן עם אונסן חוצות + נוף מטורף. 40 דק' רכב מביאי",
-    "image": null
+    "image": null,
+    "category": [
+      "סדנה והתנסות"
+    ]
   },
   {
     "id": 250,
@@ -509,7 +576,10 @@
     "timeOfDay": "17:30",
     "booked": false,
     "notes": "מסעדת סושי ותיקה מעל 80 שנה ברחוב הסושי. דלפק ל-30 סועדים. סט טאקומי — 12 ניגירי (שרימפס, אוני, איקורה, סלמון) 6,050¥. תפריט ילדים. סטים צהריים מ-1500¥. אומאקאסה ערב 5,000-15,000¥. צמחוני: Inari sushi + טמפורה ירקות",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Otaru_Montage.jpg/500px-Otaru_Montage.jpg"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Otaru_Montage.jpg/500px-Otaru_Montage.jpg",
+    "category": [
+      "אוכל"
+    ]
   },
   {
     "id": 260,
@@ -534,7 +604,11 @@
     "timeOfDay": "15:00",
     "booked": false,
     "notes": "הקניון הגדול בעולם — 1200 חנויות. מזגן חזק. אקווריום (צפייה חינם, כרטיס ~155 AED). לוטם — בוטיקים ואופנה. עילאי — VR Park. מטרו Red Line תחנת Burj Khalifa/Dubai Mall",
-    "image": "https://upload.wikimedia.org/wikipedia/en/thumb/d/df/Dubai_Mall_10.jpg/500px-Dubai_Mall_10.jpg"
+    "image": "https://upload.wikimedia.org/wikipedia/en/thumb/d/df/Dubai_Mall_10.jpg/500px-Dubai_Mall_10.jpg",
+    "category": [
+      "קניות",
+      "טכנולוגיה ועתיד"
+    ]
   },
   {
     "id": 261,
@@ -561,7 +635,11 @@
     "timeOfDay": "18:30",
     "booked": false,
     "notes": "מערכת מזרקות כוריאוגרפית הגדולה בעולם — 275 מ' אורך, סילונים עד 150 מ'. חינם מכל נקודה. הגיעו 15 דק' לפני מופע. הטיילת הצפה (Boardwalk) 25 AED. סירה (Abra) 65-95 AED",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Dubai_Fountain.jpg/500px-Dubai_Fountain.jpg"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Dubai_Fountain.jpg/500px-Dubai_Fountain.jpg",
+    "category": [
+      "תרבות ואמנות",
+      "טכנולוגיה ועתיד"
+    ]
   },
   {
     "id": 270,
@@ -588,7 +666,11 @@
     "timeOfDay": "10:00",
     "booked": false,
     "notes": "828 מ', המבנה הגבוה בעולם. קומות 124-125 מספיקות. Non-prime (09:00-15:30) — 149 AED מבוגר, 108 AED ילד. Prime (16:00-19:00) כפול. אדריכל: Adrian Smith, SOM. הזמנה מראש: ticketburjkhalifa.com. מחיר ב-AED",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Burj_Khalifa_%28worlds_tallest_building%29_and_the_Dubai_skyline_%2825781049892%29.jpg/500px-Burj_Khalifa_%28worlds_tallest_building%29_and_the_Dubai_skyline_%2825781049892%29.jpg"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Burj_Khalifa_%28worlds_tallest_building%29_and_the_Dubai_skyline_%2825781049892%29.jpg/500px-Burj_Khalifa_%28worlds_tallest_building%29_and_the_Dubai_skyline_%2825781049892%29.jpg",
+    "category": [
+      "אדריכלות",
+      "טכנולוגיה ועתיד"
+    ]
   },
   {
     "id": 271,
@@ -613,7 +695,11 @@
     "timeOfDay": "13:00",
     "booked": false,
     "notes": "שוק מהמאה ה-20, מעל 380 חנויות תכשיטים. מחירי זהב ללא מס. שוק תבלינים סמוך. Abra — סירה מסורתית חוצה נחל דובאי (1 AED). מטרו Green Line תחנת Al Ras",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Deira_Clocktower.jpg/500px-Deira_Clocktower.jpg"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Deira_Clocktower.jpg/500px-Deira_Clocktower.jpg",
+    "category": [
+      "קניות",
+      "היסטוריה"
+    ]
   },
   {
     "id": 272,
@@ -638,6 +724,9 @@
     "timeOfDay": "16:30",
     "booked": false,
     "notes": "חוף עירוני + טיילת + מסעדות + Ain Dubai (גלגל ענק). באוגוסט — רק אחרי 16:00. Jet Ski / parasailing מ-200 AED. מטרו DMCC + טראם",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Dubai_Jumeirah_Beach.JPG/500px-Dubai_Jumeirah_Beach.JPG"
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Dubai_Jumeirah_Beach.JPG/500px-Dubai_Jumeirah_Beach.JPG",
+    "category": [
+      "טבע"
+    ]
   }
 ]

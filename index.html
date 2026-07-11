@@ -325,6 +325,19 @@ a.bk:hover{background:#00224f}
 .leg-all{font-weight:800;color:var(--action);cursor:pointer;padding:4px 10px;border-radius:999px;border:1px solid var(--border)}
 .leg-all:hover{background:var(--bg)}
 .leg-all.on{background:var(--action);color:#fff;border-color:var(--action)}
+/* מגוון + מידע להשלמה */
+.map-extra{max-width:1200px;margin:10px auto 0}
+.map-extra:empty{display:none}
+.mx-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.mx-box h4{font-size:13px;font-weight:800;color:var(--ink-2);margin-bottom:8px}
+.mx-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.mx-chip{font-size:11px;font-weight:600;color:var(--ink-2);background:var(--bg);border-radius:6px;padding:4px 9px}
+.mx-chip b{color:var(--ink)}
+.mx-warn{font-size:12px;color:var(--warn);background:var(--warn-bg);border-radius:7px;padding:8px 10px;line-height:1.5}
+.mx-ok{font-size:12px;color:var(--ok);font-weight:700}
+.mx-gaps-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.mx-gaps-head h4{margin:0}
+.mx-gaps-list{margin:0;padding-right:18px;font-size:12px;color:var(--ink-2);line-height:1.7;max-height:200px;overflow-y:auto}
 
 /* LINK */
 a.ml{color:var(--action);text-decoration:none;font-size:11px}
@@ -426,6 +439,8 @@ a.ml:hover{text-decoration:underline}
     </div>
   </div>
   <div class="map-legend" id="mapLegendBox"></div>
+  <div id="mapDiversity" class="map-extra"></div>
+  <div id="mapGaps" class="map-extra"></div>
 </div>
 
 <div class="foot">נשמר אוטומטית ל-JSON · גיבוי עם כפתור שמור</div>
@@ -1320,6 +1335,8 @@ function renderMapLayer() {
   else if (mapView==='places') renderMapPlaces(legend);
 
   renderMapLegend(legend);
+  renderDiversity();
+  renderGaps();
   setTimeout(()=>{ mapObj.invalidateSize(); mapSpecObj.invalidateSize(); },60);
 }
 
@@ -1433,26 +1450,101 @@ function showSegSpecific(seg){
 }
 
 // ── תצוגה 4: אתרים — סימן מינימלי, מקרא=סינון לפי סוג ──
+// צבע קבוע לכל קטגוריה ראשית (סעיף 12.5)
+const CAT_COLOR = {
+  'טבע':'#15803d','היסטוריה':'#92400e','אדריכלות':'#57534e','תרבות ואמנות':'#7c3aed',
+  'פעילות ספורטיבית':'#0891b2','סדנה והתנסות':'#b45309','קניות':'#db2777','אוכל':'#dc2626',
+  'אתר דתי או רוחני':'#1e40af','טכנולוגיה ועתיד':'#0d9488','מלון ולינה':'#166534','תחנת מעבר':'#6b7280'
+};
+function placeCats(p){ return Array.isArray(p.category)?p.category:(p.category?[p.category]:[p.type||'אחר']); }
+
 function renderMapPlaces(legend) {
-  const types = [...new Set(DATA.places.map(p=>p.type).filter(Boolean))];
-  const active = mapPlaceTypes.size ? DATA.places.filter(p=>mapPlaceTypes.has(p.type)) : DATA.places;
+  // ספירה לכל קטגוריה
+  const catCount = {};
+  DATA.places.forEach(p=>placeCats(p).forEach(c=>catCount[c]=(catCount[c]||0)+1));
+  const cats = Object.keys(catCount).sort((a,b)=>catCount[b]-catCount[a]);
+
+  const active = mapPlaceTypes.size
+    ? DATA.places.filter(p=>placeCats(p).some(c=>mapPlaceTypes.has(c)))
+    : DATA.places;
   const pts=[];
   active.forEach(p=>{
     if(!p.lat||!p.lng) return;
+    const cat = placeCats(p)[0];
+    const color = CAT_COLOR[cat]||'#3b82f6';
+    const day = DATA.days.find(d=>d.id===p.dayId);
     const thumb = p.image?`<img src="${p.image}" style="width:100%;max-width:180px;border-radius:6px;margin-bottom:4px" alt="${p.name}">`:'';
-    const popup=`${thumb}${bilingual(p.name,p.nameEn)}<br><span style="font-size:11px">${p.type||''}${p.dayId?` · יום ${p.dayId}`:''}${p.timeOfDay?` · ${p.timeOfDay}`:''}</span><br><a href="index.html?tab=places" style="font-size:11px;color:#1d4ed8">מידע מלא ›</a>`;
-    bigMarker([p.lat,p.lng],{text:'',color:'#3b82f6',shape:'square',size:20,popup,aria:`${p.name} — ${p.type||'אתר'}`, onClick:()=>showPlaceSpecific(p)}).addTo(mapLayer);
+    const popup=`${thumb}${bilingual(p.name,p.nameEn)}<br><span style="font-size:11px">${placeCats(p).join(' · ')}${p.dayId?` · יום ${p.dayId}`:''}${p.timeOfDay?` · ${p.timeOfDay}`:''}${p.duration?` · ${p.duration}`:''}</span><br><a href="index.html?tab=places" style="font-size:11px;color:#1d4ed8">מידע מלא ›</a>${p.pid||p.addr?` · <a href="https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(p.nameEn||p.name)}" target="_blank" style="font-size:11px;color:#1d4ed8">מפה</a>`:''}`;
+    bigMarker([p.lat,p.lng],{text:'',color,shape:'square',size:22,popup,aria:`${p.name} — ${cat}`, onClick:()=>showPlaceSpecific(p)}).addTo(mapLayer);
     pts.push([p.lat,p.lng]);
   });
   if(pts.length) mapObj.fitBounds(L.latLngBounds(pts).pad(0.15));
-  // מקרא-סינון: כל סוג הוא כפתור (סעיף 7)
-  types.forEach(t=>legend.push({key:t, label:t, color:'#3b82f6', shape:'square'}));
+  // מקרא-סינון: קטגוריה + ספירה (סעיף 12.4)
+  cats.forEach(c=>legend.push({key:c, label:`${c} (${catCount[c]})`, color:CAT_COLOR[c]||'#3b82f6', shape:'square'}));
   focusSpec(null,'לחץ אתר להצגה מפורטת');
 }
 function showPlaceSpecific(p){
   const layer=focusSpec(null,`${p.name}${p.nameEn?' · '+p.nameEn:''}`);
-  bigMarker([p.lat,p.lng],{text:'',color:'#3b82f6',shape:'square',size:24,popup:bilingual(p.name,p.nameEn),aria:p.name}).addTo(layer);
+  const color=CAT_COLOR[placeCats(p)[0]]||'#3b82f6';
+  bigMarker([p.lat,p.lng],{text:'',color,shape:'square',size:24,popup:bilingual(p.name,p.nameEn),aria:p.name}).addTo(layer);
   mapSpecObj.setView([p.lat,p.lng],14);
+}
+
+// ── סיכום מגוון + ניתוח חוסרים (סעיף 8, 11) ──
+const ESSENTIAL_CATS = ['היסטוריה','טבע','פעילות ספורטיבית','סדנה והתנסות','תרבות ואמנות','אדריכלות','קניות','אוכל'];
+function renderDiversity() {
+  const box = document.getElementById('mapDiversity');
+  if (mapView!=='places') { box.innerHTML=''; return; }
+  const catCount={};
+  DATA.places.forEach(p=>placeCats(p).forEach(c=>catCount[c]=(catCount[c]||0)+1));
+  const missing = ESSENTIAL_CATS.filter(c=>!catCount[c]);
+  const chips = Object.entries(catCount).sort((a,b)=>b[1]-a[1])
+    .map(([c,n])=>`<span class="mx-chip" style="border-right:3px solid ${CAT_COLOR[c]||'#888'}">${c}: <b>${n}</b></span>`).join('');
+  const warn = missing.length
+    ? `<div class="mx-warn">חסרות קטגוריות מהותיות: <b>${missing.join(', ')}</b> — כדאי לבדוק אם להוסיף למסלול (לא נוסף אוטומטית).</div>`
+    : `<div class="mx-ok">כל הקטגוריות המהותיות מיוצגות במסלול ✓</div>`;
+  box.innerHTML = `<div class="mx-box"><h4>מגוון האתרים</h4><div class="mx-chips">${chips}</div>${warn}</div>`;
+}
+
+// רשימת חוסרים + כפתור פרומפט (סעיף 8, 9)
+function analyzeGaps() {
+  const gaps = [];
+  DATA.places.forEach(p=>{
+    const missing = [];
+    if(!p.nameEn) missing.push('שם באנגלית');
+    if(!p.category||!placeCats(p).length) missing.push('קטגוריה');
+    if(!p.dayId) missing.push('יום');
+    if(!p.timeOfDay) missing.push('שעה');
+    if(!p.duration) missing.push('משך ביקור');
+    if(!p.lat||!p.lng) missing.push('מיקום');
+    if(!p.image) missing.push('תמונה');
+    if(!p.officialUrl) missing.push('אתר רשמי');
+    if(missing.length) gaps.push({name:p.name, nameEn:p.nameEn||'', dayId:p.dayId, missing, existing:{type:p.type,city:p.city,category:placeCats(p).join('/')}});
+  });
+  return gaps;
+}
+function renderGaps() {
+  const box = document.getElementById('mapGaps');
+  if (mapView!=='places') { box.innerHTML=''; return; }
+  const gaps = analyzeGaps();
+  if(!gaps.length){ box.innerHTML=`<div class="mx-box mx-ok">אין מידע חסר — כל האתרים מלאים ✓</div>`; return; }
+  const rows = gaps.map(g=>`<li><b>${g.name}</b>${g.nameEn?` <span style="color:#888;direction:ltr">${g.nameEn}</span>`:''} — חסר: ${g.missing.join(', ')}</li>`).join('');
+  box.innerHTML = `<div class="mx-box">
+    <div class="mx-gaps-head"><h4>מידע להשלמה (${gaps.length} אתרים)</h4>
+      <button class="mvb-reset" onclick="copyMissingPrompt()" data-tip="יצירת פרומפט מוכן להעתקה לקלוד">צור פרומפט להשלמת מידע</button></div>
+    <ul class="mx-gaps-list">${rows}</ul>
+  </div>`;
+}
+function genMissingPrompt() {
+  const gaps = analyzeGaps();
+  let p = `השלם את המידע החסר עבור האתרים הבאים באפליקציית יפן. שמור על המסלול, התאריכים, המלונות, הטיסות והרכב שכבר נקבעו. עבור כל פריט השלם רק את השדות החסרים. השתמש במקורות אמינים ועדכניים, ציין מקור לכל נתון, ואל תמציא מידע שאינו ניתן לאימות.\n\n`;
+  gaps.forEach((g,i)=>{
+    p += `${i+1}. ${g.name}${g.nameEn?` (${g.nameEn})`:''}\n   קיים: ${g.existing.category}${g.existing.city?' · '+g.existing.city:''}${g.dayId?' · יום '+g.dayId:''}\n   חסר: ${g.missing.join(', ')}\n\n`;
+  });
+  return p;
+}
+function copyMissingPrompt() {
+  navigator.clipboard.writeText(genMissingPrompt()).then(()=>toast('הפרומפט הועתק — הדביקי בצ׳אט חדש')).catch(()=>toast('לא ניתן להעתיק'));
 }
 
 // ══════════════════════════════════
