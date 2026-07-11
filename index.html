@@ -142,6 +142,14 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .cal-trip{display:inline-block;background:var(--brand);color:var(--brand-ink);font-size:9px;font-weight:900;border-radius:3px;padding:0 4px;margin-right:4px;vertical-align:1px}
 .cal-city{font-weight:700;font-size:11px;margin-top:3px;line-height:1.3}
 .cal-hotel{color:#666;font-size:9px;line-height:1.25;margin-top:1px}
+/* תמונות מלון בכרטיסי לוח השנה */
+.cal-cell.has-img{min-height:112px}
+.cal-imgs{display:flex;gap:2px;margin:3px 0;border-radius:5px;overflow:hidden;height:44px}
+.cal-half{flex:1;background-size:cover;background-position:center;border-radius:4px}
+.cal-half.full{border-radius:4px}
+.cal-imgs.split .cal-half:first-child{border-radius:4px 0 0 4px}
+.cal-imgs.split .cal-half:last-child{border-radius:0 4px 4px 0}
+@media(max-width:640px){.cal-cell.has-img{min-height:90px}.cal-imgs{height:34px}}
 .cal-k{background:var(--region-1)}.cal-h{background:var(--region-2)}.cal-t{background:var(--region-3)}.cal-t .cal-city,.cal-t .cal-dnum{color:#fff}.cal-t .cal-hotel{color:#e0e7ff}.cal-d{background:var(--region-4)}
 .cal-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;font-size:11px}
 .cal-legend span{display:inline-flex;align-items:center;gap:5px;font-weight:600;color:#555}
@@ -997,8 +1005,26 @@ function renderCalendar() {
         cells += `<div class="cal-cell"><div class="cal-dnum">${day}</div></div>`;
       } else {
         const cls = regCls[d.region] || 'cal-d';
-        cells += `<a class="cal-cell ${cls}" href="day.html?d=${d.tripDay}">
+        // מלון היום ומלון היום הקודם — לזיהוי מעבר
+        const curH = hotelById(d.hotelId);
+        const prevDay = DATA.days.find(x=>x.tripDay===d.tripDay-1);
+        const prevH = prevDay ? hotelById(prevDay.hotelId) : null;
+        const curSrc = curH ? (localStorage.getItem('hotelimg-'+curH.id)||curH.image||curH.mapImage) : '';
+        const prevSrc = prevH ? (localStorage.getItem('hotelimg-'+prevH.id)||prevH.image||prevH.mapImage) : '';
+        // מעבר: מלון שונה מאתמול, ולשניהם יש תמונה → שני חצאים
+        const isTransition = prevH && curH && prevH.id!==curH.id;
+        let imgHtml='';
+        if (isTransition && prevSrc && curSrc) {
+          imgHtml = `<div class="cal-imgs split">
+            <div class="cal-half" style="background-image:url('${prevSrc}')" title="${prevH.name}"></div>
+            <div class="cal-half" style="background-image:url('${curSrc}')" title="${curH.name}"></div>
+          </div>`;
+        } else if (curSrc) {
+          imgHtml = `<div class="cal-imgs"><div class="cal-half full" style="background-image:url('${curSrc}')" title="${curH.name}"></div></div>`;
+        }
+        cells += `<a class="cal-cell ${cls}${imgHtml?' has-img':''}" href="day.html?d=${d.tripDay}">
           <div class="cal-dnum">${day}<span class="cal-trip">י${d.tripDay}</span></div>
+          ${imgHtml}
           <div class="cal-city">${dayCity(d)}</div>
           <div class="cal-hotel">${dayHotelName(d)}</div>
         </a>`;
