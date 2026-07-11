@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>יום 1 — אוסקה</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;600;700;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
@@ -67,6 +69,18 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .map-section h2{font-size:14px;font-weight:700;margin-bottom:8px}
 .map-frame{width:100%;height:400px;border:1px solid #e5e3de;border-radius:6px;overflow:hidden;background:#e8e6e1}
 .map-frame iframe{width:100%;height:100%;border:none}
+/* סמן ממוספר במפת המסלול */
+.rt-marker{background:#1d4ed8;color:#fff;width:26px;height:26px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font:900 13px/1 'Noto Sans Hebrew',sans-serif}
+.rt-marker.active{background:#b8860b;transform:scale(1.25);z-index:1000}
+.rt-marker.start{background:#15803d}
+.rt-marker.end{background:#b91c1c}
+/* פופאפ דו-לשוני */
+.rt-pop b{font-size:13px;display:block}
+.rt-pop .en{font-size:11px;color:#666;direction:ltr;text-align:right}
+.rt-pop .meta{font-size:11px;color:#888;margin-top:3px}
+/* הדגשת ספוט ברשימה כשנבחר */
+.spot.hl{box-shadow:inset 0 0 0 2px #b8860b;border-radius:6px;background:#fffdf5}
+.spot{scroll-margin-top:120px}
 .route-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .rl{padding:4px 12px;border:1px solid #ddd;border-radius:4px;font:600 11px/1.4 inherit;color:#333;text-decoration:none;transition:.12s;background:#fff}
 .rl:hover{background:#f0efec;border-color:#999}
@@ -379,6 +393,18 @@ function renderStory(d) {
 // ══════════════════════════════════
 // SPOTS
 // ══════════════════════════════════
+// מחשב את המספר הסידורי הגלובלי (ברצף בוקר→צהריים→ערב) של ספוט
+function globalNum(tod, i) {
+  const order = ['morning','afternoon','evening'];
+  let n = 0;
+  for (const t of order) {
+    const arr = (dayData.spots?.[t] || []).filter(s=>s.nameEn||s.name);
+    if (t === tod) return n + i + 1;
+    n += arr.length;
+  }
+  return n + i + 1;
+}
+
 function renderSpots(tod, spots) {
   const el = document.getElementById('spots-' + tod);
   if (!spots.length) {
@@ -386,9 +412,10 @@ function renderSpots(tod, spots) {
     return;
   }
   el.innerHTML = spots.map((s, i) => {
-    const mapsSearch = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.nameEn || s.name)}`;
-    return `<div class="spot">
-      <div class="spot-name">${s.name} <span class="spot-name-en">${s.nameEn || ''}</span></div>
+    const num = globalNum(tod, i);
+    const mapsSearch = `https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(s.nameEn || s.name)}`;
+    return `<div class="spot" data-tod="${tod}" data-idx="${i}" onclick="highlightSpot('${tod}',${i},false)" style="cursor:pointer">
+      <div class="spot-name"><span style="display:inline-block;min-width:20px;color:#1d4ed8;font-weight:900">${num}.</span> ${s.name} <span class="spot-name-en">${s.nameEn || ''}</span></div>
       <div class="spot-meta">
         ${s.time ? `<span>${s.time}</span>` : ''}
         ${s.duration ? `<span>${s.duration}</span>` : ''}
@@ -397,10 +424,10 @@ function renderSpots(tod, spots) {
       </div>
       ${s.addr ? `<div class="spot-meta"><span style="direction:ltr">${s.addr}</span></div>` : ''}
       ${s.notes ? `<div class="spot-notes">${s.notes}</div>` : ''}
-      <div class="spot-links">
+      <div class="spot-links" onclick="event.stopPropagation()">
         <a class="sl" href="${mapsSearch}" target="_blank">חפש במפות</a>
-        ${s.lat && s.lng ? `<a class="sl" href="https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}&travelmode=transit" target="_blank">ניווט תח״צ</a>` : ''}
-        ${s.lat && s.lng ? `<a class="sl" href="https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}&travelmode=driving" target="_blank">ניווט רכב</a>` : ''}
+        ${s.lat && s.lng ? `<a class="sl" href="https://www.google.com/maps/dir/?api=1&hl=he&destination=${s.lat},${s.lng}&travelmode=transit" target="_blank">ניווט תח״צ</a>` : ''}
+        ${s.lat && s.lng ? `<a class="sl" href="https://www.google.com/maps/dir/?api=1&hl=he&destination=${s.lat},${s.lng}&travelmode=driving" target="_blank">ניווט רכב</a>` : ''}
         <button class="sl" style="cursor:pointer;border-color:#fee2e2;color:#991b1b" onclick="removeSpot('${tod}',${i})">מחק</button>
       </div>
     </div>`;
@@ -433,50 +460,99 @@ function removeSpot(tod, idx) {
 // ══════════════════════════════════
 // MAP — Google Maps Embed with route
 // ══════════════════════════════════
-function buildMap() {
-  const spots = [];
+let rtMap = null, rtMarkers = [];
+
+// אוסף את כל ספוטי היום לפי סדר כרונולוגי (בוקר→צהריים→ערב), עם מפתח מיקום ברשימה
+function collectSpots() {
+  const out = [];
   ['morning','afternoon','evening'].forEach(tod => {
-    (dayData.spots?.[tod] || []).forEach(s => {
-      if (s.nameEn || s.name) spots.push(s);
+    (dayData.spots?.[tod] || []).forEach((s, idx) => {
+      if (s.nameEn || s.name) out.push({ ...s, tod, idx });
     });
   });
+  return out;
+}
+
+function buildMap() {
+  const spots = collectSpots();
+  const mapEl = document.getElementById('mapFrame');
 
   if (spots.length === 0) {
-    document.getElementById('mapFrame').innerHTML =
-      '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;font-size:13px">הוסיפי מיקומים — המפה תיבנה אוטומטית</div>';
+    if (rtMap) { rtMap.remove(); rtMap = null; }
+    mapEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;font-size:13px">הוסיפי מיקומים — המפה תיבנה אוטומטית</div>';
     document.getElementById('routeLinks').innerHTML = '';
     return;
   }
 
-  // Build Google Maps directions URL
-  const names = spots.map(s => encodeURIComponent(s.nameEn || s.name));
-  const hotel = hotels.find(h => h.id === dayData.hotelId);
-  const origin = hotel ? encodeURIComponent(hotel.addr || hotel.name) : names[0];
+  // אתחול מפת Leaflet (שכבת CARTO — שמות באנגלית, אחיד עם מפת index)
+  mapEl.innerHTML = '<div id="rtMap" style="width:100%;height:100%"></div>';
+  if (rtMap) { rtMap.remove(); rtMap = null; }
+  rtMap = L.map('rtMap');
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '© OpenStreetMap © CARTO', subdomains: 'abcd', maxZoom: 20
+  }).addTo(rtMap);
 
-  let directionsUrl, embedUrl;
+  const geo = spots.filter(s => s.lat && s.lng);
+  rtMarkers = [];
 
-  if (spots.length === 1) {
-    directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${names[0]}&travelmode=transit`;
-    embedUrl = `https://www.google.com/maps?q=${names[0]}&output=embed`;
-  } else {
-    const dest = names[names.length - 1];
-    const waypoints = names.slice(0, -1).join('|');
-    directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${dest}&waypoints=${waypoints}&travelmode=transit`;
-    embedUrl = `https://www.google.com/maps?q=${names[0]}&output=embed`;
+  // קו מסלול רציף לפי סדר הביקור
+  if (geo.length > 1) {
+    L.polyline(geo.map(s => [s.lat, s.lng]), {color:'#1d4ed8', weight:3, opacity:.65, dashArray:'6,6'}).addTo(rtMap);
   }
 
-  document.getElementById('mapFrame').innerHTML =
-    `<iframe src="${embedUrl}" allowfullscreen loading="lazy"></iframe>`;
+  // סמנים ממוספרים — התחלה/סיום/ביניים
+  geo.forEach((s, i) => {
+    const n = i + 1;
+    let cls = 'rt-marker';
+    if (geo.length > 1 && i === 0) cls += ' start';
+    else if (geo.length > 1 && i === geo.length-1) cls += ' end';
+    const html = `<div class="${cls}" data-n="${n}">${n}</div>`;
+    const marker = L.marker([s.lat, s.lng], {
+      icon: L.divIcon({ className:'', html, iconSize:[26,26], iconAnchor:[13,13] })
+    }).addTo(rtMap);
+    // פופאפ דו-לשוני (עברית + אנגלית יחד, בסדר קבוע)
+    marker.bindPopup(`<div class="rt-pop"><b>${n}. ${s.name}</b><span class="en">${s.nameEn||''}</span>${s.time?`<div class="meta">${s.time}${s.duration?' · '+s.duration:''}</div>`:''}</div>`);
+    // לחיצה על נקודה במפה → הדגשת האתר ברשימה (סעיף 1.7)
+    marker.on('click', () => highlightSpot(s.tod, s.idx, true));
+    rtMarkers.push({ marker, tod:s.tod, idx:s.idx, n });
+  });
 
-  const drivingUrl = directionsUrl.replace('travelmode=transit','travelmode=driving');
-  const walkingUrl = directionsUrl.replace('travelmode=transit','travelmode=walking');
+  // התאמת התצוגה כך שכל המסלול גלוי (סעיף 1.8)
+  if (geo.length === 1) rtMap.setView([geo[0].lat, geo[0].lng], 14);
+  else if (geo.length > 1) rtMap.fitBounds(L.latLngBounds(geo.map(s=>[s.lat,s.lng])).pad(0.15));
+  else rtMap.setView([35.68,139.76], 11);
+  setTimeout(()=>rtMap && rtMap.invalidateSize(), 100);
 
-  document.getElementById('routeLinks').innerHTML = `
-    <a class="rl" href="${directionsUrl}" target="_blank">מסלול תח״צ / רכבת</a>
-    <a class="rl" href="${drivingUrl}" target="_blank">מסלול נהיגה</a>
-    <a class="rl" href="${walkingUrl}" target="_blank">מסלול הליכה</a>
-    <a class="rl" href="https://www.google.com/maps/dir/${names.join('/')}" target="_blank">מסלול מלא במפות</a>
-  `;
+  // קישורי ניווט חיצוני (נשמרים כגיבוי)
+  const names = geo.map(s => encodeURIComponent(s.nameEn || s.name));
+  const hotel = hotels.find(h => h.id === dayData.hotelId);
+  const origin = hotel ? encodeURIComponent(hotel.addr || hotel.name) : names[0];
+  if (names.length) {
+    const dest = names[names.length-1];
+    const wp = names.slice(0,-1).join('|');
+    const dir = `https://www.google.com/maps/dir/?api=1&hl=he&origin=${origin}&destination=${dest}${wp?`&waypoints=${wp}`:''}&travelmode=transit`;
+    document.getElementById('routeLinks').innerHTML = `
+      <a class="rl" href="${dir}" target="_blank">מסלול תח״צ / רכבת</a>
+      <a class="rl" href="${dir.replace('travelmode=transit','travelmode=driving')}" target="_blank">מסלול נהיגה</a>
+      <a class="rl" href="${dir.replace('travelmode=transit','travelmode=walking')}" target="_blank">מסלול הליכה</a>`;
+  }
+}
+
+// הדגשה הדדית: אתר ברשימה ↔ נקודה במפה
+function highlightSpot(tod, idx, fromMap) {
+  document.querySelectorAll('.spot.hl').forEach(e=>e.classList.remove('hl'));
+  document.querySelectorAll('.rt-marker.active').forEach(e=>e.classList.remove('active'));
+  const spotEl = document.querySelector(`.spot[data-tod="${tod}"][data-idx="${idx}"]`);
+  if (spotEl) {
+    spotEl.classList.add('hl');
+    if (fromMap) spotEl.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+  const m = rtMarkers.find(x=>x.tod===tod && x.idx===idx);
+  if (m) {
+    const el = m.marker.getElement()?.querySelector('.rt-marker');
+    if (el) el.classList.add('active');
+    if (!fromMap) { rtMap.panTo(m.marker.getLatLng()); m.marker.openPopup(); }
+  }
 }
 
 // ══════════════════════════════════

@@ -1020,18 +1020,20 @@ function initMap() {
 
     // צבעים מתוך מערכת העיצוב: ok=מוזמן, warn=טרם, region-3=אתר
     const C_OK='#15803d', C_WARN='#b45309', C_PLACE='#3b82f6';
+    // פופאפ דו-לשוני אחיד: עברית מודגש + אנגלית מתחת (סעיף 2.5)
+    const bilingual = (he, en) => `<b style="font-size:13px">${he||en||''}</b>${en&&en!==he?`<br><span style="font-size:11px;color:#666;direction:ltr">${en}</span>`:''}`;
     DATA.hotels.forEach(h => {
       if (!h.lat || !h.lng) return;
       L.circleMarker([h.lat, h.lng], {radius:8, fillColor: h.booked?C_OK:C_WARN, color:'#fff', weight:2, fillOpacity:.9})
         .addTo(mapObj)
-        .bindPopup(`<b>${h.name}</b><br>${h.city}<br>${h.checkin} → ${h.checkout}`);
+        .bindPopup(`${bilingual(h.he, h.name)}<br><span style="font-size:11px">${h.city||''} · ${h.checkin} → ${h.checkout}</span>`);
     });
 
     // אתרים — ריבוע (צורה שונה) כדי שההבחנה לא תהיה תלויה בצבע בלבד
     DATA.places.forEach(p => {
       if (!p.lat || !p.lng) return;
       const s = 9, ic = L.divIcon({className:'', html:`<div style="width:${s}px;height:${s}px;background:${C_PLACE};border:2px solid #fff;border-radius:2px;box-shadow:0 0 2px rgba(0,0,0,.4)"></div>`, iconSize:[s,s]});
-      L.marker([p.lat, p.lng], {icon:ic}).addTo(mapObj).bindPopup(`<b>${p.name}</b><br>${p.city}`);
+      L.marker([p.lat, p.lng], {icon:ic}).addTo(mapObj).bindPopup(`${bilingual(p.name, p.nameEn)}<br><span style="font-size:11px">${p.city||''}</span>`);
     });
   }, 100);
 }
