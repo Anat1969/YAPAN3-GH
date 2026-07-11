@@ -30,7 +30,8 @@
         "price": 3000,
         "forWho": "עילאי, כולם",
         "notes": "רכבל + ליפט לפסגה (1,984 מ׳). נוף 360 על דאיסצוזאן. עילאי — הליכה לפסגה",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Gondola_of_Daisetsuzan_Sounkyo_Kurodake_Ropeway.jpg/500px-Gondola_of_Daisetsuzan_Sounkyo_Kurodake_Ropeway.jpg"
       },
       {
         "name": "מפלי סואנקיו",
@@ -58,7 +59,8 @@
         "price": "",
         "forWho": "כולם",
         "notes": "מעיין גופרית, ריוקאן קטן",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/HPIM2742.JPG/500px-HPIM2742.JPG"
       }
     ]
   },

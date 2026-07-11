@@ -15,7 +15,8 @@
         "price": 0,
         "forWho": "כולם",
         "notes": "להגיע מוקדם — אחרת עמוס. צילום בשקט",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Bamboo_Grove%2C_Arashiyama%2C_Kyoto%2C_Japan.jpg/500px-Bamboo_Grove%2C_Arashiyama%2C_Kyoto%2C_Japan.jpg"
       },
       {
         "name": "מקדש טנריו-ג׳י",
@@ -41,7 +42,8 @@
         "price": 0,
         "forWho": "נתן",
         "notes": "גשר אייקוני על הנהר. שיט אופציונלי",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Arashiyama_013.jpg/500px-Arashiyama_013.jpg"
       }
     ],
     "afternoon": [
@@ -56,7 +58,8 @@
         "price": 1000,
         "forWho": "ענת",
         "notes": "שיא האדריכלות היפנית המסורתית. הזמנה מראש חובה דרך IHA",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Katsura_Rikyu_%283264799678%29.jpg/500px-Katsura_Rikyu_%283264799678%29.jpg"
       },
       {
         "name": "נישיקי שוק",
@@ -69,7 +72,8 @@
         "price": 0,
         "forWho": "נתן, לוטם",
         "notes": "400 שנה של אוכל. דוכנים, טעימות, חנויות סכינים",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Nishiki_Ichiba_by_matsuyuki.jpg/500px-Nishiki_Ichiba_by_matsuyuki.jpg"
       }
     ],
     "evening": [

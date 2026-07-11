@@ -15,7 +15,8 @@
         "price": 0,
         "forWho": "כולם",
         "notes": "הצומת הכי עמוס בעולם. Shibuya Sky (2,000 ין) — תצפית",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Shibuya_Crossing%2C_Aerial.jpg/500px-Shibuya_Crossing%2C_Aerial.jpg"
       },
       {
         "name": "הראג׳וקו — טקשיטה",
@@ -28,7 +29,8 @@
         "price": 0,
         "forWho": "לוטם, עילאי",
         "notes": "רחוב אופנה צעיר, קרפים, חנויות קונספט, קוספליי",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/JRE-Harajuku-Station-07.jpg/500px-JRE-Harajuku-Station-07.jpg"
       }
     ],
     "afternoon": [
@@ -43,7 +45,8 @@
         "price": 0,
         "forWho": "ענת, נתן",
         "notes": "יער ענק בלב העיר. מקדש שינטו, שקט",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Meiji_Jingu_2023-3.jpg/500px-Meiji_Jingu_2023-3.jpg"
       },
       {
         "name": "קאט סטריט",
@@ -69,7 +72,8 @@
         "price": 0,
         "forWho": "לוטם, נתן",
         "notes": "סמטאות וינטג׳, תיאטרון, בתי קפה, חנויות יד שנייה",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Shimokitazawa_Street_2015.jpg/500px-Shimokitazawa_Street_2015.jpg"
       }
     ],
     "evening": [

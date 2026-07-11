@@ -15,7 +15,8 @@
         "price": 500,
         "forWho": "ענת, נתן",
         "notes": "גן יפני + צרפתי + אנגלי. 58 דונם של שקט בלב העיר",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Shinjuku_Gyoen_National_Garden_-_sakura_3.JPG/500px-Shinjuku_Gyoen_National_Garden_-_sakura_3.JPG"
       }
     ],
     "afternoon": [
@@ -30,7 +31,8 @@
         "price": 0,
         "forWho": "עילאי",
         "notes": "אלקטרוניקה, גיימינג, מנגה, מייד קפה",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Sotokanda%2C_Akihabara_Electric_Town_at_night_20231114.png/500px-Sotokanda%2C_Akihabara_Electric_Town_at_night_20231114.png"
       },
       {
         "name": "גינזה",
@@ -43,7 +45,8 @@
         "price": 0,
         "forWho": "לוטם, ענת",
         "notes": "קניות יוקרה, גלריות, אדריכלות — Ginza Six, Mikimoto, Dover Street Market",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Ginza-WAKO_at_night.jpg/500px-Ginza-WAKO_at_night.jpg"
       }
     ],
     "evening": [
@@ -58,7 +61,8 @@
         "price": 0,
         "forWho": "נתן, ענת",
         "notes": "200 בארים זעירים ב-6 סמטאות. כל בר 5-8 מקומות. לבחור לפי אווירה",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/G2_Street_20090626_2.jpg/500px-G2_Street_20090626_2.jpg"
       },
       {
         "name": "אומויידה יוקוצ׳ו",

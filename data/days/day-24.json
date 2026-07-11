@@ -28,7 +28,8 @@
         "price": 0,
         "forWho": "לוטם",
         "notes": "דוכני מזכרות, סנבייה, מניפות",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Sensoji_2023.jpg/500px-Sensoji_2023.jpg"
       }
     ],
     "afternoon": [
@@ -43,7 +44,8 @@
         "price": 2100,
         "forWho": "עילאי, לוטם",
         "notes": "634 מ׳ — הגבוה ביפן. תצפית 360. טמבו דק 350 + גלריה 450",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Tokyo_Skytree_2014_%E2%85%A2.jpg/500px-Tokyo_Skytree_2014_%E2%85%A2.jpg"
       },
       {
         "name": "יאנאקה גינזה",

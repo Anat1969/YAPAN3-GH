@@ -15,7 +15,8 @@
         "price": 0,
         "forWho": "עילאי, ענת",
         "notes": "10,000 שערי טורי אדומים. עילאי — עלייה מלאה 2 שעות עם נוף. השאר — חצי מסלול",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Torii_path_with_lantern_at_Fushimi_Inari_Taisha_Shrine%2C_Kyoto%2C_Japan.jpg/500px-Torii_path_with_lantern_at_Fushimi_Inari_Taisha_Shrine%2C_Kyoto%2C_Japan.jpg"
       }
     ],
     "afternoon": [
@@ -30,7 +31,8 @@
         "price": 0,
         "forWho": "לוטם, ענת",
         "notes": "רחובות אבן, חנויות קרמיקה, מניפות, בתי תה. לוטם — קניות",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Pedestrian_road_with_pavements_and_paper_umbrellas%2C_Higashiyama-ku%2C_Kyoto%2C_Japan%2C_early_morning.jpg/500px-Pedestrian_road_with_pavements_and_paper_umbrellas%2C_Higashiyama-ku%2C_Kyoto%2C_Japan%2C_early_morning.jpg"
       },
       {
         "name": "גיון",
@@ -58,7 +60,8 @@
         "price": 0,
         "forWho": "נתן, כולם",
         "notes": "סמטה צרה על נהר קאמו. מסעדות עם מרפסות על המים",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Pontocho_by_Wolfiewolf_in_Nabeyacho%2C_Kyoto.jpg/500px-Pontocho_by_Wolfiewolf_in_Nabeyacho%2C_Kyoto.jpg"
       }
     ]
   },

@@ -16,7 +16,8 @@
         "price": null,
         "forWho": "כולם",
         "notes": "איסוף רכב שכור",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Memanbetsu_Airport01s3.jpg/500px-Memanbetsu_Airport01s3.jpg"
       },
       {
         "name": "נסיעה לאוטורו",

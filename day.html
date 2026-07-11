@@ -404,6 +404,18 @@ function hotelThumb(h, cls){
   return `<img class="${cls||'hotel-thumb'}" src="${src}" alt="מלון ${h.name}" loading="lazy" onerror="this.style.display='none'">`;
 }
 
+// תמונת אתר לפי נקודה (from/to) — מהספוט עצמו או מ-places.json
+function spotImage(pt){
+  if(pt.image) return pt.image;
+  // חפש בין ספוטי היום לפי nameEn
+  for(const t of ['morning','afternoon','evening']){
+    const found=(dayData.spots?.[t]||[]).find(s=>(s.nameEn&&pt.nameEn&&s.nameEn===pt.nameEn)||s.name===pt.name);
+    if(found?.image) return found.image;
+  }
+  const m=placesData.find(p=>(p.nameEn&&pt.nameEn&&p.nameEn===pt.nameEn)||p.name===pt.name);
+  return m?.image||'';
+}
+
 function renderDay() {
   const d = dayData;
   document.title = `יום ${d.tripDay} — ${d.city || ''}`;
@@ -546,9 +558,9 @@ function renderTransportSummary(d) {
       const nameHtml = h ? hotelNameLink(h, pt.name) : pt.name;
       return `<div class="route-stop">${thumb}<span class="rs-num">${label}</span> ${nameHtml}${pt.nameEn?` <span class="rs-en">${pt.nameEn}</span>`:''}</div>`;
     }
-    const m = placesData.find(p => p.nameEn && pt.nameEn && p.nameEn===pt.nameEn) || placesData.find(p=>p.name===pt.name);
-    const thumb = m && m.image
-      ? `<img class="stop-thumb" src="${m.image}" alt="${alt}" loading="lazy" onerror="this.style.display='none'">`
+    const imgSrc = spotImage(pt);
+    const thumb = imgSrc
+      ? `<img class="stop-thumb" src="${imgSrc}" alt="${alt}" loading="lazy" onerror="this.style.display='none'">`
       : '';
     return `<div class="route-stop">${thumb}<span class="rs-num">${label}</span> ${pt.name}${pt.nameEn?` <span class="rs-en">${pt.nameEn}</span>`:''}</div>`;
   };
@@ -616,11 +628,12 @@ function renderSpots(tod, spots) {
   el.innerHTML = spots.map((s, i) => {
     const num = globalNum(tod, i);
     const mapsSearch = `https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(s.nameEn || s.name)}`;
-    // תמונה ממקור אחד (places.json) לפי nameEn — בלי כפילות
+    // תמונה: קודם של הספוט עצמו, אחרת מ-places.json לפי nameEn
     const match = placesData.find(p => p.nameEn && s.nameEn && p.nameEn===s.nameEn) || placesData.find(p=>p.name===s.name);
+    const imgSrc = s.image || (match && match.image);
     const alt = `${s.name}${s.nameEn?' — '+s.nameEn:''}`;
-    const img = match && match.image
-      ? `<img class="spot-img" src="${match.image}" alt="${alt}" loading="lazy" onerror="this.classList.add('broken');this.removeAttribute('src')">`
+    const img = imgSrc
+      ? `<img class="spot-img" src="${imgSrc}" alt="${alt}" loading="lazy" onerror="this.classList.add('broken');this.removeAttribute('src')">`
       : `<div class="spot-img noimg" role="img" aria-label="${alt} — אין תמונה">אין תמונה</div>`;
     return `<div class="spot" data-tod="${tod}" data-idx="${i}" onclick="highlightSpot('${tod}',${i},false)" style="cursor:pointer">
       ${img}
@@ -833,7 +846,8 @@ function highlightSpot(tod, idx, fromMap) {
   const spotEl = document.querySelector(`.spot[data-tod="${tod}"][data-idx="${idx}"]`);
   if (spotEl) {
     spotEl.classList.add('hl');
-    if (fromMap) spotEl.scrollIntoView({behavior:'smooth', block:'center'});
+    // גלילה לרשימה רק כשהלחיצה מגיעה מהרשימה עצמה — לא מהמפה (מונע קפיצה לתיבת הטקסט)
+    if (!fromMap) spotEl.scrollIntoView({behavior:'smooth', block:'center'});
   }
   const m = rtMarkers.find(x=>x.tod===tod && x.idx===idx);
   if (m) {

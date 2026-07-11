@@ -28,7 +28,8 @@
         "price": 0,
         "forWho": "ענת, כולם",
         "notes": "אגם מכתש ללא יציאה. מים הכי שקופים בעולם. ערפל מפורסם",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Lake_Mash%C5%AB_Japan_during_wintertime_in_Akan_National_Park_Hokkaid%C5%8D.jpg/500px-Lake_Mash%C5%AB_Japan_during_wintertime_in_Akan_National_Park_Hokkaid%C5%8D.jpg"
       }
     ],
     "afternoon": [
@@ -43,7 +44,8 @@
         "price": 0,
         "forWho": "עילאי, נתן",
         "notes": "אגם קלדרה ענק. חוף סונאיו — לחפור בחול ומים חמים עולים",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/130713_Lake_Kussharo_Teshikaga_Hokkaido_Japan01s5.jpg/500px-130713_Lake_Kussharo_Teshikaga_Hokkaido_Japan01s5.jpg"
       },
       {
         "name": "קאוואיו אונסן",

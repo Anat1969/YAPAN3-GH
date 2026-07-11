@@ -16,7 +16,8 @@
         "price": null,
         "forWho": "כולם",
         "notes": "רכבת Nankai Rapi:t לנמבה — 38 דק׳, 1,450 ין",
-        "placeId": "ChIJRUCINJQTAWARJJdyPsPbWDI"
+        "placeId": "ChIJRUCINJQTAWARJJdyPsPbWDI",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/%E9%96%A2%E8%A5%BF%E5%9B%BD%E9%9A%9B%E7%A9%BA%E6%B8%AF%E5%85%A8%E4%BD%93%E5%86%99%E7%9C%9F20220811.jpg/500px-%E9%96%A2%E8%A5%BF%E5%9B%BD%E9%9A%9B%E7%A9%BA%E6%B8%AF%E5%85%A8%E4%BD%93%E5%86%99%E7%9C%9F20220811.jpg"
       },
       {
         "name": "צ׳ק-אין במלון",
@@ -44,7 +45,8 @@
         "price": 0,
         "forWho": "נתן, לוטם",
         "notes": "אוכל רחוב: טאקויאקי ב-Kukuru, אוקונומיאקי ב-Mizuno. הליכה על הגשר, שלטי ניאון",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Osaka_Dotonbori_Ebisu_Bridge.jpg/500px-Osaka_Dotonbori_Ebisu_Bridge.jpg"
       },
       {
         "name": "הוזנג׳י יוקוצ׳ו",
