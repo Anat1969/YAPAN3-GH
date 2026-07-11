@@ -69,6 +69,26 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .map-section h2{font-size:14px;font-weight:700;margin-bottom:8px}
 .map-frame{width:100%;height:400px;border:1px solid #e5e3de;border-radius:6px;overflow:hidden;background:#e8e6e1}
 .map-frame iframe{width:100%;height:100%;border:none}
+/* שתי מפות זו לצד זו — שוות במשקל */
+.maps-dual{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.map-col{display:flex;flex-direction:column}
+.map-col-head{font-size:12px;font-weight:800;color:#57534e;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.map-frame.square{aspect-ratio:1/1;height:auto;min-height:320px}
+#navFrame:empty{display:flex;align-items:center;justify-content:center;color:#999;font-size:12px;text-align:center;padding:12px}
+#navFrame iframe{width:100%;height:100%;border:none;display:block}
+.map-legend-day{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;font-weight:700;color:#57534e;margin-top:6px}
+.map-legend-day span{display:inline-flex;align-items:center;gap:5px}
+.map-legend-day i{width:16px;height:4px;border-radius:2px;display:inline-block}
+/* פרטי הניווט למקטע הפעיל */
+.nav-detail{margin-top:8px;font-size:12px;color:#44403c;line-height:1.7}
+.nav-detail .nd-route{font-weight:800;color:#1a1a1a;margin-bottom:4px}
+.nav-detail .nd-meta{display:flex;gap:12px;flex-wrap:wrap;color:#8a857e;font-size:11px;margin-bottom:6px}
+.nav-detail .nd-btn{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:#1d4ed8;border-radius:5px;padding:4px 11px;text-decoration:none;margin-left:6px}
+.nav-detail .nd-btn:hover{filter:brightness(1.1)}
+.nav-arrows{display:inline-flex;gap:4px;margin-right:auto}
+.nav-arrow{border:1px solid #e5e3de;background:#fff;border-radius:5px;padding:2px 9px;font:800 12px/1 inherit;cursor:pointer;color:#1a1a1a}
+.nav-arrow:hover{background:#f5f4f0}.nav-arrow:disabled{opacity:.3;cursor:default}
+@media(max-width:760px){.maps-dual{grid-template-columns:1fr}}
 /* סמן ממוספר במפת המסלול */
 .rt-marker{background:#1d4ed8;color:#fff;width:26px;height:26px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font:900 13px/1 'Noto Sans Hebrew',sans-serif}
 .rt-marker.active{background:#b8860b;transform:scale(1.25);z-index:1000}
@@ -114,7 +134,8 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .seg-nav{font-size:11px;font-weight:700;color:#1d4ed8;text-decoration:none;border:1px solid #e5e3de;border-radius:5px;padding:2px 8px;white-space:nowrap}
 .seg-nav:hover{background:#f5f4f0}
 .seg-detail{display:none;flex-basis:100%;font-size:11px;color:#8a857e;background:#faf9f7;border-radius:6px;padding:6px 9px;margin-top:4px;line-height:1.6}
-.seg.open .seg-detail{display:block}
+.seg.active{background:#f3f4f6;border-radius:6px}
+.seg.active .seg-line{width:5px}
 .m-train{background:#1d4ed8}.m-metro{background:#2563eb}.m-shinkansen{background:#1e3a8a}
 .m-walk{background:#15803d}.m-bus{background:#b45309}.m-car{background:#6b7280}
 .m-flight{background:#b91c1c}.m-taxi{background:#7c3aed}.m-shuttle{background:#0891b2}
@@ -208,12 +229,23 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
   <!-- TRANSPORT SUMMARY -->
   <div id="transSummary"></div>
 
-  <!-- ROUTE MAP -->
+  <!-- ROUTE MAPS — שתי מפות זו לצד זו -->
   <div class="map-section">
     <h2>מסלול היום</h2>
-    <div class="map-frame" id="mapFrame">
-      <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;font-size:13px">
-        הוסיפי מיקומים — המפה תיבנה אוטומטית
+    <div class="maps-dual">
+      <!-- מפה 1: כללית -->
+      <div class="map-col">
+        <div class="map-col-head">מפת היום הכללית</div>
+        <div class="map-frame square" id="mapFrame">
+          <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;font-size:13px">הוסיפי מיקומים — המפה תיבנה אוטומטית</div>
+        </div>
+        <div class="map-legend-day" id="mapLegend"></div>
+      </div>
+      <!-- מפה 2: ניווט מפורט -->
+      <div class="map-col">
+        <div class="map-col-head">ניווט מפורט — מקטע<span id="navNav"></span></div>
+        <div class="map-frame square" id="navFrame"></div>
+        <div class="nav-detail" id="navDetail"></div>
       </div>
     </div>
     <div class="route-links" id="routeLinks"></div>
@@ -458,7 +490,7 @@ function renderTransportSummary(d) {
   let routeHtml = '';
   t.segments.forEach((seg, i) => {
     if (i === 0) routeHtml += `<div class="route-stop"><span class="rs-num">התחלה</span> ${seg.from.name}${seg.from.nameEn?` <span class="rs-en">${seg.from.nameEn}</span>`:''}</div>`;
-    routeHtml += segBar(seg);
+    routeHtml += segBar(seg, i);
     const last = i === t.segments.length-1;
     routeHtml += `<div class="route-stop"><span class="rs-num">${last?'סיום':i+1}</span> ${seg.to.name}${seg.to.nameEn?` <span class="rs-en">${seg.to.nameEn}</span>`:''}</div>`;
   });
@@ -476,19 +508,17 @@ function renderTransportSummary(d) {
   </div>`;
 }
 
-// פס תחבורה בין שני ספוטים ברשימה (מקבל אינדקס segment)
-function segBar(seg) {
+// פס תחבורה בין שני ספוטים ברשימה. לחיצה → מסנכרן את מפת הניווט (סעיף 5.1)
+function segBar(seg, i) {
   if (!seg) return '';
   const c = 'm-'+seg.mode;
   const km = seg.distanceKm ? ` · ${seg.distanceKm} ק״מ` : '';
-  const nav = `<a class="seg-nav" href="${seg.mapsUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">נווט</a>`;
-  const detail = `<div class="seg-detail">${seg.from.name} → ${seg.to.name}${seg.details?.walkToStation?` · ${seg.details.walkToStation} דק׳ הליכה לתחנה`:''}${seg.details?.rideTime?` · ${seg.details.rideTime} דק׳ נסיעה`:''}</div>`;
-  return `<div class="seg" onclick="this.classList.toggle('open')">
+  const nav = `<a class="seg-nav" href="${seg.mapsUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()" data-tip="פתיחה ב-Google Maps">נווט</a>`;
+  return `<div class="seg" data-seg="${i}" onclick="showSegment(${i})">
     <span class="seg-line ${c}"></span>
     <div class="seg-body">
-      <span class="seg-mode t-${seg.mode}">${seg.totalMinutes} דק׳ ${MODE_HE[seg.mode]||seg.mode}</span>${km}
+      <span class="seg-mode t-${seg.mode}">${seg.totalMinutes||''} דק׳ ${MODE_HE[seg.mode]||seg.mode}</span>${km}
       ${nav}
-      ${detail}
     </div>
   </div>`;
 }
@@ -598,15 +628,18 @@ function buildMap() {
   const geo = spots.filter(s => s.lat && s.lng);
   rtMarkers = [];
 
-  // קווי מסלול צבועים לפי mode (מתוך שכבת התחבורה)
+  // קווי מסלול צבועים לפי mode (מתוך שכבת התחבורה) + שמירה להדגשה/סנכרון
   const segs = dayData.transport?.segments;
+  segPolylines = [];
   if (segs && segs.length) {
-    segs.forEach(seg => {
+    segs.forEach((seg, i) => {
       const color = MODE_COLOR[seg.mode] || '#1d4ed8';
       const dash = seg.mode==='walk' ? '4,6' : null;
-      L.polyline([[seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]], {color, weight:3.5, opacity:.7, dashArray:dash})
+      const pl = L.polyline([[seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]], {color, weight:3.5, opacity:.7, dashArray:dash})
         .addTo(rtMap)
-        .bindPopup(`<b>${seg.totalMinutes} דק׳ ${MODE_HE[seg.mode]||seg.mode}</b><br>${seg.from.name} → ${seg.to.name}`);
+        .bindPopup(`<b>${seg.totalMinutes||''} דק׳ ${MODE_HE[seg.mode]||seg.mode}</b><br>${seg.from.name} → ${seg.to.name}`);
+      pl.on('click', () => showSegment(i));   // לחיצה על מקטע במפה הכללית → מפת הניווט (סעיף 5.2)
+      segPolylines.push(pl);
     });
   } else if (geo.length > 1) {
     L.polyline(geo.map(s => [s.lat, s.lng]), {color:'#1d4ed8', weight:3, opacity:.65, dashArray:'6,6'}).addTo(rtMap);
@@ -648,6 +681,63 @@ function buildMap() {
       <a class="rl" href="${dir.replace('travelmode=transit','travelmode=driving')}" target="_blank">מסלול נהיגה</a>
       <a class="rl" href="${dir.replace('travelmode=transit','travelmode=walking')}" target="_blank">מסלול הליכה</a>`;
   }
+
+  // מקרא אמצעי תחבורה (רק אלה שבשימוש היום)
+  const usedModes = [...new Set((segs||[]).map(s=>s.mode))];
+  document.getElementById('mapLegend').innerHTML = usedModes.map(m=>
+    `<span><i style="background:${MODE_COLOR[m]||'#888'}"></i>${MODE_HE[m]||m}</span>`).join('');
+
+  // אתחול מפת הניווט המפורטת — מקטע ראשון
+  if (segs && segs.length) showSegment(0);
+}
+
+// ── מפת ניווט מפורטת: מציגה מקטע אחד ומסנכרנת עם ציר הזמן והמפה הכללית ──
+let activeSeg = 0, segPolylines = [];
+function showSegment(i) {
+  const segs = dayData.transport?.segments;
+  if (!segs || !segs.length) return;
+  i = Math.max(0, Math.min(i, segs.length-1));
+  activeSeg = i;
+  const seg = segs[i];
+
+  // Google Maps embed — מסלול אמיתי ברחובות/רכבות למקטע
+  const tm = {walk:'walking',car:'driving',metro:'transit',train:'transit',bus:'transit',shinkansen:'transit',flight:'flying'}[seg.mode]||'transit';
+  const embedUrl = `https://www.google.com/maps?hl=he&saddr=${seg.from.lat},${seg.from.lng}&daddr=${seg.to.lat},${seg.to.lng}&dirflg=${tm[0]}&output=embed`;
+  document.getElementById('navFrame').innerHTML = `<iframe src="${embedUrl}" allowfullscreen loading="lazy"></iframe>`;
+
+  // פרטי המקטע
+  const dir = seg.mapsUrl;
+  document.getElementById('navDetail').innerHTML = `
+    <div class="nd-route">${seg.from.name} ← ${seg.to.name}</div>
+    <div class="nd-meta">
+      <span>${MODE_HE[seg.mode]||seg.mode}</span>
+      ${seg.totalMinutes?`<span>${seg.totalMinutes} דק׳</span>`:''}
+      ${seg.distanceKm?`<span>${seg.distanceKm} ק״מ</span>`:''}
+      ${seg.details?.walkToStation?`<span>${seg.details.walkToStation} דק׳ הליכה לתחנה</span>`:''}
+    </div>
+    <a class="nd-btn" href="${dir}" target="_blank" rel="noopener" data-tip="פתיחת המקטע ב-Google Maps">נווט ב-Google Maps</a>`;
+
+  // חיצים קודם/הבא
+  document.getElementById('navNav').innerHTML = ` ${i+1}/${segs.length}
+    <span class="nav-arrows">
+      <button class="nav-arrow" onclick="showSegment(${i-1})" ${i===0?'disabled':''} data-tip="המקטע הקודם">‹</button>
+      <button class="nav-arrow" onclick="showSegment(${i+1})" ${i===segs.length-1?'disabled':''} data-tip="המקטע הבא">›</button>
+    </span>`;
+
+  // הדגשה במפה הכללית + בציר הזמן (סעיף 5.3, 5.4)
+  segPolylines.forEach((pl,idx)=>pl.setStyle({weight: idx===i?6:3.5, opacity: idx===i?1:.5}));
+  if (segPolylines[i]) rtMap && rtMap.fitBounds(segPolylines[i].getBounds().pad(0.3));
+  document.querySelectorAll('.seg.active').forEach(e=>e.classList.remove('active'));
+  const bar = document.querySelector(`.seg[data-seg="${i}"]`);
+  if (bar) bar.classList.add('active');
+  highlightSegSpot(seg);
+}
+
+// הדגשת הספוט ברשימה שהמקטע מוביל אליו
+function highlightSegSpot(seg) {
+  document.querySelectorAll('.spot.hl').forEach(e=>e.classList.remove('hl'));
+  const m = rtMarkers.find(x=>Math.abs(x.marker.getLatLng().lat-seg.to.lat)<0.0001);
+  if (m) { const el=document.querySelector(`.spot[data-tod="${m.tod}"][data-idx="${m.idx}"]`); if(el) el.classList.add('hl'); }
 }
 
 // הדגשה הדדית: אתר ברשימה ↔ נקודה במפה
