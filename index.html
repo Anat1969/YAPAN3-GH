@@ -178,6 +178,32 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .sum-row.st-pending .sr-main{color:var(--ink-3);font-size:12px}
 @media(max-width:560px){.sr-sub{display:none}.sr-topic{min-width:auto;flex:1}}
 
+/* דף תחבורה מרכזי */
+.tr-intro{margin:2px 0 12px;font-size:13px;color:var(--ink-3)}
+.tr-legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px;font-size:12px;font-weight:700;color:var(--ink-2)}
+.tr-legend span{display:inline-flex;align-items:center;gap:6px}
+.tr-legend i{width:20px;height:4px;border-radius:2px;display:inline-block}
+.tr-sec{font-size:15px;font-weight:900;color:var(--ink);margin:18px 0 10px}
+.tr-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.tr-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 15px}
+.tr-card-head{display:flex;align-items:center;gap:9px;margin-bottom:10px;padding-bottom:9px;border-bottom:1px solid var(--border)}
+.tr-hic{width:20px;height:20px;stroke:var(--icon-active)}
+.tr-route{flex:1;font-size:14px;color:var(--ink);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tr-route .ic{width:14px;height:14px;stroke:var(--icon)}
+.tr-date{font-size:12px;font-weight:800;color:var(--ink-3);background:var(--bg);padding:2px 8px;border-radius:999px;white-space:nowrap}
+.tr-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;font-size:12px}
+.tr-grid > div{color:var(--ink)}
+.tr-grid > div.tr-full{grid-column:1/-1}
+.tr-grid span{display:block;font-size:10px;font-weight:800;color:var(--ink-3);letter-spacing:.02em;margin-bottom:1px}
+.tr-grid span .ic{width:11px;height:11px;vertical-align:-1px}
+.tr-badge-primary{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;color:var(--ok);background:var(--ok-bg);border-radius:999px;padding:3px 10px;margin-bottom:10px}
+.tr-badge-primary .ic{width:13px;height:13px;stroke:var(--ok)}
+.tr-note{margin-top:10px;font-size:11px;color:var(--ink-2);background:var(--bg);border-radius:8px;padding:8px 10px;line-height:1.6}
+.tr-note ul{margin:4px 8px 0 0;padding-right:16px}
+.tr-note li{margin-bottom:3px}
+.tr-alert{margin-top:9px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:4px}
+@media(max-width:560px){.tr-cards{grid-template-columns:1fr}.tr-grid{grid-template-columns:1fr}}
+
 /* HELP + SUMMARY */
 .help{max-width:1200px;margin:4px auto 0;padding:0 12px}
 .help-box{background:#fff;border:1px solid #e7dccf;border-radius:12px;padding:12px 14px;margin-bottom:8px}
@@ -245,6 +271,7 @@ a.ml:hover{text-decoration:underline}
     <button class="tab" data-tab="hotels">מלונות</button>
     <button class="tab" data-tab="places">אתרים</button>
     <button class="tab" data-tab="costs">תקציב</button>
+    <button class="tab" data-tab="transport">תחבורה</button>
     <button class="tab" data-tab="flights">טיסות</button>
     <button class="tab" data-tab="map">מפה</button>
   </div>
@@ -280,6 +307,7 @@ a.ml:hover{text-decoration:underline}
 <div class="panel" id="p-hotels"><div class="tw"><table id="t-hotels"></table></div></div>
 <div class="panel" id="p-places"><div class="tw"><table id="t-places"></table></div></div>
 <div class="panel" id="p-costs"><div class="tw"><table id="t-costs"></table></div></div>
+<div class="panel" id="p-transport"><div class="tw" id="transportWrap"></div></div>
 <div class="panel" id="p-flights"><div class="tw"><table id="t-flights"></table></div></div>
 <div class="panel" id="p-map">
   <div class="map-legend">
@@ -318,7 +346,11 @@ const ICON_PATHS = {
   external:  '<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
   check:     '<path d="M20 6L9 17l-5-5"/>',
   alert:     '<path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/>',
-  sort:      '<path d="M8 4v16M8 4l-3 3M8 4l3 3M16 20V4M16 20l-3-3M16 20l3-3"/>'
+  sort:      '<path d="M8 4v16M8 4l-3 3M8 4l3 3M16 20V4M16 20l-3-3M16 20l3-3"/>',
+  plane:     '<path d="M17.8 19.2 16 11l3.5-3.5a2.1 2.1 0 0 0-3-3L13 8 4.8 6.2a1 1 0 0 0-.9 1.7l5.6 3.3-2.4 2.4-2-.4a.8.8 0 0 0-.7 1.3l1.9 1.9 1.9 1.9a.8.8 0 0 0 1.3-.7l-.4-2 2.4-2.4 3.3 5.6a1 1 0 0 0 1.7-.9z"/>',
+  car:       '<path d="M5 13l1.5-4.5A2 2 0 0 1 8.4 7h7.2a2 2 0 0 1 1.9 1.5L19 13m-14 0h14m-14 0v4m14-4v4M5 17h2m10 0h2M7 13.5v.01M17 13.5v.01"/>',
+  shuttle:   '<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M3 11h18M7 17v1M17 17v1M7 8h4"/>',
+  'arrow-l': '<path d="M19 12H5M11 6l-6 6 6 6"/>'
 };
 function icon(name, cls){
   const p = ICON_PATHS[name] || '';
@@ -328,7 +360,7 @@ function icon(name, cls){
 // ══════════════════════════════════
 // STATE
 // ══════════════════════════════════
-let DATA = { hotels:[], days:[], places:[], costs:[], flights:[] };
+let DATA = { hotels:[], days:[], places:[], costs:[], flights:[], transport:null };
 let activeTab = 'summary';
 let navHistory = [];   // מחסנית ניווט — לחזרה לדף הקודם
 let sortState = {};
@@ -340,21 +372,22 @@ let mapObj = null;
 // ══════════════════════════════════
 async function loadData() {
   try {
-    const [h,d,p,c,f] = await Promise.all([
+    const [h,d,p,c,f,t] = await Promise.all([
       fetch('data/hotels.json').then(r=>r.json()),
       fetch('data/days.json').then(r=>r.json()),
       fetch('data/places.json').then(r=>r.json()),
       fetch('data/costs.json').then(r=>r.json()),
-      fetch('data/flights.json').then(r=>r.json())
+      fetch('data/flights.json').then(r=>r.json()),
+      fetch('data/transport.json').then(r=>r.json()).catch(()=>null)
     ]);
-    DATA = { hotels:h, days:d, places:p, costs:c, flights:f };
+    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t };
   } catch(e) {
     console.error('Load error:',e);
     toast('שגיאה בטעינת נתונים — ודאי שאת בשרת מקומי');
   }
   // פתיחת הטאב לפי ה-URL (מאפשר קישור ישיר ושמירת מצב ברענון — סעיף 4.5)
   const urlTab = new URLSearchParams(location.search).get('tab');
-  const valid = ['summary','days','calendar','hotels','places','costs','flights','map'];
+  const valid = ['summary','days','calendar','hotels','places','costs','transport','flights','map'];
   if (urlTab && valid.includes(urlTab) && urlTab!==activeTab) {
     activeTab = urlTab;
     document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===urlTab));
@@ -477,6 +510,7 @@ function render() {
   else if (activeTab==='hotels') renderHotels();
   else if (activeTab==='places') renderPlaces();
   else if (activeTab==='costs') renderCosts();
+  else if (activeTab==='transport') renderTransport();
   else if (activeTab==='flights') renderFlights();
 }
 
@@ -554,6 +588,8 @@ function renderHelp() {
     instr = ['לחיצה על <b>כותרת עמודה</b> ממיינת (קטגוריה, סכום, תאריך…).',
       'עמודת <b>הערות</b> ניתנת לעריכה ישירה.',
       'סימון <b>שולם</b> מציג אילו הוצאות כבר שולמו.'];
+  } else if (activeTab==='transport') {
+    el.innerHTML = ''; return; // לדף התחבורה יש intro משלו
   } else if (activeTab==='flights') {
     title = 'טיסות ותחבורה';
     summary = [`<b>${F.length}</b> רשומות תחבורה`];
@@ -608,7 +644,7 @@ function renderSummary() {
     {ic:'city',     topic:'יעדים ומקומות',    main:`${cities.length}`, sub:`${cities.slice(0,3).join(' · ')}${cities.length>3?'…':''}`, tab:'days'},
     {ic:'bed',      topic:'לינה',             main:`${booked.length}/${H.length}`, sub:`${nights} לילות · ${missH} טרם הוזמנו`, tab:'hotels', state: missH?'warn':'ok'},
     {ic:'star',     topic:'אטרקציות וחוויות', main:`${P.length}`, sub:`${placeTypes.length} סוגים של אתרים`, tab:'places'},
-    {ic:'train',    topic:'תחבורה',           main:`${F.length}`, sub: transTypes.length?transTypes.slice(0,3).join(' · '):'טיסות ותחבורה פנימית', tab:'flights'},
+    {ic:'train',    topic:'תחבורה',           main:`${F.filter(f=>f.type&&f.type.includes('טיסה')).length} טיסות`, sub:'רכב שכור · שאטל · טיסות פנים', tab:'transport'},
     {ic:'money',    topic:'עלויות',           main: hasCost?`₪${costTotal.toLocaleString()}`:`₪${hotelPrice.toLocaleString()}`, sub: hasCost?'סה״כ הוצאות שנרשמו':'עלות מלונות (אין עדיין תקציב)', tab:'costs'},
   ];
 
@@ -856,6 +892,90 @@ function renderFlights() {
     <td ${ed('flights.'+f.id+'.confirmation', f.confirmation)}>${f.confirmation||''}</td>
     <td ${ed('flights.'+f.id+'.notes', f.notes)}>${f.notes||''}</td>
   </tr>`).join('')}</tbody>`;
+}
+
+// ══════════════════════════════════
+// דף תחבורה מרכזי
+// ══════════════════════════════════
+function fmtDate(iso){ if(!iso) return ''; const [y,m,d]=iso.split('-'); return `${+d}/${+m}`; }
+
+// הפרש בדקות בין שתי שעות HH:MM
+function minsBetween(a,b){ if(!a||!b) return null; const [ah,am]=a.split(':').map(Number),[bh,bm]=b.split(':').map(Number); return (bh*60+bm)-(ah*60+am); }
+
+function renderTransport() {
+  const F = DATA.flights || [];
+  const T = DATA.transport || {};
+  const flights = F.filter(f=>f.type&&f.type.includes('טיסה'));
+
+  // ── כרטיסי טיסות ──
+  const flightCards = flights.map(f=>{
+    const hasTime = f.dep && f.arr;
+    const dur = hasTime ? minsBetween(f.dep,f.arr) : null;
+    return `<div class="tr-card">
+      <div class="tr-card-head">
+        ${icon('plane','tr-hic')}
+        <div class="tr-route"><b>${f.from}</b> ${icon('arrow-l')} <b>${f.to}</b></div>
+        <span class="tr-date">${fmtDate(f.date)}</span>
+      </div>
+      <div class="tr-grid">
+        ${f.flightNo?`<div><span>טיסה</span>${f.flightNo}${f.airline?' · '+f.airline:''}</div>`:''}
+        ${hasTime?`<div><span>יציאה → נחיתה</span>${f.dep} → ${f.arr}${dur?` (${Math.floor(dur/60)}:${String(dur%60).padStart(2,'0')} שע׳)`:''}</div>`:''}
+        ${f.toTerminal?`<div><span>טרמינל יעד</span>${f.toTerminal}</div>`:''}
+        ${f.arriveBefore?`<div><span>להגיע לשדה</span>${f.arriveBefore}</div>`:''}
+        ${f.hotelToAirport?`<div><span>מהמלון לשדה</span>${f.hotelToAirport}</div>`:''}
+        ${f.connection?`<div class="tr-full"><span>זמן מעבר</span>${f.connection}</div>`:''}
+      </div>
+      ${f.notes?`<div class="tr-note">${f.notes}</div>`:''}
+      ${!hasTime?`<div class="tr-alert st-warn-txt">${icon('alert')} חסרים פרטי שעות — יש להשלים</div>`:''}
+    </div>`;
+  }).join('');
+
+  // ── רכב שכור ──
+  let carHtml = '';
+  if (T.carRental && T.carRental.active) {
+    const c = T.carRental;
+    carHtml = `<div class="tr-card">
+      <div class="tr-card-head">${icon('car','tr-hic')}<div class="tr-route"><b>רכב שכור — הוקאידו</b></div>
+      <span class="tr-date">${fmtDate(c.from)} – ${fmtDate(c.to)}</span></div>
+      <div class="tr-grid">
+        <div><span>${icon('pin')} איסוף</span>${c.pickup.location} · ${fmtDate(c.pickup.date)}</div>
+        <div><span>${icon('pin')} החזרה</span>${c.dropoff.location} · ${fmtDate(c.dropoff.date)}</div>
+        <div class="tr-full"><span>אחרי הנחיתה (איסוף)</span>${c.pickup.process}</div>
+        <div class="tr-full"><span>זמן החזרה מומלץ</span>${c.dropoff.recommendedReturn}</div>
+      </div>
+      ${c.oneWay?`<div class="tr-note">${icon('alert')} השכרה חד-כיוונית (${c.pickup.locationEn} → ${c.dropoff.locationEn}) — ודאי דמי one-way. ${c.note}</div>`:''}
+    </div>`;
+  }
+
+  // ── שאטל נריטה ──
+  let shuttleHtml = '';
+  if (T.shuttle && T.shuttle.narita) {
+    const s = T.shuttle.narita;
+    shuttleHtml = `<div class="tr-card">
+      <div class="tr-card-head">${icon('shuttle','tr-hic')}<div class="tr-route"><b>${s.name}</b></div>
+      <span class="tr-date">${fmtDate(s.date)}</span></div>
+      <div class="tr-badge-primary">${icon('check')} אמצעי ראשי מנריטה למלון</div>
+      <div class="tr-grid">
+        <div><span>יעד</span>${s.hotel}</div>
+        <div><span>אחרי טיסה</span>${s.afterFlight}</div>
+        <div class="tr-full"><span>נקודת איסוף</span>${s.pickupPoint}</div>
+        <div class="tr-full"><span>זיהוי + הזמנה</span>${s.identify} · ${s.needsReservation}</div>
+      </div>
+      <div class="tr-note"><b>חלופות אם מפספסים:</b><ul>${s.alternatives.map(a=>`<li>${a}</li>`).join('')}</ul></div>
+    </div>`;
+  }
+
+  // ── מקרא ──
+  const legend = (T.legend||[]).map(l=>`<span><i style="background:${l.color}"></i>${l.he}</span>`).join('');
+
+  document.getElementById('transportWrap').innerHTML = `
+    <div class="tr-intro">כל התחבורה של הטיול במקום אחד — טיסות, רכב שכור, שאטלים. הקטעים היומיים בין אתרים יתווספו בהמשך.</div>
+    ${legend?`<div class="tr-legend">${legend}</div>`:''}
+    <h3 class="tr-sec">✈️ טיסות</h3>
+    <div class="tr-cards">${flightCards}</div>
+    ${carHtml?`<h3 class="tr-sec">🚗 רכב שכור</h3><div class="tr-cards">${carHtml}</div>`:''}
+    ${shuttleHtml?`<h3 class="tr-sec">🚐 שאטל</h3><div class="tr-cards">${shuttleHtml}</div>`:''}
+  `;
 }
 
 // ══════════════════════════════════

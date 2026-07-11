@@ -1,8 +1,11 @@
 [
-  {"id":1,"type":"טיסה","date":"2026-07-23","from":"ישראל","to":"אוסקה","time":"","airline":"","confirmation":"","cost":null,"notes":"הגעה"},
-  {"id":2,"type":"טיסה פנימית","date":"2026-08-02","from":"קנסאי","to":"Memanbetsu","time":"","airline":"","confirmation":"","cost":null,"notes":"מעבר להוקאידו"},
-  {"id":3,"type":"טיסה פנימית","date":"2026-08-14","from":"New Chitose","to":"Narita","time":"","airline":"","confirmation":"","cost":null,"notes":"מעבר לטוקיו"},
-  {"id":4,"type":"מיניוואן","date":"2026-08-14","from":"Narita Airport","to":"karaksa Tokyo Yaesu","time":"16:35","airline":"","confirmation":"","cost":null,"notes":"איסוף מנאריטה"},
-  {"id":5,"type":"טיסה","date":"2026-08-19","from":"טוקיו","to":"דובאי","time":"","airline":"","confirmation":"","cost":null,"notes":""},
-  {"id":6,"type":"טיסה","date":"2026-08-22","from":"דובאי","to":"ישראל","time":"","airline":"","confirmation":"","cost":null,"notes":"חזרה הביתה"}
+  {"id":1,"type":"טיסה","date":"2026-07-23","from":"תל אביב (TLV)","fromEn":"Tel Aviv (TLV)","to":"אוסקה (KIX)","toEn":"Osaka Kansai (KIX)","dep":"","arr":"","airline":"","flightNo":"","fromTerminal":"","toTerminal":"","arriveBefore":"3 שעות","hotelToAirport":"","confirmation":"","cost":null,"notes":"טיסת הגעה בינלאומית"},
+
+  {"id":2,"type":"טיסה פנימית","date":"2026-08-02","from":"קומאטסו (KMQ)","fromEn":"Komatsu (KMQ)","to":"טוקיו האנדה (HND)","toEn":"Tokyo Haneda (HND)","dep":"08:50","arr":"10:00","airline":"JAL","flightNo":"JAL184","fromTerminal":"","toTerminal":"האנדה","arriveBefore":"75 דק׳ (טיסת פנים)","hotelToAirport":"~40 דק׳ מקנאזאווה לקומאטסו","connection":"מעבר להאנדה לפני טיסת ההמשך — כ-2:25 שעות","confirmation":"","cost":null,"notes":"רגל 1 מתוך 2 — מעבר קנאזאווה → הוקאידו. צ׳ק-אין נפרד לכל רגל."},
+  {"id":3,"type":"טיסה פנימית","date":"2026-08-02","from":"טוקיו האנדה (HND)","fromEn":"Tokyo Haneda (HND)","to":"ממנבטסו (MMB)","toEn":"Memanbetsu (MMB)","dep":"12:25","arr":"14:10","airline":"JAL","flightNo":"JAL567","fromTerminal":"האנדה","toTerminal":"","arriveBefore":"בהאנדה — לפחות 60 דק׳ בין הטיסות","hotelToAirport":"","connection":"זמן מעבר בהאנדה: 2:25 שעות (10:00 → 12:25) — מספיק ונוח","confirmation":"","cost":null,"notes":"רגל 2 מתוך 2 — נחיתה בממנבטסו, איסוף רכב שכור."},
+
+  {"id":4,"type":"טיסה פנימית","date":"2026-08-14","from":"סאפורו ניו צ׳יטוסה (CTS)","fromEn":"Sapporo New Chitose (CTS)","to":"טוקיו נריטה (NRT)","toEn":"Tokyo Narita (NRT)","dep":"14:50","arr":"16:35","airline":"Peach","flightNo":"MM576","fromTerminal":"","toTerminal":"טרמינל 1","arriveBefore":"90 דק׳ (Peach — לואו-קוסט, שער נסגר מוקדם)","hotelToAirport":"החזרת רכב בצ׳יטוסה לפני הטיסה","confirmation":"","cost":null,"notes":"נחיתה בנריטה טרמינל 1. משם שאטל מלון לטוקיו."},
+
+  {"id":5,"type":"טיסה","date":"2026-08-19","from":"טוקיו (HND/NRT)","fromEn":"Tokyo","to":"דובאי (DXB)","toEn":"Dubai (DXB)","dep":"","arr":"","airline":"","flightNo":"","fromTerminal":"","toTerminal":"","arriveBefore":"3 שעות (בינלאומי)","hotelToAirport":"","confirmation":"","cost":null,"notes":"יעד ביניים — פרטים להשלמה"},
+  {"id":6,"type":"טיסה","date":"2026-08-22","from":"דובאי (DXB)","fromEn":"Dubai (DXB)","to":"תל אביב (TLV)","toEn":"Tel Aviv (TLV)","dep":"","arr":"","airline":"","flightNo":"","fromTerminal":"","toTerminal":"","arriveBefore":"3 שעות","hotelToAirport":"","confirmation":"","cost":null,"notes":"טיסת חזרה הביתה"}
 ]

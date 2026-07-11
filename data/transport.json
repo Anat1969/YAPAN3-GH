@@ -1,0 +1,49 @@
+{
+  "carRental": {
+    "active": true,
+    "from": "2026-08-02",
+    "to": "2026-08-14",
+    "oneWay": true,
+    "pickup": {
+      "location": "שדה התעופה ממנבטסו (MMB)",
+      "locationEn": "Memanbetsu Airport (MMB)",
+      "date": "2026-08-02",
+      "afterFlight": "JAL567 — נחיתה 14:10",
+      "process": "איסוף רכב אחרי הנחיתה — כ-45–60 דק׳ למסמכים, ביטוח, בדיקת רכב והעמסת מזוודות"
+    },
+    "dropoff": {
+      "location": "שדה התעופה ניו צ׳יטוסה (CTS)",
+      "locationEn": "New Chitose Airport (CTS)",
+      "date": "2026-08-14",
+      "beforeFlight": "MM576 — המראה 14:50",
+      "recommendedReturn": "להחזיר עד ~11:30 — כולל תדלוק, בדיקת רכב, טפסים והסעה לטרמינל. ואז ~90 דק׳ צ׳ק-אין לטיסה.",
+      "process": "תדלוק לפני החזרה (מלא), בדיקת נזקים, חתימת טפסים, הסעה/הליכה לטרמינל"
+    },
+    "note": "השכרה חד-כיוונית בין שני שדות תעופה שונים (MMB → CTS). ודאי דמי one-way בהזמנה. נהיגה בצד שמאל."
+  },
+  "shuttle": {
+    "narita": {
+      "primary": true,
+      "date": "2026-08-14",
+      "name": "שאטל מלון מנריטה לטוקיו",
+      "hotel": "karaksa hotel colors Tokyo Yaesu",
+      "afterFlight": "MM576 — נחיתה 16:35, נריטה טרמינל 1",
+      "pickupPoint": "יש לאמת מול המלון — נקודת איסוף מדויקת בטרמינל 1 (בדרך כלל ליד דלפקי אוטובוסי לימוזין)",
+      "needsReservation": "לבדוק אם נדרשת הזמנה מראש מול המלון",
+      "identify": "שלט עם שם המלון / לוגו karaksa",
+      "alternatives": [
+        "Narita Express (N'EX) — רכבת ישירה לתחנת Tokyo, ~60 דק׳, ~3,070¥",
+        "Airport Limousine Bus — אוטובוס לאזור Yaesu/Tokyo Station, ~90 דק׳",
+        "מונית — יקר מאוד מנריטה (~20,000¥+), רק כמוצא אחרון"
+      ]
+    }
+  },
+  "legend": [
+    {"type":"flight","he":"טיסה","color":"#7c3aed"},
+    {"type":"car","he":"רכב שכור","color":"#0891b2"},
+    {"type":"train","he":"רכבת / שינקנסן","color":"#15803d"},
+    {"type":"bus","he":"אוטובוס","color":"#b45309"},
+    {"type":"shuttle","he":"שאטל / הסעה","color":"#2563eb"},
+    {"type":"walk","he":"הליכה","color":"#8a857e"}
+  ]
+}
