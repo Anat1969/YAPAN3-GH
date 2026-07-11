@@ -18,6 +18,9 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .nav-btn{padding:4px 10px;border:1px solid #555;border-radius:4px;background:transparent;color:#aaa;font:600 11px/1.4 inherit;cursor:pointer;transition:.12s}
 .nav-btn:hover{background:rgba(255,255,255,.1);color:#fff;border-color:#888}
 .nav-btn.save{border-color:#166534;color:#4ade80}.nav-btn.save:hover{background:#166534;color:#fff}
+.back-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:none;border-radius:6px;background:#fbbf24;color:#1a1a1a;font:800 12px/1.4 inherit;cursor:pointer;transition:.12s;white-space:nowrap}
+.back-btn:hover{background:#f59e0b}
+.back-btn:active{transform:scale(.96)}
 
 /* HERO */
 .hero{max-width:1200px;margin:12px auto 8px;padding:0 12px}
@@ -153,6 +156,7 @@ a.ml:hover{text-decoration:underline}
 
 <nav class="nav">
   <h1>יפן 2026</h1>
+  <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none">→ <span class="back-lbl">חזרה</span></button>
   <button class="tab on" data-tab="summary">סיכומים</button>
   <button class="tab" data-tab="days">לוח ימים</button>
   <button class="tab" data-tab="calendar">לוח שנה</button>
@@ -212,6 +216,7 @@ a.ml:hover{text-decoration:underline}
 // ══════════════════════════════════
 let DATA = { hotels:[], days:[], places:[], costs:[], flights:[] };
 let activeTab = 'summary';
+let navHistory = [];   // מחסנית ניווט — לחזרה לדף הקודם
 let sortState = {};
 let regionFilter = '';
 let mapObj = null;
@@ -243,14 +248,37 @@ document.querySelectorAll('.tab').forEach(btn => {
   btn.addEventListener('click', () => goTab(btn.dataset.tab));
 });
 
-function goTab(tab) {
+function goTab(tab, isBack) {
+  if (tab===activeTab) return;
+  // בקפיצה חדשה — שומרים את הדף הנוכחי בהיסטוריה כדי לאפשר חזרה
+  if (!isBack) navHistory.push(activeTab);
   activeTab = tab;
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===tab));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
   document.getElementById('p-'+tab).classList.add('on');
   window.scrollTo({top:0, behavior:'smooth'});
+  updateBackBtn();
   render();
   if (tab==='map') initMap();
+}
+
+function goBack() {
+  if (!navHistory.length) return;
+  const prev = navHistory.pop();
+  goTab(prev, true);
+}
+
+function updateBackBtn() {
+  const btn = document.getElementById('backBtn');
+  if (!btn) return;
+  if (navHistory.length) {
+    btn.style.display = '';
+    const labels = {summary:'סיכומים',days:'לוח ימים',calendar:'לוח שנה',hotels:'מלונות',places:'אתרים',costs:'תקציב',flights:'טיסות',map:'מפה'};
+    const prev = navHistory[navHistory.length-1];
+    btn.querySelector('.back-lbl').textContent = labels[prev] || 'חזרה';
+  } else {
+    btn.style.display = 'none';
+  }
 }
 
 // ══════════════════════════════════
@@ -315,7 +343,8 @@ function filtered(arr) {
 // ══════════════════════════════════
 function render() {
   renderFilters();
-  renderStats();
+  // שורת כרטיסיות הסטטיסטיקה הישנה הוסרה — כל הסיכומים מרוכזים בדף «סיכומים»
+  document.getElementById('stats').innerHTML = '';
   renderHelp();
   if (activeTab==='summary') renderSummary();
   else if (activeTab==='days') renderDays();
