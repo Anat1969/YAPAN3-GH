@@ -77,8 +77,8 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 .stat-detail{font-size:11px;color:#6b7280;margin-top:2px}
 
 /* FILTERS */
-/* סרגל ניווט משני — מסננים ופעולות של הדף הנוכחי. מוסתר כשאין. */
-.filters{position:sticky;top:41px;z-index:40;background:var(--surface);border-bottom:1px solid var(--border);margin:0 0 10px;padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+/* סרגל ניווט משני — מסננים של הדף הנוכחי. ממורכז. מוסתר כשאין. */
+.filters{position:sticky;top:41px;z-index:40;background:var(--surface);border-bottom:1px solid var(--border);margin:0 0 10px;padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:center}
 .filters:empty{display:none}
 .filters::before{content:'סינון:';font-size:11px;font-weight:800;color:var(--ink-3);margin-left:2px}
 .flt{padding:3px 10px;border:1px solid #ddd;border-radius:3px;background:#fff;font:600 11px/1.4 inherit;cursor:pointer;color:#666;transition:.12s}
