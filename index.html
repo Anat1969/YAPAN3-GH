@@ -1274,7 +1274,12 @@ let mapPlaceTypes = new Set();    // סינון סוגי אתרים (מקרא-ס
 const MODE_COLOR_M = {train:'#1d4ed8', metro:'#2563eb', shinkansen:'#1e3a8a', walk:'#15803d', bus:'#b45309', car:'#6b7280', flight:'#b91c1c', taxi:'#7c3aed', shuttle:'#0891b2'};
 const MODE_HE_M = {walk:'הליכה', metro:'מטרו', train:'רכבת', bus:'אוטובוס', car:'רכב', taxi:'מונית', shuttle:'שאטל', flight:'טיסה', shinkansen:'שינקנסן'};
 const bilingual = (he, en) => `<b style="font-size:13px">${he||en||''}</b>${en&&en!==he?`<br><span style="font-size:11px;color:#666;direction:ltr">${en}</span>`:''}`;
-function tile(m){ return L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',subdomains:'abcd',maxZoom:20}).addTo(m); }
+// רקע נקי (CARTO light) + שכבת תוויות באנגלית (Esri) — שמות מקומות באנגלית בלבד, לא יפנית
+function tile(m){
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_nolabels/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',subdomains:'abcd',maxZoom:20}).addTo(m);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{attribution:'Labels © Esri',maxZoom:20,pane:'overlayPane'}).addTo(m);
+  return m;
+}
 
 function initMap() {
   if (mapObj) { setTimeout(()=>{mapObj.invalidateSize(); mapSpecObj&&mapSpecObj.invalidateSize(); renderMapLayer();},80); return; }
