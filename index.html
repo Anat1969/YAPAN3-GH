@@ -158,6 +158,26 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .sum-note{margin-top:7px;font-size:11px;color:var(--ink-3);background:var(--bg);border-radius:6px;padding:5px 8px;line-height:1.5}
 @media(max-width:520px){.sum-grid{grid-template-columns:1fr 1fr;gap:8px}.sum-main{font-size:20px}}
 
+/* רשימת נושאים — כל שורה קישור לדף שלה */
+.sum-list-title{margin:22px 0 8px;font-size:13px;font-weight:800;color:var(--ink-2)}
+.sum-list{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.sum-row{display:flex;align-items:center;gap:12px;padding:11px 14px;text-decoration:none;color:inherit;border-bottom:1px solid var(--border);transition:.12s}
+.sum-row:last-child{border-bottom:none}
+.sum-row:hover{background:var(--bg)}
+.sum-row:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+.sum-row .sr-ic{flex:none;display:inline-flex}
+.sum-row .sr-ic .ic{stroke:var(--icon)}
+.sr-topic{font-weight:800;font-size:13px;color:var(--ink);min-width:110px}
+.sr-main{font-weight:900;font-size:14px;color:var(--ink);min-width:70px}
+.sr-sub{flex:1;font-size:12px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sr-go{flex:none;display:inline-flex}
+.sr-go .ic{width:14px;height:14px;stroke:var(--action)}
+.sum-row.st-warn{border-right:3px solid var(--warn)}
+.sum-row.st-ok{border-right:3px solid var(--ok)}
+.sum-row.st-pending{border-right:3px solid var(--border-strong)}
+.sum-row.st-pending .sr-main{color:var(--ink-3);font-size:12px}
+@media(max-width:560px){.sr-sub{display:none}.sr-topic{min-width:auto;flex:1}}
+
 /* HELP + SUMMARY */
 .help{max-width:1200px;margin:4px auto 0;padding:0 12px}
 .help-box{background:#fff;border:1px solid #e7dccf;border-radius:12px;padding:12px 14px;margin-bottom:8px}
@@ -600,12 +620,23 @@ function renderSummary() {
       ${c.state==='warn'?`<div class="sum-flag st-warn-txt">${icon('alert')} דרוש טיפול</div>`:''}
       ${c.state==='ok'?`<div class="sum-flag st-ok-txt">${icon('check')} הכול מוזמן</div>`:''}
       ${c.note?`<div class="sum-note">${c.note}</div>`:''}
-      <div class="sum-go">מעבר לדף ${icon('external')}</div>
+    </a>`).join('');
+
+  // רשימה מתחת לכרטיסיות — כל שורה קישור לדף שלה
+  const list = cards.map(c=>`
+    <a class="sum-row${c.state?' st-'+c.state:''}" href="#" onclick="goTab('${c.tab}');return false">
+      <span class="sr-ic">${icon(c.ic)}</span>
+      <span class="sr-topic">${c.topic}</span>
+      <span class="sr-main">${c.main}</span>
+      <span class="sr-sub">${c.sub}</span>
+      <span class="sr-go">${icon('external')}</span>
     </a>`).join('');
 
   document.getElementById('sumWrap').innerHTML =
-    `<div class="sum-intro">כל נתוני הטיול במבט אחד. לחיצה על כרטיסייה פותחת את הדף המפורט. הנתונים מתעדכנים אוטומטית לפי המסלול.</div>
-     <div class="sum-grid">${html}</div>`;
+    `<div class="sum-intro">כל נתוני הטיול במבט אחד. לחיצה על כרטיסייה או שורה פותחת את הדף המפורט. הנתונים מתעדכנים אוטומטית לפי המסלול.</div>
+     <div class="sum-grid">${html}</div>
+     <div class="sum-list-title">רשימת נושאים</div>
+     <div class="sum-list">${list}</div>`;
 }
 
 function regionTag(r) {
