@@ -267,6 +267,22 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .bk-missing > span{color:var(--err)}
 .bk-warn{margin-top:7px;font-size:11px;font-weight:700;color:var(--err);background:var(--err-bg);border-radius:7px;padding:6px 9px;line-height:1.5}
 .bk-note{margin-top:9px;font-size:11px;color:var(--ink-3);background:var(--bg);border-radius:8px;padding:7px 10px;line-height:1.6}
+/* לקראת הזמנה */
+.cl-list{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px}
+.cl-row{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap;font-size:12px}
+.cl-row:last-child{border-bottom:none}
+.cl-row.cl-done{background:var(--ok-bg)}
+.cl-name{font-weight:800;color:var(--ink);flex:1;min-width:150px}
+.cl-meta{color:var(--ink-3)}
+.cl-cost{font-weight:800;color:var(--ink);min-width:70px}
+.cl-link{color:var(--action);text-decoration:none;font-size:11px}
+.cl-link:hover{text-decoration:underline}
+.cl-btn{padding:4px 11px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface);color:var(--action);font:700 11px inherit;cursor:pointer;white-space:nowrap}
+.cl-btn:hover{background:var(--bg)}
+.cl-done .cl-btn{color:var(--ok);border-color:var(--ok)}
+.cl-total{font-size:14px;font-weight:900;color:var(--ink);text-align:left;padding:4px 2px}
+/* badge "דורש הזמנה" בציר הזמן */
+.needs-booking{display:inline-block;font-size:10px;font-weight:800;color:var(--warn);background:var(--warn-bg);border-radius:999px;padding:1px 8px;margin-right:6px}
 
 /* HELP + SUMMARY */
 .help{max-width:1200px;margin:4px auto 0;padding:0 12px}
@@ -375,6 +391,7 @@ a.ml:hover{text-decoration:underline}
     <button class="tab" data-tab="calendar" data-tip="יולי–אוגוסט בתצוגת לוח שנה חודשי" aria-label="מעבר ללוח השנה">לוח שנה</button>
     <button class="tab" data-tab="hotels" data-tip="11 המלונות — תאריכים, מחירים וקישורי הזמנה" aria-label="מעבר לדף המלונות">מלונות</button>
     <button class="tab" data-tab="bookings" data-tip="כל ההזמנות לפי ציר זמן — טיסות, מלונות, רכב ומספרי אישור" aria-label="מעבר לדף ההזמנות">הזמנות</button>
+    <button class="tab" data-tab="checklist" data-tip="אטרקציות שדורשות הזמנה מראש — סטטוס ועלות" aria-label="מעבר ללקראת הזמנה">לקראת הזמנה</button>
     <button class="tab" data-tab="places" data-tip="אתרים ונקודות עניין במסלול" aria-label="מעבר לדף האתרים">אתרים</button>
     <button class="tab" data-tab="costs" data-tip="מעקב הוצאות ותקציב הטיול" aria-label="מעבר לדף התקציב">תקציב</button>
     <button class="tab" data-tab="transport" data-tip="טיסות, רכב שכור ושאטלים — כל התחבורה" aria-label="מעבר לדף התחבורה">תחבורה</button>
@@ -414,6 +431,7 @@ a.ml:hover{text-decoration:underline}
 <div class="panel" id="p-places"><div class="tw"><table id="t-places"></table></div></div>
 <div class="panel" id="p-costs"><div class="tw"><table id="t-costs"></table></div></div>
 <div class="panel" id="p-bookings"><div class="tw" id="bookingsWrap"></div></div>
+<div class="panel" id="p-checklist"><div class="tw" id="checklistWrap"></div></div>
 <div class="panel" id="p-transport"><div class="tw" id="transportWrap"></div></div>
 <div class="panel" id="p-flights"><div class="tw"><table id="t-flights"></table></div></div>
 <div class="panel" id="p-map">
@@ -511,14 +529,15 @@ async function loadData() {
       fetch('data/transport.json').then(r=>r.json()).catch(()=>null)
     ]);
     const bk = await fetch('data/bookings.json').then(r=>r.json()).catch(()=>null);
-    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk };
+    const cl = await fetch('data/booking-checklist.json').then(r=>r.json()).catch(()=>null);
+    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl };
   } catch(e) {
     console.error('Load error:',e);
     toast('שגיאה בטעינת נתונים — ודאי שאת בשרת מקומי');
   }
   // פתיחת הטאב לפי ה-URL (מאפשר קישור ישיר ושמירת מצב ברענון — סעיף 4.5)
   const urlTab = new URLSearchParams(location.search).get('tab');
-  const valid = ['summary','days','calendar','hotels','bookings','places','costs','transport','flights','map'];
+  const valid = ['summary','days','calendar','hotels','bookings','checklist','places','costs','transport','flights','map'];
   if (urlTab && valid.includes(urlTab) && urlTab!==activeTab) {
     activeTab = urlTab;
     document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===urlTab));
@@ -644,6 +663,7 @@ function render() {
   else if (activeTab==='places') renderPlaces();
   else if (activeTab==='costs') renderCosts();
   else if (activeTab==='bookings') renderBookings();
+  else if (activeTab==='checklist') renderChecklist();
   else if (activeTab==='transport') renderTransport();
   else if (activeTab==='flights') renderFlights();
 }
@@ -722,7 +742,7 @@ function renderHelp() {
     instr = ['לחיצה על <b>כותרת עמודה</b> ממיינת (קטגוריה, סכום, תאריך…).',
       'עמודת <b>הערות</b> ניתנת לעריכה ישירה.',
       'סימון <b>שולם</b> מציג אילו הוצאות כבר שולמו.'];
-  } else if (activeTab==='transport' || activeTab==='bookings') {
+  } else if (activeTab==='transport' || activeTab==='bookings' || activeTab==='checklist') {
     el.innerHTML = ''; return; // לדפים אלו יש intro משלהם
   } else if (activeTab==='flights') {
     title = 'טיסות ותחבורה';
@@ -1236,6 +1256,47 @@ function renderBookings() {
     <div class="tr-intro">כל ההזמנות של הטיול לפי ציר זמן.</div>
     ${summaryLine}
     <div class="bk-timeline">${cards}</div>`;
+}
+
+// ══════════════════════════════════
+// לקראת הזמנה — checklist
+// ══════════════════════════════════
+function clStatus(item, day){
+  // סטטוס נשמר ב-localStorage (הקובץ סטטי)
+  const key = 'cl-'+day+'-'+item;
+  return localStorage.getItem(key) || null;
+}
+function toggleChecklist(item, day, orig){
+  const key = 'cl-'+day+'-'+item;
+  const cur = clStatus(item,day) || orig;
+  localStorage.setItem(key, cur==='booked' ? 'pending' : 'booked');
+  renderChecklist();
+}
+function renderChecklist(){
+  const C = DATA.checklist;
+  const el = document.getElementById('checklistWrap');
+  if(!C || !C.items){ el.innerHTML='<div class="tr-intro">אין נתוני צ׳קליסט.</div>'; return; }
+  // מיון לפי יום
+  const items = [...C.items].sort((a,b)=>(a.day||0)-(b.day||0));
+  let booked=0;
+  const rows = items.map(it=>{
+    const st = clStatus(it.item, it.day) || it.status || 'pending';
+    if(st==='booked') booked++;
+    const link = it.url ? `<a href="${/^https?:/.test(it.url)?it.url:'https://'+it.url}" target="_blank" rel="noopener" class="cl-link">${it.url}</a>` : '';
+    return `<div class="cl-row ${st==='booked'?'cl-done':''}">
+      <span class="bk-status ${st==='booked'?'bk-ok':'bk-pend'}">${st==='booked'?'הוזמן':'ממתין'}</span>
+      <span class="cl-name">${it.item}</span>
+      <span class="cl-meta">יום ${it.day||'—'}${it.date?' · '+it.date:''}</span>
+      <span class="cl-cost">${it.cost||''}</span>
+      ${link}
+      <button class="cl-btn" onclick="toggleChecklist('${it.item.replace(/'/g,'')}',${it.day},'${st}')">${st==='booked'?'בטל':'סמן כהוזמן'}</button>
+    </div>`;
+  }).join('');
+  el.innerHTML = `
+    <div class="tr-intro">אטרקציות ופעילויות שדורשות הזמנה מראש. סמני כל פריט כשהוזמן.</div>
+    <div class="bk-summary">${booked}/${items.length} הוזמנו · עלות נוספת כוללת: ${C.totalAdditionalCost||''}</div>
+    <div class="cl-list">${rows}</div>
+    <div class="cl-total">סה״כ עלות נוספת: <b>${C.totalAdditionalCost||''}</b></div>`;
 }
 
 // ══════════════════════════════════

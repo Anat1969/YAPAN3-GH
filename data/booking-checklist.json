@@ -1,0 +1,77 @@
+{
+  "items": [
+    {
+      "item": "USJ Studio Pass + Express Pass 4",
+      "day": 4,
+      "date": "26/7",
+      "cost": "~₪1,600",
+      "url": "klook.com",
+      "status": "pending"
+    },
+    {
+      "item": "רוקצו — YAMAMOTO Studio",
+      "day": 7,
+      "date": "29/7",
+      "cost": "~₪250",
+      "url": "roketsu.com",
+      "status": "pending"
+    },
+    {
+      "item": "סמוראי — Sword Experience",
+      "day": 7,
+      "date": "29/7",
+      "cost": "~₪200",
+      "url": "viator.com",
+      "status": "pending"
+    },
+    {
+      "item": "קינצוגי — Kintsugi Workshop",
+      "day": 7,
+      "date": "29/7",
+      "cost": "~₪200",
+      "url": "viator.com",
+      "status": "pending"
+    },
+    {
+      "item": "teamLab Biovortex Kyoto",
+      "day": 8,
+      "date": "30/7",
+      "cost": "~₪390",
+      "url": "teamlab.art",
+      "status": "pending"
+    },
+    {
+      "item": "קיאק ימי שירטוקו",
+      "day": 12,
+      "date": "3/8",
+      "cost": "~₪1,000",
+      "url": "hokkaidonaturetours.com",
+      "status": "pending"
+    },
+    {
+      "item": "ראפטינג פוראנו",
+      "day": 20,
+      "date": "11/8",
+      "cost": "~₪1,000",
+      "url": "getyourguide.com",
+      "status": "pending"
+    },
+    {
+      "item": "מנגה Workshop — Shibuya",
+      "day": 25,
+      "date": "16/8",
+      "cost": "~₪610",
+      "url": "getyourguide.com",
+      "status": "pending"
+    },
+    {
+      "item": "DisneySea Passport + Premier Access",
+      "day": 27,
+      "date": "18/8",
+      "cost": "~₪1,070",
+      "url": "klook.com",
+      "status": "pending"
+    }
+  ],
+  "totalAdditionalCost": "~₪6,320"
+}

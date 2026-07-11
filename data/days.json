@@ -675,134 +675,31 @@
             "lng": 135.5045
           },
           "to": {
-            "name": "הרבור קובה",
-            "nameEn": "Kobe Harborland",
-            "lat": 34.6801,
-            "lng": 135.1853
+            "name": "יוניברסל סטודיוס ג'פן",
+            "nameEn": "Universal Studios Japan (USJ)",
+            "lat": 34.6654,
+            "lng": 135.4323
           },
           "mode": "train",
           "details": {
+            "line": "Namba → Nishikujo (JR) → Universal-City (JR Yumesaki)",
             "walkToStation": 10,
-            "rideTime": 51,
-            "transfers": 0,
-            "cost": null,
+            "rideTime": 20,
+            "transfers": 1,
+            "cost": 380,
             "currency": "JPY"
           },
-          "totalMinutes": 61,
-          "distanceKm": 38,
-          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6632,135.5045&destination=34.6801,135.1853&travelmode=transit"
+          "totalMinutes": 30,
+          "distanceKm": 12.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6632,135.5045&destination=34.6654,135.4323&travelmode=transit"
         },
         {
           "id": "d4-s2",
           "from": {
-            "name": "הרבור קובה",
-            "nameEn": "Kobe Harborland",
-            "lat": 34.6801,
-            "lng": 135.1853
-          },
-          "to": {
-            "name": "שכונת קיטאנו",
-            "nameEn": "Kitano-cho",
-            "lat": 34.702,
-            "lng": 135.1901
-          },
-          "mode": "metro",
-          "details": {
-            "walkToStation": 8,
-            "rideTime": 6,
-            "transfers": 0,
-            "cost": null,
-            "currency": "JPY"
-          },
-          "totalMinutes": 14,
-          "distanceKm": 3.2,
-          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6801,135.1853&destination=34.702,135.1901&travelmode=transit"
-        },
-        {
-          "id": "d4-s3",
-          "from": {
-            "name": "שכונת קיטאנו",
-            "nameEn": "Kitano-cho",
-            "lat": 34.702,
-            "lng": 135.1901
-          },
-          "to": {
-            "name": "מוזיאון רעידת אדמה",
-            "nameEn": "Disaster Reduction Museum",
-            "lat": 34.696,
-            "lng": 135.2062
-          },
-          "mode": "metro",
-          "details": {
-            "walkToStation": 8,
-            "rideTime": 4,
-            "transfers": 0,
-            "cost": null,
-            "currency": "JPY"
-          },
-          "totalMinutes": 12,
-          "distanceKm": 2.1,
-          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.702,135.1901&destination=34.696,135.2062&travelmode=transit"
-        },
-        {
-          "id": "d4-s4",
-          "from": {
-            "name": "מוזיאון רעידת אדמה",
-            "nameEn": "Disaster Reduction Museum",
-            "lat": 34.696,
-            "lng": 135.2062
-          },
-          "to": {
-            "name": "בשר קובה — ארוחה",
-            "nameEn": "Kobe Beef Lunch",
-            "lat": 34.695,
-            "lng": 135.195
-          },
-          "mode": "metro",
-          "details": {
-            "walkToStation": 8,
-            "rideTime": 3,
-            "transfers": 0,
-            "cost": null,
-            "currency": "JPY"
-          },
-          "totalMinutes": 11,
-          "distanceKm": 1.3,
-          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.696,135.2062&destination=34.695,135.195&travelmode=transit"
-        },
-        {
-          "id": "d4-s5",
-          "from": {
-            "name": "בשר קובה — ארוחה",
-            "nameEn": "Kobe Beef Lunch",
-            "lat": 34.695,
-            "lng": 135.195
-          },
-          "to": {
-            "name": "חזרה לאוסקה",
-            "nameEn": "Return to Osaka",
-            "lat": 34.6659,
-            "lng": 135.5013
-          },
-          "mode": "train",
-          "details": {
-            "walkToStation": 10,
-            "rideTime": 49,
-            "transfers": 0,
-            "cost": null,
-            "currency": "JPY"
-          },
-          "totalMinutes": 59,
-          "distanceKm": 36.6,
-          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.695,135.195&destination=34.6659,135.5013&travelmode=transit"
-        },
-        {
-          "id": "d4-s6",
-          "from": {
-            "name": "חזרה לאוסקה",
-            "nameEn": "Return to Osaka",
-            "lat": 34.6659,
-            "lng": 135.5013
+            "name": "יוניברסל סטודיוס ג'פן",
+            "nameEn": "Universal Studios Japan (USJ)",
+            "lat": 34.6654,
+            "lng": 135.4323
           },
           "to": {
             "name": "מלון &Here OSAKA NAMBA",
@@ -810,27 +707,26 @@
             "lat": 34.6632,
             "lng": 135.5045
           },
-          "mode": "walk",
+          "mode": "train",
           "details": {
-            "walkToStation": 0,
-            "rideTime": 7,
-            "transfers": 0,
-            "cost": null,
+            "line": "Universal-City → Nishikujo → Namba",
+            "walkToStation": 10,
+            "rideTime": 20,
+            "transfers": 1,
+            "cost": 380,
             "currency": "JPY"
           },
-          "totalMinutes": 7,
-          "distanceKm": 0.5,
-          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6659,135.5013&destination=34.6632,135.5045&travelmode=walking"
+          "totalMinutes": 30,
+          "distanceKm": 12.5,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6654,135.4323&destination=34.6632,135.5045&travelmode=transit"
         }
       ],
       "summary": {
-        "totalTransitMinutes": 157,
-        "totalWalkingMinutes": 7,
-        "totalDistanceKm": 81.7,
+        "totalTransitMinutes": 60,
+        "totalWalkingMinutes": 20,
+        "totalDistanceKm": 25,
         "modes": [
-          "train",
-          "metro",
-          "walk"
+          "train"
         ]
       }
     },
@@ -840,7 +736,212 @@
       "dinner": ""
     },
     "freeDay": false,
-    "notes": ""
+    "notes": "",
+    "_backup_segments": [
+      {
+        "id": "d4-s1",
+        "from": {
+          "name": "מלון &Here OSAKA NAMBA",
+          "nameEn": "&Here OSAKA NAMBA",
+          "lat": 34.6632,
+          "lng": 135.5045
+        },
+        "to": {
+          "name": "הרבור קובה",
+          "nameEn": "Kobe Harborland",
+          "lat": 34.6801,
+          "lng": 135.1853
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 51,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 61,
+        "distanceKm": 38,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6632,135.5045&destination=34.6801,135.1853&travelmode=transit"
+      },
+      {
+        "id": "d4-s2",
+        "from": {
+          "name": "הרבור קובה",
+          "nameEn": "Kobe Harborland",
+          "lat": 34.6801,
+          "lng": 135.1853
+        },
+        "to": {
+          "name": "שכונת קיטאנו",
+          "nameEn": "Kitano-cho",
+          "lat": 34.702,
+          "lng": 135.1901
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 6,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 14,
+        "distanceKm": 3.2,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6801,135.1853&destination=34.702,135.1901&travelmode=transit"
+      },
+      {
+        "id": "d4-s3",
+        "from": {
+          "name": "שכונת קיטאנו",
+          "nameEn": "Kitano-cho",
+          "lat": 34.702,
+          "lng": 135.1901
+        },
+        "to": {
+          "name": "מוזיאון רעידת אדמה",
+          "nameEn": "Disaster Reduction Museum",
+          "lat": 34.696,
+          "lng": 135.2062
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 4,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 12,
+        "distanceKm": 2.1,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.702,135.1901&destination=34.696,135.2062&travelmode=transit"
+      },
+      {
+        "id": "d4-s4",
+        "from": {
+          "name": "מוזיאון רעידת אדמה",
+          "nameEn": "Disaster Reduction Museum",
+          "lat": 34.696,
+          "lng": 135.2062
+        },
+        "to": {
+          "name": "בשר קובה — ארוחה",
+          "nameEn": "Kobe Beef Lunch",
+          "lat": 34.695,
+          "lng": 135.195
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 8,
+          "rideTime": 3,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 11,
+        "distanceKm": 1.3,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.696,135.2062&destination=34.695,135.195&travelmode=transit"
+      },
+      {
+        "id": "d4-s5",
+        "from": {
+          "name": "בשר קובה — ארוחה",
+          "nameEn": "Kobe Beef Lunch",
+          "lat": 34.695,
+          "lng": 135.195
+        },
+        "to": {
+          "name": "חזרה לאוסקה",
+          "nameEn": "Return to Osaka",
+          "lat": 34.6659,
+          "lng": 135.5013
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 49,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 59,
+        "distanceKm": 36.6,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.695,135.195&destination=34.6659,135.5013&travelmode=transit"
+      },
+      {
+        "id": "d4-s6",
+        "from": {
+          "name": "חזרה לאוסקה",
+          "nameEn": "Return to Osaka",
+          "lat": 34.6659,
+          "lng": 135.5013
+        },
+        "to": {
+          "name": "מלון &Here OSAKA NAMBA",
+          "nameEn": "&Here OSAKA NAMBA",
+          "lat": 34.6632,
+          "lng": 135.5045
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 7,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 7,
+        "distanceKm": 0.5,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.6659,135.5013&destination=34.6632,135.5045&travelmode=walking"
+      }
+    ],
+    "title": "יוניברסל סטודיוס — עולמות בדיוני",
+    "subtitle": "יום מלא בפארק",
+    "story": "Super Nintendo World הוא לא רק רכבות הרים — זה עולם תלת-ממדי שבו אתה שחקן פעיל עם Power-Up Band. עולם הארי פוטר הוא אדריכלות נושאית ברמה שלא קיימת בשום פארק אחר. חגיגות 5 שנים עד ינואר 2027.",
+    "familyBalance": {
+      "anat": "אדריכלות נושאית של Wizarding World — עיצוב סביבתי ברמה הגבוהה ביותר",
+      "ilay": "Mario Kart, Mine Cart Madness, Hollywood Dream, Jurassic Park",
+      "lotem": "Super Nintendo World merchandise, Wizarding World, Minion Park אסתטיקה",
+      "natan": "אוכל נושאי, שוטטות חופשית, Butterbeer"
+    },
+    "layers": {
+      "intellectual": "איך בונים עולם בדיוני תלת-ממדי — שפת עיצוב, חומרים, סיפור",
+      "emotional": "התרגשות, פליאה, ילדות, אדרנלין",
+      "physical": "רכבות הרים, הליכה, ריצה בין אזורים"
+    },
+    "booking": {
+      "required": true,
+      "items": [
+        {
+          "what": "Studio Pass (4 כרטיסים)",
+          "price": "¥8,600-9,500/person",
+          "totalEstimate": "¥38,000",
+          "url": "https://www.klook.com/en-US/activity/46604-universal-studios-japan-e-ticket-osaka-qr-code-direct-entry/",
+          "notes": "לא ניתן לקנות בשער. האתר הרשמי לא מקבל כרטיסי חו\"ל — Klook או Apple Pay"
+        },
+        {
+          "what": "Express Pass 4",
+          "price": "~¥6,000-8,000/person",
+          "totalEstimate": "¥25,000",
+          "url": "https://www.klook.com/en-US/activity/46604-universal-studios-japan-e-ticket-osaka-qr-code-direct-entry/",
+          "notes": "חובה להזמין מראש — נגמר מהר"
+        },
+        {
+          "what": "Super Nintendo World Timed Entry",
+          "price": "חינם (חלק מהכרטיס)",
+          "url": "https://www.usj.co.jp/web/en/us",
+          "notes": "להוריד אפליקציית USJ ולהירשם ביום הכניסה מוקדם בבוקר"
+        }
+      ],
+      "totalCost": "~¥63,000 (~₪1,600)"
+    },
+    "tips": "להגיע 08:30 (30 דק' לפני פתיחה). להתחיל מ-Super Nintendo World (הכי עמוס). Express Pass חוסך 3-4 שעות של תורים. אוכל נושאי בתוך הפארק — לא לאכול לפני. שעות קיץ: 09:00-21:00.",
+    "alternative_kobe": {
+      "description": "קובה — נמל, בשר ורעידת אדמה. יום שלם של הרבור, שכונת קיטאנו (בתים אירופיים), מוזיאון רעידת אדמה, וארוחת בשר קובה.",
+      "when_to_use": "אם USJ לא מעניין, או אם רוצים יום יותר שקט. אפשר גם לשלב כחצי יום עם ערב חופשי באוסקה.",
+      "original_segments_backup": "segments המקוריים של יום 4 נשמרים בשדה _kobe_backup",
+      "can_also_fit": "ביום 3 (25/7) אחרי נארה — ערב בקובה (רק בשר + הרבור, 2 שעות). נסיעה מנארה לקובה ~75 דק'."
+    }
   },
   {
     "id": 5,
@@ -1446,7 +1547,65 @@
       "dinner": ""
     },
     "freeDay": false,
-    "notes": ""
+    "notes": "",
+    "booking": {
+      "required": true,
+      "totalCost": "~¥26,000 (~₪660) לשתי הסדנאות העיקריות"
+    },
+    "workshops": [
+      {
+        "id": "ws-roketsu",
+        "name": "סדנת צביעת רוקצו — שעווה ואינדיגו",
+        "nameEn": "ROKETSU Dyeing Studio YAMAMOTO",
+        "for": [
+          "lotem",
+          "anat"
+        ],
+        "time": "10:00-12:00",
+        "duration": "90-120 דק'",
+        "price": "¥2,900-5,000/person",
+        "address": "Central Kyoto (near Kawaramachi)",
+        "bookingUrl": "https://www.roketsu.com/en/home-en/",
+        "mustBook": true,
+        "takeHome": "בנדנה/טי-שירט צבועה ביד",
+        "notes": "המקום היחיד ביפן לתהליך רוקצו מלא. בעלים עם 50+ שנות ניסיון. אפשר עיצוב חופשי."
+      },
+      {
+        "id": "ws-samurai",
+        "name": "אימון חרב סמוראי",
+        "nameEn": "Samurai Sword Experience Kyoto",
+        "for": [
+          "ilay"
+        ],
+        "time": "10:00-12:00",
+        "duration": "90-120 דק'",
+        "price": "¥8,000-12,000/person",
+        "address": "Gion area, Kyoto",
+        "bookingUrl": "https://www.viator.com/Kyoto-tours/Classes-and-Workshops/d332-g26051",
+        "mustBook": true,
+        "takeHome": "תעודה + צילום בשריון סמוראי",
+        "notes": "אימון עם חרב אמיתית (לא חדה), פילוסופיית בושידו, מדיטציית זן. חלופה: חפירת נשק ניג'ה (¥8,000-12,000) — ברזל אמיתי, לוקחים הביתה."
+      },
+      {
+        "id": "ws-kintsugi",
+        "name": "סדנת קינצוגי — תיקון בזהב",
+        "nameEn": "Kintsugi Workshop Kyoto",
+        "for": [
+          "lotem",
+          "anat"
+        ],
+        "time": "14:00-16:00",
+        "duration": "90-120 דק'",
+        "price": "¥5,000-8,000/person",
+        "address": "Near Gion, Kyoto",
+        "bookingUrl": "https://www.viator.com/Kyoto-tours/Classes-and-Workshops/d332-g26051",
+        "mustBook": true,
+        "takeHome": "קערת קרמיקה מתוקנת בזהב",
+        "notes": "ואבי-סאבי — היופי שבשבר. תיקון קרמיקה שבורה עם אבקת זהב. אלטרנטיבה לסדנת הקרמיקה הקיימת."
+      }
+    ],
+    "title": "קיוטו — ידיים שיוצרות",
+    "schedule_note": "בבוקר הסדנאות מתפצלות: לוטם+ענת לרוקצו, עילאי לסמוראי, נתן חופשי (שוטטות בניניאנזאקה/סאנאנזאקה הסמוכות). אחה\"צ: קינצוגי (לוטם+ענת) או דאיטוקו-ג'י (ענת+נתן). ערב: נישיקי/טראמאצ'י כמתוכנן."
   },
   {
     "id": 8,
@@ -1487,27 +1646,75 @@
       "dinner": "Gion Kappa — איזאקאיה ברחוב Nawate-dori, גיון",
       "icecream": "Gion Kinana — גלידת קינאקו (אבקת סויה קלויה), 325 Gionmachi Kitagawa, 12:00-18:00"
     },
-    "freeDay": false,
+    "freeDay": true,
     "notes": "",
     "dayId": 8,
-    "title": "קיוטו שקטה — גנים, סאקה וסמטאות",
+    "title": "קיוטו שקטה — בוקר חופשי, ערב teamLab",
     "subtitle": "יום חופשי",
-    "story": "הקיוטו שלא בברושורים: גנים סודיים, רובע סאקה היסטורי, וסמטאות ההיסטוריה בשעות שקטות",
+    "story": "בוקר של שינה, קפה, שוטטות בלי תכנון. אחה\"צ מאוחר — teamLab Biovortex, המוזיאון הדיגיטלי הגדול ביותר ביפן.",
     "area": "היגאשיאמה → פושימי → גיון",
     "isRestDay": true,
     "experiencePhase": "rest",
     "familyBalance": {
-      "anat": "מורין-אן — גן מודרני של אוגאווה ג'יהיי. קנין-ג'י — זן מ-1202",
-      "ilay": "הליכה בסמטאות + שייט תעלה בפושימי",
-      "lotem": "קניות בניניזאקה + חנויות קוסמטיקה + גלידת קינאקו",
-      "natan": "שוטטות חופשית בפושימי + רחוב שימבאשי בדמדומים"
+      "anat": "מפגש בין אדריכלות דיגיטלית, אקולוגיה ואמנות — המשך ישיר של מסורת הגנים",
+      "ilay": "Athletics Forest — מתחם ספורט אינטראקטיבי תלת-ממדי",
+      "lotem": "צילום מטורף + Infinite Crystal World + גן הפרחים הצף",
+      "natan": "חוויה מרגיעה, שוטטות בחושך מואר"
     },
     "layers": {
       "intellectual": "אדריכלות גנים מודרנית (מייג'י) + היסטוריה פוליטית של ועידת מורין-אן",
       "emotional": "שקט בגנים + קסם הדמדומים בגיון",
       "physical": "הליכה + שייט תעלה + קניות"
     },
-    "tips": "מורין-אן — הזמנה מראש באתר murin-an.jp. פושימי — טעימות סאקה קטנות (ילדים). ניניזאקה אחרי 16:00 בלבד. יום חופשי — כל תחנה אופציונלית."
+    "tips": "מורין-אן — הזמנה מראש באתר murin-an.jp. פושימי — טעימות סאקה קטנות (ילדים). ניניזאקה אחרי 16:00 בלבד. יום חופשי — כל תחנה אופציונלית.",
+    "transport": {
+      "segments": [
+        {
+          "id": "d8-teamlab",
+          "from": {
+            "name": "תחנת קיוטו (Hachijo East)",
+            "nameEn": "Kyoto Station Hachijo East Gate",
+            "lat": 34.9845,
+            "lng": 135.7588
+          },
+          "to": {
+            "name": "טימלאב ביו-וורטקס",
+            "nameEn": "teamLab Biovortex Kyoto",
+            "lat": 34.9862,
+            "lng": 135.7728
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 7,
+            "transfers": 0,
+            "cost": 0,
+            "currency": "JPY"
+          },
+          "totalMinutes": 7,
+          "distanceKm": 0.6,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.9845,135.7588&destination=34.9862,135.7728&travelmode=walking"
+        }
+      ],
+      "summary": {}
+    },
+    "teamlab": {
+      "name": "טימלאב ביו-וורטקס קיוטו",
+      "nameEn": "teamLab Biovortex Kyoto",
+      "lat": 34.9862,
+      "lng": 135.7728,
+      "suggestedEntry": "16:00-17:00",
+      "duration": "3-4 שעות",
+      "exit": "~20:00-21:00",
+      "price": "¥3,800+/person",
+      "totalEstimate": "¥15,200 (~₪390)",
+      "address": "21-5 Higashikujo Higashi-Iwamotocho, Minami-ku, Kyoto",
+      "transport": "7 דק' הליכה משער Hachijo East של תחנת קיוטו",
+      "bookingUrl": "https://www.teamlab.art/e/kyoto/",
+      "mustBook": true,
+      "hours_august": "09:00-21:30, כניסה אחרונה 20:00",
+      "tips": "אין אוכל/שתייה בפנים — לאכול לפני. נעלי ספורט חובה (Athletics Forest). רצפות מראות — מכנסיים מומלצים. להגיע 20-30 דק' לפני הסלוט."
+    }
   },
   {
     "id": 9,
@@ -1597,7 +1804,33 @@
           "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5607,136.6586&destination=36.5624,136.6624&travelmode=walking"
         },
         {
-          "id": "d9-s3",
+          "id": "d9-gold",
+          "from": {
+            "name": "גן קנרוקואן",
+            "nameEn": "Kenrokuen Garden",
+            "lat": 36.5624,
+            "lng": 136.6624
+          },
+          "to": {
+            "name": "סדנת עלי זהב — האקואיצ'י",
+            "nameEn": "Hakuichi Gold Leaf Workshop",
+            "lat": 36.5613,
+            "lng": 136.6567
+          },
+          "mode": "walk",
+          "details": {
+            "walkToStation": 0,
+            "rideTime": 8,
+            "transfers": 0,
+            "cost": null,
+            "currency": "JPY"
+          },
+          "totalMinutes": 8,
+          "distanceKm": 0.6,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5624,136.6624&destination=36.5613,136.6567&travelmode=walking"
+        },
+        {
+          "id": "d9-s4",
           "from": {
             "name": "גן קנרוקואן",
             "nameEn": "Kenrokuen Garden",
@@ -1623,7 +1856,7 @@
           "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5624,136.6624&destination=36.5632,136.6518&travelmode=transit"
         },
         {
-          "id": "d9-s4",
+          "id": "d9-s5",
           "from": {
             "name": "רובע הסמוראי נאגאמאצ׳י",
             "nameEn": "Nagamachi Samurai District",
@@ -1649,7 +1882,7 @@
           "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5632,136.6518&destination=36.5721,136.6571&travelmode=transit"
         },
         {
-          "id": "d9-s5",
+          "id": "d9-s6",
           "from": {
             "name": "שוק אומיצ׳ו",
             "nameEn": "Omicho Market",
@@ -1675,7 +1908,7 @@
           "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5721,136.6571&destination=36.5737,136.6654&travelmode=walking"
         },
         {
-          "id": "d9-s6",
+          "id": "d9-s7",
           "from": {
             "name": "רובע היגאשי צ׳איה",
             "nameEn": "Higashi Chaya District",
@@ -1701,7 +1934,7 @@
           "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5737,136.6654&destination=36.561,136.654&travelmode=transit"
         },
         {
-          "id": "d9-s7",
+          "id": "d9-s8",
           "from": {
             "name": "ערב בקנאזאווה",
             "nameEn": "Kanazawa evening",
@@ -1728,9 +1961,9 @@
         }
       ],
       "summary": {
-        "totalTransitMinutes": 60,
+        "totalTransitMinutes": 68,
         "totalWalkingMinutes": 20,
-        "totalDistanceKm": 11.2,
+        "totalDistanceKm": 11.8,
         "modes": [
           "metro",
           "walk"
@@ -1743,7 +1976,19 @@
       "dinner": ""
     },
     "freeDay": false,
-    "notes": ""
+    "notes": "",
+    "workshop": {
+      "name": "סדנת עלי זהב",
+      "nameEn": "Hakuichi Gold Leaf Workshop",
+      "for": [
+        "lotem"
+      ],
+      "duration": "30-60 דק'",
+      "price": "¥500-1,500/person",
+      "mustBook": false,
+      "takeHome": "קופסה/מניפה מצופה עלי זהב 24K",
+      "notes": "קנזאווה מייצרת 99% מעלי הזהב ביפן. גלידת עלי זהב — חובה (¥891)."
+    }
   },
   {
     "id": 10,
@@ -2196,7 +2441,23 @@
       "dinner": ""
     },
     "freeDay": false,
-    "notes": ""
+    "notes": "",
+    "upgrade": {
+      "original": "שייט שירטוקו (סיור פאסיבי על סירה)",
+      "replacement": "קיאק ימי לאורך צוקי שירטוקו",
+      "nameEn": "Shiretoko Sea Kayaking — Outdoor Guide Centre",
+      "for": [
+        "ilay",
+        "family"
+      ],
+      "duration": "2.5-3.5 שעות",
+      "price": "¥8,000-12,000/person",
+      "totalEstimate": "¥40,000 (~₪1,000)",
+      "bookingUrl": "https://www.hokkaidonaturetours.com/hnt-hokkaido-activities-summer-adventure-activities.html",
+      "mustBook": true,
+      "notes": "שיט לאורך צוקים פראיים — אפשר לראות דובים חומים מהמים. ציוד מסופק כולל חליפת יבש. מגיל 10+, אין צורך בניסיון. חלופה: שייט סיור רגיל (פאסיבי, זול יותר) אם הים סוער."
+    },
+    "tips": "לבדוק מזג אוויר — אם ים סוער, שייט סיור פאסיבי כחלופה. להביא בגדי החלפה."
   },
   {
     "id": 13,
@@ -3368,27 +3629,63 @@
       "dinner": "Asperges — מסעדה צרפתית-הוקאידית (Motomachi, Biei-cho). קורס מ-5500¥. הזמנה מראש חובה. חלופה: Biei Soba — סובה מקמח מקומי",
       "icecream": "Shikisai-no-Oka — גלידת לבנדר/מלון. או: Soft Cream ליד הבריכה הכחולה"
     },
-    "freeDay": false,
+    "freeDay": true,
     "notes": "",
     "dayId": 20,
-    "title": "ביאי/פוראנו חופשי — גבעות, בריכה, אונסן",
+    "title": "ביאיי/פוראנו — בוקר מתנהל, אחה\"צ הרפתקה",
     "subtitle": "יום חופשי — בחרו אפשרות אחת",
-    "story": "יום של בחירה: אופניים בכבישי הגבעות, בריכה כחולה, חוות אלפקות, או אונסן ביער",
+    "story": "הבוקר חופשי באמת. אחרי הצהריים — ראפטינג בנהר סוראצ'י (עילאי+כולם) או רכיבת סוסים בגבעות (לוטם).",
     "area": "ביאי / פוראנו",
     "isRestDay": true,
     "experiencePhase": "rest",
     "familyBalance": {
-      "anat": "כביש פנורמה באופניים או אונסן טוקאצ'ידאקה עם נוף להרים",
-      "ilay": "אופניים חשמליים בגבעות או טיול הר + אונסן",
-      "lotem": "בריכה כחולה + צילום + חוות גבינות + סדנה",
-      "natan": "שוטטות בשדות + גלידה + שוק חקלאי"
+      "anat": "בוקר חופשי — קפה, שוטטות, צילום",
+      "ilay": "ראפטינג (ואולי גם סוסים בבוקר)",
+      "lotem": "רכיבת סוסים + חוויה עם חיות",
+      "natan": "בוקר חופשי, ראפטינג אחה\"צ עם המשפחה"
     },
     "layers": {
       "intellectual": "גיאולוגיה וולקנית — מינרלים שצובעים בריכות ומפלים",
       "emotional": "נוף פתוח, שקט כפרי, ירוק אינסופי",
       "physical": "אופניים / טיול הר / סדנת גבינה"
     },
-    "tips": "יום חופשי — בחרו אפשרות אחת או שתיים, לא את כולן. בריכה כחולה — לפני 09:00 או אחרי 16:00. Asperges — המסעדה הטובה ביותר באזור, מוגבלת, הזמנה חובה."
+    "tips": "יום חופשי — בחרו אפשרות אחת או שתיים, לא את כולן. בריכה כחולה — לפני 09:00 או אחרי 16:00. Asperges — המסעדה הטובה ביותר באזור, מוגבלת, הזמנה חובה.",
+    "transport": {
+      "segments": [],
+      "summary": {}
+    },
+    "activities": [
+      {
+        "id": "act-rafting",
+        "name": "ראפטינג פרטי בנהר סוראצ'י",
+        "nameEn": "Furano Private Rafting Tour — Sorachi River",
+        "for": [
+          "ilay",
+          "family"
+        ],
+        "time": "13:00-16:00",
+        "duration": "3 שעות כולל הסעה",
+        "price": "~¥10,000/person",
+        "totalEstimate": "¥40,000 (~₪1,000)",
+        "bookingUrl": "https://www.getyourguide.com/hokkaido-l2431/outdoor-sports-tc70/",
+        "mustBook": true,
+        "notes": "סיור פרטי עם הסעה מהמלון + צילום מקצועי כלול. נהר Sorachi — זרימה מתונה עד בינונית בקיץ. מגיל 6+. להביא בגדי החלפה."
+      },
+      {
+        "id": "act-horse",
+        "name": "רכיבת סוסים בגבעות ביאיי",
+        "nameEn": "Horse Riding Biei Hills",
+        "for": [
+          "lotem",
+          "ilay"
+        ],
+        "time": "10:00-12:00 (חלופה/תוספת לראפטינג)",
+        "duration": "1-2 שעות",
+        "price": "¥5,000-10,000/person",
+        "mustBook": true,
+        "notes": "מסלולים בגבעות עם נוף לרכס דאיסצוזאן. מתאים למתחילים. אפשר במקום ראפטינג או בנוסף (בוקר סוסים + אחה\"צ ראפטינג)."
+      }
+    ]
   },
   {
     "id": 21,
@@ -4262,7 +4559,49 @@
       "dinner": ""
     },
     "freeDay": false,
-    "notes": ""
+    "notes": "",
+    "additions": [
+      {
+        "id": "add-galaxy-teamlab",
+        "name": "Galaxy & teamLab — הרג'וקו",
+        "nameEn": "Galaxy & teamLab: Continuous Life and Death — Galaxy Harajuku",
+        "for": [
+          "lotem",
+          "family"
+        ],
+        "insert_between": "מקדש מייג'י → Cat Street",
+        "time": "~13:00-13:45",
+        "duration": "30-45 דק'",
+        "price": 0,
+        "lat": 35.6702,
+        "lng": 139.7025,
+        "address": "Galaxy Harajuku, 1-8-9 Jingumae, Shibuya-ku",
+        "transport": "6 דק' הליכה מתחנת Harajuku",
+        "mustBook": false,
+        "notes": "חינם. פתח ינואר 2026. שתי יצירות teamLab אינטראקטיביות. קטן אבל מרשים."
+      },
+      {
+        "id": "add-manga",
+        "name": "סדנת ציור מנגה עם אמן מקצועי",
+        "nameEn": "Manga Drawing Workshop — Shibuya (Pro Artist)",
+        "for": [
+          "lotem",
+          "ilay"
+        ],
+        "insert_at": "morning_before_shibuya",
+        "time": "10:00-12:30",
+        "duration": "2-2.5 שעות",
+        "price": "¥5,000-8,000/person",
+        "totalEstimate": "¥24,000 (~₪610)",
+        "lat": 35.6614,
+        "lng": 139.6989,
+        "bookingUrl": "https://www.getyourguide.com/tokyo-l193/tokyo-manga-drawing-workshop-guided-by-pro-manga-artist-t492624/",
+        "mustBook": true,
+        "takeHome": "ציור מנגה מקורי",
+        "notes": "אמן מנגה מקצועי ופעיל. 3 רמות. להביא תמונה/דמות שרוצים לצייר. מתאים גם למי שלא יודע לצייר. ענת+נתן יכולים לשוטט בשיבויה בינתיים.",
+        "schedule_impact": "סדנת מנגה 10:00-12:30 → צומת שיבויה 12:30 → הרג'וקו 13:00 → Galaxy teamLab 13:30 → Cat Street → שימוקיטזאווה. תחילת היום מוקדמת ב-30 דק' מהמתוכנן."
+      }
+    ]
   },
   {
     "id": 26,
@@ -4473,7 +4812,12 @@
       "dinner": ""
     },
     "freeDay": false,
-    "notes": ""
+    "notes": "",
+    "evening_addition": {
+      "name": "נאקאמגורו ערב + ארוחת פרידה",
+      "nameEn": "Nakameguro evening + farewell dinner",
+      "notes": "אחרי שינג'וקו/אקיהאברה/גינזה — ערב חופשי בנאקאמגורו. Starbucks Reserve Roastery (קנגו קומה) + ארוחת ערב. חלופה: ארוחת פרידה בגולדן גאי / אומויידה כמתוכנן."
+    }
   },
   {
     "id": 27,
@@ -4519,54 +4863,56 @@
             "lng": 139.7745
           },
           "to": {
-            "name": "נקמגורו",
-            "nameEn": "Nakameguro",
-            "lat": 35.644,
-            "lng": 139.698
+            "name": "טוקיו דיסני-סי",
+            "nameEn": "Tokyo DisneySea",
+            "lat": 35.6267,
+            "lng": 139.8851
           },
           "mode": "train",
           "details": {
-            "walkToStation": 10,
-            "rideTime": 14,
+            "line": "JR Keiyo Line — Tokyo → Maihama (15 דק')",
+            "walkToStation": 5,
+            "rideTime": 15,
             "transfers": 0,
-            "cost": null,
+            "cost": 230,
             "currency": "JPY"
           },
-          "totalMinutes": 24,
-          "distanceKm": 10.5,
-          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=35.644,139.698&travelmode=transit"
+          "totalMinutes": 20,
+          "distanceKm": 14.2,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=35.6267,139.8851&travelmode=transit"
         },
         {
           "id": "d27-s2",
           "from": {
-            "name": "נקמגורו",
-            "nameEn": "Nakameguro",
-            "lat": 35.644,
-            "lng": 139.698
+            "name": "טוקיו דיסני-סי",
+            "nameEn": "Tokyo DisneySea",
+            "lat": 35.6267,
+            "lng": 139.8851
           },
           "to": {
-            "name": "ארוחת פרידה",
-            "nameEn": "Farewell dinner",
+            "name": "מלון karaksa hotel colors Tokyo Yaesu",
+            "nameEn": "karaksa hotel colors Tokyo Yaesu",
             "lat": 35.6812,
             "lng": 139.7745
           },
           "mode": "train",
           "details": {
+            "line": "JR Keiyo Line — Maihama → Tokyo",
             "walkToStation": 10,
-            "rideTime": 14,
+            "rideTime": 15,
             "transfers": 0,
-            "cost": null,
+            "cost": 230,
             "currency": "JPY"
           },
-          "totalMinutes": 24,
-          "distanceKm": 10.5,
-          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.644,139.698&destination=35.6812,139.7745&travelmode=transit"
+          "totalMinutes": 25,
+          "distanceKm": 14.2,
+          "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6267,139.8851&destination=35.6812,139.7745&travelmode=transit"
         }
       ],
       "summary": {
-        "totalTransitMinutes": 48,
-        "totalWalkingMinutes": 0,
-        "totalDistanceKm": 21,
+        "totalTransitMinutes": 45,
+        "totalWalkingMinutes": 15,
+        "totalDistanceKm": 28.4,
         "modes": [
           "train"
         ]
@@ -4578,7 +4924,100 @@
       "dinner": ""
     },
     "freeDay": false,
-    "notes": ""
+    "notes": "",
+    "_backup_segments": [
+      {
+        "id": "d27-s1",
+        "from": {
+          "name": "מלון karaksa hotel colors Tokyo Yaesu",
+          "nameEn": "karaksa hotel colors Tokyo Yaesu",
+          "lat": 35.6812,
+          "lng": 139.7745
+        },
+        "to": {
+          "name": "נקמגורו",
+          "nameEn": "Nakameguro",
+          "lat": 35.644,
+          "lng": 139.698
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 14,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 24,
+        "distanceKm": 10.5,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.6812,139.7745&destination=35.644,139.698&travelmode=transit"
+      },
+      {
+        "id": "d27-s2",
+        "from": {
+          "name": "נקמגורו",
+          "nameEn": "Nakameguro",
+          "lat": 35.644,
+          "lng": 139.698
+        },
+        "to": {
+          "name": "ארוחת פרידה",
+          "nameEn": "Farewell dinner",
+          "lat": 35.6812,
+          "lng": 139.7745
+        },
+        "mode": "train",
+        "details": {
+          "walkToStation": 10,
+          "rideTime": 14,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 24,
+        "distanceKm": 10.5,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.644,139.698&destination=35.6812,139.7745&travelmode=transit"
+      }
+    ],
+    "title": "טוקיו דיסני-סי — הפארק הטוב בעולם",
+    "subtitle": "יום מלא בפארק",
+    "story": "DisneySea נחשב לפארק הדיסני הטוב בעולם. ייחודי ליפן, עם אדריכלות תימטית ברמה שלא קיימת בשום מקום אחר — נמל ים תיכוני, הר געש, ונציה. Fantasy Springs החדש: Frozen, Rapunzel, Peter Pan.",
+    "familyBalance": {
+      "anat": "אדריכלות תימטית ברמה הגבוהה ביותר — Mediterranean Harbor, Mysterious Island",
+      "ilay": "Tower of Terror, Indiana Jones, Journey to the Center of the Earth, Raging Spirits",
+      "lotem": "Fantasy Springs (Frozen, Rapunzel), Mediterranean Harbor photography, merchandise",
+      "natan": "אוכל נושאי, שוטטות, גונדולות ונציאניות"
+    },
+    "layers": {
+      "intellectual": "איך בונים עולם שלם מאפס — אדריכלות כסיפור",
+      "emotional": "פליאה, ילדות, שקיעה על הלגונה, שואו ערב",
+      "physical": "רכבות הרים, הליכה, תורים (עם Premier Access)"
+    },
+    "booking": {
+      "required": true,
+      "items": [
+        {
+          "what": "1-Day Passport (2 adults + 2 juniors)",
+          "price": "Adults ¥7,900-10,900, Juniors 12-17 ¥6,600-9,000",
+          "totalEstimate": "¥34,000",
+          "url": "https://www.klook.com",
+          "notes": "Aug 18 = Tuesday = low crowd. לא ניתן לקנות בשער. Klook מומלץ (האתר הרשמי לא תמיד מקבל כרטיסי חו\"ל)."
+        },
+        {
+          "what": "Disney Premier Access (2-3 אטרקציות)",
+          "price": "¥1,500-2,500/person/ride",
+          "totalEstimate": "~¥8,000",
+          "url": "Tokyo Disney Resort App",
+          "notes": "לקנות מיד דרך האפליקציה אחרי הכניסה. Fantasy Springs נגמר לפני הצהריים."
+        }
+      ],
+      "totalCost": "~¥42,000 (~₪1,070)"
+    },
+    "tips": "יום שלישי = הכי שקט בפארק. מהמלון ב-Yaesu — 20 דק' בלבד! להגיע לפתיחה. להוריד Tokyo Disney Resort App מראש. ארוחת ערב: Ikspiari (מתחם הקניות ליד הפארק) או חזרה לטוקיו.",
+    "displaced_content": {
+      "what": "נאקאמגורו + ארוחת פרידה",
+      "move_to": "ערב יום 26 (17/8) — אחרי גולדן גאי, במקום אומויידה. או: ארוחת פרידה ב-Ikspiari אחרי DisneySea."
+    }
   },
   {
     "id": 28,
