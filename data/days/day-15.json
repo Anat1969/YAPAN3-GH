@@ -1,0 +1,65 @@
+{
+  "id": 15,
+  "title": "אקאן — יום שני, הליכות",
+  "idea": "יום איטי בטבע",
+  "spots": {
+    "morning": [
+      {
+        "name": "הליכת הר אואקאן",
+        "nameEn": "Mt. Oakan Hike",
+        "addr": "Oakan trailhead, Akan",
+        "lat": 43.45,
+        "lng": 144.16,
+        "time": "09:00",
+        "duration": "3-4 שעות",
+        "price": 0,
+        "forWho": "עילאי",
+        "notes": "הר געש פעיל, 1,370 מ׳. מסלול מאתגר עם נוף 360. לעילאי",
+        "placeId": ""
+      },
+      {
+        "name": "אונסן + מנוחה",
+        "nameEn": "Onsen & rest",
+        "addr": "Tsuruga Hotel, Akan",
+        "lat": 43.4347,
+        "lng": 144.0909,
+        "time": "09:00",
+        "duration": "",
+        "price": "",
+        "forWho": 0,
+        "notes": "נתן, לוטם, ענת",
+        "placeId": "33 אמבטיות שונות בצורוגה. יום מנוחה"
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "שוטטות באקאן",
+        "nameEn": "Akan Onsen town walk",
+        "addr": "Akanko Onsen",
+        "lat": 43.438,
+        "lng": 144.096,
+        "time": "14:00",
+        "duration": "2 שעות",
+        "price": 0,
+        "forWho": "נתן, לוטם",
+        "notes": "חנויות מלאכת יד איינו, גילופי עץ, סדנאות",
+        "placeId": ""
+      }
+    ],
+    "evening": []
+  },
+  "meals": {
+    "breakfast": "במלון",
+    "lunch": "באקאן",
+    "dinner": "במלון — קאיסקי",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "",
+    "from": "",
+    "to": "",
+    "duration": "",
+    "cost": ""
+  },
+  "notes": "פיצול: עילאי להר, השאר אונסן ושוטטות. יום חופשי למעשה"
+}

@@ -1,0 +1,92 @@
+{
+  "id": 14,
+  "title": "אקאן — כפר איינו ואגם ירוק",
+  "idea": "תרבות ילידית, טבע, אונסן",
+  "spots": {
+    "morning": [
+      {
+        "name": "נסיעה לאקאן",
+        "nameEn": "Drive to Akan",
+        "addr": "Route 241",
+        "lat": 43.4347,
+        "lng": 144.0909,
+        "time": "09:30",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "",
+        "notes": "נוף יערות וגבעות",
+        "placeId": ""
+      },
+      {
+        "name": "כפר איינו",
+        "nameEn": "Ainu Kotan Village",
+        "addr": "Akanko Onsen, Kushiro",
+        "lat": 43.438,
+        "lng": 144.096,
+        "time": "11:00",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "ענת, כולם",
+        "notes": "כפר מסורתי של העם הילידי. מלאכת יד, גילופי עץ, מוזיקה",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "שייט אגם אקאן",
+        "nameEn": "Lake Akan Cruise",
+        "addr": "Akanko Onsen Port",
+        "lat": 43.436,
+        "lng": 144.091,
+        "time": "13:30",
+        "duration": "1.5 שעות",
+        "price": 2000,
+        "forWho": "כולם",
+        "notes": "שייט לאי צ׳ורוי — כדורי מרימו (אצות ירוקות כדוריות)",
+        "placeId": ""
+      },
+      {
+        "name": "הליכת בוקאצ׳ו",
+        "nameEn": "Bokakko Trail",
+        "addr": "Akan area",
+        "lat": 43.43,
+        "lng": 144.085,
+        "time": "15:30",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "עילאי, ענת",
+        "notes": "מסלול הליכה ביער לאורך האגם. בוצה רותחת (Bokke)",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "מופע איינו",
+        "nameEn": "Ainu Performance",
+        "addr": "Akanko Ainu Theater Ikor",
+        "lat": 43.438,
+        "lng": 144.096,
+        "time": "20:00",
+        "duration": "1 שעה",
+        "price": 1200,
+        "forWho": "כולם",
+        "notes": "ריקודים מסורתיים — מורשת עולמית של UNESCO",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "במלון קושארו",
+    "lunch": "באקאן",
+    "dinner": "במלון צורוגה — קאיסקי",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "רכב",
+    "from": "Kussharo",
+    "to": "Akan",
+    "duration": "1 שעה",
+    "cost": ""
+  },
+  "notes": "צורוגה — ריוקאן מפואר. ארוחת ערב קאיסקי כלולה"
+}

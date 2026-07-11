@@ -1,0 +1,92 @@
+{
+  "id": 23,
+  "title": "הגעה לטוקיו",
+  "idea": "מעבר — מטבע לעיר, התארגנות",
+  "spots": {
+    "morning": [
+      {
+        "name": "נסיעה ל-New Chitose",
+        "nameEn": "Drive to New Chitose Airport",
+        "addr": "New Chitose Airport, Hokkaido",
+        "lat": 42.7791,
+        "lng": 141.6866,
+        "time": "09:00",
+        "duration": "2 שעות",
+        "price": 0,
+        "forWho": "",
+        "notes": "החזרת רכב שכור",
+        "placeId": ""
+      },
+      {
+        "name": "טיסה לנאריטה",
+        "nameEn": "Flight CTS → NRT",
+        "addr": "",
+        "lat": 35.7648,
+        "lng": 140.3862,
+        "time": "12:00",
+        "duration": "1.5 שעות",
+        "price": null,
+        "forWho": "",
+        "notes": "",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "מיניוואן לטוקיו",
+        "nameEn": "Minivan Narita → Hotel",
+        "addr": "Narita Airport",
+        "lat": 35.7648,
+        "lng": 140.3862,
+        "time": "16:35",
+        "duration": "1.5 שעות",
+        "price": null,
+        "forWho": "כולם",
+        "notes": "מיניוואן מוזמן — ישירות למלון",
+        "placeId": ""
+      },
+      {
+        "name": "צ׳ק-אין",
+        "nameEn": "karaksa hotel colors Tokyo Yaesu",
+        "addr": "3-5-13 Nihombashi, Chuo-ku, Tokyo",
+        "lat": 35.6812,
+        "lng": 139.7745,
+        "time": "18:00",
+        "duration": "",
+        "price": "",
+        "forWho": "",
+        "notes": "6 דק׳ מ-Tokyo Station",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "ניהונבאשי ערב",
+        "nameEn": "Nihonbashi evening walk",
+        "addr": "Nihonbashi, Chuo-ku, Tokyo",
+        "lat": 35.6838,
+        "lng": 139.7744,
+        "time": "19:00",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "נתן, ענת",
+        "notes": "גשר ניהונבאשי, COREDO, רחובות ערב",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "",
+    "lunch": "בשדה תעופה",
+    "dinner": "ניהונבאשי",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "טיסה + מיניוואן",
+    "from": "New Chitose",
+    "to": "Narita → Hotel",
+    "duration": "",
+    "cost": ""
+  },
+  "notes": "מעבר ארוך. ערב קליל"
+}

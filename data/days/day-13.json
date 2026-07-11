@@ -1,0 +1,92 @@
+{
+  "id": 13,
+  "title": "קושארו — אגם ענניים",
+  "idea": "מעבר דרך נופות הרי הגעש",
+  "spots": {
+    "morning": [
+      {
+        "name": "מעבר שירטוקו",
+        "nameEn": "Shiretoko Pass",
+        "addr": "Shiretoko Pass, Route 334",
+        "lat": 43.9614,
+        "lng": 145.0872,
+        "time": "09:30",
+        "duration": "30 דק׳",
+        "price": 0,
+        "forWho": "כולם",
+        "notes": "תצפית על ים אוכוטסק. בהיר — נוף עד קונאשיר",
+        "placeId": ""
+      },
+      {
+        "name": "אגם מאשו",
+        "nameEn": "Lake Mashu",
+        "addr": "Mashu, Teshikaga",
+        "lat": 43.5757,
+        "lng": 144.5303,
+        "time": "11:00",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "ענת, כולם",
+        "notes": "אגם מכתש ללא יציאה. מים הכי שקופים בעולם. ערפל מפורסם",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "אגם קושארו",
+        "nameEn": "Lake Kussharo",
+        "addr": "Kussharo, Teshikaga",
+        "lat": 43.61,
+        "lng": 144.33,
+        "time": "13:00",
+        "duration": "2 שעות",
+        "price": 0,
+        "forWho": "עילאי, נתן",
+        "notes": "אגם קלדרה ענק. חוף סונאיו — לחפור בחול ומים חמים עולים",
+        "placeId": ""
+      },
+      {
+        "name": "קאוואיו אונסן",
+        "nameEn": "Kawayu Onsen area",
+        "addr": "Kawayu Onsen, Teshikaga",
+        "lat": 43.6355,
+        "lng": 144.4464,
+        "time": "15:30",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "כולם",
+        "notes": "מעיינות גופרית, הליכה ביער",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "צ׳ק-אין קושארו פרינס",
+        "nameEn": "Kussharo Prince Hotel",
+        "addr": "Kussharo Onsen, Teshikaga",
+        "lat": 43.5858,
+        "lng": 144.2745,
+        "time": "17:00",
+        "duration": "",
+        "price": "",
+        "forWho": "",
+        "notes": "אונסן עם נוף לאגם",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "במלון שירטוקו",
+    "lunch": "בדרך",
+    "dinner": "במלון",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "רכב",
+    "from": "Utoro",
+    "to": "Mashu → Kussharo",
+    "duration": "2 שעות סה״כ",
+    "cost": ""
+  },
+  "notes": "נסיעה יפה דרך מעבר שירטוקו. מזוודות ברכב"
+}

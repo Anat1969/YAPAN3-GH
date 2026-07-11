@@ -1,0 +1,105 @@
+{
+  "id": 25,
+  "title": "שיבויה, הראג׳וקו ושימוקיטזאווה",
+  "idea": "טוקיו צעירה — אופנה, רחוב, אנרגיה",
+  "spots": {
+    "morning": [
+      {
+        "name": "צומת שיבויה",
+        "nameEn": "Shibuya Crossing",
+        "addr": "Shibuya, Tokyo",
+        "lat": 35.6595,
+        "lng": 139.7004,
+        "time": "09:30",
+        "duration": "30 דק׳",
+        "price": 0,
+        "forWho": "כולם",
+        "notes": "הצומת הכי עמוס בעולם. Shibuya Sky (2,000 ין) — תצפית",
+        "placeId": ""
+      },
+      {
+        "name": "הראג׳וקו — טקשיטה",
+        "nameEn": "Takeshita Street",
+        "addr": "1 Jingumae, Shibuya-ku, Tokyo",
+        "lat": 35.6702,
+        "lng": 139.7028,
+        "time": "10:30",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "לוטם, עילאי",
+        "notes": "רחוב אופנה צעיר, קרפים, חנויות קונספט, קוספליי",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "מקדש מייג׳י",
+        "nameEn": "Meiji Jingu",
+        "addr": "1-1 Yoyogikamizonocho, Shibuya-ku, Tokyo",
+        "lat": 35.6764,
+        "lng": 139.6993,
+        "time": "12:30",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "ענת, נתן",
+        "notes": "יער ענק בלב העיר. מקדש שינטו, שקט",
+        "placeId": ""
+      },
+      {
+        "name": "קאט סטריט",
+        "nameEn": "Cat Street (Ura-Harajuku)",
+        "addr": "Jingumae, Shibuya-ku, Tokyo",
+        "lat": 35.668,
+        "lng": 139.705,
+        "time": "14:00",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "לוטם",
+        "notes": "חנויות עיצוב, וינטג׳, בתי קפה",
+        "placeId": ""
+      },
+      {
+        "name": "שימוקיטזאווה",
+        "nameEn": "Shimokitazawa",
+        "addr": "Shimokitazawa, Setagaya-ku, Tokyo",
+        "lat": 35.6613,
+        "lng": 139.668,
+        "time": "16:00",
+        "duration": "2 שעות",
+        "price": 0,
+        "forWho": "לוטם, נתן",
+        "notes": "סמטאות וינטג׳, תיאטרון, בתי קפה, חנויות יד שנייה",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "שיבויה ערב",
+        "nameEn": "Shibuya evening",
+        "addr": "Shibuya, Tokyo",
+        "lat": 35.6595,
+        "lng": 139.7004,
+        "time": "19:00",
+        "duration": "",
+        "price": "",
+        "forWho": "עילאי, לוטם",
+        "notes": "",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "במלון",
+    "lunch": "הראג׳וקו",
+    "dinner": "שימוקיטזאווה או שיבויה",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "מטרו JR",
+    "from": "Tokyo Station",
+    "to": "Shibuya (JR Yamanote)",
+    "duration": "25 דק׳",
+    "cost": "200 ין"
+  },
+  "notes": "היום של לוטם"
+}

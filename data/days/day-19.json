@@ -1,0 +1,65 @@
+{
+  "id": 19,
+  "title": "פוראנו — לבנדר ומלאכת יד",
+  "idea": "שדות סגולים, יער קסום",
+  "spots": {
+    "morning": [
+      {
+        "name": "Farm Tomita",
+        "nameEn": "Farm Tomita",
+        "addr": "15 Kisenkita, Nakafurano, Hokkaido",
+        "lat": 43.4182,
+        "lng": 142.428,
+        "time": "09:30",
+        "duration": "2 שעות",
+        "price": 0,
+        "forWho": "כולם, לוטם",
+        "notes": "שדות לבנדר אייקוניים. השדות האחוריים פחות עמוסים. גלידת לבנדר",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "Ningle Terrace",
+        "nameEn": "Ningle Terrace",
+        "addr": "New Furano Prince Hotel, Furano",
+        "lat": 43.339,
+        "lng": 142.383,
+        "time": "13:00",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "לוטם, ענת",
+        "notes": "15 בקתות עץ ביער — מלאכת יד, נרות, זכוכית, עור",
+        "placeId": ""
+      },
+      {
+        "name": "Furano Cheese Factory",
+        "nameEn": "Furano Cheese Factory",
+        "addr": "Nakago, Furano",
+        "lat": 43.3602,
+        "lng": 142.3872,
+        "time": "15:00",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "נתן, לוטם",
+        "notes": "טעימות גבינה, סדנת גלידה, חנות",
+        "placeId": ""
+      }
+    ],
+    "evening": []
+  },
+  "meals": {
+    "breakfast": "",
+    "lunch": "Farm Tomita — מלון לבנדר, קארי",
+    "dinner": "",
+    "icecream": "גלידת לבנדר — Farm Tomita (חובה)"
+  },
+  "transport": {
+    "type": "רכב",
+    "from": "Biei",
+    "to": "Furano",
+    "duration": "30 דק׳",
+    "cost": ""
+  },
+  "notes": "שיא פריחת הלבנדר ביולי-אוגוסט"
+}

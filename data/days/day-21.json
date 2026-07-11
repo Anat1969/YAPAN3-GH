@@ -1,0 +1,52 @@
+{
+  "id": 21,
+  "title": "אוטארו או שאקוטאן",
+  "idea": "עיר תעלות או חוף דרמטי",
+  "spots": {
+    "morning": [
+      {
+        "name": "נסיעה לאוטארו",
+        "nameEn": "Drive to Otaru/Shakotan",
+        "addr": "Route 237 south",
+        "lat": 43.1907,
+        "lng": 140.9946,
+        "time": "09:00",
+        "duration": "2.5 שעות",
+        "price": 0,
+        "forWho": "",
+        "notes": "אפשרות: שאקוטאן — Cape Kamui — חוף דרמטי. או ישר לאוטארו",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "אוטארו — תעלה ומוזיאונים",
+        "nameEn": "Otaru Canal",
+        "addr": "Ironai, Otaru",
+        "lat": 43.197,
+        "lng": 140.999,
+        "time": "13:00",
+        "duration": "3 שעות",
+        "price": 0,
+        "forWho": "לוטם, נתן, ענת",
+        "notes": "תעלת אוטארו, Art Base, רחוב סאקאימאצ׳י — זכוכית, קופסאות נגינה, ממתקים",
+        "placeId": ""
+      }
+    ],
+    "evening": []
+  },
+  "meals": {
+    "breakfast": "",
+    "lunch": "אוטארו — סושי",
+    "dinner": "",
+    "icecream": "LeTAO — עוגת גבינה כפולה"
+  },
+  "transport": {
+    "type": "רכב",
+    "from": "Biei/Furano",
+    "to": "Otaru",
+    "duration": "2.5 שעות",
+    "cost": ""
+  },
+  "notes": "לינה בביאי או באוטארו — תלוי בתכנון"
+}

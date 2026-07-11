@@ -1,0 +1,38 @@
+{
+  "id": 31,
+  "title": "בבית",
+  "idea": "חזרנו",
+  "spots": {
+    "morning": [
+      {
+        "name": "טיסה דובאי → ישראל",
+        "nameEn": "Flight Dubai → Israel",
+        "addr": "",
+        "lat": 31.0,
+        "lng": 34.85,
+        "time": "",
+        "duration": "",
+        "price": "",
+        "forWho": "כולם",
+        "notes": "",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [],
+    "evening": []
+  },
+  "meals": {
+    "breakfast": "",
+    "lunch": "",
+    "dinner": "",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "טיסה",
+    "from": "Dubai",
+    "to": "Israel",
+    "duration": "",
+    "cost": ""
+  },
+  "notes": "חזרנו עם סיפור"
+}

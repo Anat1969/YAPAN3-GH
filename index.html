@@ -19,21 +19,9 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .nav-btn:hover{background:rgba(255,255,255,.1);color:#fff;border-color:#888}
 .nav-btn.save{border-color:#166534;color:#4ade80}.nav-btn.save:hover{background:#166534;color:#fff}
 
-/* HERO */
-.hero{max-width:1200px;margin:12px auto 8px;padding:0 12px}
-.hero-card{background:linear-gradient(135deg,#fff8eb 0%,#ffffff 100%);border:1px solid #e7dccf;border-radius:14px;padding:14px 16px;box-shadow:0 8px 24px rgba(0,0,0,.05);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.hero-card h2{font-size:20px;font-weight:900;color:#1f2937;margin-bottom:4px}
-.hero-card p{font-size:12px;color:#6b7280;margin:0}
-.hero-eyebrow{display:inline-block;padding:3px 8px;border-radius:999px;background:#1f2937;color:#f8fafc;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
-.hero-pills{display:flex;gap:8px;flex-wrap:wrap}
-.hero-pill{padding:6px 10px;border-radius:999px;background:#f3f4f6;color:#374151;font-size:11px;font-weight:700;border:1px solid #e5e7eb}
-
 /* STATS */
-.stats{max-width:1200px;margin:8px auto 6px;padding:0 12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
-.stat-card{background:#fff;border:1px solid #e5e3de;border-radius:10px;padding:10px 12px;box-shadow:0 4px 12px rgba(0,0,0,.04)}
-.stat-label{font-size:10px;color:#888;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
-.stat-value{font-size:16px;font-weight:900;color:#111827}
-.stat-detail{font-size:11px;color:#6b7280;margin-top:2px}
+.stats{max-width:1200px;margin:8px auto;padding:0 12px;font-size:11px;color:#888;display:flex;gap:12px;flex-wrap:wrap}
+.stats b{color:#333}
 
 /* FILTERS */
 .filters{max-width:1200px;margin:4px auto 8px;padding:0 12px;display:flex;gap:6px;flex-wrap:wrap}
@@ -64,25 +52,6 @@ td[contenteditable]:focus{background:#fffde7;box-shadow:inset 0 0 0 2px #fbbf24}
 .tg-d{background:#e7e5e4;color:#44403c}
 .tg-ok{background:#dcfce7;color:#166534}
 .tg-no{background:#fef3c7;color:#92400e}
-
-/* CALENDAR */
-.cal-month{margin-bottom:24px}
-.cal-title{font-size:18px;font-weight:900;margin-bottom:8px;color:#1a1a1a}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
-.cal-dow{text-align:center;font-size:11px;font-weight:700;color:#888;padding:4px 0}
-.cal-cell{min-height:78px;border:1px solid #e5e3de;border-radius:6px;padding:4px 5px;background:#fff;font-size:10px;overflow:hidden}
-.cal-cell.empty{background:transparent;border:none}
-a.cal-cell{text-decoration:none;color:inherit;display:block;transition:.12s}
-a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px)}
-.cal-dnum{font-size:13px;font-weight:700;color:#444}
-.cal-trip{display:inline-block;background:#1a1a1a;color:#fbbf24;font-size:9px;font-weight:900;border-radius:3px;padding:0 4px;margin-right:4px;vertical-align:1px}
-.cal-city{font-weight:700;font-size:11px;margin-top:3px;line-height:1.3}
-.cal-hotel{color:#666;font-size:9px;line-height:1.25;margin-top:1px}
-.cal-k{background:#fee2e2}.cal-h{background:#dcfce7}.cal-t{background:#e0e7ff}.cal-d{background:#f5f0e8}
-.cal-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;font-size:11px}
-.cal-legend span{display:inline-flex;align-items:center;gap:5px;font-weight:600;color:#555}
-.cal-legend i{width:14px;height:14px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.08)}
-@media(max-width:640px){.cal-cell{min-height:60px;font-size:9px}.cal-city{font-size:10px}.cal-hotel{display:none}}
 
 /* LINK */
 a.ml{color:#1d4ed8;text-decoration:none;font-size:11px}
@@ -115,7 +84,6 @@ a.ml:hover{text-decoration:underline}
 <nav class="nav">
   <h1>יפן 2026</h1>
   <button class="tab on" data-tab="days">לוח ימים</button>
-  <button class="tab" data-tab="calendar">לוח שנה</button>
   <button class="tab" data-tab="hotels">מלונות</button>
   <button class="tab" data-tab="places">אתרים</button>
   <button class="tab" data-tab="costs">תקציב</button>
@@ -126,25 +94,10 @@ a.ml:hover{text-decoration:underline}
   <button class="nav-btn" onclick="copyTable()">אקסל</button>
 </nav>
 
-<section class="hero">
-  <div class="hero-card">
-    <div>
-      <div class="hero-eyebrow">מסלול יפן 2026</div>
-      <h2>יפן 2026 — אוסקה, קיוטו, קנאזאווה, הוקאידו וטוקיו</h2>
-      <p>לוח ניהול מרכזי למלונות, ימים, תחבורה, תקציב ונתיבי המסע.</p>
-    </div>
-    <div class="hero-pills">
-      <span class="hero-pill">31 ימים</span>
-      <span class="hero-pill">11 מלונות</span>
-      <span class="hero-pill">3 אזורים עיקריים</span>
-    </div>
-  </div>
-</section>
 <div class="stats" id="stats"></div>
 <div class="filters" id="filters"></div>
 
 <div class="panel on" id="p-days"><div class="tw"><table id="t-days"></table></div></div>
-<div class="panel" id="p-calendar"><div class="tw" id="calWrap"></div></div>
 <div class="panel" id="p-hotels"><div class="tw"><table id="t-hotels"></table></div></div>
 <div class="panel" id="p-places"><div class="tw"><table id="t-places"></table></div></div>
 <div class="panel" id="p-costs"><div class="tw"><table id="t-costs"></table></div></div>
@@ -256,7 +209,6 @@ function render() {
   renderFilters();
   renderStats();
   if (activeTab==='days') renderDays();
-  else if (activeTab==='calendar') renderCalendar();
   else if (activeTab==='hotels') renderHotels();
   else if (activeTab==='places') renderPlaces();
   else if (activeTab==='costs') renderCosts();
@@ -266,22 +218,15 @@ function render() {
 function renderStats() {
   const bk = DATA.hotels.filter(h=>h.booked);
   const totalPrice = bk.reduce((s,h)=>s+(h.price||0),0);
-  const totalNights = bk.reduce((s,h)=>s+(h.nights||0),0);
+  const totalNights = bk.reduce((s,h)=>s+h.nights,0);
   const missing = DATA.hotels.filter(h=>!h.booked);
   const costTotal = DATA.costs.reduce((s,c)=>s+(c.amount||0),0);
-  const cards = [
-    {label:'מלונות מוזמנים', value:`${bk.length}`, detail:`${missing.length} חסרים`},
-    {label:'לילות', value:`${totalNights}`, detail:'סה״כ ללינות שהוזמנו'},
-    {label:'עלות מלונות', value:`₪${totalPrice.toLocaleString()}`, detail:'לפי המלונות שנרשמו'},
-    {label:'הוצאות', value:`₪${costTotal.toLocaleString()}`, detail:'סה״כ ברשימת התקציב'},
-    {label:'אתרים', value:`${DATA.places.length}`, detail:'נקודות עניין במסלול'}
-  ];
-  document.getElementById('stats').innerHTML = cards.map(card => `
-    <div class="stat-card">
-      <div class="stat-label">${card.label}</div>
-      <div class="stat-value">${card.value}</div>
-      <div class="stat-detail">${card.detail}</div>
-    </div>`).join('');
+  document.getElementById('stats').innerHTML =
+    `<span>מלונות: <b>${bk.length}</b> מוזמנים · <b>${missing.length}</b> חסרים</span>
+     <span>לילות: <b>${totalNights}</b></span>
+     <span>מלונות: <b>₪${totalPrice.toLocaleString()}</b></span>
+     <span>סה״כ הוצאות: <b>₪${costTotal.toLocaleString()}</b></span>
+     <span>אתרים: <b>${DATA.places.length}</b></span>`;
 }
 
 function regionTag(r) {
@@ -291,8 +236,8 @@ function regionTag(r) {
 }
 
 function mapsLink(h) {
-  if (h.pid) return `https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(h.name)}&query_place_id=${h.pid}`;
-  return `https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(h.addr||h.name)}`;
+  if (h.pid) return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name)}&query_place_id=${h.pid}`;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.addr||h.name)}`;
 }
 
 function th(tab, key, label) {
@@ -317,12 +262,12 @@ function renderDays() {
     ${th('days','hotelName','מלון')}
     ${th('days','city','עיר')}
     <th>בוקר</th><th>צהריים</th><th>ערב</th>
-    <th>תחבורה</th><th>הערות</th><th>דף היום</th>
+    <th>תחבורה</th><th>הערות</th>
   </tr></thead><tbody>${data.map(d => {
     const isMiss = DATA.hotels.find(h=>h.id===d.hotelId && !h.booked);
     return `<tr class="${isMiss?'miss':''}">
       <td><a href="day.html?d=${d.tripDay}" style="font-weight:700;color:#1d4ed8;text-decoration:none">${d.tripDay}</a></td>
-      <td><a href="day.html?d=${d.tripDay}" style="color:#1d4ed8;text-decoration:none">${d.day}/${d.month}</a></td>
+      <td>${d.day}/${d.month}</td>
       <td>${d.weekday}</td>
       <td>${d.region?regionTag(d.region):''}</td>
       <td>${d.hotelName||''}</td>
@@ -332,57 +277,8 @@ function renderDays() {
       <td ${ed('days.'+d.id+'.evening.place', d.evening?.place)}>${d.evening?.place||''}</td>
       <td ${ed('days.'+d.id+'.transport.type', d.transport?.type)}>${d.transport?.type||''}</td>
       <td ${ed('days.'+d.id+'.notes', d.notes)}>${d.notes||''}</td>
-      <td><a href="day.html?d=${d.tripDay}" style="display:inline-block;padding:4px 10px;background:#1d4ed8;color:#fff;border-radius:5px;font-weight:700;font-size:12px;text-decoration:none;white-space:nowrap">פתח ›</a></td>
     </tr>`;
   }).join('')}</tbody>`;
-}
-
-// ══════════════════════════════════
-// CALENDAR (יולי + אוגוסט)
-// ══════════════════════════════════
-function renderCalendar() {
-  const DOW = ['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];
-  const regCls = {kansai:'cal-k',hokkaido:'cal-h',tokyo:'cal-t',dubai:'cal-d'};
-  // מיפוי לפי מפתח YYYY-M-D
-  const byDate = {};
-  DATA.days.forEach(d => { byDate[`${d.month}-${d.day}`] = d; });
-
-  // יום בשבוע 0=ראשon לפי התאריך (ללא תלות באזור זמן)
-  function dow(y,m,day){ return new Date(Date.UTC(y,m-1,day)).getUTCDay(); }
-
-  function buildMonth(year, month, title) {
-    const daysInMonth = new Date(Date.UTC(year, month, 0)).getUTCDate();
-    const firstDow = dow(year, month, 1);
-    let cells = '';
-    for (let i=0;i<firstDow;i++) cells += `<div class="cal-cell empty"></div>`;
-    for (let day=1; day<=daysInMonth; day++) {
-      const d = byDate[`${month}-${day}`];
-      if (!d) {
-        cells += `<div class="cal-cell"><div class="cal-dnum">${day}</div></div>`;
-      } else {
-        const cls = regCls[d.region] || 'cal-d';
-        cells += `<a class="cal-cell ${cls}" href="day.html?d=${d.tripDay}">
-          <div class="cal-dnum">${day}<span class="cal-trip">י${d.tripDay}</span></div>
-          <div class="cal-city">${d.city||''}</div>
-          <div class="cal-hotel">${d.hotelName||''}</div>
-        </a>`;
-      }
-    }
-    return `<div class="cal-month">
-      <div class="cal-title">${title}</div>
-      <div class="cal-grid">${DOW.map(x=>`<div class="cal-dow">${x}</div>`).join('')}${cells}</div>
-    </div>`;
-  }
-
-  const legend = `<div class="cal-legend">
-    <span><i style="background:#fee2e2"></i>קנסאי</span>
-    <span><i style="background:#dcfce7"></i>הוקאידו</span>
-    <span><i style="background:#e0e7ff"></i>טוקיו</span>
-    <span><i style="background:#f5f0e8"></i>דובאי</span>
-  </div>`;
-
-  document.getElementById('calWrap').innerHTML =
-    legend + buildMonth(2026,7,'יולי 2026') + buildMonth(2026,8,'אוגוסט 2026');
 }
 
 // ══════════════════════════════════
@@ -525,8 +421,11 @@ function initMap() {
   if (mapObj) return;
   setTimeout(() => {
     mapObj = L.map('map').setView([37, 138], 5);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap'
+    // שכבת CARTO Voyager — שמות מקומות בכתב לטיני/אנגלי (לא יפנית)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      attribution: '© OpenStreetMap © CARTO',
+      subdomains: 'abcd',
+      maxZoom: 20
     }).addTo(mapObj);
 
     DATA.hotels.forEach(h => {

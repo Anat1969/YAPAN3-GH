@@ -1,0 +1,52 @@
+{
+  "id": 10,
+  "title": "קנאזאווה בוקר → מעבר להוקאידו",
+  "idea": "השלמה ומעבר",
+  "spots": {
+    "morning": [
+      {
+        "name": "נאגאמאצ׳י בוקר",
+        "nameEn": "Nagamachi morning walk",
+        "addr": "Nagamachi, Kanazawa",
+        "lat": 36.5632,
+        "lng": 136.6518,
+        "time": "09:00",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "נתן, ענת",
+        "notes": "הליכת בוקר שקטה ברובע הסמוראי",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "טיסה להוקאידו",
+        "nameEn": "Flight to Memanbetsu",
+        "addr": "Komatsu Airport (KMQ)",
+        "lat": 36.3936,
+        "lng": 136.4066,
+        "time": "14:00",
+        "duration": "2 שעות",
+        "price": null,
+        "forWho": "כולם",
+        "notes": "אוטובוס קומאצו מתחנת קנאזאווה — 40 דק׳, 1,300 ין. טיסה KMQ→MMB",
+        "placeId": ""
+      }
+    ],
+    "evening": []
+  },
+  "meals": {
+    "breakfast": "במלון",
+    "lunch": "בשדה תעופה",
+    "dinner": "",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "אוטובוס + טיסה",
+    "from": "Kanazawa",
+    "to": "Komatsu Airport → Memanbetsu",
+    "duration": "",
+    "cost": ""
+  },
+  "notes": "מזוודות ב-Takkyubin ישירות למלון בשירטוקו"
+}

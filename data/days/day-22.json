@@ -1,0 +1,92 @@
+{
+  "id": 22,
+  "title": "לייק טויה — הר געש ואגם",
+  "idea": "נוף וולקני, אונסן, זיקוקים",
+  "spots": {
+    "morning": [
+      {
+        "name": "נסיעה ללייק טויה",
+        "nameEn": "Drive to Lake Toya",
+        "addr": "Route 230",
+        "lat": 42.5667,
+        "lng": 140.85,
+        "time": "09:00",
+        "duration": "2 שעות",
+        "price": 0,
+        "forWho": "",
+        "notes": "",
+        "placeId": ""
+      },
+      {
+        "name": "רכבל הר אוסו",
+        "nameEn": "Mt. Usu Ropeway",
+        "addr": "Sobetsucho, Usu-gun, Hokkaido",
+        "lat": 42.5442,
+        "lng": 140.8411,
+        "time": "11:00",
+        "duration": "1.5 שעות",
+        "price": 1800,
+        "forWho": "עילאי, כולם",
+        "notes": "נוף על האגם, קלדרת שואה-שינזאן, שביל מכתש הגעש",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "שביל הר געש 2000",
+        "nameEn": "Nishiyama Crater Trail",
+        "addr": "Nishiyama, Toyako",
+        "lat": 42.543,
+        "lng": 140.783,
+        "time": "13:30",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "עילאי, ענת",
+        "notes": "שכונה שנקברה בהתפרצות 2000. מדרכות עקומות, עמודי חשמל שקועים — אדריכלות הרס",
+        "placeId": ""
+      },
+      {
+        "name": "טיילת אגם טויה",
+        "nameEn": "Lake Toya Promenade",
+        "addr": "Toyako Onsen",
+        "lat": 42.5667,
+        "lng": 140.85,
+        "time": "15:30",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "נתן, כולם",
+        "notes": "הליכה על שפת האגם, פסלים, נוף",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "זיקוקים",
+        "nameEn": "Lake Toya Fireworks",
+        "addr": "Toyako Onsen Lakeside",
+        "lat": 42.5667,
+        "lng": 140.85,
+        "time": "20:45",
+        "duration": "30 דק׳",
+        "price": 0,
+        "forWho": "כולם",
+        "notes": "כל לילה באפריל-אוקטובר. מהטיילת או מהמלון",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "",
+    "lunch": "טויה",
+    "dinner": "במלון או מסעדה מקומית",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "רכב",
+    "from": "Biei/Otaru",
+    "to": "Lake Toya",
+    "duration": "2 שעות",
+    "cost": ""
+  },
+  "notes": "TOYA Center Village — טריילרים מאובזרים, 6 דק׳ מהאגם. החזרת רכב למחרת?"
+}

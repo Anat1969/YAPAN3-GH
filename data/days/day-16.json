@@ -1,0 +1,79 @@
+{
+  "id": 16,
+  "title": "סואנקיו — גג הוקאידו",
+  "idea": "הרי דאיסצוזאן, רכבל, מפלים",
+  "spots": {
+    "morning": [
+      {
+        "name": "נסיעה לסואנקיו",
+        "nameEn": "Drive Akan to Sounkyo",
+        "addr": "Route 39/273",
+        "lat": 43.7253,
+        "lng": 142.9471,
+        "time": "09:00",
+        "duration": "3 שעות",
+        "price": 0,
+        "forWho": "",
+        "notes": "הנסיעה הארוכה ביותר — עוצרים לנוף בדרך",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "רכבל קורודאקה",
+        "nameEn": "Kurodake Ropeway",
+        "addr": "Sounkyo, Kamikawa",
+        "lat": 43.7072,
+        "lng": 142.9508,
+        "time": "13:00",
+        "duration": "3 שעות",
+        "price": 3000,
+        "forWho": "עילאי, כולם",
+        "notes": "רכבל + ליפט לפסגה (1,984 מ׳). נוף 360 על דאיסצוזאן. עילאי — הליכה לפסגה",
+        "placeId": ""
+      },
+      {
+        "name": "מפלי סואנקיו",
+        "nameEn": "Ginga & Ryusei Falls",
+        "addr": "Sounkyo, Kamikawa",
+        "lat": 43.732,
+        "lng": 142.968,
+        "time": "16:30",
+        "duration": "30 דק׳",
+        "price": 0,
+        "forWho": "כולם",
+        "notes": "שני מפלים מקבילים — גינגא (כוכבים) וריוסיי (מטאור)",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "אונסן בסואנקיו",
+        "nameEn": "Sounkyo Onsen",
+        "addr": "Hotel Kumoi, Sounkyo",
+        "lat": 43.7253,
+        "lng": 142.9471,
+        "time": "18:00",
+        "duration": "",
+        "price": "",
+        "forWho": "כולם",
+        "notes": "מעיין גופרית, ריוקאן קטן",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "במלון אקאן",
+    "lunch": "בדרך",
+    "dinner": "במלון קומוי",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "רכב",
+    "from": "Akan",
+    "to": "Sounkyo",
+    "duration": "3 שעות",
+    "cost": ""
+  },
+  "notes": "הנסיעה הארוכה ביותר בטיול — אבל דרך נוף מדהים"
+}

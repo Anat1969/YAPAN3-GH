@@ -1,0 +1,92 @@
+{
+  "id": 4,
+  "title": "קובה — נמל, בשר ורעידת אדמה",
+  "idea": "עיר נמל אלגנטית, חוויה פיזית חזקה",
+  "spots": {
+    "morning": [
+      {
+        "name": "הרבור קובה",
+        "nameEn": "Kobe Harborland",
+        "addr": "Higashikawasakicho, Chuo-ku, Kobe",
+        "lat": 34.6801,
+        "lng": 135.1853,
+        "time": "10:00",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "נתן, לוטם",
+        "notes": "טיילת נמל, נוף, מגדל פורט",
+        "placeId": ""
+      },
+      {
+        "name": "שכונת קיטאנו",
+        "nameEn": "Kitano-cho",
+        "addr": "Kitanocho, Chuo-ku, Kobe",
+        "lat": 34.702,
+        "lng": 135.1901,
+        "time": "11:30",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "ענת, לוטם",
+        "notes": "בתים אירופיים מהמאה ה-19, בתי קפה, נוף לנמל",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "מוזיאון רעידת אדמה",
+        "nameEn": "Disaster Reduction Museum",
+        "addr": "1-5-2 Wakinohamakaigandori, Chuo-ku, Kobe",
+        "lat": 34.696,
+        "lng": 135.2062,
+        "time": "13:30",
+        "duration": "1.5 שעות",
+        "price": 600,
+        "forWho": "עילאי, כולם",
+        "notes": "חוויה פיזית — סימולציה של רעידת 1995. מרשים מאוד",
+        "placeId": ""
+      },
+      {
+        "name": "בשר קובה — ארוחה",
+        "nameEn": "Kobe Beef Lunch",
+        "addr": "Sannomiya area, Kobe",
+        "lat": 34.695,
+        "lng": 135.195,
+        "time": "15:30",
+        "duration": "1.5 שעות",
+        "price": null,
+        "forWho": "נתן, כולם",
+        "notes": "Mouriya או Ishida — מחיר סביר לצהריים (3,000-6,000 ין)",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "חזרה לאוסקה",
+        "nameEn": "Return to Osaka",
+        "addr": "Namba, Osaka",
+        "lat": 34.6659,
+        "lng": 135.5013,
+        "time": "18:00",
+        "duration": "",
+        "price": "",
+        "forWho": "",
+        "notes": "20 דק׳ רכבת JR",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "במלון",
+    "lunch": "בשר קובה",
+    "dinner": "חופשי באוסקה",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "רכבת JR",
+    "from": "Osaka",
+    "to": "Sannomiya (Kobe)",
+    "duration": "20 דק׳",
+    "cost": "420 ין"
+  },
+  "notes": "אלטרנטיבה: יום חופשי באוסקה + יוניברסל סטודיוס"
+}

@@ -1,0 +1,65 @@
+{
+  "id": 11,
+  "title": "הגעה להוקאידו — שירטוקו",
+  "idea": "מהעיר לקצה העולם",
+  "spots": {
+    "morning": [],
+    "afternoon": [
+      {
+        "name": "נחיתה במאנבצו, איסוף רכב",
+        "nameEn": "Memanbetsu Airport",
+        "addr": "Memanbetsu, Ozora, Hokkaido",
+        "lat": 43.8816,
+        "lng": 144.1586,
+        "time": "14:00",
+        "duration": "1 שעה",
+        "price": null,
+        "forWho": "כולם",
+        "notes": "איסוף רכב שכור",
+        "placeId": ""
+      },
+      {
+        "name": "נסיעה לאוטורו",
+        "nameEn": "Drive to Utoro",
+        "addr": "Route 334 to Utoro",
+        "lat": 44.0731,
+        "lng": 145.0007,
+        "time": "15:30",
+        "duration": "2 שעות",
+        "price": 0,
+        "forWho": "",
+        "notes": "נוף דרמטי — הרים יורדים לים",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "צ׳ק-אין + שקיעה",
+        "nameEn": "The SUNSET Shiretoko",
+        "addr": "189 Utorokagawa, Shari, Hokkaido",
+        "lat": 44.0731,
+        "lng": 145.0007,
+        "time": "18:00",
+        "duration": "",
+        "price": "",
+        "forWho": 0,
+        "notes": "כולם",
+        "placeId": "שקיעה מהמלון, אונסן"
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "",
+    "lunch": "בשדה תעופה",
+    "dinner": "במלון או באוטורו",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "רכב שכור",
+    "from": "Memanbetsu Airport",
+    "to": "Utoro",
+    "duration": "2 שעות",
+    "cost": ""
+  },
+  "notes": "תחילת שליש הטבע. רכב שכור עד 14/8"
+}

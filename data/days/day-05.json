@@ -1,0 +1,79 @@
+{
+  "id": 5,
+  "title": "קיוטו מזרחית — טורי, אבן וגיישות",
+  "idea": "צעידה דרך שכבות ההיסטוריה",
+  "spots": {
+    "morning": [
+      {
+        "name": "פושימי אינארי",
+        "nameEn": "Fushimi Inari Taisha",
+        "addr": "68 Fukakusa Yabunouchicho, Fushimi-ku, Kyoto",
+        "lat": 34.9671,
+        "lng": 135.7727,
+        "time": "09:00",
+        "duration": "2.5 שעות",
+        "price": 0,
+        "forWho": "עילאי, ענת",
+        "notes": "10,000 שערי טורי אדומים. עילאי — עלייה מלאה 2 שעות עם נוף. השאר — חצי מסלול",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "הליכה ניננזאקה — סאננזאקה",
+        "nameEn": "Ninenzaka & Sannenzaka",
+        "addr": "Kiyomizu, Higashiyama-ku, Kyoto",
+        "lat": 34.9966,
+        "lng": 135.7816,
+        "time": "12:30",
+        "duration": "2 שעות",
+        "price": 0,
+        "forWho": "לוטם, ענת",
+        "notes": "רחובות אבן, חנויות קרמיקה, מניפות, בתי תה. לוטם — קניות",
+        "placeId": ""
+      },
+      {
+        "name": "גיון",
+        "nameEn": "Gion District",
+        "addr": "Gionmachi, Higashiyama-ku, Kyoto",
+        "lat": 35.0037,
+        "lng": 135.7756,
+        "time": "15:00",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "ענת, נתן",
+        "notes": "רובע הגיישות. שקט, פנסים, ארכיטקטורה מסורתית. מאצ׳יה — בתי עץ צרים",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "פונטוצ׳ו",
+        "nameEn": "Pontocho Alley",
+        "addr": "Pontocho, Nakagyo-ku, Kyoto",
+        "lat": 35.0071,
+        "lng": 135.7708,
+        "time": "18:00",
+        "duration": "2 שעות",
+        "price": 0,
+        "forWho": "נתן, כולם",
+        "notes": "סמטה צרה על נהר קאמו. מסעדות עם מרפסות על המים",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "במלון אוסקה (אחרון)",
+    "lunch": "סובה או אודון בניננזאקה",
+    "dinner": "פונטוצ׳ו — על הנהר",
+    "icecream": "גלידת מאצ׳ה — Tsujiri בגיון"
+  },
+  "transport": {
+    "type": "רכבת",
+    "from": "Osaka (Namba)",
+    "to": "Kyoto (Kawaramachi)",
+    "duration": "45 דק׳ Hankyu",
+    "cost": "410 ין"
+  },
+  "notes": "מעבר מאוסקה לקיוטו. Takkyubin למזוודות. צ׳ק-אין ב-Mitsui Garden"
+}

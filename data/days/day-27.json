@@ -1,0 +1,66 @@
+{
+  "id": 27,
+  "title": "יום אחרון — השלמות וקניות",
+  "idea": "מה שעוד לא עשינו, ופרידה",
+  "spots": {
+    "morning": [
+      {
+        "name": "יום חופשי — השלמות",
+        "nameEn": "Free morning",
+        "addr": "Tokyo",
+        "lat": 35.6812,
+        "lng": 139.7745,
+        "time": "09:30",
+        "duration": "",
+        "price": "",
+        "forWho": 0,
+        "notes": "כולם",
+        "placeId": "חזרה למקום שאהבנו, קניות אחרונות, ארוז"
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "נקמגורו",
+        "nameEn": "Nakameguro",
+        "addr": "Kamimeguro, Meguro-ku, Tokyo",
+        "lat": 35.644,
+        "lng": 139.698,
+        "time": "14:00",
+        "duration": "2 שעות",
+        "price": 0,
+        "forWho": "לוטם, ענת",
+        "notes": "תעלת מגורו, בתי קפה, חנויות עיצוב, Tsutaya Books",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "ארוחת פרידה",
+        "nameEn": "Farewell dinner",
+        "addr": "Tokyo",
+        "lat": 35.6812,
+        "lng": 139.7745,
+        "time": "19:00",
+        "duration": "",
+        "price": "",
+        "forWho": "כולם",
+        "notes": "",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "במלון",
+    "lunch": "נקמגורו",
+    "dinner": "ארוחת פרידה",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "",
+    "from": "",
+    "to": "",
+    "duration": "",
+    "cost": ""
+  },
+  "notes": "יום אחרון ביפן. אריזה, קניות אחרונות"
+}

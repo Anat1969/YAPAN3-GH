@@ -1,0 +1,92 @@
+{
+  "id": 26,
+  "title": "שינג׳וקו וגולדן גאי",
+  "idea": "מגדלים, סמטאות, ולילה יפני",
+  "spots": {
+    "morning": [
+      {
+        "name": "שינג׳וקו גיואן",
+        "nameEn": "Shinjuku Gyoen",
+        "addr": "11 Naitomachi, Shinjuku-ku, Tokyo",
+        "lat": 35.6852,
+        "lng": 139.71,
+        "time": "09:30",
+        "duration": "1.5 שעות",
+        "price": 500,
+        "forWho": "ענת, נתן",
+        "notes": "גן יפני + צרפתי + אנגלי. 58 דונם של שקט בלב העיר",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "אקיהאברה",
+        "nameEn": "Akihabara",
+        "addr": "Sotokanda, Chiyoda-ku, Tokyo",
+        "lat": 35.7023,
+        "lng": 139.7745,
+        "time": "12:30",
+        "duration": "2 שעות",
+        "price": 0,
+        "forWho": "עילאי",
+        "notes": "אלקטרוניקה, גיימינג, מנגה, מייד קפה",
+        "placeId": ""
+      },
+      {
+        "name": "גינזה",
+        "nameEn": "Ginza",
+        "addr": "Ginza, Chuo-ku, Tokyo",
+        "lat": 35.6717,
+        "lng": 139.7649,
+        "time": "15:00",
+        "duration": "2 שעות",
+        "price": 0,
+        "forWho": "לוטם, ענת",
+        "notes": "קניות יוקרה, גלריות, אדריכלות — Ginza Six, Mikimoto, Dover Street Market",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "גולדן גאי",
+        "nameEn": "Golden Gai",
+        "addr": "1 Kabukicho, Shinjuku-ku, Tokyo",
+        "lat": 35.6938,
+        "lng": 139.7036,
+        "time": "19:00",
+        "duration": "2 שעות",
+        "price": 0,
+        "forWho": "נתן, ענת",
+        "notes": "200 בארים זעירים ב-6 סמטאות. כל בר 5-8 מקומות. לבחור לפי אווירה",
+        "placeId": ""
+      },
+      {
+        "name": "אומויידה יוקוצ׳ו",
+        "nameEn": "Omoide Yokocho (Piss Alley)",
+        "addr": "1 Nishishinjuku, Shinjuku-ku, Tokyo",
+        "lat": 35.6936,
+        "lng": 139.6986,
+        "time": "21:00",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "נתן",
+        "notes": "שיפודי יאקיטורי, אדים, אווירת שואה. 80 דוכנים",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "במלון",
+    "lunch": "אקיהאברה — ראמן",
+    "dinner": "גולדן גאי / אומויידה",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "מטרו JR",
+    "from": "Tokyo Station",
+    "to": "Shinjuku (JR Chuo)",
+    "duration": "15 דק׳",
+    "cost": "200 ין"
+  },
+  "notes": "ערב בגולדן גאי — לא מתאים לילדים מתחת 18 (חלק מהבארים). עילאי ולוטם — שיבויה/הראג׳וקו?"
+}

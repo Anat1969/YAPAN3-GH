@@ -1,0 +1,52 @@
+{
+  "id": 18,
+  "title": "ביאי — אופניים וגבעות",
+  "idea": "רכיבה בין שדות צבעוניים",
+  "spots": {
+    "morning": [
+      {
+        "name": "רכיבת אופניים — מסלול C",
+        "nameEn": "Biei Cycling Route C",
+        "addr": "Biei Station area",
+        "lat": 43.587,
+        "lng": 142.472,
+        "time": "09:00",
+        "duration": "3 שעות",
+        "price": 1500,
+        "forWho": "עילאי, כולם",
+        "notes": "18 ק״מ, גבעות, שדות, עצי בודדים אייקוניים. השכרה ליד התחנה",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "Four Seasons Hill",
+        "nameEn": "Shikisai no Oka",
+        "addr": "Shinsei 3, Biei",
+        "lat": 43.551,
+        "lng": 142.475,
+        "time": "14:00",
+        "duration": "1.5 שעות",
+        "price": 500,
+        "forWho": "לוטם, כולם",
+        "notes": "שדות פרחים צבעוניים, באגי (500 ין), אלפקות",
+        "placeId": ""
+      }
+    ],
+    "evening": []
+  },
+  "meals": {
+    "breakfast": "",
+    "lunch": "ביאי",
+    "dinner": "",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "אופניים + רכב",
+    "from": "Biei",
+    "to": "Biei area",
+    "duration": "",
+    "cost": ""
+  },
+  "notes": "עילאי — מסלול A (88 ק״מ) אם רוצה אתגר"
+}

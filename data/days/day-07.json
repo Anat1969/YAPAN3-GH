@@ -1,0 +1,79 @@
+{
+  "id": 7,
+  "title": "קיוטו — מלאכת יד ואיטיות",
+  "idea": "סדנאות, גנים, זמן לנשום",
+  "spots": {
+    "morning": [
+      {
+        "name": "דאיטוקו-ג׳י",
+        "nameEn": "Daitoku-ji Temple",
+        "addr": "53 Murasakino Daitokuji-cho, Kita-ku, Kyoto",
+        "lat": 35.0437,
+        "lng": 135.7452,
+        "time": "09:30",
+        "duration": "1.5 שעות",
+        "price": 400,
+        "forWho": "ענת, נתן",
+        "notes": "מתחם זן ענק. גני סלע שונים בכל תת-מקדש. שקט מוחלט",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "סדנת קרמיקה",
+        "nameEn": "Kyoto Ceramic Workshop",
+        "addr": "Various locations, Higashiyama",
+        "lat": 35.0,
+        "lng": 135.78,
+        "time": "13:00",
+        "duration": "2 שעות",
+        "price": 3000,
+        "forWho": "לוטם, ענת",
+        "notes": "סדנת ראקו או קינצוגי. להזמין מראש",
+        "placeId": ""
+      },
+      {
+        "name": "טראמאצ׳י",
+        "nameEn": "Teramachi Shopping Street",
+        "addr": "Teramachi-dori, Nakagyo-ku, Kyoto",
+        "lat": 35.007,
+        "lng": 135.766,
+        "time": "15:30",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "לוטם",
+        "notes": "רחוב קניות מקורה — נייר יפני, סטיישנרי, מניפות, עיצוב",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "נישיקי שוק ערב",
+        "nameEn": "Nishiki Market evening",
+        "addr": "Nishikikoji-dori, Kyoto",
+        "lat": 35.005,
+        "lng": 135.7649,
+        "time": "18:00",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "נתן",
+        "notes": "טעימות ערב, סאקה, אווירה",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "במלון",
+    "lunch": "ליד דאיטוקו-ג׳י",
+    "dinner": "נישיקי / חופשי",
+    "icecream": "מאצ׳ה פרפה — Saryo Suisen"
+  },
+  "transport": {
+    "type": "אוטובוס + הליכה",
+    "from": "Kawaramachi",
+    "to": "Daitoku-ji → Higashiyama → Kawaramachi",
+    "duration": "",
+    "cost": ""
+  },
+  "notes": "יום איטי — סדנאות דורשות הזמנה מראש"
+}

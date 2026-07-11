@@ -1,0 +1,79 @@
+{
+  "id": 12,
+  "title": "שירטוקו — טבע פראי",
+  "idea": "חצי האי האחרון — דובים, מפלים, ים",
+  "spots": {
+    "morning": [
+      {
+        "name": "שייט שירטוקו",
+        "nameEn": "Shiretoko Sightseeing Cruise",
+        "addr": "Utoro Port, Shari",
+        "lat": 44.0698,
+        "lng": 145.0013,
+        "time": "09:00",
+        "duration": "2 שעות",
+        "price": 4000,
+        "forWho": "עילאי, כולם",
+        "notes": "שייט לאורך חצי האי — צוקים, מפלים, אפשר לראות דובים וארנבות ים",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "5 האגמות של שירטוקו",
+        "nameEn": "Shiretoko Five Lakes",
+        "addr": "Shiretoko Goko, Shari",
+        "lat": 44.1262,
+        "lng": 145.1,
+        "time": "12:30",
+        "duration": "2 שעות",
+        "price": 500,
+        "forWho": "ענת, עילאי",
+        "notes": "הליכה על שבילי עץ מוגבהים מעל הביצות. שקט מוחלט, השתקפויות",
+        "placeId": ""
+      },
+      {
+        "name": "מפל קאמואיוואקי",
+        "nameEn": "Kamuiwakka Hot Falls",
+        "addr": "Kamuiwakka, Shiretoko",
+        "lat": 44.1494,
+        "lng": 145.1345,
+        "time": "15:30",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "עילאי",
+        "notes": "מפל מעיינות חמים — טיפוס במים חמים. נעלי מים חובה",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "ערב באוטורו",
+        "nameEn": "Utoro evening",
+        "addr": "Utoro, Shari",
+        "lat": 44.0731,
+        "lng": 145.0007,
+        "time": "18:00",
+        "duration": "",
+        "price": "",
+        "forWho": "",
+        "notes": "שקיעה + אונסן במלון",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "במלון",
+    "lunch": "פיקניק או אוטורו",
+    "dinner": "פירות ים באוטורו",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "רכב",
+    "from": "Utoro",
+    "to": "Five Lakes → Kamuiwakka → Utoro",
+    "duration": "",
+    "cost": ""
+  },
+  "notes": "להזמין שייט מראש. מפל קאמואיוואקי — לבדוק אם פתוח (עונתי)"
+}

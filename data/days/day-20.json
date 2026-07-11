@@ -1,0 +1,24 @@
+{
+  "id": 20,
+  "title": "יום חופשי — ביאי/פוראנו",
+  "idea": "מנוחה, אופניים, או גילוי",
+  "spots": {
+    "morning": [],
+    "afternoon": [],
+    "evening": []
+  },
+  "meals": {
+    "breakfast": "",
+    "lunch": "",
+    "dinner": "",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "",
+    "from": "",
+    "to": "",
+    "duration": "",
+    "cost": ""
+  },
+  "notes": "יום חופשי — אפשרויות: אופניים נוספים, ראפטינג, אונסן, או פשוט מנוחה"
+}

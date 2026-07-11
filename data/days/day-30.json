@@ -1,0 +1,24 @@
+{
+  "id": 30,
+  "title": "דובאי — יום 2",
+  "idea": "עצירת ביניים",
+  "spots": {
+    "morning": [],
+    "afternoon": [],
+    "evening": []
+  },
+  "meals": {
+    "breakfast": "",
+    "lunch": "",
+    "dinner": "",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "",
+    "from": "",
+    "to": "",
+    "duration": "",
+    "cost": ""
+  },
+  "notes": "דובאי — יום שני"
+}

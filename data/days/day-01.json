@@ -1,0 +1,78 @@
+{
+  "id": 1,
+  "title": "נחיתה באוסקה",
+  "idea": "כניסה רכה — אוכל רחוב, אורות, המולה",
+  "spots": {
+    "morning": [],
+    "afternoon": [
+      {
+        "name": "הגעה לנמל התעופה קנסאי",
+        "nameEn": "Kansai International Airport (KIX)",
+        "addr": "1 Sensorikitamachi, Izumisano, Osaka",
+        "lat": 34.4347,
+        "lng": 135.244,
+        "time": "14:00",
+        "duration": "1.5 שעות",
+        "price": null,
+        "forWho": "כולם",
+        "notes": "רכבת Nankai Rapi:t לנמבה — 38 דק׳, 1,450 ין",
+        "placeId": "ChIJRUCINJQTAWARJJdyPsPbWDI"
+      },
+      {
+        "name": "צ׳ק-אין במלון",
+        "nameEn": "&Here OSAKA NAMBA",
+        "addr": "7-9 Namba-sennichimae, Chuo-ku, Osaka",
+        "lat": 34.6632,
+        "lng": 135.5045,
+        "time": "16:00",
+        "duration": "30 דק׳",
+        "price": null,
+        "forWho": "",
+        "notes": "",
+        "placeId": "ChIJmXMrTgDnAGARoH4FjgeIjrs"
+      }
+    ],
+    "evening": [
+      {
+        "name": "דוטונבורי",
+        "nameEn": "Dotonbori",
+        "addr": "Dotonbori, Chuo-ku, Osaka",
+        "lat": 34.6687,
+        "lng": 135.5031,
+        "time": "18:00",
+        "duration": "3 שעות",
+        "price": 0,
+        "forWho": "נתן, לוטם",
+        "notes": "אוכל רחוב: טאקויאקי ב-Kukuru, אוקונומיאקי ב-Mizuno. הליכה על הגשר, שלטי ניאון",
+        "placeId": ""
+      },
+      {
+        "name": "הוזנג׳י יוקוצ׳ו",
+        "nameEn": "Hozenji Yokocho",
+        "addr": "1-1 Nanba, Chuo-ku, Osaka",
+        "lat": 34.6688,
+        "lng": 135.5012,
+        "time": "21:00",
+        "duration": "30 דק׳",
+        "price": 0,
+        "forWho": "ענת, נתן",
+        "notes": "סמטה שקטה עם מקדש קטן מכוסה טחב, 50 מטר מדוטונבורי",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "במטוס",
+    "lunch": "במטוס",
+    "dinner": "טאקויאקי + אוקונומיאקי בדוטונבורי",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "רכבת",
+    "from": "KIX",
+    "to": "Namba",
+    "duration": "38 דק׳",
+    "cost": "1450 ין"
+  },
+  "notes": "יום הגעה — לא להעמיס. לישון מוקדם להתגבר על ג׳ט לג"
+}

@@ -1,0 +1,92 @@
+{
+  "id": 3,
+  "title": "נארה — הצבאים והבודהה",
+  "idea": "עיר עתיקה, צבאים חופשיים, עומק בשקט",
+  "spots": {
+    "morning": [
+      {
+        "name": "פארק נארה + צבאים",
+        "nameEn": "Nara Park",
+        "addr": "Nara Park, Nara",
+        "lat": 34.6851,
+        "lng": 135.843,
+        "time": "09:30",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "כולם",
+        "notes": "1,300 צבאים חצי-פראיים. קניית שנבייה (עוגיות צבאים) ב-200 ין",
+        "placeId": ""
+      },
+      {
+        "name": "מקדש טודאי-ג׳י",
+        "nameEn": "Todai-ji Temple",
+        "addr": "406-1 Zoshicho, Nara",
+        "lat": 34.6891,
+        "lng": 135.8399,
+        "time": "11:00",
+        "duration": "1.5 שעות",
+        "price": 600,
+        "forWho": "ענת, עילאי",
+        "notes": "בודהה הברונזה הגדול בעולם (15 מ׳). מבנה העץ הגדול בעולם",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "נאראמאצ׳י",
+        "nameEn": "Naramachi",
+        "addr": "Naramachi, Nara",
+        "lat": 34.6785,
+        "lng": 135.833,
+        "time": "13:00",
+        "duration": "2 שעות",
+        "price": 0,
+        "forWho": "לוטם, נתן",
+        "notes": "סמטאות מסורתיות, חנויות נייר יפני, מוצ׳י טרי, בתי תה",
+        "placeId": ""
+      },
+      {
+        "name": "מקדש קאסוגה טאישה",
+        "nameEn": "Kasuga Taisha",
+        "addr": "160 Kasuganocho, Nara",
+        "lat": 34.681,
+        "lng": 135.8497,
+        "time": "15:30",
+        "duration": "1 שעה",
+        "price": 500,
+        "forWho": "ענת",
+        "notes": "3,000 פנסי אבן ומתכת לאורך השביל ביער",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "חזרה לאוסקה — ערב חופשי",
+        "nameEn": "Free evening Osaka",
+        "addr": "Namba, Osaka",
+        "lat": 34.6659,
+        "lng": 135.5013,
+        "time": "18:00",
+        "duration": "",
+        "price": "",
+        "forWho": "כולם",
+        "notes": "",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "במלון",
+    "lunch": "מוצ׳י ודנגו בנאראמאצ׳י",
+    "dinner": "חופשי באוסקה",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "רכבת",
+    "from": "Namba",
+    "to": "Nara (Kintetsu)",
+    "duration": "35 דק׳",
+    "cost": "680 ין"
+  },
+  "notes": "יום מצוין לנתן — קצב שקט, עומק. 45 דקות רכבת מאוסקה"
+}

@@ -1,0 +1,105 @@
+{
+  "id": 6,
+  "title": "קיוטו מערבית — במבוק, זן וזהב",
+  "idea": "טבע בתוך עיר, אדריכלות של ריק",
+  "spots": {
+    "morning": [
+      {
+        "name": "יער הבמבוק אראשיאמה",
+        "nameEn": "Arashiyama Bamboo Grove",
+        "addr": "Sagatenryuji, Ukyo-ku, Kyoto",
+        "lat": 35.017,
+        "lng": 135.6713,
+        "time": "09:00",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "כולם",
+        "notes": "להגיע מוקדם — אחרת עמוס. צילום בשקט",
+        "placeId": ""
+      },
+      {
+        "name": "מקדש טנריו-ג׳י",
+        "nameEn": "Tenryu-ji Temple",
+        "addr": "68 Sagatenryuji, Ukyo-ku, Kyoto",
+        "lat": 35.0155,
+        "lng": 135.6745,
+        "time": "10:00",
+        "duration": "1 שעה",
+        "price": 500,
+        "forWho": "ענת",
+        "notes": "גן זן מהמאה ה-14. מורשת עולמית",
+        "placeId": ""
+      },
+      {
+        "name": "גשר טוגצוקיו",
+        "nameEn": "Togetsukyo Bridge",
+        "addr": "Arashiyama, Ukyo-ku, Kyoto",
+        "lat": 35.0104,
+        "lng": 135.678,
+        "time": "11:00",
+        "duration": "30 דק׳",
+        "price": 0,
+        "forWho": "נתן",
+        "notes": "גשר אייקוני על הנהר. שיט אופציונלי",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "וילה קאצורה",
+        "nameEn": "Katsura Imperial Villa",
+        "addr": "Katsuramisono, Nishikyo-ku, Kyoto",
+        "lat": 34.9836,
+        "lng": 135.713,
+        "time": "14:00",
+        "duration": "1.5 שעות",
+        "price": 1000,
+        "forWho": "ענת",
+        "notes": "שיא האדריכלות היפנית המסורתית. הזמנה מראש חובה דרך IHA",
+        "placeId": ""
+      },
+      {
+        "name": "נישיקי שוק",
+        "nameEn": "Nishiki Market",
+        "addr": "Nishikikoji-dori, Nakagyo-ku, Kyoto",
+        "lat": 35.005,
+        "lng": 135.7649,
+        "time": "16:00",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "נתן, לוטם",
+        "notes": "400 שנה של אוכל. דוכנים, טעימות, חנויות סכינים",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "ערב חופשי בקיוטו",
+        "nameEn": "Free evening Kyoto",
+        "addr": "Kawaramachi, Kyoto",
+        "lat": 35.004,
+        "lng": 135.769,
+        "time": "18:30",
+        "duration": "",
+        "price": "",
+        "forWho": "כולם",
+        "notes": "",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "במלון",
+    "lunch": "אראשיאמה — טופו או סובה",
+    "dinner": "חופשי",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "רכבת + אוטובוס",
+    "from": "Kawaramachi",
+    "to": "Arashiyama (JR Saga)",
+    "duration": "15 דק׳",
+    "cost": "240 ין"
+  },
+  "notes": "וילה קאצורה — להזמין חודש מראש באתר IHA. עילאי — אופניים לאורך הנהר באראשיאמה"
+}

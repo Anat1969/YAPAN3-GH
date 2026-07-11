@@ -1,0 +1,105 @@
+{
+  "id": 2,
+  "title": "אוסקה של טאדאו אנדו",
+  "idea": "אדריכלות, בטון, אור — ואחר הצהריים רחוב",
+  "spots": {
+    "morning": [
+      {
+        "name": "ספריית הילדים של נאקאנושימה",
+        "nameEn": "Nakanoshima Children's Book Forest",
+        "addr": "1-1-28 Nakanoshima, Kita-ku, Osaka",
+        "lat": 34.6938,
+        "lng": 135.5044,
+        "time": "09:30",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "ענת",
+        "notes": "טאדאו אנדו תכנן ותרם. תפוח ירוק על המרפסת. 3 קומות ספרים פתוחות",
+        "placeId": ""
+      },
+      {
+        "name": "הליכה על אי נאקאנושימה",
+        "nameEn": "Nakanoshima Island Walk",
+        "addr": "Nakanoshima, Kita-ku, Osaka",
+        "lat": 34.6929,
+        "lng": 135.502,
+        "time": "11:00",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "ענת, נתן",
+        "notes": "אי בין תעלות, אדריכלות מודרנית, פארק ורדים",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "כנסיית האור",
+        "nameEn": "Church of the Light",
+        "addr": "4-3-50 Kitakasuga, Ibaraki, Osaka",
+        "lat": 34.8106,
+        "lng": 135.5608,
+        "time": "13:30",
+        "duration": "1 שעה",
+        "price": 500,
+        "forWho": "ענת",
+        "notes": "טאדאו אנדו, 1989. צלב של אור חודר לקונכיית בטון. 25 דק׳ רכבת מאוסקה. הזמנה מראש חובה",
+        "placeId": ""
+      },
+      {
+        "name": "דן דן טאון",
+        "nameEn": "Den Den Town (Nipponbashi)",
+        "addr": "Nipponbashi, Naniwa-ku, Osaka",
+        "lat": 34.6598,
+        "lng": 135.5058,
+        "time": "16:00",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "עילאי, לוטם",
+        "notes": "אלקטרוניקה, אנימה, גיימינג, רטרו",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "שינסקאי",
+        "nameEn": "Shinsekai",
+        "addr": "Shinsekai, Naniwa-ku, Osaka",
+        "lat": 34.6524,
+        "lng": 135.5061,
+        "time": "18:00",
+        "duration": "2 שעות",
+        "price": 0,
+        "forWho": "נתן, עילאי",
+        "notes": "קושיקאצו (שיפודי טיגון), מגדל צוטנקאקו, אווירת רטרו",
+        "placeId": ""
+      },
+      {
+        "name": "שוק קורומון",
+        "nameEn": "Kuromon Market",
+        "addr": "2-4-1 Nipponbashi, Chuo-ku, Osaka",
+        "lat": 34.6629,
+        "lng": 135.5068,
+        "time": "20:30",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "נתן",
+        "notes": "המטבח של אוסקה — פירות ים, מוצ׳י, פירות",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "במלון",
+    "lunch": "ליד כנסיית האור",
+    "dinner": "קושיקאצו בשינסקאי — Daruma",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "רכבת + הליכה",
+    "from": "Namba",
+    "to": "Nakanoshima → Ibaraki → Namba",
+    "duration": "",
+    "cost": ""
+  },
+  "notes": "היום של ענת — אנדו. עילאי ולוטם מצטרפים אחה״צ בדן דן טאון"
+}

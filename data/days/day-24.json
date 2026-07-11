@@ -1,0 +1,92 @@
+{
+  "id": 24,
+  "title": "אסאקוסה, סקיי-טרי ויאנאקה",
+  "idea": "טוקיו ישנה — מקדשים, שוקי רחוב, שכונות",
+  "spots": {
+    "morning": [
+      {
+        "name": "סנסו-ג׳י",
+        "nameEn": "Senso-ji Temple",
+        "addr": "2-3-1 Asakusa, Taito-ku, Tokyo",
+        "lat": 35.7148,
+        "lng": 139.7967,
+        "time": "09:30",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "כולם",
+        "notes": "שער קאמינארימון, רחוב נאקאמיסה, המקדש. מוקדם = שקט",
+        "placeId": ""
+      },
+      {
+        "name": "רחוב נאקאמיסה",
+        "nameEn": "Nakamise-dori",
+        "addr": "Asakusa, Taito-ku, Tokyo",
+        "lat": 35.7127,
+        "lng": 139.7966,
+        "time": "11:00",
+        "duration": "30 דק׳",
+        "price": 0,
+        "forWho": "לוטם",
+        "notes": "דוכני מזכרות, סנבייה, מניפות",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "טוקיו סקיי-טרי",
+        "nameEn": "Tokyo Skytree",
+        "addr": "1-1-2 Oshiage, Sumida-ku, Tokyo",
+        "lat": 35.7101,
+        "lng": 139.8107,
+        "time": "12:30",
+        "duration": "1.5 שעות",
+        "price": 2100,
+        "forWho": "עילאי, לוטם",
+        "notes": "634 מ׳ — הגבוה ביפן. תצפית 360. טמבו דק 350 + גלריה 450",
+        "placeId": ""
+      },
+      {
+        "name": "יאנאקה גינזה",
+        "nameEn": "Yanaka Ginza",
+        "addr": "Yanaka, Taito-ku, Tokyo",
+        "lat": 35.7274,
+        "lng": 139.768,
+        "time": "15:00",
+        "duration": "2 שעות",
+        "price": 0,
+        "forWho": "נתן, ענת",
+        "notes": "שכונה ישנה שלא הופצצה. סמטאות, חתולים, דוכני אוכל, שקיעה מהמדרגות",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "אסאקוסה ערב",
+        "nameEn": "Asakusa evening",
+        "addr": "Asakusa, Tokyo",
+        "lat": 35.7148,
+        "lng": 139.7967,
+        "time": "18:00",
+        "duration": "",
+        "price": "",
+        "forWho": "נתן",
+        "notes": "סנסו-ג׳י מואר בלילה, בירה על גג Asahi building",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "במלון",
+    "lunch": "אסאקוסה",
+    "dinner": "יאנאקה",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "מטרו",
+    "from": "Nihonbashi",
+    "to": "Asakusa (Ginza Line)",
+    "duration": "15 דק׳",
+    "cost": "180 ין"
+  },
+  "notes": ""
+}

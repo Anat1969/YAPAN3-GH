@@ -1,0 +1,105 @@
+{
+  "id": 9,
+  "title": "קנאזאווה — העיר שלא הופצצה",
+  "idea": "עיר שמוראי שלמה, אדריכלות עכשווית",
+  "spots": {
+    "morning": [
+      {
+        "name": "מוזיאון 21 לאמנות עכשווית",
+        "nameEn": "21st Century Museum of Contemporary Art",
+        "addr": "1-2-1 Hirosaka, Kanazawa",
+        "lat": 36.5607,
+        "lng": 136.6586,
+        "time": "10:00",
+        "duration": "1.5 שעות",
+        "price": 450,
+        "forWho": "ענת, לוטם",
+        "notes": "SANAA (סג׳ימה + נישיזאווה). מבנה עגול שקוף. בריכת לנדר. חינם בחלק מהגלריות",
+        "placeId": ""
+      },
+      {
+        "name": "גן קנרוקואן",
+        "nameEn": "Kenrokuen Garden",
+        "addr": "1 Kenrokumachi, Kanazawa",
+        "lat": 36.5624,
+        "lng": 136.6624,
+        "time": "11:30",
+        "duration": "1.5 שעות",
+        "price": 320,
+        "forWho": "ענת, נתן",
+        "notes": "אחד מ-3 הגנים היפים ביפן. בריכות, גשרים, עצי אורן מעוצבים",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "רובע הסמוראי נאגאמאצ׳י",
+        "nameEn": "Nagamachi Samurai District",
+        "addr": "Nagamachi, Kanazawa",
+        "lat": 36.5632,
+        "lng": 136.6518,
+        "time": "14:00",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "ענת, נתן",
+        "notes": "קירות אדמה, תעלות, בית נומורה (כניסה 550 ין)",
+        "placeId": ""
+      },
+      {
+        "name": "שוק אומיצ׳ו",
+        "nameEn": "Omicho Market",
+        "addr": "50 Kamiomicho, Kanazawa",
+        "lat": 36.5721,
+        "lng": 136.6571,
+        "time": "15:30",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "נתן",
+        "notes": "סושי טרי, פירות ים, ירקות מקומיים",
+        "placeId": ""
+      },
+      {
+        "name": "רובע היגאשי צ׳איה",
+        "nameEn": "Higashi Chaya District",
+        "addr": "Higashiyama, Kanazawa",
+        "lat": 36.5737,
+        "lng": 136.6654,
+        "time": "17:00",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "לוטם, ענת",
+        "notes": "רובע גיישות עם בתי תה, זהב. פחות תיירותי מגיון",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "ערב בקנאזאווה",
+        "nameEn": "Kanazawa evening",
+        "addr": "Katamachi, Kanazawa",
+        "lat": 36.561,
+        "lng": 136.654,
+        "time": "19:00",
+        "duration": "",
+        "price": "",
+        "forWho": "כולם",
+        "notes": "",
+        "placeId": ""
+      }
+    ]
+  },
+  "meals": {
+    "breakfast": "במלון קיוטו (אחרון)",
+    "lunch": "סושי בשוק אומיצ׳ו",
+    "dinner": "קנאזאווה — קאיסקי",
+    "icecream": "גלידת זהב — Hakuichi"
+  },
+  "transport": {
+    "type": "רכבת Thunderbird",
+    "from": "Kyoto",
+    "to": "Kanazawa",
+    "duration": "2.5 שעות",
+    "cost": "7,260 ין"
+  },
+  "notes": "Takkyubin מקיוטו. רכבת Thunderbird/Hokuriku Shinkansen"
+}

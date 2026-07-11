@@ -1,0 +1,52 @@
+{
+  "id": 28,
+  "title": "טיסה לדובאי",
+  "idea": "יום מעבר",
+  "spots": {
+    "morning": [
+      {
+        "name": "צ׳ק-אאוט + נסיעה לשדה תעופה",
+        "nameEn": "Checkout & airport",
+        "addr": "Tokyo → Narita/Haneda",
+        "lat": 35.6812,
+        "lng": 139.7745,
+        "time": "10:00",
+        "duration": "",
+        "price": "",
+        "forWho": "כולם",
+        "notes": "",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "טיסה טוקיו → דובאי",
+        "nameEn": "Flight to Dubai",
+        "addr": "",
+        "lat": 25.2532,
+        "lng": 55.3657,
+        "time": "",
+        "duration": "",
+        "price": "",
+        "forWho": "",
+        "notes": "",
+        "placeId": ""
+      }
+    ],
+    "evening": []
+  },
+  "meals": {
+    "breakfast": "במלון",
+    "lunch": "",
+    "dinner": "",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "טיסה",
+    "from": "Tokyo",
+    "to": "Dubai",
+    "duration": "",
+    "cost": ""
+  },
+  "notes": "פרידה מיפן"
+}

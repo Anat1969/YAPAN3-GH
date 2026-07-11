@@ -1,0 +1,24 @@
+{
+  "id": 29,
+  "title": "דובאי — יום 1",
+  "idea": "עצירת ביניים",
+  "spots": {
+    "morning": [],
+    "afternoon": [],
+    "evening": []
+  },
+  "meals": {
+    "breakfast": "",
+    "lunch": "",
+    "dinner": "",
+    "icecream": ""
+  },
+  "transport": {
+    "type": "",
+    "from": "",
+    "to": "",
+    "duration": "",
+    "cost": ""
+  },
+  "notes": "דובאי — צריך להזמין מלון ולתכנן"
+}
