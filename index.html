@@ -234,6 +234,34 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .trr-sub{flex:1;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media(max-width:640px){.trr-sub,.trr-date{display:none}.trr-main{min-width:auto;flex:1}}
 
+/* דף הזמנות — ציר זמן */
+.bk-alerts{background:var(--warn-bg);border:1px solid #f0dcc0;border-radius:12px;padding:12px 15px;margin-bottom:14px}
+.bk-alerts h3{font-size:13px;font-weight:900;color:var(--warn);margin-bottom:6px}
+.bk-alerts ul{margin:0;padding-right:18px}
+.bk-alerts li{font-size:12px;color:#7a5b2e;line-height:1.7}
+.bk-summary{font-size:12px;font-weight:700;color:var(--ink-2);margin-bottom:12px}
+.bk-timeline{display:flex;flex-direction:column;gap:10px}
+.bk-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 15px;border-right:3px solid var(--ok)}
+.bk-card-pend{border-right-color:var(--warn);background:var(--warn-bg)}
+.bk-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:9px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.bk-date{font-size:12px;font-weight:900;color:var(--ink);background:var(--bg);padding:2px 9px;border-radius:999px;min-width:44px;text-align:center}
+.bk-type{font-size:11px;font-weight:800;color:var(--ink-3)}
+.bk-name{flex:1;font-size:14px;font-weight:800;color:var(--ink)}
+.bk-status{font-size:11px;font-weight:800;padding:2px 10px;border-radius:999px}
+.bk-ok{background:var(--ok-bg);color:var(--ok)}
+.bk-pend{background:var(--err-bg);color:var(--err)}
+.bk-body{display:flex;flex-direction:column;gap:5px}
+.bk-field{font-size:12px;color:var(--ink)}
+.bk-field > span{display:inline-block;min-width:80px;font-size:10px;font-weight:800;color:var(--ink-3);letter-spacing:.02em}
+.bk-ref{font-family:monospace;font-size:13px;letter-spacing:.05em}
+.bk-copy{font:700 10px/1 'Noto Sans Hebrew',sans-serif;padding:3px 8px;border:1px solid var(--border-strong);border-radius:5px;background:var(--surface);color:var(--action);cursor:pointer;margin-right:4px;transition:.12s}
+.bk-copy:hover{background:var(--bg)}
+.bk-copy.ok{color:var(--ok);border-color:var(--ok)}
+.bk-missing{color:var(--err);font-weight:700}
+.bk-missing > span{color:var(--err)}
+.bk-warn{margin-top:7px;font-size:11px;font-weight:700;color:var(--err);background:var(--err-bg);border-radius:7px;padding:6px 9px;line-height:1.5}
+.bk-note{margin-top:9px;font-size:11px;color:var(--ink-3);background:var(--bg);border-radius:8px;padding:7px 10px;line-height:1.6}
+
 /* HELP + SUMMARY */
 .help{max-width:1200px;margin:4px auto 0;padding:0 12px}
 .help-box{background:#fff;border:1px solid #e7dccf;border-radius:12px;padding:12px 14px;margin-bottom:8px}
@@ -299,6 +327,7 @@ a.ml:hover{text-decoration:underline}
     <button class="tab" data-tab="days" data-tip="טבלת 31 ימי הטיול — מלון, עיר ותוכנית לכל יום" aria-label="מעבר ללוח הימים">לוח ימים</button>
     <button class="tab" data-tab="calendar" data-tip="יולי–אוגוסט בתצוגת לוח שנה חודשי" aria-label="מעבר ללוח השנה">לוח שנה</button>
     <button class="tab" data-tab="hotels" data-tip="11 המלונות — תאריכים, מחירים וקישורי הזמנה" aria-label="מעבר לדף המלונות">מלונות</button>
+    <button class="tab" data-tab="bookings" data-tip="כל ההזמנות לפי ציר זמן — טיסות, מלונות, רכב ומספרי אישור" aria-label="מעבר לדף ההזמנות">הזמנות</button>
     <button class="tab" data-tab="places" data-tip="אתרים ונקודות עניין במסלול" aria-label="מעבר לדף האתרים">אתרים</button>
     <button class="tab" data-tab="costs" data-tip="מעקב הוצאות ותקציב הטיול" aria-label="מעבר לדף התקציב">תקציב</button>
     <button class="tab" data-tab="transport" data-tip="טיסות, רכב שכור ושאטלים — כל התחבורה" aria-label="מעבר לדף התחבורה">תחבורה</button>
@@ -337,6 +366,7 @@ a.ml:hover{text-decoration:underline}
 <div class="panel" id="p-hotels"><div class="tw"><table id="t-hotels"></table></div></div>
 <div class="panel" id="p-places"><div class="tw"><table id="t-places"></table></div></div>
 <div class="panel" id="p-costs"><div class="tw"><table id="t-costs"></table></div></div>
+<div class="panel" id="p-bookings"><div class="tw" id="bookingsWrap"></div></div>
 <div class="panel" id="p-transport"><div class="tw" id="transportWrap"></div></div>
 <div class="panel" id="p-flights"><div class="tw"><table id="t-flights"></table></div></div>
 <div class="panel" id="p-map">
@@ -392,7 +422,7 @@ function icon(name, cls){
 // ══════════════════════════════════
 // STATE
 // ══════════════════════════════════
-let DATA = { hotels:[], days:[], places:[], costs:[], flights:[], transport:null };
+let DATA = { hotels:[], days:[], places:[], costs:[], flights:[], transport:null, bookings:null };
 let activeTab = 'summary';
 let navHistory = [];   // מחסנית ניווט — לחזרה לדף הקודם
 let sortState = {};
@@ -415,14 +445,15 @@ async function loadData() {
       fetch('data/flights.json').then(r=>r.json()),
       fetch('data/transport.json').then(r=>r.json()).catch(()=>null)
     ]);
-    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t };
+    const bk = await fetch('data/bookings.json').then(r=>r.json()).catch(()=>null);
+    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk };
   } catch(e) {
     console.error('Load error:',e);
     toast('שגיאה בטעינת נתונים — ודאי שאת בשרת מקומי');
   }
   // פתיחת הטאב לפי ה-URL (מאפשר קישור ישיר ושמירת מצב ברענון — סעיף 4.5)
   const urlTab = new URLSearchParams(location.search).get('tab');
-  const valid = ['summary','days','calendar','hotels','places','costs','transport','flights','map'];
+  const valid = ['summary','days','calendar','hotels','bookings','places','costs','transport','flights','map'];
   if (urlTab && valid.includes(urlTab) && urlTab!==activeTab) {
     activeTab = urlTab;
     document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===urlTab));
@@ -547,6 +578,7 @@ function render() {
   else if (activeTab==='hotels') renderHotels();
   else if (activeTab==='places') renderPlaces();
   else if (activeTab==='costs') renderCosts();
+  else if (activeTab==='bookings') renderBookings();
   else if (activeTab==='transport') renderTransport();
   else if (activeTab==='flights') renderFlights();
 }
@@ -625,8 +657,8 @@ function renderHelp() {
     instr = ['לחיצה על <b>כותרת עמודה</b> ממיינת (קטגוריה, סכום, תאריך…).',
       'עמודת <b>הערות</b> ניתנת לעריכה ישירה.',
       'סימון <b>שולם</b> מציג אילו הוצאות כבר שולמו.'];
-  } else if (activeTab==='transport') {
-    el.innerHTML = ''; return; // לדף התחבורה יש intro משלו
+  } else if (activeTab==='transport' || activeTab==='bookings') {
+    el.innerHTML = ''; return; // לדפים אלו יש intro משלהם
   } else if (activeTab==='flights') {
     title = 'טיסות ותחבורה';
     summary = [`<b>${F.length}</b> רשומות תחבורה`];
@@ -1041,6 +1073,80 @@ function renderTransport() {
     ${legend?`<div class="tr-legend">${legend}</div>`:''}
     ${viewMode==='cards' ? cardsView : `<div class="tr-list">${listHtml}</div>`}
   `;
+}
+
+// ══════════════════════════════════
+// דף הזמנות — ציר זמן
+// ══════════════════════════════════
+function copyRef(ref, btn) {
+  navigator.clipboard.writeText(ref).then(()=>{
+    const t = btn.textContent; btn.textContent = 'הועתק ✓'; btn.classList.add('ok');
+    setTimeout(()=>{ btn.textContent = t; btn.classList.remove('ok'); }, 1500);
+  }).catch(()=>toast('לא ניתן להעתיק'));
+}
+
+function statusBadge(st) {
+  if (st === 'confirmed') return `<span class="bk-status bk-ok">מאושר</span>`;
+  return `<span class="bk-status bk-pend">ממתין להזמנה</span>`;
+}
+
+// שורת מספר אישור + כפתור העתקה, או "חסר — יש להשלים"
+function refRow(ref) {
+  if (ref) return `<div class="bk-field"><span>מספר אישור</span><b class="bk-ref">${ref}</b> <button class="bk-copy" onclick="copyRef('${ref}',this)">העתק</button></div>`;
+  return `<div class="bk-field bk-missing"><span>מספר אישור</span>חסר — יש להשלים</div>`;
+}
+
+function renderBookings() {
+  const B = DATA.bookings;
+  const el = document.getElementById('bookingsWrap');
+  if (!B || !B.bookings) { el.innerHTML = '<div class="tr-intro">אין נתוני הזמנות.</div>'; return; }
+
+  // התראות בראש המסך
+  const alerts = (B.summary?.alerts || []).map(a=>`<li>${a}</li>`).join('');
+  const alertsHtml = alerts ? `<div class="bk-alerts"><h3>התראות חשובות</h3><ul>${alerts}</ul></div>` : '';
+
+  // מיון לפי תאריך (מלון = checkin, טיסה = date, רכב = pickup.date)
+  const dateOf = b => b.date || b.checkin || b.pickup?.date || '9999';
+  const sorted = [...B.bookings].sort((a,b)=>dateOf(a).localeCompare(dateOf(b)));
+
+  const cards = sorted.map(b => {
+    let body = '';
+    if (b.type === 'flight') {
+      const legs = b.legs
+        ? b.legs.map(l=>`<div class="bk-field"><span>${l.flight}</span>${l.from} → ${l.to} · ${l.departure}–${l.arrival}${l.seats?` · מושבים ${Object.values(l.seats).join(', ')}`:''}</div>`).join('')
+        : `<div class="bk-field"><span>מסלול</span>${b.route?.from||''} → ${b.route?.to||''}</div>
+           ${b.departure?`<div class="bk-field"><span>שעות</span>${b.departure} → ${b.arrival}${b.arrivalDate?' (למחרת)':''}</div>`:''}
+           ${b.seats&&Object.values(b.seats).some(Boolean)?`<div class="bk-field"><span>מושבים</span>${Object.entries(b.seats).filter(([,v])=>v).map(([k,v])=>v).join(', ')}</div>`:''}`;
+      body = `<div class="bk-field"><span>טיסה</span>${b.flightNumber||''} · ${b.provider||''}</div>${legs}${refRow(b.bookingRef)}`;
+    } else if (b.type === 'hotel') {
+      body = `<div class="bk-field"><span>תאריכים</span>${fmtDate(b.checkin)} → ${fmtDate(b.checkout)} · ${b.nights} לילות</div>${refRow(b.bookingRef)}`;
+    } else if (b.type === 'car') {
+      body = `<div class="bk-field"><span>ספק</span>${b.provider||''} · ${b.carModel||''}</div>
+        <div class="bk-field"><span>איסוף</span>${fmtDate(b.pickup.date)} ${b.pickup.time} · ${b.pickup.location}</div>
+        <div class="bk-field"><span>החזרה</span>${fmtDate(b.dropoff.date)} ${b.dropoff.time} · ${b.dropoff.location}</div>
+        ${refRow(b.bookingRef)}
+        ${b.warning?`<div class="bk-warn">${b.warning}</div>`:''}`;
+    }
+    const typeLabel = {flight:'טיסה', hotel:'מלון', car:'רכב שכור'}[b.type] || b.type;
+    return `<div class="bk-card ${b.status==='pending'?'bk-card-pend':''}">
+      <div class="bk-head">
+        <span class="bk-date">${fmtDate(dateOf(b))}</span>
+        <span class="bk-type">${typeLabel}</span>
+        <span class="bk-name">${b.name || (b.route?`${b.route.fromCode} → ${b.route.toCode}`:'') || (b.type==='car'?'רכב שכור — הוקאידו':'')}</span>
+        ${statusBadge(b.status)}
+      </div>
+      <div class="bk-body">${body}</div>
+      ${b.notes?`<div class="bk-note">${b.notes}</div>`:''}
+    </div>`;
+  }).join('');
+
+  const s = B.summary || {};
+  const summaryLine = s.confirmed ? `<div class="bk-summary">${s.confirmed.total} הזמנות מאושרות · ${s.pending?.hotels||0} מלונות ממתינים להזמנה</div>` : '';
+
+  el.innerHTML = `${alertsHtml}
+    <div class="tr-intro">כל ההזמנות של הטיול לפי ציר זמן.</div>
+    ${summaryLine}
+    <div class="bk-timeline">${cards}</div>`;
 }
 
 // ══════════════════════════════════

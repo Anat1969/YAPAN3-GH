@@ -21,7 +21,8 @@
     "currency": "ILS",
     "phone": "+81-6-6643-9660",
     "notes": "3 דק׳ מ-Nankai Namba, ליד דוטונבורי",
-    "booked": true
+    "booked": true,
+    "bookingRef": null
   },
   {
     "id": 2,
@@ -45,7 +46,8 @@
     "currency": "ILS",
     "phone": "+81-75-354-1131",
     "notes": "דקה מ-Kawaramachi, מקדש בתוך המלון",
-    "booked": true
+    "booked": true,
+    "bookingRef": null
   },
   {
     "id": 3,
@@ -69,7 +71,8 @@
     "currency": "ILS",
     "phone": "+81-76-234-1111",
     "notes": "30 קומות, 2 דק׳ מ-JR Kanazawa",
-    "booked": true
+    "booked": true,
+    "bookingRef": null
   },
   {
     "id": 4,
@@ -93,7 +96,8 @@
     "currency": "ILS",
     "phone": "+81-152-24-2764",
     "notes": "נוף לים, אונסן, מטבח משותף",
-    "booked": true
+    "booked": true,
+    "bookingRef": null
   },
   {
     "id": 5,
@@ -117,7 +121,8 @@
     "currency": "ILS",
     "phone": "+81-15-484-2111",
     "notes": "חוף אגם קושארו",
-    "booked": true
+    "booked": true,
+    "bookingRef": null
   },
   {
     "id": 6,
@@ -141,7 +146,8 @@
     "currency": "ILS",
     "phone": "+81-154-67-4000",
     "notes": "ריוקאן 5 כוכבים, כפר איינו",
-    "booked": true
+    "booked": true,
+    "bookingRef": null
   },
   {
     "id": 7,
@@ -165,7 +171,8 @@
     "currency": "ILS",
     "phone": "+81-1658-7-7138",
     "notes": "ריוקאן קטן, דקה מרכבל קורודאקה",
-    "booked": true
+    "booked": true,
+    "bookingRef": null
   },
   {
     "id": 8,
@@ -189,7 +196,8 @@
     "currency": "ILS",
     "phone": "+81-70-7661-6381",
     "notes": "בית נופש, 3 חדרי שינה, מטבח, טאטאמי, חניה חינם, WiFi. אישור 6440.444.080",
-    "booked": true
+    "booked": true,
+    "bookingRef": null
   },
   {
     "id": 12,
@@ -213,7 +221,8 @@
     "currency": "ILS",
     "phone": "+81-134-24-0500",
     "notes": "2 חדרי טווין, ליד התעלה. חניה 1,200 ין. אישור 5285.645.636",
-    "booked": true
+    "booked": true,
+    "bookingRef": null
   },
   {
     "id": 13,
@@ -237,7 +246,8 @@
     "currency": "ILS",
     "phone": "+81-136-44-1115",
     "notes": "חדר משפחה דלוקס, נוף להר יוטיי, ארוחת בוקר כלולה, חניה חינם. אישור 6834.909.116",
-    "booked": true
+    "booked": true,
+    "bookingRef": null
   },
   {
     "id": 9,
@@ -261,7 +271,8 @@
     "currency": "ILS",
     "phone": "",
     "notes": "טריילרים, 6 דק׳ מהאגם, חניה חינם",
-    "booked": true
+    "booked": true,
+    "bookingRef": null
   },
   {
     "id": 10,
@@ -285,7 +296,8 @@
     "currency": "ILS",
     "phone": "+81-3-6880-6602",
     "notes": "6 דק׳ מ-Tokyo Station, חדרי connecting",
-    "booked": true
+    "booked": true,
+    "bookingRef": null
   },
   {
     "id": 11,
@@ -309,6 +321,7 @@
     "currency": "ILS",
     "phone": "",
     "notes": "עצירת ביניים — צריך להזמין",
-    "booked": false
+    "booked": false,
+    "bookingRef": null
   }
 ]
