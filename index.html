@@ -6,8 +6,38 @@
 <title>יפן 2026 — מסלול טיול</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;600;700;900&display=swap');
+
+/* ══════════════════════════════════════════════
+   מערכת עיצוב מרכזית — צבעים, מצבים, אזורים
+   כל צבע כאן = משמעות קבועה. אין צבע דקורטיבי.
+   ══════════════════════════════════════════════ */
+:root{
+  /* רקעים ניטרליים */
+  --bg:#f4f4f2; --surface:#ffffff; --border:#e3e1dc; --border-strong:#c9c6bf;
+  /* טקסט */
+  --ink:#1c1c1a; --ink-2:#57534e; --ink-3:#8a857e;
+  /* מותג / פעולה ראשית (ניווט, קישורים, פעיל) */
+  --brand:#1c1c1a; --brand-ink:#f5f4f0;
+  --action:#1d4ed8;                 /* קישור / פעולה */
+  --focus:#b8860b;                  /* פוקוס / בחירה / הדגשה פעילה */
+  /* מצבים סמנטיים — צבע יחיד לכל מצב */
+  --ok:#15803d;  --ok-bg:#e7f3ec;   /* הצלחה / הושלם / מוזמן */
+  --warn:#b45309; --warn-bg:#fbf1e3;/* אזהרה / חסר / טרם הוזמן */
+  --err:#b91c1c; --err-bg:#f9e9e9;  /* שגיאה / חריגה */
+  /* אזורים גאוגרפיים — סקאלת כחול אחת (בהיר→חזק) */
+  --region-1:#dbeafe; --region-1-ink:#1e40af;  /* קנסאי — בהיר */
+  --region-2:#93c5fd; --region-2-ink:#1e3a8a;  /* הוקאידו — בינוני */
+  --region-3:#3b82f6; --region-3-ink:#ffffff;  /* טוקיו — חזק */
+  --region-4:#e7e5e4; --region-4-ink:#44403c;  /* דובאי/אחר — ניטרלי */
+  /* אייקונים — אפור בהיר אחיד */
+  --icon:#9a958e; --icon-active:#57534e;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;font-size:13px;line-height:1.5}
+body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--ink);font-size:13px;line-height:1.5}
+
+/* אייקוני קו אחידים (SVG) — גודל, עובי-קו וצבע זהים בכל האפליקציה */
+.ic{width:16px;height:16px;flex:none;stroke:var(--icon);stroke-width:1.75;fill:none;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle}
+.ic-lg{width:22px;height:22px}
 
 /* NAV */
 .nav{background:#1a1a1a;padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:50}
@@ -18,9 +48,11 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .nav-btn{padding:4px 10px;border:1px solid #555;border-radius:4px;background:transparent;color:#aaa;font:600 11px/1.4 inherit;cursor:pointer;transition:.12s}
 .nav-btn:hover{background:rgba(255,255,255,.1);color:#fff;border-color:#888}
 .nav-btn.save{border-color:#166534;color:#4ade80}.nav-btn.save:hover{background:#166534;color:#fff}
-.back-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:none;border-radius:6px;background:#fbbf24;color:#1a1a1a;font:800 12px/1.4 inherit;cursor:pointer;transition:.12s;white-space:nowrap}
-.back-btn:hover{background:#f59e0b}
+.back-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid #4b4b4b;border-radius:6px;background:rgba(255,255,255,.06);color:#e8e6e1;font:800 12px/1.4 inherit;cursor:pointer;transition:.12s;white-space:nowrap}
+.back-btn .ic{width:14px;height:14px}
+.back-btn:hover{background:rgba(255,255,255,.14);border-color:#777}
 .back-btn:active{transform:scale(.96)}
+.back-btn:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
 
 /* HERO */
 .hero{max-width:1200px;margin:12px auto 8px;padding:0 12px}
@@ -60,13 +92,17 @@ td[contenteditable]:hover{background:#f5f5f0}
 td[contenteditable]:focus{background:#fffde7;box-shadow:inset 0 0 0 2px #fbbf24}
 
 /* TAGS */
-.tg{display:inline-block;padding:1px 5px;border-radius:2px;font-size:10px;font-weight:600;white-space:nowrap}
-.tg-k{background:#fee2e2;color:#991b1b}
-.tg-h{background:#dcfce7;color:#166534}
-.tg-t{background:#e0e7ff;color:#3730a3}
-.tg-d{background:#e7e5e4;color:#44403c}
-.tg-ok{background:#dcfce7;color:#166534}
-.tg-no{background:#fef3c7;color:#92400e}
+.tg{display:inline-flex;align-items:center;gap:3px;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700;white-space:nowrap}
+/* אזורים — סקאלת כחול אחת */
+.tg-k{background:var(--region-1);color:var(--region-1-ink)}
+.tg-h{background:var(--region-2);color:var(--region-2-ink)}
+.tg-t{background:var(--region-3);color:var(--region-3-ink)}
+.tg-d{background:var(--region-4);color:var(--region-4-ink)}
+/* מצבים — צבע יחיד לכל מצב, עם אייקון תומך */
+.tg-ok{background:var(--ok-bg);color:var(--ok)}
+.tg-no{background:var(--warn-bg);color:var(--warn)}
+.tg .ic{width:11px;height:11px;stroke-width:2.2}
+.tg-ok .ic{stroke:var(--ok)}.tg-no .ic{stroke:var(--warn)}
 
 /* CALENDAR */
 .cal-month{margin-bottom:24px}
@@ -78,10 +114,10 @@ td[contenteditable]:focus{background:#fffde7;box-shadow:inset 0 0 0 2px #fbbf24}
 a.cal-cell{text-decoration:none;color:inherit;display:block;transition:.12s}
 a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px)}
 .cal-dnum{font-size:13px;font-weight:700;color:#444}
-.cal-trip{display:inline-block;background:#1a1a1a;color:#fbbf24;font-size:9px;font-weight:900;border-radius:3px;padding:0 4px;margin-right:4px;vertical-align:1px}
+.cal-trip{display:inline-block;background:var(--brand);color:var(--brand-ink);font-size:9px;font-weight:900;border-radius:3px;padding:0 4px;margin-right:4px;vertical-align:1px}
 .cal-city{font-weight:700;font-size:11px;margin-top:3px;line-height:1.3}
 .cal-hotel{color:#666;font-size:9px;line-height:1.25;margin-top:1px}
-.cal-k{background:#fee2e2}.cal-h{background:#dcfce7}.cal-t{background:#e0e7ff}.cal-d{background:#f5f0e8}
+.cal-k{background:var(--region-1)}.cal-h{background:var(--region-2)}.cal-t{background:var(--region-3)}.cal-t .cal-city,.cal-t .cal-dnum{color:#fff}.cal-t .cal-hotel{color:#e0e7ff}.cal-d{background:var(--region-4)}
 .cal-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;font-size:11px}
 .cal-legend span{display:inline-flex;align-items:center;gap:5px;font-weight:600;color:#555}
 .cal-legend i{width:14px;height:14px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.08)}
@@ -90,17 +126,27 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 /* SUMMARY PAGE (דף סיכומים מרכזי) */
 .sum-intro{margin:2px 0 14px;font-size:13px;color:#6b7280}
 .sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
-.sum-card{display:block;background:#fff;border:1px solid #e5e3de;border-radius:14px;padding:14px 15px;text-decoration:none;color:inherit;box-shadow:0 4px 14px rgba(0,0,0,.05);transition:.15s;position:relative;overflow:hidden}
-.sum-card::before{content:'';position:absolute;top:0;right:0;width:4px;height:100%;background:var(--accent,#1f2937)}
-.sum-card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.12);border-color:#d4ccc0}
-.sum-card:active{transform:translateY(-1px)}
-.sum-ic{font-size:20px;margin-bottom:6px}
-.sum-topic{font-size:12px;font-weight:800;color:#6b7280;letter-spacing:.02em}
-.sum-main{font-size:24px;font-weight:900;color:#111827;line-height:1.1;margin:3px 0}
-.sum-sub{font-size:12px;color:#6b7280;line-height:1.5}
-.sum-go{margin-top:8px;font-size:11px;font-weight:800;color:var(--accent,#1f2937);display:inline-flex;align-items:center;gap:3px}
-.sum-empty .sum-main{color:#c0392b;font-size:15px;font-weight:800}
-.sum-note{margin-top:6px;font-size:11px;color:#92766a;background:#faf6f1;border-radius:6px;padding:5px 8px;line-height:1.5}
+/* כרטיסייה — מראה אחיד ניטרלי. צבע נכנס רק דרך st-* (מצב). */
+.sum-card{display:block;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 15px;text-decoration:none;color:inherit;transition:.15s;position:relative}
+.sum-card:hover{border-color:var(--border-strong);box-shadow:0 6px 18px rgba(0,0,0,.08);transform:translateY(-2px)}
+.sum-card:active{transform:translateY(0)}
+.sum-card:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.sum-head{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.sum-head .ic{stroke:var(--icon)}
+.sum-topic{font-size:12px;font-weight:800;color:var(--ink-2);letter-spacing:.02em}
+.sum-main{font-size:24px;font-weight:900;color:var(--ink);line-height:1.1;margin:2px 0}
+.sum-sub{font-size:12px;color:var(--ink-3);line-height:1.5}
+.sum-go{margin-top:9px;font-size:11px;font-weight:800;color:var(--action);display:inline-flex;align-items:center;gap:4px}
+.sum-go .ic{width:13px;height:13px;stroke:var(--action)}
+.sum-flag{margin-top:8px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:4px}
+.st-ok-txt{color:var(--ok)}.st-ok-txt .ic{stroke:var(--ok)}
+.st-warn-txt{color:var(--warn)}.st-warn-txt .ic{stroke:var(--warn)}
+/* מצב על הכרטיסייה — רק גבול עדין בצד, לא רקע צבעוני חזק */
+.sum-card.st-warn{border-right:3px solid var(--warn)}
+.sum-card.st-ok{border-right:3px solid var(--ok)}
+.sum-card.st-pending{border-right:3px solid var(--border-strong)}
+.sum-card.st-pending .sum-main{color:var(--ink-3);font-size:16px}
+.sum-note{margin-top:7px;font-size:11px;color:var(--ink-3);background:var(--bg);border-radius:6px;padding:5px 8px;line-height:1.5}
 @media(max-width:520px){.sum-grid{grid-template-columns:1fr 1fr;gap:8px}.sum-main{font-size:20px}}
 
 /* HELP + SUMMARY */
@@ -117,17 +163,24 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .help-body li{margin-bottom:3px}
 .help-body kbd{background:#f3f4f6;border:1px solid #d1d5db;border-radius:3px;padding:0 5px;font-size:11px;font-weight:700;color:#374151}
 
-/* BOOKING */
-a.bk{display:inline-block;background:#003580;color:#fff;font-size:10px;font-weight:700;border-radius:4px;padding:3px 8px;text-decoration:none;white-space:nowrap}
+/* כפתורי פעולה אחידים בטבלאות */
+.act{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap;border-radius:5px;padding:3px 9px;transition:.12s;cursor:pointer;border:1px solid transparent}
+.act .ic{width:12px;height:12px}
+.act-open{background:var(--action);color:#fff}.act-open .ic{stroke:#fff}.act-open:hover{filter:brightness(1.12)}
+.act-ghost{color:var(--action);border-color:var(--border)}.act-ghost .ic{stroke:var(--action)}.act-ghost:hover{background:var(--bg);border-color:var(--border-strong)}
+.act:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
+/* בוקינג — צבע המותג נשמר כי הוא מזהה יעד חיצוני קבוע */
+a.bk{display:inline-flex;align-items:center;gap:4px;background:#003580;color:#fff;font-size:10px;font-weight:700;border-radius:5px;padding:3px 9px;text-decoration:none;white-space:nowrap}
+a.bk .ic{width:12px;height:12px;stroke:#fff}
 a.bk:hover{background:#00224f}
 
 /* MAP LEGEND */
-.map-legend{max-width:1200px;margin:0 auto 10px;padding:10px 14px;background:#fff;border:1px solid #e5e3de;border-radius:10px;display:flex;gap:16px;flex-wrap:wrap;font-size:12px;font-weight:600;color:#555}
+.map-legend{max-width:1200px;margin:0 auto 10px;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;display:flex;gap:16px;flex-wrap:wrap;font-size:12px;font-weight:700;color:var(--ink-2)}
 .map-legend span{display:inline-flex;align-items:center;gap:6px}
-.map-legend i{width:14px;height:14px;border-radius:50%;display:inline-block;border:2px solid #333}
+.map-legend i{width:13px;height:13px;border-radius:50%;display:inline-block;border:1.5px solid var(--ink)}
 
 /* LINK */
-a.ml{color:#1d4ed8;text-decoration:none;font-size:11px}
+a.ml{color:var(--action);text-decoration:none;font-size:11px}
 a.ml:hover{text-decoration:underline}
 
 /* PANELS */
@@ -156,7 +209,7 @@ a.ml:hover{text-decoration:underline}
 
 <nav class="nav">
   <h1>יפן 2026</h1>
-  <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none">→ <span class="back-lbl">חזרה</span></button>
+  <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none" aria-label="חזרה לדף הקודם"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor"><path d="M5 12h14M12 5l-7 7 7 7"/></svg><span class="back-lbl">חזרה</span></button>
   <button class="tab on" data-tab="summary">סיכומים</button>
   <button class="tab" data-tab="days">לוח ימים</button>
   <button class="tab" data-tab="calendar">לוח שנה</button>
@@ -197,9 +250,9 @@ a.ml:hover{text-decoration:underline}
 <div class="panel" id="p-flights"><div class="tw"><table id="t-flights"></table></div></div>
 <div class="panel" id="p-map">
   <div class="map-legend">
-    <span><i style="background:#22c55e;border-color:#333"></i>מלון מוזמן</span>
-    <span><i style="background:#f97316;border-color:#333"></i>מלון שטרם הוזמן</span>
-    <span><i style="background:#3b82f6;border-color:#333"></i>אתר / נקודת עניין</span>
+    <span><i style="background:var(--ok)"></i>מלון מוזמן</span>
+    <span><i style="background:var(--warn)"></i>מלון שטרם הוזמן</span>
+    <span><i style="background:var(--region-3);border-radius:3px"></i>אתר / נקודת עניין</span>
   </div>
   <div id="map"></div>
 </div>
@@ -211,6 +264,34 @@ a.ml:hover{text-decoration:underline}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
 <script>
+// ══════════════════════════════════
+// מיפוי אייקונים מרכזי (סעיף 4.1)
+// אייקוני קו אחידים — אותו viewBox, עובי-קו וסגנון.
+// שימוש: icon('days') → מחזיר <svg> אחיד.
+// ══════════════════════════════════
+const ICON_PATHS = {
+  days:      '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/>',
+  calendar:  '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M8 13h.01M12 13h.01M16 13h.01"/>',
+  route:     '<circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h6a4 4 0 0 0 0-8H10a4 4 0 0 1 0-8h6"/>',
+  pin:       '<path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+  clock:     '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  city:      '<path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-4h6v4M9 10h.01M15 10h.01M9 13h.01M15 13h.01"/>',
+  bed:       '<path d="M3 18v-6h18v6M3 12V7M21 12v-2a3 3 0 0 0-3-3H8v5"/><path d="M3 18v2M21 18v2"/>',
+  star:      '<path d="M12 3l2.6 5.6 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6L3.4 9.3l6-.7z"/>',
+  train:     '<rect x="5" y="3" width="14" height="13" rx="3"/><path d="M5 10h14M9 20l-2 2M15 20l2 2M8 16v1M16 16v1"/><circle cx="8.5" cy="12.5" r=".6"/><circle cx="15.5" cy="12.5" r=".6"/>',
+  money:     '<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/>',
+  map:       '<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/>',
+  back:      '<path d="M5 12h14M12 5l-7 7 7 7"/>',
+  external:  '<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+  check:     '<path d="M20 6L9 17l-5-5"/>',
+  alert:     '<path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/>',
+  sort:      '<path d="M8 4v16M8 4l-3 3M8 4l3 3M16 20V4M16 20l-3-3M16 20l3-3"/>'
+};
+function icon(name, cls){
+  const p = ICON_PATHS[name] || '';
+  return `<svg class="ic${cls?' '+cls:''}" viewBox="0 0 24 24" aria-hidden="true">${p}</svg>`;
+}
+
 // ══════════════════════════════════
 // STATE
 // ══════════════════════════════════
@@ -473,27 +554,29 @@ function renderSummary() {
   const totalKm = D.reduce((s,d)=>s+(d.distanceKm||0),0);
   const totalTravel = D.reduce((s,d)=>s+(d.travelMin||0),0);
 
+  // state: 'ok' | 'warn' | 'pending' | null — הצבע היחיד שמותר בכרטיסייה נגזר ממנו
   const cards = [
-    {ic:'📅', topic:'ימים', main:`${D.length}`, sub:'ימי טיול מתוכננים', accent:'#1f2937', tab:'days'},
-    {ic:'🗓️', topic:'תאריכים', main:dateRange, sub:`${regions.length} אזורים · ${cities.length} ערים`, accent:'#7c3aed', tab:'calendar'},
-    {ic:'🛣️', topic:'מרחק כולל', main: totalKm?`${totalKm} ק״מ`:'טרם הוזן', sub:'סה״כ מרחק המסלול', accent:'#0891b2', tab:'map', empty:!totalKm, note:!totalKm?'אין עדיין נתוני מרחק — יתמלא כשיוזנו ק״מ לימים':''},
-    {ic:'📍', topic:'מרחק לפי יום', main: totalKm?`${(totalKm/(D.length||1)).toFixed(0)} ק״מ`:'טרם הוזן', sub:'ממוצע ליום טיול', accent:'#0891b2', tab:'days', empty:!totalKm, note:!totalKm?'יחושב אוטומטית מרגע שיוזנו מרחקים':''},
-    {ic:'⏱️', topic:'זמני נסיעה', main: totalTravel?`${Math.round(totalTravel/60)} שע׳`:'טרם הוזן', sub:'סה״כ זמן בדרכים', accent:'#ea580c', tab:'flights', empty:!totalTravel, note:!totalTravel?'יתמלא כשיוזנו זמני נסיעה':''},
-    {ic:'🏙️', topic:'יעדים ומקומות', main:`${cities.length}`, sub:`${cities.slice(0,3).join(' · ')}${cities.length>3?'…':''}`, accent:'#059669', tab:'days'},
-    {ic:'🏨', topic:'לינה', main:`${booked.length}/${H.length}`, sub:`${nights} לילות · ${missH} טרם הוזמנו`, accent:'#2563eb', tab:'hotels'},
-    {ic:'🎎', topic:'אטרקציות וחוויות', main:`${P.length}`, sub:`${placeTypes.length} סוגים של אתרים`, accent:'#db2777', tab:'places'},
-    {ic:'🚄', topic:'תחבורה', main:`${F.length}`, sub: transTypes.length?transTypes.slice(0,3).join(' · '):'טיסות ותחבורה פנימית', accent:'#d97706', tab:'flights'},
-    {ic:'💰', topic:'עלויות', main: hasCost?`₪${costTotal.toLocaleString()}`:`₪${hotelPrice.toLocaleString()}`, sub: hasCost?'סה״כ הוצאות שנרשמו':'עלות מלונות (אין עדיין תקציב)', accent:'#16a34a', tab:'costs'},
+    {ic:'days',     topic:'ימים',            main:`${D.length}`, sub:'ימי טיול מתוכננים', tab:'days'},
+    {ic:'calendar', topic:'תאריכים',         main:dateRange, sub:`${regions.length} אזורים · ${cities.length} ערים`, tab:'calendar'},
+    {ic:'route',    topic:'מרחק כולל',        main: totalKm?`${totalKm} ק״מ`:'טרם הוזן', sub:'סה״כ מרחק המסלול', tab:'map', state: totalKm?null:'pending', note:!totalKm?'יתמלא כשיוזנו ק״מ לימים':''},
+    {ic:'pin',      topic:'מרחק לפי יום',     main: totalKm?`${(totalKm/(D.length||1)).toFixed(0)} ק״מ`:'טרם הוזן', sub:'ממוצע ליום טיול', tab:'days', state: totalKm?null:'pending', note:!totalKm?'יחושב אוטומטית מרגע שיוזנו מרחקים':''},
+    {ic:'clock',    topic:'זמני נסיעה',       main: totalTravel?`${Math.round(totalTravel/60)} שע׳`:'טרם הוזן', sub:'סה״כ זמן בדרכים', tab:'flights', state: totalTravel?null:'pending', note:!totalTravel?'יתמלא כשיוזנו זמני נסיעה':''},
+    {ic:'city',     topic:'יעדים ומקומות',    main:`${cities.length}`, sub:`${cities.slice(0,3).join(' · ')}${cities.length>3?'…':''}`, tab:'days'},
+    {ic:'bed',      topic:'לינה',             main:`${booked.length}/${H.length}`, sub:`${nights} לילות · ${missH} טרם הוזמנו`, tab:'hotels', state: missH?'warn':'ok'},
+    {ic:'star',     topic:'אטרקציות וחוויות', main:`${P.length}`, sub:`${placeTypes.length} סוגים של אתרים`, tab:'places'},
+    {ic:'train',    topic:'תחבורה',           main:`${F.length}`, sub: transTypes.length?transTypes.slice(0,3).join(' · '):'טיסות ותחבורה פנימית', tab:'flights'},
+    {ic:'money',    topic:'עלויות',           main: hasCost?`₪${costTotal.toLocaleString()}`:`₪${hotelPrice.toLocaleString()}`, sub: hasCost?'סה״כ הוצאות שנרשמו':'עלות מלונות (אין עדיין תקציב)', tab:'costs'},
   ];
 
   const html = cards.map(c=>`
-    <a class="sum-card${c.empty?' sum-empty':''}" style="--accent:${c.accent}" href="#" onclick="goTab('${c.tab}');return false">
-      <div class="sum-ic">${c.ic}</div>
-      <div class="sum-topic">${c.topic}</div>
+    <a class="sum-card${c.state?' st-'+c.state:''}" href="#" onclick="goTab('${c.tab}');return false" aria-label="${c.topic}: ${c.main}. מעבר לדף">
+      <div class="sum-head">${icon(c.ic,'ic-lg')}<span class="sum-topic">${c.topic}</span></div>
       <div class="sum-main">${c.main}</div>
       <div class="sum-sub">${c.sub}</div>
+      ${c.state==='warn'?`<div class="sum-flag st-warn-txt">${icon('alert')} דרוש טיפול</div>`:''}
+      ${c.state==='ok'?`<div class="sum-flag st-ok-txt">${icon('check')} הכול מוזמן</div>`:''}
       ${c.note?`<div class="sum-note">${c.note}</div>`:''}
-      <div class="sum-go">מעבר לדף ›</div>
+      <div class="sum-go">מעבר לדף ${icon('external')}</div>
     </a>`).join('');
 
   document.getElementById('sumWrap').innerHTML =
@@ -559,7 +642,7 @@ function renderDays() {
       <td ${ed('days.'+d.id+'.evening.place', d.evening?.place)}>${d.evening?.place||''}</td>
       <td ${ed('days.'+d.id+'.transport.type', d.transport?.type)}>${d.transport?.type||''}</td>
       <td ${ed('days.'+d.id+'.notes', d.notes)}>${d.notes||''}</td>
-      <td><a href="day.html?d=${d.tripDay}" style="display:inline-block;padding:4px 10px;background:#1d4ed8;color:#fff;border-radius:5px;font-weight:700;font-size:12px;text-decoration:none;white-space:nowrap">פתח ›</a></td>
+      <td><a class="act act-open" href="day.html?d=${d.tripDay}">${icon('external')}פתח</a></td>
     </tr>`;
   }).join('')}</tbody>`;
 }
@@ -602,10 +685,10 @@ function renderCalendar() {
   }
 
   const legend = `<div class="cal-legend">
-    <span><i style="background:#fee2e2"></i>קנסאי</span>
-    <span><i style="background:#dcfce7"></i>הוקאידו</span>
-    <span><i style="background:#e0e7ff"></i>טוקיו</span>
-    <span><i style="background:#f5f0e8"></i>דובאי</span>
+    <span><i style="background:var(--region-1)"></i>קנסאי</span>
+    <span><i style="background:var(--region-2)"></i>הוקאידו</span>
+    <span><i style="background:var(--region-3)"></i>טוקיו</span>
+    <span><i style="background:var(--region-4)"></i>דובאי</span>
   </div>`;
 
   document.getElementById('calWrap').innerHTML =
@@ -638,9 +721,9 @@ function renderHotels() {
     <td>${h.nights}</td>
     <td>${h.rooms||'—'}</td>
     <td>${h.price?'₪'+h.price.toLocaleString():'—'}</td>
-    <td><span class="tg ${h.booked?'tg-ok':'tg-no'}">${h.booked?'מוזמן':'חסר'}</span></td>
-    <td><a class="bk" href="${bookingLink(h)}" target="_blank" rel="noopener">Booking ›</a></td>
-    <td>${h.pid||h.addr?`<a class="ml" href="${mapsLink(h)}" target="_blank">מפה</a>`:''}</td>
+    <td><span class="tg ${h.booked?'tg-ok':'tg-no'}">${icon(h.booked?'check':'alert')}${h.booked?'מוזמן':'חסר'}</span></td>
+    <td><a class="bk" href="${bookingLink(h)}" target="_blank" rel="noopener" aria-label="הזמנה בבוקינג">${icon('external')}Booking</a></td>
+    <td>${h.pid||h.addr?`<a class="act act-ghost" href="${mapsLink(h)}" target="_blank" aria-label="מיקום במפה">${icon('pin')}מפה</a>`:''}</td>
     <td ${ed('hotels.'+h.id+'.notes', h.notes)}>${h.notes||''}</td>
   </tr>`).join('')}</tbody>`;
 }
@@ -689,7 +772,7 @@ function renderCosts() {
     <td>${c.item}</td>
     <td>${c.amount?'₪'+c.amount.toLocaleString():'—'}</td>
     <td>${c.date||''}</td>
-    <td><span class="tg ${c.paid?'tg-ok':'tg-no'}">${c.paid?'שולם':'לא'}</span></td>
+    <td><span class="tg ${c.paid?'tg-ok':'tg-no'}">${icon(c.paid?'check':'alert')}${c.paid?'שולם':'לא שולם'}</span></td>
     <td ${ed('costs.'+c.id+'.notes', c.notes)}>${c.notes||''}</td>
   </tr>`).join('')}
   <tr style="background:#f0efec;font-weight:700"><td colspan="2">סה״כ</td><td>₪${total.toLocaleString()}</td><td colspan="3"></td></tr>
@@ -760,19 +843,20 @@ function initMap() {
       maxZoom: 20
     }).addTo(mapObj);
 
+    // צבעים מתוך מערכת העיצוב: ok=מוזמן, warn=טרם, region-3=אתר
+    const C_OK='#15803d', C_WARN='#b45309', C_PLACE='#3b82f6';
     DATA.hotels.forEach(h => {
       if (!h.lat || !h.lng) return;
-      const color = h.booked ? 'green' : 'orange';
-      L.circleMarker([h.lat, h.lng], {radius:8, fillColor:color, color:'#333', weight:1, fillOpacity:.8})
+      L.circleMarker([h.lat, h.lng], {radius:8, fillColor: h.booked?C_OK:C_WARN, color:'#fff', weight:2, fillOpacity:.9})
         .addTo(mapObj)
         .bindPopup(`<b>${h.name}</b><br>${h.city}<br>${h.checkin} → ${h.checkout}`);
     });
 
+    // אתרים — ריבוע (צורה שונה) כדי שההבחנה לא תהיה תלויה בצבע בלבד
     DATA.places.forEach(p => {
       if (!p.lat || !p.lng) return;
-      L.circleMarker([p.lat, p.lng], {radius:5, fillColor:'#3b82f6', color:'#333', weight:1, fillOpacity:.7})
-        .addTo(mapObj)
-        .bindPopup(`<b>${p.name}</b><br>${p.city}`);
+      const s = 9, ic = L.divIcon({className:'', html:`<div style="width:${s}px;height:${s}px;background:${C_PLACE};border:2px solid #fff;border-radius:2px;box-shadow:0 0 2px rgba(0,0,0,.4)"></div>`, iconSize:[s,s]});
+      L.marker([p.lat, p.lng], {icon:ic}).addTo(mapObj).bindPopup(`<b>${p.name}</b><br>${p.city}`);
     });
   }, 100);
 }
