@@ -65,6 +65,25 @@ td[contenteditable]:focus{background:#fffde7;box-shadow:inset 0 0 0 2px #fbbf24}
 .tg-ok{background:#dcfce7;color:#166534}
 .tg-no{background:#fef3c7;color:#92400e}
 
+/* CALENDAR */
+.cal-month{margin-bottom:24px}
+.cal-title{font-size:18px;font-weight:900;margin-bottom:8px;color:#1a1a1a}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-dow{text-align:center;font-size:11px;font-weight:700;color:#888;padding:4px 0}
+.cal-cell{min-height:78px;border:1px solid #e5e3de;border-radius:6px;padding:4px 5px;background:#fff;font-size:10px;overflow:hidden}
+.cal-cell.empty{background:transparent;border:none}
+a.cal-cell{text-decoration:none;color:inherit;display:block;transition:.12s}
+a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px)}
+.cal-dnum{font-size:13px;font-weight:700;color:#444}
+.cal-trip{display:inline-block;background:#1a1a1a;color:#fbbf24;font-size:9px;font-weight:900;border-radius:3px;padding:0 4px;margin-right:4px;vertical-align:1px}
+.cal-city{font-weight:700;font-size:11px;margin-top:3px;line-height:1.3}
+.cal-hotel{color:#666;font-size:9px;line-height:1.25;margin-top:1px}
+.cal-k{background:#fee2e2}.cal-h{background:#dcfce7}.cal-t{background:#e0e7ff}.cal-d{background:#f5f0e8}
+.cal-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;font-size:11px}
+.cal-legend span{display:inline-flex;align-items:center;gap:5px;font-weight:600;color:#555}
+.cal-legend i{width:14px;height:14px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.08)}
+@media(max-width:640px){.cal-cell{min-height:60px;font-size:9px}.cal-city{font-size:10px}.cal-hotel{display:none}}
+
 /* LINK */
 a.ml{color:#1d4ed8;text-decoration:none;font-size:11px}
 a.ml:hover{text-decoration:underline}
@@ -96,6 +115,7 @@ a.ml:hover{text-decoration:underline}
 <nav class="nav">
   <h1>יפן 2026</h1>
   <button class="tab on" data-tab="days">לוח ימים</button>
+  <button class="tab" data-tab="calendar">לוח שנה</button>
   <button class="tab" data-tab="hotels">מלונות</button>
   <button class="tab" data-tab="places">אתרים</button>
   <button class="tab" data-tab="costs">תקציב</button>
@@ -124,6 +144,7 @@ a.ml:hover{text-decoration:underline}
 <div class="filters" id="filters"></div>
 
 <div class="panel on" id="p-days"><div class="tw"><table id="t-days"></table></div></div>
+<div class="panel" id="p-calendar"><div class="tw" id="calWrap"></div></div>
 <div class="panel" id="p-hotels"><div class="tw"><table id="t-hotels"></table></div></div>
 <div class="panel" id="p-places"><div class="tw"><table id="t-places"></table></div></div>
 <div class="panel" id="p-costs"><div class="tw"><table id="t-costs"></table></div></div>
@@ -235,6 +256,7 @@ function render() {
   renderFilters();
   renderStats();
   if (activeTab==='days') renderDays();
+  else if (activeTab==='calendar') renderCalendar();
   else if (activeTab==='hotels') renderHotels();
   else if (activeTab==='places') renderPlaces();
   else if (activeTab==='costs') renderCosts();
@@ -313,6 +335,54 @@ function renderDays() {
       <td><a href="day.html?d=${d.tripDay}" style="display:inline-block;padding:4px 10px;background:#1d4ed8;color:#fff;border-radius:5px;font-weight:700;font-size:12px;text-decoration:none;white-space:nowrap">פתח ›</a></td>
     </tr>`;
   }).join('')}</tbody>`;
+}
+
+// ══════════════════════════════════
+// CALENDAR (יולי + אוגוסט)
+// ══════════════════════════════════
+function renderCalendar() {
+  const DOW = ['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];
+  const regCls = {kansai:'cal-k',hokkaido:'cal-h',tokyo:'cal-t',dubai:'cal-d'};
+  // מיפוי לפי מפתח YYYY-M-D
+  const byDate = {};
+  DATA.days.forEach(d => { byDate[`${d.month}-${d.day}`] = d; });
+
+  // יום בשבוע 0=ראשon לפי התאריך (ללא תלות באזור זמן)
+  function dow(y,m,day){ return new Date(Date.UTC(y,m-1,day)).getUTCDay(); }
+
+  function buildMonth(year, month, title) {
+    const daysInMonth = new Date(Date.UTC(year, month, 0)).getUTCDate();
+    const firstDow = dow(year, month, 1);
+    let cells = '';
+    for (let i=0;i<firstDow;i++) cells += `<div class="cal-cell empty"></div>`;
+    for (let day=1; day<=daysInMonth; day++) {
+      const d = byDate[`${month}-${day}`];
+      if (!d) {
+        cells += `<div class="cal-cell"><div class="cal-dnum">${day}</div></div>`;
+      } else {
+        const cls = regCls[d.region] || 'cal-d';
+        cells += `<a class="cal-cell ${cls}" href="day.html?d=${d.tripDay}">
+          <div class="cal-dnum">${day}<span class="cal-trip">י${d.tripDay}</span></div>
+          <div class="cal-city">${d.city||''}</div>
+          <div class="cal-hotel">${d.hotelName||''}</div>
+        </a>`;
+      }
+    }
+    return `<div class="cal-month">
+      <div class="cal-title">${title}</div>
+      <div class="cal-grid">${DOW.map(x=>`<div class="cal-dow">${x}</div>`).join('')}${cells}</div>
+    </div>`;
+  }
+
+  const legend = `<div class="cal-legend">
+    <span><i style="background:#fee2e2"></i>קנסאי</span>
+    <span><i style="background:#dcfce7"></i>הוקאידו</span>
+    <span><i style="background:#e0e7ff"></i>טוקיו</span>
+    <span><i style="background:#f5f0e8"></i>דובאי</span>
+  </div>`;
+
+  document.getElementById('calWrap').innerHTML =
+    legend + buildMonth(2026,7,'יולי 2026') + buildMonth(2026,8,'אוגוסט 2026');
 }
 
 // ══════════════════════════════════
