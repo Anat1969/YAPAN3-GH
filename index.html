@@ -402,6 +402,9 @@ a.bk:hover{background:#00224f}
 .mx-gaps-list{margin:0;padding-right:18px;font-size:12px;color:var(--ink-2);line-height:1.7;max-height:200px;overflow-y:auto}
 
 /* LINK */
+.hotel-link{color:var(--action);text-decoration:none;font-weight:700}
+.hotel-link:hover{text-decoration:underline}
+.hotel-thumb-mini{width:44px;height:32px;object-fit:cover;border-radius:5px;flex:none}
 a.ml{color:var(--action);text-decoration:none;font-size:11px}
 a.ml:hover{text-decoration:underline}
 
@@ -890,8 +893,17 @@ function regionTag(r) {
 // ── השלמת נתונים ממקור אמת (סעיף 5-6) ──
 // hotels.json הוא מקור האמת למלונות. אם ליום חסר שם/עיר — משלימים לפי hotelId.
 function hotelById(id){ return DATA.hotels.find(h=>h.id===id); }
+function hotelByName(n){ if(!n)return null; n=n.replace(/^מלון\s+/,'').trim(); return DATA.hotels.find(h=>h.name===n)||DATA.hotels.find(h=>h.name&&(h.name.includes(n)||n.includes(h.name))); }
 function dayHotelName(d){ if(d.hotelName) return d.hotelName; const h=hotelById(d.hotelId); return h?h.name:''; }
 function dayCity(d){ if(d.city) return d.city; const h=hotelById(d.hotelId); return h?h.city:''; }
+// שם מלון כקישור Booking + תמונה קטנה — לשימוש בטבלה/לוח שנה
+function hotelThumbMini(h){ if(!h)return ''; const src=h.image||h.mapImage; return src?`<img class="hotel-thumb-mini" src="${src}" alt="מלון ${h.name}" loading="lazy" onerror="this.style.display='none'">`:''; }
+function hotelNameLinked(d){
+  const name = dayHotelName(d);
+  const h = hotelById(d.hotelId) || hotelByName(name);
+  if(!h || !name) return name;
+  return `<a href="${bookingLink(h)}" target="_blank" rel="noopener" class="hotel-link" data-tip="הזמנה בבוקינג — ${h.checkin?.slice(5)}→${h.checkout?.slice(5)}, 2 מבוגרים + 2 בני נוער (17,15)">${name}</a>`;
+}
 
 // קישור Booking עם הרכב המשפחה בפועל: 2 מבוגרים + 2 בני נוער (17, 15), חדר ל-4
 function bookingLink(h) {
@@ -939,7 +951,7 @@ function renderDays() {
       <td><a href="day.html?d=${d.tripDay}" style="color:#1d4ed8;text-decoration:none">${d.day}/${d.month}</a></td>
       <td>${d.weekday}</td>
       <td>${d.region?regionTag(d.region):''}</td>
-      <td>${dayHotelName(d)}</td>
+      <td><div style="display:flex;align-items:center;gap:6px">${hotelThumbMini(hotelById(d.hotelId)||hotelByName(dayHotelName(d)))}${hotelNameLinked(d)}</div></td>
       <td>${dayCity(d)}</td>
       <td ${ed('days.'+d.id+'.morning.place', d.morning?.place)}>${d.morning?.place||''}</td>
       <td ${ed('days.'+d.id+'.afternoon.place', d.afternoon?.place)}>${d.afternoon?.place||''}</td>

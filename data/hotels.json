@@ -30,7 +30,8 @@
     "meals": "ללא",
     "parking": "אין",
     "roomType": "חדר סופיריור משפחתי",
-    "nameJp": "大阪府大阪市中央区難波千日前7-9"
+    "nameJp": "大阪府大阪市中央区難波千日前7-9",
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=135.5045,34.6632&z=15&size=280,180&l=map&pt=135.5045,34.6632,pm2rdm"
   },
   {
     "id": 2,
@@ -63,7 +64,8 @@
     "meals": "ללא",
     "parking": "אין",
     "roomType": "חדר סטנדרטי קווין ללא עישון x2",
-    "nameJp": "三井ガーデンホテル京都河原町浄教寺"
+    "nameJp": "三井ガーデンホテル京都河原町浄教寺",
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=135.7671,35.0028&z=15&size=280,180&l=map&pt=135.7671,35.0028,pm2rdm"
   },
   {
     "id": 3,
@@ -96,7 +98,8 @@
     "meals": "ללא",
     "parking": "ציבורית ¥1,500/יום",
     "roomType": "חדר קומפורט זוגי ללא עישון x2",
-    "nameJp": "ホテル日航金沢"
+    "nameJp": "ホテル日航金沢",
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=136.6494,36.5763&z=15&size=280,180&l=map&pt=136.6494,36.5763,pm2rdm"
   },
   {
     "id": 4,
@@ -129,7 +132,8 @@
     "meals": "ללא",
     "parking": "חינם",
     "roomType": "Twin Room with Tatami, Shared Bathroom",
-    "nameJp": "ザ・サンセット知床"
+    "nameJp": "ザ・サンセット知床",
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=145.0007,44.0731&z=15&size=280,180&l=map&pt=145.0007,44.0731,pm2rdm"
   },
   {
     "id": 5,
@@ -162,7 +166,8 @@
     "meals": "ללא",
     "parking": "חינם",
     "roomType": "Twin ללא עישון + Twin Lake View Top Floor",
-    "nameJp": "屈斜路プリンスホテル"
+    "nameJp": "屈斜路プリンスホテル",
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=144.2745,43.5858&z=15&size=280,180&l=map&pt=144.2745,43.5858,pm2rdm"
   },
   {
     "id": 6,
@@ -195,7 +200,8 @@
     "meals": "ארוחת בוקר + ארוחת ערב כלולות",
     "parking": "חינם בסמוך",
     "roomType": "Japanese-Style Room with Shower, Wings BLD",
-    "nameJp": "あかん遊久の里 鶴雅"
+    "nameJp": "あかん遊久の里 鶴雅",
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=144.0909,43.4347&z=15&size=280,180&l=map&pt=144.0909,43.4347,pm2rdm"
   },
   {
     "id": 7,
@@ -228,7 +234,8 @@
     "meals": "ארוחת בוקר כלולה",
     "parking": "חינם",
     "roomType": "Standard Triple x2",
-    "nameJp": "層雲峡温泉 ホテル雲井"
+    "nameJp": "層雲峡温泉 ホテル雲井",
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=142.9471,43.7253&z=15&size=280,180&l=map&pt=142.9471,43.7253,pm2rdm"
   },
   {
     "id": 8,
@@ -260,7 +267,8 @@
     "checkoutTime": "06:00-10:00",
     "meals": "ללא (מטבח מלא)",
     "parking": "חינם",
-    "roomType": "בית נופש עם 3 חדרי שינה"
+    "roomType": "בית נופש עם 3 חדרי שינה",
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=142.3643,43.3432&z=15&size=280,180&l=map&pt=142.3643,43.3432,pm2rdm"
   },
   {
     "id": 12,
@@ -293,7 +301,8 @@
     "meals": "ללא",
     "parking": "¥1,200 לשהייה",
     "roomType": "Standard Twin ללא עישון x2",
-    "nameJp": "ホテルノルド小樽"
+    "nameJp": "ホテルノルド小樽",
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=141.0013,43.1994&z=15&size=280,180&l=map&pt=141.0013,43.1994,pm2rdm"
   },
   {
     "id": 13,
@@ -326,7 +335,8 @@
     "meals": "ארוחת בוקר כלולה",
     "parking": "חינם",
     "roomType": "חדר משפחה דלוקס טווין — נוף להר יוטיי",
-    "nameJp": "ヒルトンニセコビレッジ"
+    "nameJp": "ヒルトンニセコビレッジ",
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=140.6847,42.8466&z=15&size=280,180&l=map&pt=140.6847,42.8466,pm2rdm"
   },
   {
     "id": 9,
@@ -359,7 +369,8 @@
     "meals": "ללא (מטבחון)",
     "parking": "חינם",
     "roomType": "Trailer House 2Bed x2",
-    "nameJp": "洞爺湖温泉105番地"
+    "nameJp": "洞爺湖温泉105番地",
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=140.85,42.5667&z=15&size=280,180&l=map&pt=140.85,42.5667,pm2rdm"
   },
   {
     "id": 10,
@@ -392,7 +403,8 @@
     "meals": "ללא",
     "parking": "אין",
     "roomType": "חדר דלוקס טווין עם מיטות רחבות",
-    "nameJp": "からくさホテルカラーズ東京八重洲"
+    "nameJp": "からくさホテルカラーズ東京八重洲",
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=139.7745,35.6812&z=15&size=280,180&l=map&pt=139.7745,35.6812,pm2rdm"
   },
   {
     "id": 11,
@@ -417,6 +429,7 @@
     "phone": "",
     "notes": "עצירת ביניים — צריך להזמין · לא הוזמן! נחיתה 04:05 ב-20/8, טיסה 12:05 ב-22/8.",
     "booked": false,
-    "bookingRef": null
+    "bookingRef": null,
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=55.2708,25.2048&z=15&size=280,180&l=map&pt=55.2708,25.2048,pm2rdm"
   }
 ]
