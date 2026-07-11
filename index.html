@@ -285,7 +285,7 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .needs-booking{display:inline-block;font-size:10px;font-weight:800;color:var(--warn);background:var(--warn-bg);border-radius:999px;padding:1px 8px;margin-right:6px}
 /* דף עלויות מקיף */
 /* סרגל קטגוריות עלויות */
-.cost-filterbar{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 12px}
+.cost-filterbar{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 2px}
 .cfb{padding:5px 12px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--ink-2);font:700 12px/1.4 inherit;cursor:pointer;transition:.12s;white-space:nowrap}
 .cfb:hover{background:var(--bg);border-color:var(--border-strong)}
 .cfb.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
@@ -1141,8 +1141,8 @@ function renderCosts() {
 
   document.getElementById('costsWrap').innerHTML = `
     <div class="tr-intro">כל הוצאות הטיול ממקור אחד. בחרי קטגוריה לבודד נושא — הסיכומים מתעדכנים.</div>
-    ${bar}
     ${cards}
+    ${bar}
     <h3 class="tr-sec">פירוט — ${scope}</h3>
     <div class="tw" style="padding:0"><table class="cost-table"><thead><tr><th>קטגוריה</th><th>פריט</th><th>מקור</th><th>₪ (משוער)</th><th>תשלום</th><th>הערות</th></tr></thead>
       <tbody>${detail}<tr class="cost-total"><td colspan="3">סה״כ · ${scope}</td><td>${fmtILS(total)}</td><td colspan="2"></td></tr></tbody></table></div>
