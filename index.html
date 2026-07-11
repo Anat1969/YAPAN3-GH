@@ -430,11 +430,11 @@ a.ml:hover{text-decoration:underline}
   <div id="mapPlaceFilters" class="map-place-filters" style="display:none"></div>
   <div class="maps-dual-main">
     <div class="map-col-m">
-      <div class="map-col-head-m">מפה גלובלית — כל הטיול</div>
+      <div class="map-col-head-m" id="mapGlobalTitle">מפה גלובלית — בחר יום</div>
       <div id="map" class="map-square"></div>
     </div>
     <div class="map-col-m">
-      <div class="map-col-head-m" id="mapSpecTitle">מפה ספציפית — בחר סימן</div>
+      <div class="map-col-head-m" id="mapSpecTitle">מפה ספציפית — פירוט היום</div>
       <div id="mapSpec" class="map-square"></div>
     </div>
   </div>
@@ -1296,8 +1296,14 @@ function setMapView(v) {
   mapView = v;
   localStorage.setItem('mapView', v);
   document.querySelectorAll('.mvb').forEach(b=>b.classList.toggle('on', b.dataset.view===v));
-  document.getElementById('mapDaySel').style.display = v==='days' ? '' : 'none';
+  document.getElementById('mapDaySel').style.display = 'none';  // הבחירה נעשית ישירות על המפה
   document.getElementById('mapPlaceFilters').style.display = 'none';
+  // כותרות לפי תצוגה (סעיף 4.6)
+  const gt=document.getElementById('mapGlobalTitle'), st=document.getElementById('mapSpecTitle');
+  if(v==='days'){ gt.textContent='בחירת יום — לחץ יום'; st.textContent='פירוט היום הנבחר'; }
+  else if(v==='nights'){ gt.textContent='כל הלינות'; st.textContent='פרטי הלינה הנבחרת'; }
+  else if(v==='transport'){ gt.textContent='כל מקטעי התחבורה'; st.textContent='פירוט המקטע'; }
+  else if(v==='places'){ gt.textContent='כל האתרים'; st.textContent='פירוט האתר'; }
   renderMapLayer();
 }
 
@@ -1363,43 +1369,87 @@ function showAllTypes(){ mapPlaceTypes.clear(); renderMapLayer(); }
 
 // מיקוד המפה הספציפית לפי בחירה במפה הגלובלית
 function focusSpec(pts, title) {
-  document.getElementById('mapSpecTitle').textContent = title || 'מפה ספציפית';
+  if (title !== null && title !== undefined) document.getElementById('mapSpecTitle').textContent = title;
   if (specLayer) mapSpecObj.removeLayer(specLayer);
   specLayer = L.layerGroup().addTo(mapSpecObj);
   return specLayer;
 }
 
 // ── תצוגה 1: ימים — מספר היום בתוך הסימן (גלובלי), תחנות ממוספרות (ספציפי) ──
-function renderMapDays(legend) {
-  const sel = document.getElementById('mapDaySel').value || 'all';
-  const days = sel==='all' ? DATA.days.filter(hasGeo) : DATA.days.filter(d=>String(d.id)===sel);
-  const allPts=[];
-  // מפה גלובלית: סימן לכל יום עם מספר היום בטיול (סעיף 2.3, 4.2)
-  DATA.days.filter(hasGeo).forEach(d=>{
-    const first = d.transport.segments[0].from;
-    const popup = `${bilingual('יום '+d.tripDay,dayCity(d))}<br><span style="font-size:11px">${d.day}/${d.month} · ${d.regionHe||''}</span><br><a href="day.html?d=${d.tripDay}" style="font-size:11px;color:#1d4ed8">לדף היום ›</a>`;
-    bigMarker([first.lat,first.lng], {text:String(d.tripDay), color:'#1d4ed8', size:34, popup, aria:`יום ${d.tripDay} — ${dayCity(d)}`,
-      onClick:()=>showDaySpecific(d)}).addTo(mapLayer);
-    allPts.push([first.lat,first.lng]);
-  });
-  if(allPts.length) mapObj.fitBounds(L.latLngBounds(allPts).pad(0.12));
-  legend.push({label:'מספר יום בטיול', color:'#1d4ed8'});
-  // מפה ספציפית: היום הנבחר (או הראשון)
-  showDaySpecific(days[0]);
+let activeDayId = null;
+let dayMarkers = [];
+
+// מרכז הפעילות של יום (ממוצע הספוטים) — כדי למקם את סימן היום ברובע הנכון (סעיף 2.5)
+function dayCentroid(d){
+  const pts=[];
+  d.transport.segments.forEach(s=>{ pts.push([s.to.lat,s.to.lng]); });
+  if(!pts.length) return [d.transport.segments[0].from.lat, d.transport.segments[0].from.lng];
+  return [pts.reduce((a,p)=>a+p[0],0)/pts.length, pts.reduce((a,p)=>a+p[1],0)/pts.length];
+}
+function daysMainMode(d){
+  const c={}; d.transport.segments.forEach(s=>c[s.mode]=(c[s.mode]||0)+1);
+  return Object.entries(c).sort((a,b)=>b[1]-a[1])[0]?.[0];
 }
 
-// מפה ספציפית לתצוגת ימים — תחנות היום ממוספרות + קו מסלול אמיתי
+// ── מפה ימנית: בחירת עיר+יום. סימן לכל יום עם מספר+תאריך+עיר, ממוקם באזור הפעילות ──
+function renderMapDays(legend) {
+  const geoDays = DATA.days.filter(hasGeo);
+  const allPts=[]; dayMarkers=[];
+  geoDays.forEach(d=>{
+    const [lat,lng] = dayCentroid(d);   // מרכז הפעילות — לא נקודה אקראית
+    const sites = d.transport.segments.length;
+    const mainMode = MODE_HE_M[daysMainMode(d)]||'';
+    // ריחוף מפורט (סעיף 8.1)
+    const popup = `${bilingual('יום '+d.tripDay,dayCity(d))}<br><span style="font-size:11px">${d.day}/${d.month} · ${d.regionHe||''}${d.title?' · '+d.title:''}</span><br><span style="font-size:11px">${sites} תחנות · ${mainMode}</span><br><a href="day.html?d=${d.tripDay}" style="font-size:11px;color:#1d4ed8">לדף היום ›</a>`;
+    // סימן יום — עיגול גדול עם מספר היום (סעיף 5.3,5.4: יום = עיגול גדול)
+    const mk = bigMarker([lat,lng], {text:String(d.tripDay), color:'#1d4ed8', shape:'circle', size:38, fontSize:15, popup, aria:`יום ${d.tripDay} — ${dayCity(d)} · ${d.day}/${d.month}`,
+      onClick:()=>selectDay(d.id)}).addTo(mapLayer);
+    dayMarkers.push({id:d.id, marker:mk});
+    allPts.push([lat,lng]);
+  });
+  if(allPts.length) mapObj.fitBounds(L.latLngBounds(allPts).pad(0.12));
+  legend.push({label:'יום בטיול (עיגול)', color:'#1d4ed8', shape:'circle'}, {label:'אתר ביום (ריבוע)', color:'#7c3aed', shape:'square'}, {label:'מלון/מוצא', color:'#1a1a1a', shape:'circle'});
+  // בחר יום פעיל (השמור או הראשון)
+  const start = geoDays.find(d=>d.id===activeDayId) || geoDays[0];
+  if(start) selectDay(start.id, true);
+}
+
+// בחירת יום — מדגיש בימין, מפרט בשמאל (סעיף 3)
+function selectDay(id, skipFly){
+  activeDayId = id;
+  // הדגשה: יום נבחר בולט, השאר עמומים
+  dayMarkers.forEach(dm=>{
+    const el = dm.marker.getElement()?.querySelector('div');
+    if(el) el.style.opacity = dm.id===id ? '1' : '.4';
+  });
+  const d = DATA.days.find(x=>x.id===id);
+  if(d) showDaySpecific(d);
+}
+
+// ── מפה שמאלית: פירוט היום הנבחר. אתרים ממוספרים 1,2,3 (נפרד ממספר היום) ──
 function showDaySpecific(d) {
   if(!d) return;
-  const layer = focusSpec(null, `יום ${d.tripDay} — ${d.day}/${d.month} ${dayCity(d)}`);
+  // כותרת מעל שמאל (סעיף 3.4)
+  document.getElementById('mapSpecTitle').innerHTML =
+    `יום ${d.tripDay} · ${d.day}/${d.month} · ${dayCity(d)}${d.title?` — ${d.title}`:''}`;
+  const layer = focusSpec(null);
   const pts=[];
   d.transport.segments.forEach((seg,i)=>{
     const color=MODE_COLOR_M[seg.mode]||'#1d4ed8';
-    L.polyline([[seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]],{color,weight:3.5,opacity:.7,dashArray:seg.mode==='walk'?'4,6':null}).addTo(layer)
-      .bindPopup(`<b>${MODE_HE_M[seg.mode]||seg.mode}</b><br>${seg.from.name} → ${seg.to.name}`);
-    if(i===0) bigMarker([seg.from.lat,seg.from.lng],{text:'א',color:'#1a1a1a',size:30,popup:bilingual(seg.from.name,seg.from.nameEn),aria:seg.from.name}).addTo(layer);
+    L.polyline([[seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]],{color,weight:3.5,opacity:.75,dashArray:seg.mode==='walk'?'4,6':null}).addTo(layer)
+      .bindPopup(`<b>${MODE_HE_M[seg.mode]||seg.mode}</b>${seg.totalMinutes?' · '+seg.totalMinutes+' דק׳':''}<br>${seg.from.name} → ${seg.to.name}`);
+    // מלון/מוצא — עיגול שחור (סעיף 4.7)
+    if(i===0) bigMarker([seg.from.lat,seg.from.lng],{text:'',color:'#1a1a1a',shape:'circle',size:24,popup:bilingual(seg.from.name,seg.from.nameEn),aria:'מוצא: '+seg.from.name}).addTo(layer);
     const last=i===d.transport.segments.length-1;
-    bigMarker([seg.to.lat,seg.to.lng],{text:last?'ס':String(i+1),color:'#1d4ed8',size:30,popup:`${bilingual(seg.to.name,seg.to.nameEn)}${seg.arrivalTime?'<br><span style=\"font-size:11px\">'+seg.arrivalTime+'</span>':''}`,aria:seg.to.name}).addTo(layer);
+    // אתר — ריבוע סגול עם מספר סידורי בתוך היום (1,2,3 — נפרד ממספר היום, סעיף 4.4,5.4)
+    const siteNum = i+1;
+    const site = DATA.places.find(p=>p.nameEn && seg.to.nameEn && p.nameEn===seg.to.nameEn);
+    const catInfo = site ? ` · ${placeCats(site)[0]}` : '';
+    const durInfo = site?.duration ? ` · ${site.duration}` : '';
+    const popup = last
+      ? `${bilingual(seg.to.name,seg.to.nameEn)}<br><span style="font-size:11px">סיום/מלון</span>`
+      : `${bilingual(seg.to.name,seg.to.nameEn)}<br><span style="font-size:11px">אתר ${siteNum}${seg.arrivalTime?' · '+seg.arrivalTime:''}${catInfo}${durInfo}</span>${site?`<br><a href="index.html?tab=places" style="font-size:11px;color:#1d4ed8">מידע מלא ›</a>`:''}`;
+    bigMarker([seg.to.lat,seg.to.lng],{text:last?'':String(siteNum),color:last?'#1a1a1a':'#7c3aed',shape:last?'circle':'square',size:last?24:28,popup,aria:last?'סיום':`אתר ${siteNum}: ${seg.to.name}`}).addTo(layer);
     pts.push([seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]);
   });
   if(pts.length) mapSpecObj.fitBounds(L.latLngBounds(pts).pad(0.15));
