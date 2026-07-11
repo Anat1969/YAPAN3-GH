@@ -84,6 +84,29 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .cal-legend i{width:14px;height:14px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.08)}
 @media(max-width:640px){.cal-cell{min-height:60px;font-size:9px}.cal-city{font-size:10px}.cal-hotel{display:none}}
 
+/* HELP + SUMMARY */
+.help{max-width:1200px;margin:4px auto 0;padding:0 12px}
+.help-box{background:#fff;border:1px solid #e7dccf;border-radius:12px;padding:12px 14px;margin-bottom:8px}
+.help-summary{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.sum-pill{padding:6px 11px;border-radius:999px;background:#f3f4f6;border:1px solid #e5e7eb;font-size:12px;font-weight:700;color:#374151}
+.sum-pill b{color:#111827}
+.help-toggle{display:inline-flex;align-items:center;gap:5px;background:#1f2937;color:#f8fafc;border:none;border-radius:6px;padding:5px 11px;font:700 11px/1.4 inherit;cursor:pointer}
+.help-toggle:hover{background:#374151}
+.help-body{margin-top:10px;font-size:12px;color:#4b5563;line-height:1.7;display:none}
+.help-body.open{display:block}
+.help-body ul{margin:4px 8px 0 0;padding-right:16px}
+.help-body li{margin-bottom:3px}
+.help-body kbd{background:#f3f4f6;border:1px solid #d1d5db;border-radius:3px;padding:0 5px;font-size:11px;font-weight:700;color:#374151}
+
+/* BOOKING */
+a.bk{display:inline-block;background:#003580;color:#fff;font-size:10px;font-weight:700;border-radius:4px;padding:3px 8px;text-decoration:none;white-space:nowrap}
+a.bk:hover{background:#00224f}
+
+/* MAP LEGEND */
+.map-legend{max-width:1200px;margin:0 auto 10px;padding:10px 14px;background:#fff;border:1px solid #e5e3de;border-radius:10px;display:flex;gap:16px;flex-wrap:wrap;font-size:12px;font-weight:600;color:#555}
+.map-legend span{display:inline-flex;align-items:center;gap:6px}
+.map-legend i{width:14px;height:14px;border-radius:50%;display:inline-block;border:2px solid #333}
+
 /* LINK */
 a.ml{color:#1d4ed8;text-decoration:none;font-size:11px}
 a.ml:hover{text-decoration:underline}
@@ -141,6 +164,7 @@ a.ml:hover{text-decoration:underline}
   </div>
 </section>
 <div class="stats" id="stats"></div>
+<div class="help" id="help"></div>
 <div class="filters" id="filters"></div>
 
 <div class="panel on" id="p-days"><div class="tw"><table id="t-days"></table></div></div>
@@ -149,7 +173,14 @@ a.ml:hover{text-decoration:underline}
 <div class="panel" id="p-places"><div class="tw"><table id="t-places"></table></div></div>
 <div class="panel" id="p-costs"><div class="tw"><table id="t-costs"></table></div></div>
 <div class="panel" id="p-flights"><div class="tw"><table id="t-flights"></table></div></div>
-<div class="panel" id="p-map"><div id="map"></div></div>
+<div class="panel" id="p-map">
+  <div class="map-legend">
+    <span><i style="background:#22c55e;border-color:#333"></i>מלון מוזמן</span>
+    <span><i style="background:#f97316;border-color:#333"></i>מלון שטרם הוזמן</span>
+    <span><i style="background:#3b82f6;border-color:#333"></i>אתר / נקודת עניין</span>
+  </div>
+  <div id="map"></div>
+</div>
 
 <div class="foot">נשמר אוטומטית ל-JSON · גיבוי עם כפתור שמור</div>
 <div class="toast" id="toast"></div>
@@ -206,30 +237,40 @@ document.querySelectorAll('.tab').forEach(btn => {
 // SORT
 // ══════════════════════════════════
 function sortBy(tab, key) {
-  const k = tab+'.'+key;
-  sortState[k] = sortState[k]==='asc' ? 'desc' : 'asc';
+  const cur = sortState[tab];
+  // אם ממיינים לפי אותה עמודה — הופכים כיוון. אחרת מתחילים ב-עולה.
+  if (cur && cur.key===key) {
+    sortState[tab] = {key, dir: cur.dir==='asc' ? 'desc' : 'asc'};
+  } else {
+    sortState[tab] = {key, dir:'asc'};
+  }
   render();
 }
 
+function getVal(obj, key) {
+  return key.includes('.') ? key.split('.').reduce((o,k)=>o?.[k],obj) : obj[key];
+}
+
 function sorted(arr, tab) {
-  const entry = Object.entries(sortState).find(([k])=>k.startsWith(tab+'.'));
-  if (!entry) return arr;
-  const [full, dir] = entry;
-  const key = full.split('.')[1];
+  const st = sortState[tab];
+  if (!st) return arr;
+  const {key, dir} = st;
   return [...arr].sort((a,b) => {
-    let va = key.includes('.') ? key.split('.').reduce((o,k)=>o?.[k],a) : a[key];
-    let vb = key.includes('.') ? key.split('.').reduce((o,k)=>o?.[k],b) : b[key];
-    if (va==null) va = '';
-    if (vb==null) vb = '';
-    if (typeof va==='number' && typeof vb==='number') return dir==='asc' ? va-vb : vb-va;
+    let va = getVal(a,key), vb = getVal(b,key);
+    if (va==null||va==='') va = dir==='asc' ? Infinity : -Infinity;
+    if (vb==null||vb==='') vb = dir==='asc' ? Infinity : -Infinity;
+    // מספרים (כולל מחרוזות מספריות כמו דירוג)
+    const na = typeof va==='number' ? va : (String(va).trim()!=='' && !isNaN(va) ? parseFloat(va) : null);
+    const nb = typeof vb==='number' ? vb : (String(vb).trim()!=='' && !isNaN(vb) ? parseFloat(vb) : null);
+    if (na!=null && nb!=null) return dir==='asc' ? na-nb : nb-na;
     return dir==='asc' ? String(va).localeCompare(String(vb),'he') : String(vb).localeCompare(String(va),'he');
   });
 }
 
 function arrow(tab, key) {
-  const k = tab+'.'+key;
-  if (!sortState[k]) return '';
-  return `<span class="arrow">${sortState[k]==='asc'?'▲':'▼'}</span>`;
+  const st = sortState[tab];
+  if (!st || st.key!==key) return '<span class="arrow" style="opacity:.25">↕</span>';
+  return `<span class="arrow">${st.dir==='asc'?'▲':'▼'}</span>`;
 }
 
 // ══════════════════════════════════
@@ -255,6 +296,7 @@ function filtered(arr) {
 function render() {
   renderFilters();
   renderStats();
+  renderHelp();
   if (activeTab==='days') renderDays();
   else if (activeTab==='calendar') renderCalendar();
   else if (activeTab==='hotels') renderHotels();
@@ -284,10 +326,92 @@ function renderStats() {
     </div>`).join('');
 }
 
+// ══════════════════════════════════
+// HELP + SUMMARY (לכל טאב)
+// ══════════════════════════════════
+let helpOpen = false;
+function toggleHelp(){ helpOpen=!helpOpen; document.getElementById('help-body')?.classList.toggle('open',helpOpen); document.getElementById('help-caret').textContent=helpOpen?'▲':'▼'; }
+
+function renderHelp() {
+  const el = document.getElementById('help');
+  const H = DATA.hotels, D = DATA.days, P = DATA.places, C = DATA.costs, F = DATA.flights;
+  let summary = [], instr = [], title = '';
+
+  if (activeTab==='days') {
+    title = 'לוח ימים';
+    const regions = [...new Set(D.map(d=>d.regionHe).filter(Boolean))];
+    summary = [`<b>${D.length}</b> ימים`, `<b>${regions.length}</b> אזורים`, `${D[0]?.day}/${D[0]?.month} → ${D[D.length-1]?.day}/${D[D.length-1]?.month}`];
+    instr = ['לחיצה על <b>מספר היום</b>, ה<b>תאריך</b> או כפתור <b>פתח ›</b> — פותחת את דף היום המפורט.',
+      'לחיצה על <b>כותרת עמודה</b> ממיינת (לחיצה שנייה הופכת סדר).',
+      'עמודות <b>בוקר/צהריים/ערב/תחבורה/הערות</b> — ניתנות לעריכה: לחצי על התא, הקלידי, ולחצי מחוץ לתא.',
+      'כפתורי <b>האזורים</b> מסננים את הימים לפי חלק בטיול.'];
+  } else if (activeTab==='calendar') {
+    title = 'לוח שנה';
+    summary = [`יולי + אוגוסט 2026`, `<b>${D.length}</b> ימי טיול`];
+    instr = ['כל תא צבוע לפי <b>חלק הטיול</b> (ראי מקרא הצבעים למעלה).',
+      'כל תא מציג את <b>מספר יום הטיול</b> (י1, י2…), ה<b>עיר</b> וה<b>מלון</b>.',
+      'לחיצה על יום — פותחת את <b>דף היום</b> המפורט.'];
+  } else if (activeTab==='hotels') {
+    title = 'מלונות';
+    const booked = H.filter(h=>h.booked), miss = H.length-booked.length;
+    const nights = booked.reduce((s,h)=>s+(h.nights||0),0);
+    const price = booked.reduce((s,h)=>s+(h.price||0),0);
+    summary = [`<b>${H.length}</b> מלונות`, `<b>${booked.length}</b> מוזמנים`, `<b>${miss}</b> חסרים`, `<b>${nights}</b> לילות`, `<b>₪${price.toLocaleString()}</b> סה״כ`];
+    instr = ['כפתור <b>Booking</b> פותח חיפוש בבוקינג לפי שם המלון, העיר והתאריכים.',
+      'כפתור <b>מפה</b> פותח את מיקום המלון ב-Google Maps.',
+      'לחיצה על <b>כותרת עמודה</b> ממיינת (מחיר, לילות, תאריך…).',
+      'עמודת <b>הערות</b> ניתנת לעריכה ישירה.',
+      'שורות בצהוב = מלונות שעדיין <b>לא הוזמנו</b>.'];
+  } else if (activeTab==='places') {
+    title = 'אתרים';
+    const types = [...new Set(P.map(p=>p.type).filter(Boolean))];
+    summary = [`<b>${P.length}</b> אתרים`, `<b>${types.length}</b> סוגים`];
+    instr = ['לחיצה על <b>כותרת עמודה</b> ממיינת את האתרים.',
+      'עמודת <b>הערות</b> ניתנת לעריכה ישירה.',
+      'כפתורי <b>האזורים</b> מסננים לפי חלק בטיול.'];
+  } else if (activeTab==='costs') {
+    title = 'תקציב';
+    const total = C.reduce((s,c)=>s+(c.amount||0),0);
+    const paid = C.filter(c=>c.paid).reduce((s,c)=>s+(c.amount||0),0);
+    summary = [`<b>${C.length}</b> רשומות`, `<b>₪${total.toLocaleString()}</b> סה״כ`, `<b>₪${paid.toLocaleString()}</b> שולם`, `<b>₪${(total-paid).toLocaleString()}</b> נותר`];
+    instr = ['לחיצה על <b>כותרת עמודה</b> ממיינת (קטגוריה, סכום, תאריך…).',
+      'עמודת <b>הערות</b> ניתנת לעריכה ישירה.',
+      'סימון <b>שולם</b> מציג אילו הוצאות כבר שולמו.'];
+  } else if (activeTab==='flights') {
+    title = 'טיסות ותחבורה';
+    summary = [`<b>${F.length}</b> רשומות תחבורה`];
+    instr = ['לחיצה על <b>כותרת עמודה</b> ממיינת (תאריך, מוצא, יעד…).',
+      'עמודות <b>שעה / חברה / אישור / הערות</b> — ניתנות לעריכה ישירה.'];
+  } else if (activeTab==='map') {
+    title = 'מפה';
+    summary = [`<b>${H.filter(h=>h.lat).length}</b> מלונות על המפה`, `<b>${P.filter(p=>p.lat).length}</b> אתרים`];
+    instr = ['<b>עיגול ירוק</b> = מלון מוזמן · <b>עיגול כתום</b> = מלון שטרם הוזמן · <b>עיגול כחול</b> = אתר.',
+      'לחיצה על עיגול פותחת <b>פרטים</b> (שם, עיר, תאריכים).',
+      'גלגלת העכבר או כפתורי <b>+/−</b> — מגדילים ומקטינים.',
+      'שמות הערים מוצגים ב<b>אנגלית</b>.'];
+  }
+
+  el.innerHTML = `<div class="help-box">
+    <div class="help-summary">${summary.map(s=>`<span class="sum-pill">${s}</span>`).join('')}</div>
+    <button class="help-toggle" onclick="toggleHelp()">מה אפשר לעשות בדף «${title}»? <span id="help-caret">${helpOpen?'▲':'▼'}</span></button>
+    <div class="help-body${helpOpen?' open':''}" id="help-body"><ul>${instr.map(i=>`<li>${i}</li>`).join('')}</ul></div>
+  </div>`;
+}
+
 function regionTag(r) {
   const cls = {kansai:'tg-k',hokkaido:'tg-h',tokyo:'tg-t',dubai:'tg-d'}[r]||'tg-d';
   const he = {kansai:'קנסאי',hokkaido:'הוקאידו',tokyo:'טוקיו',dubai:'דובאי'}[r]||r;
   return `<span class="tg ${cls}">${he}</span>`;
+}
+
+function bookingLink(h) {
+  // חיפוש בבוקינג לפי שם+עיר, עם תאריכי צ׳ק-אין/אאוט ומספר חדרים
+  const ss = encodeURIComponent(`${h.name} ${h.cityEn||h.city||''}`.trim());
+  let url = `https://www.booking.com/searchresults.he.html?ss=${ss}`;
+  if (h.checkin)  url += `&checkin=${h.checkin}`;
+  if (h.checkout) url += `&checkout=${h.checkout}`;
+  url += `&group_adults=2&no_rooms=${h.rooms||1}&group_children=0`;
+  return url;
 }
 
 function mapsLink(h) {
@@ -400,7 +524,7 @@ function renderHotels() {
     ${th('hotels','nights','לילות')}
     ${th('hotels','rooms','חדרים')}
     ${th('hotels','price','מחיר')}
-    <th>סטטוס</th><th>מפה</th>
+    <th>סטטוס</th><th>בוקינג</th><th>מפה</th>
     <th>הערות</th>
   </tr></thead><tbody>${data.map(h => `<tr class="${h.booked?'':'miss'}">
     <td><b>${h.name}</b><br><span style="font-size:10px;color:#888">${h.he}</span></td>
@@ -412,6 +536,7 @@ function renderHotels() {
     <td>${h.rooms||'—'}</td>
     <td>${h.price?'₪'+h.price.toLocaleString():'—'}</td>
     <td><span class="tg ${h.booked?'tg-ok':'tg-no'}">${h.booked?'מוזמן':'חסר'}</span></td>
+    <td><a class="bk" href="${bookingLink(h)}" target="_blank" rel="noopener">Booking ›</a></td>
     <td>${h.pid||h.addr?`<a class="ml" href="${mapsLink(h)}" target="_blank">מפה</a>`:''}</td>
     <td ${ed('hotels.'+h.id+'.notes', h.notes)}>${h.notes||''}</td>
   </tr>`).join('')}</tbody>`;
