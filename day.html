@@ -94,6 +94,26 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 
 .toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(50px);background:#292524;color:#fafaf9;padding:7px 16px;border-radius:5px;font-size:12px;opacity:0;transition:.2s;z-index:100;pointer-events:none}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* ── בלוקים עשירים: סיפור, איזון משפחתי, שכבות, טיפים ── */
+.story-card{background:#fff;border:1px solid #e5e3de;border-radius:10px;padding:14px 16px;margin-bottom:12px}
+.story-top{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.story-title{font-size:17px;font-weight:900;color:#1a1a1a}
+.story-badge{font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;background:#eef2ff;color:#3730a3}
+.story-badge.rest{background:#e7f3ec;color:#15803d}
+.story-text{font-size:13px;color:#44403c;line-height:1.6}
+.story-area{font-size:12px;color:#8a857e;margin-top:6px;display:flex;align-items:center;gap:5px}
+.rich-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.rich-box{background:#fff;border:1px solid #e5e3de;border-radius:10px;padding:12px 14px}
+.rich-box h4{font-size:12px;font-weight:800;color:#57534e;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.rich-row{font-size:12px;line-height:1.5;margin-bottom:6px;color:#44403c}
+.rich-row:last-child{margin-bottom:0}
+.rich-row b{color:#1a1a1a;font-weight:700}
+.rich-row .who{display:inline-block;min-width:42px;font-weight:800;color:#3730a3}
+.tips-card{background:#fbf1e3;border:1px solid #f0dcc0;border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:12px;line-height:1.6;color:#7a5b2e}
+.tips-card h4{font-size:12px;font-weight:800;color:#92400e;margin-bottom:5px;display:flex;align-items:center;gap:6px}
+.rich-ic{width:15px;height:15px;stroke:#9a958e;stroke-width:1.75;fill:none;stroke-linecap:round;stroke-linejoin:round;flex:none}
+@media(max-width:640px){.rich-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -134,6 +154,9 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 
   <!-- HOTEL -->
   <div class="hotel" id="hotelBar"></div>
+
+  <!-- STORY / EXPERIENCE (שדות עשירים — מוצג רק כשיש) -->
+  <div id="dayStory"></div>
 
   <!-- ROUTE MAP -->
   <div class="map-section">
@@ -184,6 +207,7 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
     <div class="meal-row"><span class="meal-label">אל</span><input class="meal-input" id="tr-to" placeholder=""></div>
     <div class="meal-row"><span class="meal-label">משך</span><input class="meal-input" id="tr-dur" placeholder=""></div>
     <div class="meal-row"><span class="meal-label">עלות</span><input class="meal-input" id="tr-cost" placeholder=""></div>
+    <div class="meal-row"><span class="meal-label">פרטים</span><input class="meal-input" id="tr-details" placeholder=""></div>
   </div>
 
   <!-- NOTES -->
@@ -225,10 +249,21 @@ async function load() {
     dayData = daysRes.find(d => d.id === dayId);
     if (!dayData) { document.body.innerHTML = '<p style="padding:40px">יום לא נמצא</p>'; return; }
 
-    // Load day-specific data if exists
+    // Load day-specific data if exists.
+    // days.json הוא המקור המעודכן (title/story/meals) — הוא גובר.
+    // מ-day-XX.json לוקחים רק את מה שחסר ב-days.json (בעיקר spots).
     try {
       const dayFile = await fetch(`data/days/day-${String(dayId).padStart(2,'0')}.json`).then(r=>r.json());
-      dayData = { ...dayData, ...dayFile };
+      const merged = { ...dayFile };
+      for (const k of Object.keys(dayData)) {
+        const v = dayData[k];
+        // ריק/null ב-days.json — לא דורסים ערך קיים מהקובץ
+        const empty = v==null || v==='' || (typeof v==='object' && !Array.isArray(v) && Object.keys(v).length===0);
+        if (!empty) merged[k] = v;
+      }
+      // spots — תמיד מהקובץ הייעודי אם יש בו תוכן
+      if (dayFile.spots) merged.spots = dayFile.spots;
+      dayData = merged;
     } catch(e) {}
 
     renderDay();
@@ -263,6 +298,9 @@ function renderDay() {
        <a href="${mapUrl}" target="_blank">מפה</a>`;
   }
 
+  // Story / rich fields
+  renderStory(d);
+
   // Spots
   ['morning','afternoon','evening'].forEach(tod => {
     renderSpots(tod, d.spots?.[tod] || []);
@@ -283,6 +321,7 @@ function renderDay() {
     document.getElementById('tr-to').value = d.transport.to || '';
     document.getElementById('tr-dur').value = d.transport.duration || '';
     document.getElementById('tr-cost').value = d.transport.cost || '';
+    document.getElementById('tr-details').value = d.transport.details || '';
   }
 
   // Notes
@@ -290,6 +329,51 @@ function renderDay() {
 
   // Build map
   buildMap();
+}
+
+// ── תצוגת השדות העשירים (מוצג רק כשקיימים) ──
+const FAM = {anat:'ענת', ilay:'עילאי', lotem:'לוטם', natan:'נתן'};
+const LAYER = {intellectual:'אינטלקטואלי', emotional:'רגשי', physical:'פיזי'};
+function ic(paths){return `<svg class="rich-ic" viewBox="0 0 24 24" aria-hidden="true">${paths}</svg>`;}
+
+function renderStory(d) {
+  const el = document.getElementById('dayStory');
+  let html = '';
+
+  // כרטיס סיפור — כותרת, תת-כותרת, הסיפור, אזור
+  if (d.title || d.story) {
+    const badge = d.subtitle
+      ? `<span class="story-badge${d.isRestDay?' rest':''}">${d.subtitle}</span>` : '';
+    html += `<div class="story-card">
+      <div class="story-top">${d.title?`<span class="story-title">${d.title}</span>`:''}${badge}</div>
+      ${d.story?`<div class="story-text">${d.story}</div>`:''}
+      ${d.area?`<div class="story-area">${ic('<path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>')}${d.area}</div>`:''}
+    </div>`;
+  }
+
+  // איזון משפחתי + שכבות חוויה — זה לצד זה
+  let boxes = '';
+  if (d.familyBalance && Object.values(d.familyBalance).some(Boolean)) {
+    const rows = Object.entries(FAM)
+      .filter(([k])=>d.familyBalance[k])
+      .map(([k,he])=>`<div class="rich-row"><span class="who">${he}</span> ${d.familyBalance[k]}</div>`).join('');
+    boxes += `<div class="rich-box"><h4>${ic('<path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/>')}איזון משפחתי</h4>${rows}</div>`;
+  }
+  if (d.layers && Object.values(d.layers).some(Boolean)) {
+    const rows = Object.entries(LAYER)
+      .filter(([k])=>d.layers[k])
+      .map(([k,he])=>`<div class="rich-row"><b>${he}:</b> ${d.layers[k]}</div>`).join('');
+    boxes += `<div class="rich-box"><h4>${ic('<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>')}שכבות החוויה</h4>${rows}</div>`;
+  }
+  if (boxes) html += `<div class="rich-grid">${boxes}</div>`;
+
+  // טיפים (tips או tips_addition)
+  const tips = d.tips || d.tips_addition;
+  if (tips) {
+    html += `<div class="tips-card"><h4>${ic('<path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/>')}טיפים</h4>${tips}</div>`;
+  }
+
+  el.innerHTML = html;
 }
 
 // ══════════════════════════════════
