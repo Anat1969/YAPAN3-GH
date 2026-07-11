@@ -1,0 +1,1490 @@
+[
+  {
+    "id": 1,
+    "date": "2026-07-23",
+    "day": 23,
+    "month": 7,
+    "weekday": "חמישי",
+    "tripDay": 1,
+    "region": "kansai",
+    "regionHe": "קנסאי",
+    "hotelId": 1,
+    "hotelName": "&Here OSAKA NAMBA",
+    "city": "אוסקה",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 2,
+    "date": "2026-07-24",
+    "day": 24,
+    "month": 7,
+    "weekday": "שישי",
+    "tripDay": 2,
+    "region": "kansai",
+    "regionHe": "קנסאי",
+    "hotelId": 1,
+    "hotelName": "&Here OSAKA NAMBA",
+    "city": "אוסקה",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 3,
+    "date": "2026-07-25",
+    "day": 25,
+    "month": 7,
+    "weekday": "שבת",
+    "tripDay": 3,
+    "region": "kansai",
+    "regionHe": "קנסאי",
+    "hotelId": 1,
+    "hotelName": "&Here OSAKA NAMBA",
+    "city": "אוסקה",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 4,
+    "date": "2026-07-26",
+    "day": 26,
+    "month": 7,
+    "weekday": "ראשון",
+    "tripDay": 4,
+    "region": "kansai",
+    "regionHe": "קנסאי",
+    "hotelId": 1,
+    "hotelName": "&Here OSAKA NAMBA",
+    "city": "אוסקה",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 5,
+    "date": "2026-07-27",
+    "day": 27,
+    "month": 7,
+    "weekday": "שני",
+    "tripDay": 5,
+    "region": "kansai",
+    "regionHe": "קנסאי",
+    "hotelId": 2,
+    "hotelName": "Mitsui Garden Kyoto Kawaramachi Jokyoji",
+    "city": "קיוטו",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 6,
+    "date": "2026-07-28",
+    "day": 28,
+    "month": 7,
+    "weekday": "שלישי",
+    "tripDay": 6,
+    "region": "kansai",
+    "regionHe": "קנסאי",
+    "hotelId": 2,
+    "hotelName": "Mitsui Garden Kyoto Kawaramachi Jokyoji",
+    "city": "קיוטו",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 7,
+    "date": "2026-07-29",
+    "day": 29,
+    "month": 7,
+    "weekday": "רביעי",
+    "tripDay": 7,
+    "region": "kansai",
+    "regionHe": "קנסאי",
+    "hotelId": 2,
+    "hotelName": "Mitsui Garden Kyoto Kawaramachi Jokyoji",
+    "city": "קיוטו",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 8,
+    "date": "2026-07-30",
+    "day": 30,
+    "month": 7,
+    "weekday": "חמישי",
+    "tripDay": 8,
+    "region": "kansai",
+    "regionHe": "קנסאי",
+    "hotelId": 2,
+    "hotelName": "Mitsui Garden Kyoto Kawaramachi Jokyoji",
+    "city": "קיוטו",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 9,
+    "date": "2026-07-31",
+    "day": 31,
+    "month": 7,
+    "weekday": "שישי",
+    "tripDay": 9,
+    "region": "kansai",
+    "regionHe": "קנסאי",
+    "hotelId": 3,
+    "hotelName": "Hotel Nikko Kanazawa",
+    "city": "קנאזאווה",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 10,
+    "date": "2026-08-01",
+    "day": 1,
+    "month": 8,
+    "weekday": "שבת",
+    "tripDay": 10,
+    "region": "kansai",
+    "regionHe": "קנסאי",
+    "hotelId": 3,
+    "hotelName": "Hotel Nikko Kanazawa",
+    "city": "קנאזאווה",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 11,
+    "date": "2026-08-02",
+    "day": 2,
+    "month": 8,
+    "weekday": "ראשון",
+    "tripDay": 11,
+    "region": "hokkaido",
+    "regionHe": "הוקאידו",
+    "hotelId": 4,
+    "hotelName": "The SUNSET Shiretoko",
+    "city": "אוטורו, שארי",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 12,
+    "date": "2026-08-03",
+    "day": 3,
+    "month": 8,
+    "weekday": "שני",
+    "tripDay": 12,
+    "region": "hokkaido",
+    "regionHe": "הוקאידו",
+    "hotelId": 4,
+    "hotelName": "The SUNSET Shiretoko",
+    "city": "אוטורו, שארי",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 13,
+    "date": "2026-08-04",
+    "day": 4,
+    "month": 8,
+    "weekday": "שלישי",
+    "tripDay": 13,
+    "region": "hokkaido",
+    "regionHe": "הוקאידו",
+    "hotelId": 5,
+    "hotelName": "Kussharo Prince Hotel",
+    "city": "טשיקגה",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 14,
+    "date": "2026-08-05",
+    "day": 5,
+    "month": 8,
+    "weekday": "רביעי",
+    "tripDay": 14,
+    "region": "hokkaido",
+    "regionHe": "הוקאידו",
+    "hotelId": 6,
+    "hotelName": "Akan Yuku no Sato Tsuruga",
+    "city": "אקאן",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 15,
+    "date": "2026-08-06",
+    "day": 6,
+    "month": 8,
+    "weekday": "חמישי",
+    "tripDay": 15,
+    "region": "hokkaido",
+    "regionHe": "הוקאידו",
+    "hotelId": 6,
+    "hotelName": "Akan Yuku no Sato Tsuruga",
+    "city": "אקאן",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 16,
+    "date": "2026-08-07",
+    "day": 7,
+    "month": 8,
+    "weekday": "שישי",
+    "tripDay": 16,
+    "region": "hokkaido",
+    "regionHe": "הוקאידו",
+    "hotelId": 7,
+    "hotelName": "Hotel Kumoi — Sounkyo Onsen",
+    "city": "סואנקיו",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 17,
+    "date": "2026-08-08",
+    "day": 8,
+    "month": 8,
+    "weekday": "שבת",
+    "tripDay": 17,
+    "region": "hokkaido",
+    "regionHe": "הוקאידו",
+    "hotelId": 8,
+    "hotelName": "Biei / Furano area",
+    "city": "ביאי",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 18,
+    "date": "2026-08-09",
+    "day": 9,
+    "month": 8,
+    "weekday": "ראשון",
+    "tripDay": 18,
+    "region": "hokkaido",
+    "regionHe": "הוקאידו",
+    "hotelId": 8,
+    "hotelName": "Biei / Furano area",
+    "city": "ביאי",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 19,
+    "date": "2026-08-10",
+    "day": 10,
+    "month": 8,
+    "weekday": "שני",
+    "tripDay": 19,
+    "region": "hokkaido",
+    "regionHe": "הוקאידו",
+    "hotelId": 8,
+    "hotelName": "Biei / Furano area",
+    "city": "ביאי",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 20,
+    "date": "2026-08-11",
+    "day": 11,
+    "month": 8,
+    "weekday": "שלישי",
+    "tripDay": 20,
+    "region": "hokkaido",
+    "regionHe": "הוקאידו",
+    "hotelId": 8,
+    "hotelName": "Biei / Furano area",
+    "city": "ביאי",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 21,
+    "date": "2026-08-12",
+    "day": 12,
+    "month": 8,
+    "weekday": "רביעי",
+    "tripDay": 21,
+    "region": "hokkaido",
+    "regionHe": "הוקאידו",
+    "hotelId": 8,
+    "hotelName": "Biei / Furano area",
+    "city": "ביאי",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 22,
+    "date": "2026-08-13",
+    "day": 13,
+    "month": 8,
+    "weekday": "חמישי",
+    "tripDay": 22,
+    "region": "hokkaido",
+    "regionHe": "הוקאידו",
+    "hotelId": 9,
+    "hotelName": "TOYA Center Village",
+    "city": "לייק טויה",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 23,
+    "date": "2026-08-14",
+    "day": 14,
+    "month": 8,
+    "weekday": "שישי",
+    "tripDay": 23,
+    "region": "tokyo",
+    "regionHe": "טוקיו",
+    "hotelId": 10,
+    "hotelName": "karaksa hotel colors Tokyo Yaesu",
+    "city": "טוקיו",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 24,
+    "date": "2026-08-15",
+    "day": 15,
+    "month": 8,
+    "weekday": "שבת",
+    "tripDay": 24,
+    "region": "tokyo",
+    "regionHe": "טוקיו",
+    "hotelId": 10,
+    "hotelName": "karaksa hotel colors Tokyo Yaesu",
+    "city": "טוקיו",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 25,
+    "date": "2026-08-16",
+    "day": 16,
+    "month": 8,
+    "weekday": "ראשון",
+    "tripDay": 25,
+    "region": "tokyo",
+    "regionHe": "טוקיו",
+    "hotelId": 10,
+    "hotelName": "karaksa hotel colors Tokyo Yaesu",
+    "city": "טוקיו",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 26,
+    "date": "2026-08-17",
+    "day": 17,
+    "month": 8,
+    "weekday": "שני",
+    "tripDay": 26,
+    "region": "tokyo",
+    "regionHe": "טוקיו",
+    "hotelId": 10,
+    "hotelName": "karaksa hotel colors Tokyo Yaesu",
+    "city": "טוקיו",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 27,
+    "date": "2026-08-18",
+    "day": 18,
+    "month": 8,
+    "weekday": "שלישי",
+    "tripDay": 27,
+    "region": "tokyo",
+    "regionHe": "טוקיו",
+    "hotelId": 10,
+    "hotelName": "karaksa hotel colors Tokyo Yaesu",
+    "city": "טוקיו",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 28,
+    "date": "2026-08-19",
+    "day": 19,
+    "month": 8,
+    "weekday": "רביעי",
+    "tripDay": 28,
+    "region": "",
+    "regionHe": "",
+    "hotelId": null,
+    "hotelName": "",
+    "city": "",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 29,
+    "date": "2026-08-20",
+    "day": 20,
+    "month": 8,
+    "weekday": "חמישי",
+    "tripDay": 29,
+    "region": "dubai",
+    "regionHe": "מעבר",
+    "hotelId": 11,
+    "hotelName": "Dubai stopover",
+    "city": "דובאי",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 30,
+    "date": "2026-08-21",
+    "day": 21,
+    "month": 8,
+    "weekday": "שישי",
+    "tripDay": 30,
+    "region": "dubai",
+    "regionHe": "מעבר",
+    "hotelId": 11,
+    "hotelName": "Dubai stopover",
+    "city": "דובאי",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  },
+  {
+    "id": 31,
+    "date": "2026-08-22",
+    "day": 22,
+    "month": 8,
+    "weekday": "שבת",
+    "tripDay": 31,
+    "region": "home",
+    "regionHe": "בית",
+    "hotelId": null,
+    "hotelName": "בבית",
+    "city": "ישראל",
+    "morning": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "afternoon": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "evening": {
+      "place": "",
+      "placeId": null,
+      "time": "",
+      "cost": null,
+      "notes": ""
+    },
+    "transport": {
+      "type": "",
+      "from": "",
+      "to": "",
+      "duration": "",
+      "cost": null
+    },
+    "meals": {
+      "breakfast": "",
+      "lunch": "",
+      "dinner": ""
+    },
+    "freeDay": false,
+    "notes": ""
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "name": "japan-trip-2026",
+  "version": "1.0.0",
+  "description": "מסלול טיול יפן — קיץ 2026",
+  "scripts": {
+    "dev": "npx serve . -p 3000",
+    "start": "npx serve . -p 3000"
+  },
+  "private": true
+}

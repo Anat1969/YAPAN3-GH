@@ -1,0 +1,8 @@
+[
+  {"id":1,"type":"טיסה","date":"2026-07-23","from":"ישראל","to":"אוסקה","time":"","airline":"","confirmation":"","cost":null,"notes":"הגעה"},
+  {"id":2,"type":"טיסה פנימית","date":"2026-08-02","from":"קנסאי","to":"Memanbetsu","time":"","airline":"","confirmation":"","cost":null,"notes":"מעבר להוקאידו"},
+  {"id":3,"type":"טיסה פנימית","date":"2026-08-14","from":"New Chitose","to":"Narita","time":"","airline":"","confirmation":"","cost":null,"notes":"מעבר לטוקיו"},
+  {"id":4,"type":"מיניוואן","date":"2026-08-14","from":"Narita Airport","to":"karaksa Tokyo Yaesu","time":"16:35","airline":"","confirmation":"","cost":null,"notes":"איסוף מנאריטה"},
+  {"id":5,"type":"טיסה","date":"2026-08-19","from":"טוקיו","to":"דובאי","time":"","airline":"","confirmation":"","cost":null,"notes":""},
+  {"id":6,"type":"טיסה","date":"2026-08-22","from":"דובאי","to":"ישראל","time":"","airline":"","confirmation":"","cost":null,"notes":"חזרה הביתה"}
+]

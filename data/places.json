@@ -1,0 +1,5 @@
+[
+  {"id":1,"name":"דוטונבורי","nameEn":"Dotonbori","city":"אוסקה","cityEn":"Osaka","region":"kansai","type":"רחוב","addr":"Dotonbori, Chuo-ku, Osaka","hours":"24/7","price":0,"duration":"2 שעות","pid":"","lat":34.6687,"lng":135.5031,"forWho":["נתן","לוטם"],"dayId":null,"timeOfDay":"","booked":false,"notes":"אוכל רחוב, אורות ניאון, שלטים"},
+  {"id":2,"name":"פושימי אינארי","nameEn":"Fushimi Inari Taisha","city":"קיוטו","cityEn":"Kyoto","region":"kansai","type":"מקדש","addr":"68 Fukakusa Yabunouchicho, Fushimi-ku, Kyoto 612-0882","hours":"24/7","price":0,"duration":"2-3 שעות","pid":"","lat":34.9671,"lng":135.7727,"forWho":["ענת","עילאי"],"dayId":null,"timeOfDay":"","booked":false,"notes":"10,000 שערי טורי, מסלול הליכה על ההר"},
+  {"id":3,"name":"קנרוקואן","nameEn":"Kenrokuen Garden","city":"קנאזאווה","cityEn":"Kanazawa","region":"kansai","type":"גן","addr":"1 Kenrokumachi, Kanazawa, Ishikawa 920-0936","hours":"07:00-18:00","price":320,"duration":"1.5 שעות","pid":"","lat":36.5624,"lng":136.6624,"forWho":["ענת","נתן"],"dayId":null,"timeOfDay":"","booked":false,"notes":"אחד מ-3 הגנים היפים ביפן"}
+]

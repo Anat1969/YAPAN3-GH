@@ -1,0 +1,12 @@
+[
+  {"id":1,"category":"מלון","item":"&Here OSAKA NAMBA","amount":4091,"currency":"ILS","date":"2026-07-23","paid":true,"notes":"4 לילות אוסקה"},
+  {"id":2,"category":"מלון","item":"Mitsui Garden Kyoto","amount":2534,"currency":"ILS","date":"2026-07-27","paid":true,"notes":"4 לילות קיוטו"},
+  {"id":3,"category":"מלון","item":"Hotel Nikko Kanazawa","amount":1414,"currency":"ILS","date":"2026-07-31","paid":true,"notes":"2 לילות קנאזאווה"},
+  {"id":4,"category":"מלון","item":"The SUNSET Shiretoko","amount":2834,"currency":"ILS","date":"2026-08-02","paid":true,"notes":"2 לילות שירטוקו"},
+  {"id":5,"category":"מלון","item":"Kussharo Prince Hotel","amount":960,"currency":"ILS","date":"2026-08-04","paid":true,"notes":"1 לילה קושארו"},
+  {"id":6,"category":"מלון","item":"Akan Tsuruga","amount":3770,"currency":"ILS","date":"2026-08-05","paid":true,"notes":"2 לילות אקאן"},
+  {"id":7,"category":"מלון","item":"Hotel Kumoi Sounkyo","amount":762,"currency":"ILS","date":"2026-08-07","paid":true,"notes":"1 לילה סואנקיו"},
+  {"id":8,"category":"מלון","item":"TOYA Center Village","amount":1228,"currency":"ILS","date":"2026-08-13","paid":true,"notes":"1 לילה לייק טויה"},
+  {"id":9,"category":"מלון","item":"karaksa Tokyo Yaesu","amount":4664,"currency":"ILS","date":"2026-08-14","paid":true,"notes":"5 לילות טוקיו"},
+  {"id":10,"category":"תחבורה","item":"מיניוואן נאריטה → מלון","amount":null,"currency":"ILS","date":"2026-08-14","paid":true,"notes":"16:35 נאריטה"}
+]

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>יפן 2026 — מסלול טיול</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;600;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;font-size:13px;line-height:1.5}
+
+/* NAV */
+.nav{background:#1a1a1a;padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:50}
+.nav h1{color:#e8e6e1;font-size:16px;font-weight:900;margin-left:auto}
+.tab{padding:5px 14px;border:none;border-radius:4px;background:transparent;color:#aaa;font:600 12px/1.4 inherit;cursor:pointer;transition:.12s}
+.tab:hover{color:#fff;background:rgba(255,255,255,.1)}
+.tab.on{color:#fff;background:rgba(255,255,255,.15)}
+.nav-btn{padding:4px 10px;border:1px solid #555;border-radius:4px;background:transparent;color:#aaa;font:600 11px/1.4 inherit;cursor:pointer;transition:.12s}
+.nav-btn:hover{background:rgba(255,255,255,.1);color:#fff;border-color:#888}
+.nav-btn.save{border-color:#166534;color:#4ade80}.nav-btn.save:hover{background:#166534;color:#fff}
+
+/* HERO */
+.hero{max-width:1200px;margin:12px auto 8px;padding:0 12px}
+.hero-card{background:linear-gradient(135deg,#fff8eb 0%,#ffffff 100%);border:1px solid #e7dccf;border-radius:14px;padding:14px 16px;box-shadow:0 8px 24px rgba(0,0,0,.05);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.hero-card h2{font-size:20px;font-weight:900;color:#1f2937;margin-bottom:4px}
+.hero-card p{font-size:12px;color:#6b7280;margin:0}
+.hero-eyebrow{display:inline-block;padding:3px 8px;border-radius:999px;background:#1f2937;color:#f8fafc;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.hero-pills{display:flex;gap:8px;flex-wrap:wrap}
+.hero-pill{padding:6px 10px;border-radius:999px;background:#f3f4f6;color:#374151;font-size:11px;font-weight:700;border:1px solid #e5e7eb}
+
+/* STATS */
+.stats{max-width:1200px;margin:8px auto 6px;padding:0 12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.stat-card{background:#fff;border:1px solid #e5e3de;border-radius:10px;padding:10px 12px;box-shadow:0 4px 12px rgba(0,0,0,.04)}
+.stat-label{font-size:10px;color:#888;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
+.stat-value{font-size:16px;font-weight:900;color:#111827}
+.stat-detail{font-size:11px;color:#6b7280;margin-top:2px}
+
+/* FILTERS */
+.filters{max-width:1200px;margin:4px auto 8px;padding:0 12px;display:flex;gap:6px;flex-wrap:wrap}
+.flt{padding:3px 10px;border:1px solid #ddd;border-radius:3px;background:#fff;font:600 11px/1.4 inherit;cursor:pointer;color:#666;transition:.12s}
+.flt:hover{border-color:#999}.flt.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+
+/* TABLE */
+.tw{max-width:1200px;margin:0 auto;padding:0 12px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+th{background:#2c2c2c;color:#e8e6e1;font-weight:600;font-size:11px;padding:7px 8px;text-align:right;white-space:nowrap;cursor:pointer;user-select:none;position:sticky;top:40px;z-index:10}
+th:hover{background:#3a3a3a}
+th .arrow{font-size:9px;margin-right:3px;opacity:.5}
+td{padding:6px 8px;border-bottom:1px solid #eee;font-size:12px;vertical-align:top}
+tr:hover{background:#fafaf8}
+tr.miss{background:#fffef5}
+tr.miss td{color:#92400e}
+
+/* EDITABLE */
+td[contenteditable]{outline:none;border-radius:2px;transition:background .12s}
+td[contenteditable]:hover{background:#f5f5f0}
+td[contenteditable]:focus{background:#fffde7;box-shadow:inset 0 0 0 2px #fbbf24}
+
+/* TAGS */
+.tg{display:inline-block;padding:1px 5px;border-radius:2px;font-size:10px;font-weight:600;white-space:nowrap}
+.tg-k{background:#fee2e2;color:#991b1b}
+.tg-h{background:#dcfce7;color:#166534}
+.tg-t{background:#e0e7ff;color:#3730a3}
+.tg-d{background:#e7e5e4;color:#44403c}
+.tg-ok{background:#dcfce7;color:#166534}
+.tg-no{background:#fef3c7;color:#92400e}
+
+/* LINK */
+a.ml{color:#1d4ed8;text-decoration:none;font-size:11px}
+a.ml:hover{text-decoration:underline}
+
+/* PANELS */
+.panel{display:none;max-width:1200px;margin:0 auto;padding:12px}
+.panel.on{display:block}
+
+/* MAP */
+#map{width:100%;height:500px;border-radius:6px;background:#e8e6e1}
+
+/* TOAST */
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(50px);background:#292524;color:#fafaf9;padding:7px 16px;border-radius:5px;font-size:12px;opacity:0;transition:.2s;z-index:100;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* FOOTER */
+.foot{max-width:1200px;margin:16px auto;padding:0 12px;font-size:10px;color:#bbb;text-align:center}
+
+@media(max-width:768px){
+  .nav{padding:6px 8px}
+  .nav h1{font-size:14px}
+  th{font-size:10px;padding:5px 4px}
+  td{font-size:11px;padding:4px 4px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <h1>יפן 2026</h1>
+  <button class="tab on" data-tab="days">לוח ימים</button>
+  <button class="tab" data-tab="hotels">מלונות</button>
+  <button class="tab" data-tab="places">אתרים</button>
+  <button class="tab" data-tab="costs">תקציב</button>
+  <button class="tab" data-tab="flights">טיסות</button>
+  <button class="tab" data-tab="map">מפה</button>
+  <button class="nav-btn save" onclick="saveAll()">שמור</button>
+  <button class="nav-btn" onclick="exportJSON()">JSON</button>
+  <button class="nav-btn" onclick="copyTable()">אקסל</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-card">
+    <div>
+      <div class="hero-eyebrow">מסלול יפן 2026</div>
+      <h2>יפן 2026 — אוסקה, קיוטו, קנאזאווה, הוקאידו וטוקיו</h2>
+      <p>לוח ניהול מרכזי למלונות, ימים, תחבורה, תקציב ונתיבי המסע.</p>
+    </div>
+    <div class="hero-pills">
+      <span class="hero-pill">31 ימים</span>
+      <span class="hero-pill">11 מלונות</span>
+      <span class="hero-pill">3 אזורים עיקריים</span>
+    </div>
+  </div>
+</section>
+<div class="stats" id="stats"></div>
+<div class="filters" id="filters"></div>
+
+<div class="panel on" id="p-days"><div class="tw"><table id="t-days"></table></div></div>
+<div class="panel" id="p-hotels"><div class="tw"><table id="t-hotels"></table></div></div>
+<div class="panel" id="p-places"><div class="tw"><table id="t-places"></table></div></div>
+<div class="panel" id="p-costs"><div class="tw"><table id="t-costs"></table></div></div>
+<div class="panel" id="p-flights"><div class="tw"><table id="t-flights"></table></div></div>
+<div class="panel" id="p-map"><div id="map"></div></div>
+
+<div class="foot">נשמר אוטומטית ל-JSON · גיבוי עם כפתור שמור</div>
+<div class="toast" id="toast"></div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+<script>
+// ══════════════════════════════════
+// STATE
+// ══════════════════════════════════
+let DATA = { hotels:[], days:[], places:[], costs:[], flights:[] };
+let activeTab = 'days';
+let sortState = {};
+let regionFilter = '';
+let mapObj = null;
+
+// ══════════════════════════════════
+// LOAD DATA
+// ══════════════════════════════════
+async function loadData() {
+  try {
+    const [h,d,p,c,f] = await Promise.all([
+      fetch('data/hotels.json').then(r=>r.json()),
+      fetch('data/days.json').then(r=>r.json()),
+      fetch('data/places.json').then(r=>r.json()),
+      fetch('data/costs.json').then(r=>r.json()),
+      fetch('data/flights.json').then(r=>r.json())
+    ]);
+    DATA = { hotels:h, days:d, places:p, costs:c, flights:f };
+  } catch(e) {
+    console.error('Load error:',e);
+    toast('שגיאה בטעינת נתונים — ודאי שאת בשרת מקומי');
+  }
+  render();
+}
+
+// ══════════════════════════════════
+// TABS
+// ══════════════════════════════════
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');
+    activeTab = btn.dataset.tab;
+    document.getElementById('p-'+activeTab).classList.add('on');
+    render();
+    if (activeTab==='map') initMap();
+  });
+});
+
+// ══════════════════════════════════
+// SORT
+// ══════════════════════════════════
+function sortBy(tab, key) {
+  const k = tab+'.'+key;
+  sortState[k] = sortState[k]==='asc' ? 'desc' : 'asc';
+  render();
+}
+
+function sorted(arr, tab) {
+  const entry = Object.entries(sortState).find(([k])=>k.startsWith(tab+'.'));
+  if (!entry) return arr;
+  const [full, dir] = entry;
+  const key = full.split('.')[1];
+  return [...arr].sort((a,b) => {
+    let va = key.includes('.') ? key.split('.').reduce((o,k)=>o?.[k],a) : a[key];
+    let vb = key.includes('.') ? key.split('.').reduce((o,k)=>o?.[k],b) : b[key];
+    if (va==null) va = '';
+    if (vb==null) vb = '';
+    if (typeof va==='number' && typeof vb==='number') return dir==='asc' ? va-vb : vb-va;
+    return dir==='asc' ? String(va).localeCompare(String(vb),'he') : String(vb).localeCompare(String(va),'he');
+  });
+}
+
+function arrow(tab, key) {
+  const k = tab+'.'+key;
+  if (!sortState[k]) return '';
+  return `<span class="arrow">${sortState[k]==='asc'?'▲':'▼'}</span>`;
+}
+
+// ══════════════════════════════════
+// REGION FILTER
+// ══════════════════════════════════
+function renderFilters() {
+  const el = document.getElementById('filters');
+  if (activeTab!=='days' && activeTab!=='hotels' && activeTab!=='places') { el.innerHTML=''; return; }
+  const regions = [
+    {k:'',l:'הכל'},{k:'kansai',l:'קנסאי'},{k:'hokkaido',l:'הוקאידו'},{k:'tokyo',l:'טוקיו'},{k:'dubai',l:'דובאי'}
+  ];
+  el.innerHTML = regions.map(r=>`<button class="flt${regionFilter===r.k?' on':''}" onclick="regionFilter='${r.k}';render()">${r.l}</button>`).join('');
+}
+
+function filtered(arr) {
+  if (!regionFilter) return arr;
+  return arr.filter(x => x.region === regionFilter);
+}
+
+// ══════════════════════════════════
+// RENDER
+// ══════════════════════════════════
+function render() {
+  renderFilters();
+  renderStats();
+  if (activeTab==='days') renderDays();
+  else if (activeTab==='hotels') renderHotels();
+  else if (activeTab==='places') renderPlaces();
+  else if (activeTab==='costs') renderCosts();
+  else if (activeTab==='flights') renderFlights();
+}
+
+function renderStats() {
+  const bk = DATA.hotels.filter(h=>h.booked);
+  const totalPrice = bk.reduce((s,h)=>s+(h.price||0),0);
+  const totalNights = bk.reduce((s,h)=>s+(h.nights||0),0);
+  const missing = DATA.hotels.filter(h=>!h.booked);
+  const costTotal = DATA.costs.reduce((s,c)=>s+(c.amount||0),0);
+  const cards = [
+    {label:'מלונות מוזמנים', value:`${bk.length}`, detail:`${missing.length} חסרים`},
+    {label:'לילות', value:`${totalNights}`, detail:'סה״כ ללינות שהוזמנו'},
+    {label:'עלות מלונות', value:`₪${totalPrice.toLocaleString()}`, detail:'לפי המלונות שנרשמו'},
+    {label:'הוצאות', value:`₪${costTotal.toLocaleString()}`, detail:'סה״כ ברשימת התקציב'},
+    {label:'אתרים', value:`${DATA.places.length}`, detail:'נקודות עניין במסלול'}
+  ];
+  document.getElementById('stats').innerHTML = cards.map(card => `
+    <div class="stat-card">
+      <div class="stat-label">${card.label}</div>
+      <div class="stat-value">${card.value}</div>
+      <div class="stat-detail">${card.detail}</div>
+    </div>`).join('');
+}
+
+function regionTag(r) {
+  const cls = {kansai:'tg-k',hokkaido:'tg-h',tokyo:'tg-t',dubai:'tg-d'}[r]||'tg-d';
+  const he = {kansai:'קנסאי',hokkaido:'הוקאידו',tokyo:'טוקיו',dubai:'דובאי'}[r]||r;
+  return `<span class="tg ${cls}">${he}</span>`;
+}
+
+function mapsLink(h) {
+  if (h.pid) return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name)}&query_place_id=${h.pid}`;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.addr||h.name)}`;
+}
+
+function th(tab, key, label) {
+  return `<th onclick="sortBy('${tab}','${key}')">${arrow(tab,key)}${label}</th>`;
+}
+
+function ed(dataPath, value) {
+  return `contenteditable="true" data-path="${dataPath}" onblur="editCell(this)"`;
+}
+
+// ══════════════════════════════════
+// DAYS TABLE
+// ══════════════════════════════════
+function renderDays() {
+  const data = sorted(filtered(DATA.days), 'days');
+  const t = document.getElementById('t-days');
+  t.innerHTML = `<thead><tr>
+    ${th('days','tripDay','יום')}
+    ${th('days','date','תאריך')}
+    ${th('days','weekday','יום בשבוע')}
+    ${th('days','regionHe','אזור')}
+    ${th('days','hotelName','מלון')}
+    ${th('days','city','עיר')}
+    <th>בוקר</th><th>צהריים</th><th>ערב</th>
+    <th>תחבורה</th><th>הערות</th>
+  </tr></thead><tbody>${data.map(d => {
+    const isMiss = DATA.hotels.find(h=>h.id===d.hotelId && !h.booked);
+    return `<tr class="${isMiss?'miss':''}">
+      <td><a href="day.html?d=${d.tripDay}" style="font-weight:700;color:#1d4ed8;text-decoration:none">${d.tripDay}</a></td>
+      <td>${d.day}/${d.month}</td>
+      <td>${d.weekday}</td>
+      <td>${d.region?regionTag(d.region):''}</td>
+      <td>${d.hotelName||''}</td>
+      <td>${d.city||''}</td>
+      <td ${ed('days.'+d.id+'.morning.place', d.morning?.place)}>${d.morning?.place||''}</td>
+      <td ${ed('days.'+d.id+'.afternoon.place', d.afternoon?.place)}>${d.afternoon?.place||''}</td>
+      <td ${ed('days.'+d.id+'.evening.place', d.evening?.place)}>${d.evening?.place||''}</td>
+      <td ${ed('days.'+d.id+'.transport.type', d.transport?.type)}>${d.transport?.type||''}</td>
+      <td ${ed('days.'+d.id+'.notes', d.notes)}>${d.notes||''}</td>
+    </tr>`;
+  }).join('')}</tbody>`;
+}
+
+// ══════════════════════════════════
+// HOTELS TABLE
+// ══════════════════════════════════
+function renderHotels() {
+  const data = sorted(filtered(DATA.hotels), 'hotels');
+  const t = document.getElementById('t-hotels');
+  t.innerHTML = `<thead><tr>
+    ${th('hotels','name','שם')}
+    ${th('hotels','city','עיר')}
+    ${th('hotels','regionHe','אזור')}
+    ${th('hotels','checkin','צ׳ק-אין')}
+    ${th('hotels','checkout','צ׳ק-אאוט')}
+    ${th('hotels','nights','לילות')}
+    ${th('hotels','rooms','חדרים')}
+    ${th('hotels','price','מחיר')}
+    <th>סטטוס</th><th>מפה</th>
+    <th>הערות</th>
+  </tr></thead><tbody>${data.map(h => `<tr class="${h.booked?'':'miss'}">
+    <td><b>${h.name}</b><br><span style="font-size:10px;color:#888">${h.he}</span></td>
+    <td>${h.city}</td>
+    <td>${regionTag(h.region)}</td>
+    <td>${h.checkin.slice(5)}</td>
+    <td>${h.checkout.slice(5)}</td>
+    <td>${h.nights}</td>
+    <td>${h.rooms||'—'}</td>
+    <td>${h.price?'₪'+h.price.toLocaleString():'—'}</td>
+    <td><span class="tg ${h.booked?'tg-ok':'tg-no'}">${h.booked?'מוזמן':'חסר'}</span></td>
+    <td>${h.pid||h.addr?`<a class="ml" href="${mapsLink(h)}" target="_blank">מפה</a>`:''}</td>
+    <td ${ed('hotels.'+h.id+'.notes', h.notes)}>${h.notes||''}</td>
+  </tr>`).join('')}</tbody>`;
+}
+
+// ══════════════════════════════════
+// PLACES TABLE
+// ══════════════════════════════════
+function renderPlaces() {
+  const data = sorted(filtered(DATA.places), 'places');
+  const t = document.getElementById('t-places');
+  t.innerHTML = `<thead><tr>
+    ${th('places','name','שם')}
+    ${th('places','city','עיר')}
+    ${th('places','type','סוג')}
+    ${th('places','hours','שעות')}
+    ${th('places','price','מחיר')}
+    ${th('places','duration','משך')}
+    <th>למי</th><th>הערות</th>
+  </tr></thead><tbody>${data.map(p => `<tr>
+    <td><b>${p.name}</b><br><span style="font-size:10px;color:#888">${p.nameEn}</span></td>
+    <td>${p.city}</td>
+    <td>${p.type}</td>
+    <td>${p.hours||''}</td>
+    <td>${p.price?'¥'+p.price:''}</td>
+    <td>${p.duration||''}</td>
+    <td>${(p.forWho||[]).join(', ')}</td>
+    <td ${ed('places.'+p.id+'.notes', p.notes)}>${p.notes||''}</td>
+  </tr>`).join('')}</tbody>`;
+}
+
+// ══════════════════════════════════
+// COSTS TABLE
+// ══════════════════════════════════
+function renderCosts() {
+  const data = sorted(DATA.costs, 'costs');
+  const t = document.getElementById('t-costs');
+  const total = data.reduce((s,c)=>s+(c.amount||0),0);
+  t.innerHTML = `<thead><tr>
+    ${th('costs','category','קטגוריה')}
+    ${th('costs','item','פריט')}
+    ${th('costs','amount','סכום')}
+    ${th('costs','date','תאריך')}
+    <th>שולם</th><th>הערות</th>
+  </tr></thead><tbody>${data.map(c => `<tr>
+    <td>${c.category}</td>
+    <td>${c.item}</td>
+    <td>${c.amount?'₪'+c.amount.toLocaleString():'—'}</td>
+    <td>${c.date||''}</td>
+    <td><span class="tg ${c.paid?'tg-ok':'tg-no'}">${c.paid?'שולם':'לא'}</span></td>
+    <td ${ed('costs.'+c.id+'.notes', c.notes)}>${c.notes||''}</td>
+  </tr>`).join('')}
+  <tr style="background:#f0efec;font-weight:700"><td colspan="2">סה״כ</td><td>₪${total.toLocaleString()}</td><td colspan="3"></td></tr>
+  </tbody>`;
+}
+
+// ══════════════════════════════════
+// FLIGHTS TABLE
+// ══════════════════════════════════
+function renderFlights() {
+  const data = sorted(DATA.flights, 'flights');
+  const t = document.getElementById('t-flights');
+  t.innerHTML = `<thead><tr>
+    ${th('flights','type','סוג')}
+    ${th('flights','date','תאריך')}
+    ${th('flights','from','מ-')}
+    ${th('flights','to','אל')}
+    <th>שעה</th><th>חברה</th><th>אישור</th><th>הערות</th>
+  </tr></thead><tbody>${data.map(f => `<tr>
+    <td>${f.type}</td>
+    <td>${f.date}</td>
+    <td>${f.from}</td>
+    <td>${f.to}</td>
+    <td ${ed('flights.'+f.id+'.time', f.time)}>${f.time||''}</td>
+    <td ${ed('flights.'+f.id+'.airline', f.airline)}>${f.airline||''}</td>
+    <td ${ed('flights.'+f.id+'.confirmation', f.confirmation)}>${f.confirmation||''}</td>
+    <td ${ed('flights.'+f.id+'.notes', f.notes)}>${f.notes||''}</td>
+  </tr>`).join('')}</tbody>`;
+}
+
+// ══════════════════════════════════
+// EDIT CELL
+// ══════════════════════════════════
+function editCell(el) {
+  const path = el.dataset.path;
+  if (!path) return;
+  const parts = path.split('.');
+  const collection = parts[0];
+  const id = +parts[1];
+  const field = parts.slice(2).join('.');
+
+  const arr = DATA[collection];
+  if (!arr) return;
+  const item = arr.find(x => x.id === id);
+  if (!item) return;
+
+  const keys = field.split('.');
+  let obj = item;
+  for (let i=0; i<keys.length-1; i++) {
+    if (!obj[keys[i]]) obj[keys[i]] = {};
+    obj = obj[keys[i]];
+  }
+  obj[keys[keys.length-1]] = el.textContent;
+  toast('נשמר');
+}
+
+// ══════════════════════════════════
+// MAP (Leaflet)
+// ══════════════════════════════════
+function initMap() {
+  if (mapObj) return;
+  setTimeout(() => {
+    mapObj = L.map('map').setView([37, 138], 5);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap'
+    }).addTo(mapObj);
+
+    DATA.hotels.forEach(h => {
+      if (!h.lat || !h.lng) return;
+      const color = h.booked ? 'green' : 'orange';
+      L.circleMarker([h.lat, h.lng], {radius:8, fillColor:color, color:'#333', weight:1, fillOpacity:.8})
+        .addTo(mapObj)
+        .bindPopup(`<b>${h.name}</b><br>${h.city}<br>${h.checkin} → ${h.checkout}`);
+    });
+
+    DATA.places.forEach(p => {
+      if (!p.lat || !p.lng) return;
+      L.circleMarker([p.lat, p.lng], {radius:5, fillColor:'#3b82f6', color:'#333', weight:1, fillOpacity:.7})
+        .addTo(mapObj)
+        .bindPopup(`<b>${p.name}</b><br>${p.city}`);
+    });
+  }, 100);
+}
+
+// ══════════════════════════════════
+// SAVE / EXPORT
+// ══════════════════════════════════
+async function saveAll() {
+  // Download each JSON file
+  for (const [name, data] of Object.entries(DATA)) {
+    downloadJSON(data, name+'.json');
+  }
+  toast('כל הקבצים נשמרו');
+}
+
+function downloadJSON(data, filename) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function exportJSON() {
+  downloadJSON(DATA, 'japan-trip-all.json');
+  toast('JSON מלא יוצא');
+}
+
+function copyTable() {
+  const table = document.querySelector('.panel.on table');
+  if (!table) return;
+  const rows = [];
+  table.querySelectorAll('tr').forEach(tr => {
+    const cells = [];
+    tr.querySelectorAll('th, td').forEach(td => cells.push(td.textContent.trim()));
+    rows.push(cells.join('\t'));
+  });
+  navigator.clipboard.writeText(rows.join('\n')).then(()=>toast('הועתק לאקסל'));
+}
+
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
+
+// ══════════════════════════════════
+// INIT
+// ══════════════════════════════════
+loadData();
+</script>
+</body>
+</html>
