@@ -106,16 +106,30 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 #t-days .slot-cell{min-width:0}
 #t-days .slot-spot{white-space:normal}
 /* רוחב עמודות: קבועות צרות מימין, ובוקר/צהריים/ערב/הערות מקבלים את שאר הרוחב */
-#t-days col.c-page{width:3.5%}
+#t-days col.c-page{width:5.5%}
 #t-days col.c-day{width:3%}
-#t-days col.c-date{width:4%}
-#t-days col.c-weekday{width:5.5%}
+#t-days col.c-date{width:6%}
+#t-days col.c-weekday{width:5%}
 #t-days col.c-region{width:5%}
-#t-days col.c-hotel{width:13%}
+#t-days col.c-hotel{width:12.5%}
 #t-days col.c-city{width:5%}
-#t-days col.c-slot{width:12.5%}
-#t-days col.c-transport{width:8%}
-#t-days col.c-notes{width:11%}
+#t-days col.c-slot{width:12%}
+#t-days col.c-transport{width:7.5%}
+#t-days col.c-notes{width:10%}
+/* עמודת 'דף היום' — לא נחתכת, כפתור שלם */
+#t-days .c-page-cell{overflow:visible}
+#t-days .c-page-cell .act{white-space:nowrap;padding:4px 8px}
+/* תאריך מובלט בגדול */
+#t-days .day-date{font-size:16px;font-weight:900;color:#1d4ed8;text-decoration:none;white-space:nowrap}
+#t-days .day-date:hover{text-decoration:underline}
+/* רקע שורה לפי אזור הטיול — מסייע להבין את החלוקה לפי צבע (קנסאי/הוקאידו/טוקיו/דובאי) */
+#t-days tr.reg-k td{background:rgba(219,234,254,.55)}   /* קנסאי — כחול בהיר */
+#t-days tr.reg-h td{background:rgba(147,197,253,.40)}   /* הוקאידו — כחול בינוני */
+#t-days tr.reg-t td{background:rgba(59,130,246,.20)}    /* טוקיו — כחול חזק */
+#t-days tr.reg-d td{background:rgba(231,229,228,.60)}   /* דובאי/אחר — ניטרלי */
+#t-days tr.reg-k:hover td,#t-days tr.reg-h:hover td,#t-days tr.reg-t:hover td,#t-days tr.reg-d:hover td{filter:brightness(.97)}
+/* יום עם מלון לא מוזמן — עדיין מסומן בענבר גובר על צבע האזור */
+#t-days tr.miss td{background:#fffef5}
 table{width:100%;border-collapse:collapse;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 th{background:#2c2c2c;color:#e8e6e1;font-weight:600;font-size:11px;padding:7px 8px;text-align:right;white-space:nowrap;cursor:pointer;user-select:none}
 th:hover{background:#3a3a3a}
@@ -1013,10 +1027,11 @@ function renderDays() {
     <th>תחבורה</th><th>הערות</th>
   </tr></thead><tbody>${data.map(d => {
     const isMiss = DATA.hotels.find(h=>h.id===d.hotelId && !h.booked);
-    return `<tr class="${isMiss?'miss':''}">
-      <td><a class="act act-open" href="day.html?d=${d.tripDay}">${icon('external')}פתח</a></td>
+    const regRow = {kansai:'reg-k',hokkaido:'reg-h',tokyo:'reg-t',dubai:'reg-d',home:'reg-d'}[d.region]||'';
+    return `<tr class="${regRow}${isMiss?' miss':''}">
+      <td class="c-page-cell"><a class="act act-open" href="day.html?d=${d.tripDay}">${icon('external')}פתח דף</a></td>
       <td><a href="day.html?d=${d.tripDay}" style="font-weight:700;color:#1d4ed8;text-decoration:none">${d.tripDay}</a></td>
-      <td><a href="day.html?d=${d.tripDay}" style="color:#1d4ed8;text-decoration:none">${d.day}/${d.month}</a></td>
+      <td><a class="day-date" href="day.html?d=${d.tripDay}">${d.day}/${d.month}</a></td>
       <td>${d.weekday}</td>
       <td>${d.region?regionTag(d.region):''}</td>
       <td><div style="display:flex;align-items:center;gap:6px">${hotelThumbMini(hotelById(d.hotelId)||hotelByName(dayHotelName(d)))}${hotelNameLinked(d)}</div></td>
