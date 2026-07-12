@@ -146,6 +146,9 @@
       if (mUl) { if (listType !== "ul") { flush(); listType = "ul"; } listBuf.push("<li>" + mdInline(mUl[1]) + "</li>"); continue; }
       flush();
       if (!ln.trim()) { html += "<div style='height:6px'></div>"; continue; }
+      // רשת ביטחון: אם המודל בכל זאת השתמש ב-# לכותרת — מנקים את הסולמיות ומציגים ככותרת
+      var mHash = ln.match(/^\s*#{1,6}\s+(.*)$/);
+      if (mHash) { html += "<span class='yk-h'>" + mdInline(mHash[1]) + "</span>"; continue; }
       // שורה שכולה מודגשת → כותרת סעיף
       var mH = ln.match(/^\s*\*\*(.+)\*\*\s*:?\s*$/);
       if (mH) { html += "<span class='yk-h'>" + mdInline("**" + mH[1] + "**").replace(/^<b>|<\/b>$/g, "") + "</span>"; continue; }
@@ -236,12 +239,17 @@
   }
 
   // הפעלת פעולה: מפה / מעבר מסך. בעמוד הראשי — הוקים מקומיים; ב-day.html — ניווט ל-index
+  function gmapsSearch(q) {
+    return "https://www.google.com/maps/search/?api=1&hl=he&query=" + encodeURIComponent(q || "");
+  }
   function runAction(a) {
     if (a.type === "map") {
       if (typeof window.yukoShowPlace === "function") {
+        // המקום במסלול? מיקוד המפה הפנימית. אחרת — פתיחת Google Maps כדי שתמיד יראו אותו
         var ok = window.yukoShowPlace(a.query);
-        if (ok === false) location.href = "index.html?tab=map&focus=" + encodeURIComponent(a.query || "");
+        if (ok === false) window.open(gmapsSearch(a.query), "_blank", "noopener");
       } else {
+        // day.html — ננסה למקד במפת האפליקציה; אם המקום לא במסלול, index יפתח Google Maps
         location.href = "index.html?tab=map&focus=" + encodeURIComponent(a.query || "");
       }
     } else if (a.type === "tab" && a.tab) {

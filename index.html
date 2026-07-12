@@ -2062,7 +2062,13 @@ function yukoFindPlace(query){
   var q = String(query).trim().toLowerCase();
   var norm = function(s){ return String(s||'').trim().toLowerCase(); };
   var hit = function(o){ return o && ((norm(o.nameEn)===q)||(norm(o.name)===q)); };
-  var inc = function(o){ return o && ((norm(o.nameEn).indexOf(q)>-1)||(norm(o.name).indexOf(q)>-1)); };
+  // התאמה דו-כיוונית: השם מוכל בשאילתה או להפך (המודל עשוי לשלוח שם מורחב עם עיר)
+  var inc = function(o){
+    if(!o) return false;
+    var ne = norm(o.nameEn), nm = norm(o.name);
+    return (ne && (ne.indexOf(q)>-1 || (q.indexOf(ne)>-1 && ne.length>=4))) ||
+           (nm && (nm.indexOf(q)>-1 || (q.indexOf(nm)>-1 && nm.length>=4)));
+  };
   var places = (DATA.places||[]);
   var p = places.find(hit) || places.find(inc);
   if(p && p.lat && p.lng) return { name:p.name, nameEn:p.nameEn, lat:p.lat, lng:p.lng, category:p.category, _place:p };
@@ -2109,7 +2115,12 @@ window.yukoShowPlace = function(query){
 // מיקוד המפה מפרמטר ?focus= (כשמגיעים מ-day.html דרך יוקו)
 (function(){
   var f = new URLSearchParams(location.search).get('focus');
-  if(f){ var tries=0; (function wait(){ tries++; if(DATA.days&&DATA.days.length){ window.yukoShowPlace(f); } else if(tries<40){ setTimeout(wait,100); } })(); }
+  if(f){ var tries=0; (function wait(){ tries++;
+    if(DATA.days&&DATA.days.length){
+      var ok = window.yukoShowPlace(f);
+      if(ok===false) window.open('https://www.google.com/maps/search/?api=1&hl=he&query='+encodeURIComponent(f),'_blank','noopener');
+    } else if(tries<40){ setTimeout(wait,100); }
+  })(); }
 })();
 </script>
 <script src="yuko.js" defer></script>
