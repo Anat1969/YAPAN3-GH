@@ -2036,6 +2036,16 @@ function toast(m){const t=document.getElementById('toast');t.textContent=m;t.cla
 // INIT
 // ══════════════════════════════════
 loadData();
+
+// הקשר היום עבור יוקו — היום התואם לתאריך של היום; אחרת היום הראשון במסלול
+window.yukoDayContext = function(){
+  var days = (DATA && DATA.days) || [];
+  if (!days.length) return null;
+  var today = new Date();
+  var iso = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+  return days.find(function(d){ return d.date === iso; }) || days[0];
+};
 </script>
+<script src="yuko.js" defer></script>
 </body>
 </html>

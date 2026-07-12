@@ -927,6 +927,10 @@ function saveDay() {
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
 
 load();
+
+// הקשר היום עבור יוקו — היום הנבחר כרגע (לפי ?d=) מתוך הנתונים הטעונים
+window.yukoDayContext = function(){ return dayData || null; };
 </script>
+<script src="yuko.js" defer></script>
 </body>
 </html>
