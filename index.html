@@ -91,9 +91,12 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 
 /* FILTERS */
 /* סרגל ניווט משני — מסננים של הדף הנוכחי. ממורכז. מוסתר כשאין. */
-.filters{position:sticky;top:41px;z-index:40;background:var(--surface);border-bottom:1px solid var(--border);margin:0 0 10px;padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:center}
+.filters{position:sticky;top:41px;z-index:40;background:var(--surface);border-bottom:1px solid var(--border);margin:0 0 10px;padding:0}
 .filters:empty{display:none}
-.filters::before{content:'סינון:';font-size:11px;font-weight:800;color:var(--ink-3);margin-left:2px}
+/* עטיפה פנימית — מיישרת את מסגרת הסינון לרוחב הטבלה (כמו .tw), עם תווית 'סינון:' */
+.filters-inner{max-width:1200px;margin:0 auto;padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:center}
+.filters-inner.filters-inner-wide{max-width:100%;padding:8px 8px;justify-content:flex-start}
+.filters-inner::before{content:'סינון:';font-size:11px;font-weight:800;color:var(--ink-3);margin-left:2px}
 .flt{padding:3px 10px;border:1px solid #ddd;border-radius:3px;background:#fff;font:600 11px/1.4 inherit;cursor:pointer;color:#666;transition:.12s}
 .flt:hover{border-color:#999}.flt.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 
@@ -105,6 +108,13 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 #t-days th,#t-days td{padding:5px 6px;font-size:11px;overflow:hidden;text-overflow:ellipsis}
 #t-days .slot-cell{min-width:0}
 #t-days .slot-spot{white-space:normal}
+/* מסגור/רקע שונה לכל חלק ביום — בוקר / צהריים / ערב — נבדל ויזואלית */
+#t-days td.slot-morning{box-shadow:inset 3px 0 0 #f6c453}    /* בוקר — שחר, ענבר */
+#t-days td.slot-afternoon{box-shadow:inset 3px 0 0 #38bdf8}  /* צהריים — יום, תכלת */
+#t-days td.slot-evening{box-shadow:inset 3px 0 0 #7c6df2}    /* ערב — דמדומים, סגול */
+#t-days th.slot-morning-h{border-top:3px solid #f6c453}
+#t-days th.slot-afternoon-h{border-top:3px solid #38bdf8}
+#t-days th.slot-evening-h{border-top:3px solid #7c6df2}
 /* רוחב עמודות: קבועות צרות מימין, ובוקר/צהריים/ערב/הערות מקבלים את שאר הרוחב */
 #t-days col.c-page{width:5.5%}
 #t-days col.c-day{width:3%}
@@ -749,7 +759,11 @@ function renderFilters() {
   const regions = [
     {k:'',l:'הכל'},{k:'kansai',l:'קנסאי'},{k:'hokkaido',l:'הוקאידו'},{k:'tokyo',l:'טוקיו'},{k:'dubai',l:'דובאי'}
   ];
-  el.innerHTML = regions.map(r=>`<button class="flt${regionFilter===r.k?' on':''}" onclick="regionFilter='${r.k}';render()">${r.l}</button>`).join('');
+  // עטיפה פנימית שמיישרת את מסגרת הסינון לרוחב הטבלה הפעילה (רחב בלוח ימים, ממורכז בשאר)
+  const wide = activeTab==='days' ? ' filters-inner-wide' : '';
+  el.innerHTML = `<div class="filters-inner${wide}">` +
+    regions.map(r=>`<button class="flt${regionFilter===r.k?' on':''}" onclick="regionFilter='${r.k}';render()">${r.l}</button>`).join('') +
+    `</div>`;
 }
 
 function filtered(arr) {
@@ -1023,7 +1037,7 @@ function renderDays() {
     ${th('days','regionHe','אזור')}
     ${th('days','hotelName','מלון')}
     ${th('days','city','עיר')}
-    <th>בוקר</th><th>צהריים</th><th>ערב</th>
+    <th class="slot-morning-h">בוקר</th><th class="slot-afternoon-h">צהריים</th><th class="slot-evening-h">ערב</th>
     <th>תחבורה</th><th>הערות</th>
   </tr></thead><tbody>${data.map(d => {
     const isMiss = DATA.hotels.find(h=>h.id===d.hotelId && !h.booked);
@@ -1036,9 +1050,9 @@ function renderDays() {
       <td>${d.region?regionTag(d.region):''}</td>
       <td><div style="display:flex;align-items:center;gap:6px">${hotelThumbMini(hotelById(d.hotelId)||hotelByName(dayHotelName(d)))}${hotelNameLinked(d)}</div></td>
       <td>${dayCity(d)}</td>
-      <td class="slot-cell">${daySlotHtml(d,'morning')}</td>
-      <td class="slot-cell">${daySlotHtml(d,'afternoon')}</td>
-      <td class="slot-cell">${daySlotHtml(d,'evening')}</td>
+      <td class="slot-cell slot-morning">${daySlotHtml(d,'morning')}</td>
+      <td class="slot-cell slot-afternoon">${daySlotHtml(d,'afternoon')}</td>
+      <td class="slot-cell slot-evening">${daySlotHtml(d,'evening')}</td>
       <td ${ed('days.'+d.id+'.transport.type', d.transport?.type)}>${d.transport?.type||''}</td>
       <td ${ed('days.'+d.id+'.notes', d.notes)}>${d.notes||''}</td>
     </tr>`;
