@@ -489,6 +489,12 @@ a.bk:hover{background:#00224f}
 .hotel-imgcell{display:flex;flex-direction:column;align-items:center;gap:3px}
 .hotel-imgcell .hotel-thumb-mini{width:70px;height:50px}
 .hotel-noimg{width:70px;height:50px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#a8a29e;background:#f5f4f0;border:1px dashed #d6d3ce;border-radius:5px}
+/* דף מלונות — הבלטת תאריכים ומספר לילות */
+#t-hotels .hcell-date{font-size:15px;font-weight:900;color:#1c1c1a;white-space:nowrap;direction:ltr;text-align:center}
+#t-hotels .hcell-nights{font-size:15px;font-weight:900;color:#1d4ed8;text-align:center}
+#t-hotels .hcell-nights::after{content:' לילות';font-size:9px;font-weight:600;color:#8a857e}
+/* הערות מנוקדות — כל משפט בשורה נפרדת */
+#t-hotels .hcell-notes{font-size:11px;line-height:1.5;min-width:150px}
 .hotel-imgbtn{font-size:9px;font-weight:700;color:var(--action);background:none;border:1px solid var(--border);border-radius:4px;padding:1px 6px;cursor:pointer}
 .hotel-imgbtn:hover{background:var(--bg)}
 a.ml{color:var(--action);text-decoration:none;font-size:11px}
@@ -951,7 +957,7 @@ function renderSummary() {
       tab:'hotels', state: missH?'warn':'ok', tip:`${booked.length} מתוך ${H.length} מלונות הוזמנו, ${nights} לילות סה״כ${missH?`. ${missH} עדיין לא הוזמנו`:''}. לחיצה: פתיחת דף המלונות`},
     {ic:'star',     topic:'אטרקציות וחוויות', main:`${P.length}`, sub:`${placeTypes.length} סוגים של אתרים`,
       tab:'places', tip:`${P.length} אתרים ונקודות עניין ב-${placeTypes.length} סוגים. לחיצה: פתיחת דף האתרים`},
-    {ic:'train',    topic:'תחבורה',           main:`${flightsCount} טיסות`, sub:`${carDates&&carDates.active?`רכב שכור ${(carDates.from||'').slice(5)}→${(carDates.to||'').slice(5)} · `:''}שאטלים`,
+    {ic:'train',    topic:'תחבורה',           main:`${flightsCount} טיסות`, sub:`${carDates&&carDates.active?`רכב שכור ${fmtDate(carDates.from)}→${fmtDate(carDates.to)} · `:''}שאטלים`,
       tab:'transport', tip:`${flightsCount} טיסות${carDates&&carDates.active?' + רכב שכור':''} + שאטלים. לחיצה: פתיחת דף התחבורה`},
     {ic:'money',    topic:'עלויות',           main:`₪${costTotal.toLocaleString()}`, sub:`שולם ₪${costPaid.toLocaleString()}${costEst?` · משוער ₪${costEst.toLocaleString()}`:''}`,
       tab:'costs', tip:`סה״כ עלות הטיול ₪${costTotal.toLocaleString()} (מלונות+טיסות+רכב+אטרקציות, כולל המרת מטבע). מזה שולם ₪${costPaid.toLocaleString()}. לחיצה: פתיחת דף התקציב`},
@@ -1022,7 +1028,7 @@ function hotelNameLinked(d){
 // שם מלון כקישור Booking (מקבל אובייקט)
 function hotelNameLink2(h, txt){
   if(!h) return txt||'';
-  return `<a href="${bookingLink(h)}" target="_blank" rel="noopener" class="hotel-link" data-tip="הזמנה בבוקינג — ${(h.checkin||'').slice(5)}→${(h.checkout||'').slice(5)}, 2 מבוגרים + 2 בני נוער (17,15)">${txt||h.name}</a>`;
+  return `<a href="${bookingLink(h)}" target="_blank" rel="noopener" class="hotel-link" data-tip="הזמנה בבוקינג — ${fmtDate(h.checkin)}→${fmtDate(h.checkout)}, 2 מבוגרים + 2 בני נוער (17,15)">${txt||h.name}</a>`;
 }
 
 // קישור Booking עם הרכב המשפחה בפועל: 2 מבוגרים + 2 בני נוער (17, 15), חדר ל-4
@@ -1225,15 +1231,15 @@ function renderHotels() {
     <td><b>${hotelNameLink2(h)}</b><br><span style="font-size:10px;color:#888">${h.he||''}</span></td>
     <td>${h.city}</td>
     <td>${regionTag(h.region)}</td>
-    <td>${h.checkin.slice(5)}</td>
-    <td>${h.checkout.slice(5)}</td>
-    <td>${h.nights}</td>
+    <td class="hcell-date">${fmtDate(h.checkin)}</td>
+    <td class="hcell-date">${fmtDate(h.checkout)}</td>
+    <td class="hcell-nights">${h.nights}</td>
     <td>${h.rooms||'—'}</td>
     <td>${h.price?'₪'+h.price.toLocaleString():'—'}</td>
     <td><span class="tg ${h.booked?'tg-ok':'tg-no'}">${icon(h.booked?'check':'alert')}${h.booked?'מוזמן':'חסר'}</span></td>
     <td><a class="bk" href="${bookingLink(h)}" target="_blank" rel="noopener" aria-label="הזמנה בבוקינג">${icon('external')}Booking</a></td>
     <td>${h.pid||h.addr?`<a class="act act-ghost" href="${mapsLink(h)}" target="_blank" aria-label="מיקום במפה">${icon('pin')}מפה</a>`:''}</td>
-    <td ${ed('hotels.'+h.id+'.notes', h.notes)}>${h.notes||''}</td>
+    <td class="hcell-notes" ${ed('hotels.'+h.id+'.notes', h.notes)}>${fmtNotes(h.notes)}</td>
   </tr>`).join('')}</tbody>`;
 }
 
@@ -1489,6 +1495,16 @@ function renderFlights() {
 // דף תחבורה מרכזי
 // ══════════════════════════════════
 function fmtDate(iso){ if(!iso) return ''; const [y,m,d]=iso.split('-'); return `${+d}/${+m}`; }
+// הערה מנוקדת: כל משפט (אחרי נקודה) יורד לשורה חדשה, ומובטחת נקודה בסוף.
+function fmtNotes(txt){
+  if(!txt) return '';
+  const esc = String(txt).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // פיצול אחרי נקודה שאחריה רווח/סוף — לא לשבור מספרים עשרוניים (נקודה בין ספרות)
+  let s = esc.replace(/([^\d])\.(\s+|$)/g, '$1.\n').trim();
+  // הבטחת נקודה בסוף אם אין סימן פיסוק מסיים
+  if(!/[.!?…]$/.test(s)) s += '.';
+  return s.split('\n').map(line=>line.trim()).filter(Boolean).join('<br>');
+}
 
 // הפרש בדקות בין שתי שעות HH:MM
 function minsBetween(a,b){ if(!a||!b) return null; const [ah,am]=a.split(':').map(Number),[bh,bm]=b.split(':').map(Number); return (bh*60+bm)-(ah*60+am); }
@@ -1995,8 +2011,8 @@ function renderMapNights(legend) {
   DATA.hotels.forEach(h=>{
     if(!h.lat||!h.lng) return;
     const color = h.booked ? '#15803d' : '#b45309';
-    const range = `${(h.checkin||'').slice(5).replace('-','/')}–${(h.checkout||'').slice(5).replace('-','/')}`;
-    const popup = `${bilingual(h.he,h.name)}<br><span style="font-size:11px">${h.checkin} — ${h.checkout} · ${h.nights||''} לילות</span><br><a href="index.html?tab=hotels" style="font-size:11px;color:#1d4ed8">פרטי מלון ›</a>${h.pid||h.addr?` · <a href="${mapsLink(h)}" target="_blank" style="font-size:11px;color:#1d4ed8">ניווט</a>`:''}`;
+    const range = `${fmtDate(h.checkin)}–${fmtDate(h.checkout)}`;
+    const popup = `${bilingual(h.he,h.name)}<br><span style="font-size:11px">${fmtDate(h.checkin)} — ${fmtDate(h.checkout)} · ${h.nights||''} לילות</span><br><a href="index.html?tab=hotels" style="font-size:11px;color:#1d4ed8">פרטי מלון ›</a>${h.pid||h.addr?` · <a href="${mapsLink(h)}" target="_blank" style="font-size:11px;color:#1d4ed8">ניווט</a>`:''}`;
     // סימן גדול עם טווח תאריכים בתוכו (סעיף 4.3)
     bigMarker([h.lat,h.lng],{text:range,color,shape:'square',size:52,fontSize:10,popup,aria:`${h.name} · ${range}`, onClick:()=>showHotelSpecific(h)}).addTo(mapLayer);
     pts.push([h.lat,h.lng]);
@@ -2007,7 +2023,7 @@ function renderMapNights(legend) {
 }
 function showHotelSpecific(h) {
   if(!h||!h.lat) return;
-  const layer = focusSpec(null, `${h.he||h.name} · ${(h.checkin||'').slice(5)}–${(h.checkout||'').slice(5)}`);
+  const layer = focusSpec(null, `${h.he||h.name} · ${fmtDate(h.checkin)}–${fmtDate(h.checkout)}`);
   const color = h.booked?'#15803d':'#b45309';
   bigMarker([h.lat,h.lng],{text:'',color,shape:'square',size:26,popup:bilingual(h.he,h.name),aria:h.name}).addTo(layer);
   mapSpecObj.setView([h.lat,h.lng],13);
