@@ -126,6 +126,10 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 #t-days col.c-slot{width:11.5%}
 #t-days col.c-transport{width:7%}
 #t-days col.c-notes{width:9.5%}
+/* עמודת מלון — תמונה ברוחב מלא של השורה/עמודה, שם המלון מתחת */
+#t-days .hotel-cell-day{text-align:center}
+#t-days .hotel-cell-day .hotel-thumb-mini{width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;border-radius:6px;display:block;margin-bottom:4px}
+#t-days .hotel-cell-day .hotel-link,#t-days .hotel-cell-day a{display:block;text-align:center}
 /* עמודת מספר היום — מספר בולט וברור, לא נחתך */
 #t-days td:nth-child(2){text-align:center;overflow:visible}
 #t-days td:nth-child(2) a{font-size:15px}
@@ -1052,7 +1056,7 @@ function renderDays() {
       <td><a class="day-date" href="day.html?d=${d.tripDay}">${d.day}/${d.month}</a></td>
       <td>${d.weekday}</td>
       <td>${d.region?regionTag(d.region):''}</td>
-      <td><div style="display:flex;align-items:center;gap:6px">${hotelThumbMini(hotelById(d.hotelId)||hotelByName(dayHotelName(d)))}${hotelNameLinked(d)}</div></td>
+      <td class="hotel-cell-day">${hotelThumbMini(hotelById(d.hotelId)||hotelByName(dayHotelName(d)))}${hotelNameLinked(d)}</td>
       <td>${dayCity(d)}</td>
       <td class="slot-cell slot-morning">${daySlotHtml(d,'morning')}</td>
       <td class="slot-cell slot-afternoon">${daySlotHtml(d,'afternoon')}</td>
