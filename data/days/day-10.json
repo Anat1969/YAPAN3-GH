@@ -33,12 +33,26 @@
         "placeId": ""
       }
     ],
-    "evening": []
+    "evening": [
+      {
+        "name": "ארוחת ערב באוטורו",
+        "nameEn": "Utoro fishing port dinner",
+        "addr": "Utoro, Shari, Shari District, Hokkaido",
+        "lat": 44.0759,
+        "lng": 145.0225,
+        "time": "19:00",
+        "duration": "1.5 שעות",
+        "price": null,
+        "forWho": "כולם",
+        "notes": "ארוחה ראשונה בשירטוקו אחרי הנחיתה — פירות ים טריים מנמל אוטורו (סלמון, סרטן, איקורה)",
+        "placeId": ""
+      }
+    ]
   },
   "meals": {
     "breakfast": "במלון",
     "lunch": "בשדה תעופה",
-    "dinner": "",
+    "dinner": "אוטורו — פירות ים טריים מהנמל",
     "icecream": ""
   },
   "transport": {

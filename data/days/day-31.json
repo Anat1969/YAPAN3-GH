@@ -10,11 +10,11 @@
         "addr": "",
         "lat": 31,
         "lng": 34.85,
-        "time": "",
+        "time": "08:00",
         "duration": "",
-        "price": "",
+        "price": null,
         "forWho": "כולם",
-        "notes": "",
+        "notes": "טיסת חזרה הביתה — סוף הטיול",
         "placeId": ""
       }
     ],

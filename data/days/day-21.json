@@ -33,12 +33,26 @@
         "placeId": ""
       }
     ],
-    "evening": []
+    "evening": [
+      {
+        "name": "רחוב סושי אוטארו",
+        "nameEn": "Otaru Sushiya Dori",
+        "addr": "Sushiya Dori, Otaru, Hokkaido",
+        "lat": 43.1954,
+        "lng": 140.9967,
+        "time": "18:30",
+        "duration": "1.5 שעות",
+        "price": null,
+        "forWho": "כולם",
+        "notes": "\"רחוב הסושי\" של אוטארו — עשרות מסעדות סושי טרי. אוטארו מפורסמת בפירות ים מים קרים",
+        "placeId": ""
+      }
+    ]
   },
   "meals": {
-    "breakfast": "",
+    "breakfast": "במלון",
     "lunch": "אוטארו — סושי",
-    "dinner": "",
+    "dinner": "רחוב הסושי אוטארו — אומקאסה",
     "icecream": "LeTAO — עוגת גבינה כפולה"
   },
   "transport": {

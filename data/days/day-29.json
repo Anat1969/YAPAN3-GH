@@ -3,15 +3,43 @@
   "title": "דובאי — יום 1",
   "idea": "עצירת ביניים",
   "spots": {
-    "morning": [],
-    "afternoon": [],
-    "evening": []
+    "afternoon": [
+      {
+        "name": "דובאי מול",
+        "nameEn": "The Dubai Mall",
+        "addr": "Financial Center Rd, Downtown Dubai",
+        "lat": 25.1972,
+        "lng": 55.2796,
+        "time": "16:00",
+        "duration": "2.5 שעות",
+        "price": null,
+        "forWho": "כולם",
+        "notes": "אחד הקניונים הגדולים בעולם, ממוזג. אקווריום ענק, מפל אנושי, קניות. מנוחה קלה אחרי טיסה",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "מזרקת דובאי",
+        "nameEn": "The Dubai Fountain",
+        "addr": "Sheikh Mohammed bin Rashid Blvd, Downtown Dubai",
+        "lat": 25.1955,
+        "lng": 55.2765,
+        "time": "19:00",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "כולם",
+        "notes": "מופע מים ואור על אגם בורג' ח'ליפה — כל 30 דק' מ-18:00. חינם, מרהיב. צפייה מגשר הסוק אל בהאר",
+        "placeId": ""
+      }
+    ],
+    "morning": []
   },
   "meals": {
-    "breakfast": "",
+    "breakfast": "בטיסה / בשדה",
     "lunch": "",
-    "dinner": "",
+    "dinner": "דובאי מול — מסעדה עם נוף למזרקה",
     "icecream": ""
   },
-  "notes": "דובאי — צריך להזמין מלון ולתכנן"
+  "notes": "עצירת ביניים — המשפחה עייפה מטיסה ארוכה. יום קליל, ללא עומס. לוודא הזמנת מלון"
 }

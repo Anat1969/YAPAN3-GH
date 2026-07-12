@@ -3,15 +3,70 @@
   "title": "יום חופשי בקיוטו",
   "idea": "השלמות, מנוחה, או הפתעות",
   "spots": {
-    "morning": [],
-    "afternoon": [],
-    "evening": []
+    "morning": [
+      {
+        "name": "חורשת הבמבוק באראשיאמה",
+        "nameEn": "Arashiyama Bamboo Grove",
+        "addr": "Sagaogurayama Tabuchiyamacho, Ukyo Ward, Kyoto",
+        "lat": 35.0176,
+        "lng": 135.6716,
+        "time": "08:30",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "כולם",
+        "notes": "להגיע מוקדם (עד 09:00) לפני ההמון. שילוב עם גשר טוגטסוקיו וגן הקוקים סמוך",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "שוק נישיקי",
+        "nameEn": "Nishiki Market",
+        "addr": "609 Nishidaimonjicho, Nakagyo Ward, Kyoto",
+        "lat": 35.0051,
+        "lng": 135.7649,
+        "time": "12:30",
+        "duration": "1.5 שעות",
+        "price": null,
+        "forWho": "כולם",
+        "notes": "\"מטבח קיוטו\" — סמטת אוכל מקורה, טעימות רחוב, ממתקים ותבלינים. מצוין ליום גשום",
+        "placeId": ""
+      },
+      {
+        "name": "שביל הפילוסוף",
+        "nameEn": "Philosopher's Path",
+        "addr": "Ishibashicho, Sakyo Ward, Kyoto",
+        "lat": 35.0271,
+        "lng": 135.7947,
+        "time": "15:00",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "נתן, ענת",
+        "notes": "שביל שקט לאורך תעלה, מחבר בין מקדשים. רגוע ופחות מתויר — מושלם ליום חופשי",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "רובע גיון",
+        "nameEn": "Gion District",
+        "addr": "Gion, Higashiyama Ward, Kyoto",
+        "lat": 35.0037,
+        "lng": 135.7752,
+        "time": "18:30",
+        "duration": "2 שעות",
+        "price": null,
+        "forWho": "כולם",
+        "notes": "רובע הגיישות ההיסטורי — סמטאות מוארות בערב, בתי תה מסורתיים. סיכוי לראות מאיקו",
+        "placeId": ""
+      }
+    ]
   },
   "meals": {
     "breakfast": "במלון",
-    "lunch": "",
-    "dinner": "",
-    "icecream": ""
+    "lunch": "שוק נישיקי — אוכל רחוב",
+    "dinner": "גיון / פונטוצ'ו — סמטת מסעדות לאורך הנהר",
+    "icecream": "גלידת תה ירוק (מאצ'ה) — אראשיאמה"
   },
   "notes": "יום חופשי — הכרחי עם מתבגרים. אפשרויות: קימונו, אונסן, חזרה למקום שאהבנו, או פשוט לא לעשות כלום"
 }

@@ -47,12 +47,26 @@
         "placeId": ""
       }
     ],
-    "evening": []
+    "evening": [
+      {
+        "name": "תעלת אוטארו בלילה",
+        "nameEn": "Otaru Canal at night",
+        "addr": "Ironai, Otaru, Hokkaido",
+        "lat": 43.198,
+        "lng": 140.9946,
+        "time": "19:00",
+        "duration": "1.5 שעות",
+        "price": 0,
+        "forWho": "כולם",
+        "notes": "תעלה היסטורית עם פנסי גז מוארים בערב — אווירה רומנטית. מחסני לבנים משופצים לאורך המים",
+        "placeId": ""
+      }
+    ]
   },
   "meals": {
-    "breakfast": "",
+    "breakfast": "במלון",
     "lunch": "Farm Tomita — מלון לבנדר, קארי",
-    "dinner": "",
+    "dinner": "אוטארו — סושי / פירות ים",
     "icecream": "גלידת לבנדר — Farm Tomita (חובה)"
   },
   "transport": {

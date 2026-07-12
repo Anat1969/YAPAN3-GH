@@ -65,6 +65,8 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 .nav-btn{padding:4px 10px;border:1px solid #555;border-radius:4px;background:transparent;color:#aaa;font:600 11px/1.4 inherit;cursor:pointer;transition:.12s}
 .nav-btn:hover{background:rgba(255,255,255,.1);color:#fff;border-color:#888}
 .nav-btn.save{border-color:#166534;color:#4ade80}.nav-btn.save:hover{background:#166534;color:#fff}
+.nav-btn.vs-btn{display:inline-flex;align-items:center;gap:4px;border-color:#3b5bb5;color:#93b4ff;text-decoration:none}
+.nav-btn.vs-btn:hover{background:rgba(29,78,216,.18);color:#fff;border-color:#1d4ed8}
 .back-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid #4b4b4b;border-radius:6px;background:rgba(255,255,255,.06);color:#e8e6e1;font:800 12px/1.4 inherit;cursor:pointer;transition:.12s;white-space:nowrap}
 .back-btn .ic{width:14px;height:14px}
 .back-btn:hover{background:rgba(255,255,255,.14);border-color:#777}
@@ -115,6 +117,11 @@ td[contenteditable]:focus{background:#fffde7;box-shadow:inset 0 0 0 2px #fbbf24}
 .place-img{width:64px;height:48px;object-fit:cover;border-radius:6px;display:block;background:#eee}
 .place-img.noimg,.place-img.broken{display:flex;align-items:center;justify-content:center;font-size:9px;color:#a8a29e;background:#f5f4f0;border:1px dashed #d6d3ce;text-align:center;line-height:1.2}
 tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.place-namelink{color:inherit;text-decoration:none}
+.place-namelink:hover{color:var(--action);text-decoration:underline}
+/* הדגשה זמנית לכרטיס אתר שהגיעו אליו מקישור ישיר (deep-link) */
+@keyframes placeFlash{0%{background:var(--warn-bg)}60%{background:var(--warn-bg)}100%{background:transparent}}
+.place-flash>td{animation:placeFlash 2.6s ease-out;box-shadow:inset 3px 0 0 var(--focus)}
 
 /* TAGS */
 .tg{display:inline-flex;align-items:center;gap:3px;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700;white-space:nowrap}
@@ -460,6 +467,7 @@ a.ml:hover{text-decoration:underline}
     <button class="tab" data-tab="map" data-tip="מפת כל המלונות והאתרים" aria-label="מעבר למפה">מפה</button>
   </div>
   <div class="actions">
+    <a class="nav-btn vs-btn" href="https://github.com/Anat1969/YAPAN3-GH" target="_blank" rel="noopener" data-tip="פתיחת קוד האפליקציה ב-VS Code (GitHub) לשדרוג" aria-label="שדרוג VS — עריכת קוד האפליקציה"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor;fill:none;width:13px;height:13px;vertical-align:-2px"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg> שדרוג VS</a>
     <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none" data-tip="חזרה לדף הקודם שביקרת בו" aria-label="חזרה לדף הקודם"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor"><path d="M5 12h14M12 5l-7 7 7 7"/></svg><span class="back-lbl">חזרה</span></button>
   </div>
 </nav>
@@ -1098,6 +1106,39 @@ function placeImg(p) {
   return `<div class="place-img noimg" role="img" aria-label="${alt} — אין תמונה">אין תמונה</div>`;
 }
 
+// קישור Google Maps מדויק לאתר: placeId > lat/lng > כתובת/שם. תמיד hl=he.
+function placeMapsLink(p) {
+  const q = encodeURIComponent(p.nameEn || p.name || '');
+  if (p.pid) return `https://www.google.com/maps/search/?api=1&hl=he&query=${q}&query_place_id=${p.pid}`;
+  if (p.lat && p.lng) return `https://www.google.com/maps/search/?api=1&hl=he&query=${p.lat},${p.lng}(${q})`;
+  return `https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(p.addr||p.nameEn||p.name||'')}`;
+}
+
+// deep-link לכרטיס אתר: ?place=<id> (או ?q=<שם> להתאמה) — גלילה + הדגשה זמנית
+let _placeDeepLinkDone = false;
+function scrollToDeepLinkPlace() {
+  if (_placeDeepLinkDone) return;
+  const sp = new URLSearchParams(location.search);
+  const pid = sp.get('place'), q = sp.get('q');
+  if (!pid && !q) return;
+  _placeDeepLinkDone = true;
+  let row = null;
+  if (pid) row = document.getElementById('place-' + pid);
+  if (!row && q) {
+    const needle = q.toLowerCase();
+    const all = DATA.places || [];
+    const m = all.find(p => (p.nameEn||'').toLowerCase()===needle || (p.name||'').toLowerCase()===needle)
+           || all.find(p => (p.nameEn||'').toLowerCase().includes(needle) || (p.name||'').toLowerCase().includes(needle));
+    if (m) row = document.getElementById('place-' + m.id);
+  }
+  if (!row) return;
+  setTimeout(() => {
+    row.scrollIntoView({ behavior:'smooth', block:'center' });
+    row.classList.add('place-flash');
+    setTimeout(() => row.classList.remove('place-flash'), 2600);
+  }, 120);
+}
+
 function renderPlaces() {
   const data = sorted(filtered(DATA.places), 'places');
   const t = document.getElementById('t-places');
@@ -1110,9 +1151,9 @@ function renderPlaces() {
     ${th('places','price','מחיר')}
     ${th('places','duration','משך')}
     <th>למי</th><th>הערות</th>
-  </tr></thead><tbody>${data.map(p => `<tr>
-    <td>${placeImg(p)}</td>
-    <td><b>${p.name}</b><br><span style="font-size:10px;color:#888">${p.nameEn}</span></td>
+  </tr></thead><tbody>${data.map(p => { const gm = placeMapsLink(p); return `<tr id="place-${p.id}">
+    <td><a href="${gm}" target="_blank" rel="noopener" data-tip="פתיחת ${p.name} ב-Google Maps" aria-label="פתיחת ${p.name} ב-Google Maps">${placeImg(p)}</a></td>
+    <td><a href="${gm}" target="_blank" rel="noopener" class="place-namelink" data-tip="פתיחת ${p.name} ב-Google Maps"><b>${p.name}</b></a><br><span style="font-size:10px;color:#888">${p.nameEn}</span></td>
     <td>${p.city}</td>
     <td>${p.type}</td>
     <td>${p.hours||''}</td>
@@ -1120,7 +1161,8 @@ function renderPlaces() {
     <td>${p.duration||''}</td>
     <td>${(p.forWho||[]).join(', ')}</td>
     <td ${ed('places.'+p.id+'.notes', p.notes)}>${p.notes||''}</td>
-  </tr>`).join('')}</tbody>`;
+  </tr>`; }).join('')}</tbody>`;
+  scrollToDeepLinkPlace();
 }
 
 // ══════════════════════════════════

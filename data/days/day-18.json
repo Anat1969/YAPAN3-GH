@@ -33,12 +33,26 @@
         "placeId": ""
       }
     ],
-    "evening": []
+    "evening": [
+      {
+        "name": "בריכת הכחול (Blue Pond) בשקיעה",
+        "nameEn": "Shirogane Blue Pond",
+        "addr": "Shirogane, Biei, Kamikawa District, Hokkaido",
+        "lat": 43.4966,
+        "lng": 142.6407,
+        "time": "18:00",
+        "duration": "1 שעה",
+        "price": 0,
+        "forWho": "כולם",
+        "notes": "בריכה כחולה־טורקיז מפורסמת. אור אחר הצהריים/ערב = צבע עז יותר. סמוך: מפלי שירוגאנה",
+        "placeId": ""
+      }
+    ]
   },
   "meals": {
-    "breakfast": "",
-    "lunch": "ביאי",
-    "dinner": "",
+    "breakfast": "במלון",
+    "lunch": "ביאי — קארי / בית קפה כפרי",
+    "dinner": "פוראנו — מסעדה מקומית",
     "icecream": ""
   },
   "transport": {

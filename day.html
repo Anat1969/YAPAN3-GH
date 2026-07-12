@@ -35,6 +35,9 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .mainnav .back-btn:hover{background:#f59e0b}
 .mainnav .back-btn svg{width:14px;height:14px;stroke:#1a1a1a;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .mainnav .back-btn:focus-visible,.mainnav .tab:focus-visible{outline:2px solid #b8860b;outline-offset:1px}
+.mainnav .nav-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border:1px solid #3b5bb5;border-radius:6px;background:transparent;color:#93b4ff;font:700 12px/1.4 inherit;cursor:pointer;text-decoration:none;transition:.12s;white-space:nowrap}
+.mainnav .nav-btn:hover{background:rgba(29,78,216,.18);color:#fff;border-color:#1d4ed8}
+.mainnav .nav-btn:focus-visible{outline:2px solid #b8860b;outline-offset:1px}
 @media(max-width:900px){.mainnav .tabs{justify-content:flex-start;order:3;flex-basis:100%}.mainnav .actions{margin-right:auto}}
 /* ה-head של היום הופך לסרגל משני — פרטי היום + ניווט בין ימים */
 .head{top:41px !important;z-index:1100 !important}
@@ -163,6 +166,8 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .route-stop .rs-num{font-size:10px;font-weight:800;color:#fff;background:#1a1a1a;border-radius:999px;padding:1px 7px;min-width:20px;text-align:center;flex:none}
 .route-stop .stop-thumb{width:40px;height:32px;object-fit:cover;border-radius:6px;flex:none}
 .route-stop .rs-en{font-size:11px;font-weight:400;color:#8a857e;direction:ltr}
+.route-stop .rs-namelink{color:#1a1a1a;text-decoration:none;font-weight:700}
+.route-stop .rs-namelink:hover{color:#1d4ed8;text-decoration:underline}
 
 /* NOTES */
 .day-notes{width:100%;min-height:60px;border:1px solid #e5e3de;border-radius:6px;padding:10px 14px;font:13px/1.5 inherit;resize:vertical;transition:.12s}
@@ -220,6 +225,7 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
     <a class="tab" href="index.html?tab=map">מפה</a>
   </div>
   <div class="actions">
+    <a class="nav-btn vs-btn" href="https://github.com/Anat1969/YAPAN3-GH" target="_blank" rel="noopener" data-tip="פתיחת קוד האפליקציה ב-VS Code (GitHub) לשדרוג" aria-label="שדרוג VS — עריכת קוד האפליקציה"><svg viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;width:13px;height:13px;vertical-align:-2px"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg> שדרוג VS</a>
     <button class="back-btn" onclick="goBack()" data-tip="חזרה לדף הקודם שביקרת בו" aria-label="חזרה לדף הקודם"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l-7 7 7 7"/></svg>חזרה</button>
   </div>
 </nav>
@@ -423,6 +429,24 @@ function spotImage(pt){
   return m?.image||'';
 }
 
+// קישור לכרטיס האתר בטאב "אתרים" באפליקציה. אם נמצא place תואם — קישור ישיר לכרטיס (place=id);
+// אחרת — פתיחת הטאב עם חיפוש לפי שם (q=). match אופציונלי (מחושב מראש ב-renderSpots).
+function placeCardLink(pt, match){
+  const m = match || placesData.find(p=>(p.nameEn&&pt.nameEn&&p.nameEn===pt.nameEn)||p.name===pt.name);
+  if(m && m.id!=null) return `index.html?tab=places&place=${encodeURIComponent(m.id)}`;
+  return `index.html?tab=places&q=${encodeURIComponent(pt.nameEn||pt.name||'')}`;
+}
+
+// קישור Google Maps מדויק לנקודה: placeId > lat/lng > חיפוש שם (זהה לדפוס ב-renderSpots)
+function spotGmap(pt){
+  const m = placesData.find(p=>(p.nameEn&&pt.nameEn&&p.nameEn===pt.nameEn)||p.name===pt.name);
+  const pid = pt.placeId || m?.pid;
+  const q = encodeURIComponent(pt.nameEn||pt.name||'');
+  if(pid) return `https://www.google.com/maps/search/?api=1&hl=he&query=${q}&query_place_id=${pid}`;
+  if(pt.lat&&pt.lng) return `https://www.google.com/maps/search/?api=1&hl=he&query=${pt.lat},${pt.lng}(${q})`;
+  return `https://www.google.com/maps/search/?api=1&hl=he&query=${q}`;
+}
+
 function renderDay() {
   const d = dayData;
   document.title = `יום ${d.tripDay} — ${d.city || ''}`;
@@ -566,10 +590,12 @@ function renderTransportSummary(d) {
       return `<div class="route-stop">${thumb}<span class="rs-num">${label}</span> ${nameHtml}${pt.nameEn?` <span class="rs-en">${pt.nameEn}</span>`:''}</div>`;
     }
     const imgSrc = spotImage(pt);
+    const gmap = spotGmap(pt);
     const thumb = imgSrc
-      ? `<img class="stop-thumb" src="${imgSrc}" alt="${alt}" loading="lazy" onerror="this.style.display='none'">`
+      ? `<a href="${gmap}" target="_blank" rel="noopener" data-tip="פתיחת ${pt.name} ב-Google Maps"><img class="stop-thumb" src="${imgSrc}" alt="${alt}" loading="lazy" onerror="this.parentElement.style.display='none'"></a>`
       : '';
-    return `<div class="route-stop">${thumb}<span class="rs-num">${label}</span> ${pt.name}${pt.nameEn?` <span class="rs-en">${pt.nameEn}</span>`:''}</div>`;
+    const nameHtml = `<a href="${placeCardLink(pt)}" class="rs-namelink" data-tip="פתיחת כרטיס האתר באפליקציה">${pt.name}</a>`;
+    return `<div class="route-stop">${thumb}<span class="rs-num">${label}</span> ${nameHtml}${pt.nameEn?` <span class="rs-en">${pt.nameEn}</span>`:''}</div>`;
   };
   let routeHtml = '';
   t.segments.forEach((seg, i) => {
@@ -652,7 +678,7 @@ function renderSpots(tod, spots) {
       : `<div class="spot-img noimg" role="img" aria-label="${alt} — אין תמונה">אין תמונה</div>`;
     return `<div class="spot" data-tod="${tod}" data-idx="${i}" onclick="highlightSpot('${tod}',${i},false)" style="cursor:pointer">
       ${img}
-      <div class="spot-name"><span style="display:inline-block;min-width:20px;color:#1d4ed8;font-weight:900">${num}.</span> <a href="${gmap}" target="_blank" rel="noopener" class="spot-namelink" onclick="event.stopPropagation()" data-tip="פתיחה ב-Google Maps">${s.name}</a> <span class="spot-name-en">${s.nameEn || ''}</span></div>
+      <div class="spot-name"><span style="display:inline-block;min-width:20px;color:#1d4ed8;font-weight:900">${num}.</span> <a href="${placeCardLink(s, match)}" class="spot-namelink" onclick="event.stopPropagation()" data-tip="פתיחת כרטיס האתר באפליקציה">${s.name}</a> <span class="spot-name-en">${s.nameEn || ''}</span></div>
       <div class="spot-meta">
         ${s.time ? `<span>${s.time}</span>` : ''}
         ${s.duration ? `<span>${s.duration}</span>` : ''}

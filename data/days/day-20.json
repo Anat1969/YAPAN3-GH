@@ -3,15 +3,57 @@
   "title": "ניסקו — הר יוטיי וראפטינג",
   "idea": "ספורט, טבע, נוף הרי געש",
   "spots": {
-    "morning": [],
-    "afternoon": [],
-    "evening": []
+    "morning": [
+      {
+        "name": "ראפטינג בנהר שירִיבֶּטסוּ",
+        "nameEn": "Shiribetsu River Rafting",
+        "addr": "Niseko, Abuta District, Hokkaido",
+        "lat": 42.8048,
+        "lng": 140.6874,
+        "time": "09:00",
+        "duration": "2.5 שעות",
+        "price": 6000,
+        "forWho": "עילאי, כולם",
+        "notes": "ראפטינג משפחתי בקיץ — דרגת קושי נמוכה, מתאים מגיל 5. חברות: Niseko HANAZONO / NAC. הזמנה מראש",
+        "placeId": ""
+      }
+    ],
+    "afternoon": [
+      {
+        "name": "רכבל הר יוטיי / אנופורי",
+        "nameEn": "Niseko Annupuri Gondola",
+        "addr": "Niseko Annupuri, Niseko, Hokkaido",
+        "lat": 42.8635,
+        "lng": 140.6606,
+        "time": "13:30",
+        "duration": "2 שעות",
+        "price": 2000,
+        "forWho": "כולם",
+        "notes": "רכבל קיץ לנוף מרהיב של הר יוטיי (\"פוג'י של הוקאידו\"). מסלולי הליכה קלים בפסגה",
+        "placeId": ""
+      }
+    ],
+    "evening": [
+      {
+        "name": "אונסן ניסקו — גראנד הירָפוּ",
+        "nameEn": "Niseko Grand Hirafu Onsen",
+        "addr": "Yamada, Kutchan, Abuta District, Hokkaido",
+        "lat": 42.8628,
+        "lng": 140.7078,
+        "time": "17:30",
+        "duration": "1.5 שעות",
+        "price": 800,
+        "forWho": "נתן, ענת",
+        "notes": "מעיינות חמים טבעיים אחרי יום ספורט. חלק מהמתחמים עם רוטנבורו (בריכה חיצונית) מול ההרים",
+        "placeId": ""
+      }
+    ]
   },
   "meals": {
-    "breakfast": "",
-    "lunch": "",
-    "dinner": "",
-    "icecream": ""
+    "breakfast": "במלון",
+    "lunch": "כפר ניסקו — מסעדת הרים / קארי סופ (מנת חתימה של הוקאידו)",
+    "dinner": "היראפו — יאקיטורי / איזקאיה מקומית",
+    "icecream": "גלידת חלב הוקאידו טרייה"
   },
   "notes": "יום חופשי — אפשרויות: אופניים נוספים, ראפטינג, אונסן, או פשוט מנוחה",
   "hotelId": 13,
