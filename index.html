@@ -99,6 +99,23 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 
 /* TABLE */
 .tw{max-width:1200px;margin:0 auto;padding:0 12px;overflow-x:auto}
+/* לוח ימים — טבלה רחבה שמתפרסת על כל רוחב המסך כדי להציג את כל העמודות בבת אחת */
+.tw.days-wide{max-width:100%;padding:0 8px;overflow-x:auto}
+#t-days{table-layout:fixed;width:100%}
+#t-days th,#t-days td{padding:5px 6px;font-size:11px;overflow:hidden;text-overflow:ellipsis}
+#t-days .slot-cell{min-width:0}
+#t-days .slot-spot{white-space:normal}
+/* רוחב עמודות: קבועות צרות מימין, ובוקר/צהריים/ערב/הערות מקבלים את שאר הרוחב */
+#t-days col.c-page{width:3.5%}
+#t-days col.c-day{width:3%}
+#t-days col.c-date{width:4%}
+#t-days col.c-weekday{width:5.5%}
+#t-days col.c-region{width:5%}
+#t-days col.c-hotel{width:12%}
+#t-days col.c-city{width:5%}
+#t-days col.c-slot{width:11.5%}
+#t-days col.c-transport{width:7%}
+#t-days col.c-notes{width:9.5%}
 table{width:100%;border-collapse:collapse;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 th{background:#2c2c2c;color:#e8e6e1;font-weight:600;font-size:11px;padding:7px 8px;text-align:right;white-space:nowrap;cursor:pointer;user-select:none}
 th:hover{background:#3a3a3a}
@@ -497,7 +514,7 @@ a.ml:hover{text-decoration:underline}
 <div class="filters" id="filters"></div>
 
 <div class="panel on" id="p-summary"><div class="tw"><div id="sumWrap"></div></div></div>
-<div class="panel" id="p-days"><div class="tw"><table id="t-days"></table></div></div>
+<div class="panel" id="p-days"><div class="tw days-wide"><table id="t-days"></table></div></div>
 <div class="panel" id="p-calendar"><div class="tw" id="calWrap"></div></div>
 <div class="panel" id="p-hotels"><div class="tw"><table id="t-hotels"></table></div></div>
 <div class="panel" id="p-places"><div class="tw"><table id="t-places"></table></div></div>
@@ -979,7 +996,11 @@ function daySlotHtml(d, slot) {
 function renderDays() {
   const data = sorted(filtered(DATA.days), 'days');
   const t = document.getElementById('t-days');
-  t.innerHTML = `<thead><tr>
+  t.innerHTML = `<colgroup>
+    <col class="c-page"><col class="c-day"><col class="c-date"><col class="c-weekday"><col class="c-region">
+    <col class="c-hotel"><col class="c-city"><col class="c-slot"><col class="c-slot"><col class="c-slot">
+    <col class="c-transport"><col class="c-notes">
+  </colgroup><thead><tr>
     <th>דף היום</th>
     ${th('days','tripDay','יום')}
     ${th('days','date','תאריך')}
