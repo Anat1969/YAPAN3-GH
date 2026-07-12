@@ -22,7 +22,10 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .head .nb.sv{border-color:#166534;color:#4ade80}
 
 /* ── סרגל ניווט ראשי (זהה ל-index) — קבוע בראש, טאבים ממורכזים ── */
-.mainnav{background:#1a1a1a;padding:8px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:0;z-index:60;box-shadow:0 1px 0 rgba(255,255,255,.06)}
+.mainnav{background:#1a1a1a;padding:8px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:0;z-index:1200;box-shadow:0 1px 0 rgba(255,255,255,.06)}
+/* המפה (Leaflet) לא תעלה על הסרגלים בגלילה — יוצרת stacking context משלה */
+.map-square{position:relative;z-index:0;isolation:isolate}
+.leaflet-container{z-index:0}
 .mainnav h1{color:#e8e6e1;font-size:16px;font-weight:900}
 .mainnav .tabs{flex:1;display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
 .mainnav .tab{padding:5px 14px;border:none;border-radius:4px;background:transparent;color:#aaa;font:600 12px/1.4 inherit;cursor:pointer;text-decoration:none;transition:.12s}
@@ -34,7 +37,7 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .mainnav .back-btn:focus-visible,.mainnav .tab:focus-visible{outline:2px solid #b8860b;outline-offset:1px}
 @media(max-width:900px){.mainnav .tabs{justify-content:flex-start;order:3;flex-basis:100%}.mainnav .actions{margin-right:auto}}
 /* ה-head של היום הופך לסרגל משני — פרטי היום + ניווט בין ימים */
-.head{top:41px !important;z-index:55 !important}
+.head{top:41px !important;z-index:1100 !important}
 
 .wrap{max-width:900px;margin:0 auto;padding:16px}
 
@@ -63,6 +66,10 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .spot:last-child{border-bottom:none}
 .spot-name{font-weight:700;font-size:14px;margin-bottom:2px}
 .spot-name-en{font-size:11px;color:#888;font-weight:400}
+.spot-namelink{color:#1a1a1a;text-decoration:none;font-weight:700}
+.spot-namelink:hover{color:#1d4ed8;text-decoration:underline}
+.sl-wiki{color:#5a4a2a !important;border-color:#e8dcc0 !important}
+.sl-web{color:#15803d !important;border-color:#c8e6d0 !important}
 .spot-meta{font-size:11px;color:#777;display:flex;gap:12px;flex-wrap:wrap;margin:4px 0}
 .spot-meta span{white-space:nowrap}
 .spot-notes{font-size:12px;color:#555;margin-top:4px}
@@ -627,17 +634,25 @@ function renderSpots(tod, spots) {
   }
   el.innerHTML = spots.map((s, i) => {
     const num = globalNum(tod, i);
-    const mapsSearch = `https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(s.nameEn || s.name)}`;
-    // תמונה: קודם של הספוט עצמו, אחרת מ-places.json לפי nameEn
     const match = placesData.find(p => p.nameEn && s.nameEn && p.nameEn===s.nameEn) || placesData.find(p=>p.name===s.name);
+    // קישור Google Maps מדויק: place_id > lat/lng > חיפוש
+    const pid = s.placeId || match?.pid;
+    const gmap = pid
+      ? `https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(s.nameEn||s.name)}&query_place_id=${pid}`
+      : (s.lat&&s.lng ? `https://www.google.com/maps/search/?api=1&hl=he&query=${s.lat},${s.lng}(${encodeURIComponent(s.nameEn||s.name)})`
+      : `https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(s.nameEn||s.name)}`);
+    // קישור ויקיפדיה עברית + אתר רשמי (אם קיים ב-places)
+    const wikiHe = `https://he.wikipedia.org/w/index.php?search=${encodeURIComponent(s.name)}`;
+    const official = s.officialUrl || match?.officialUrl;
     const imgSrc = s.image || (match && match.image);
     const alt = `${s.name}${s.nameEn?' — '+s.nameEn:''}`;
+    // תמונה כקישור ל-Google Maps
     const img = imgSrc
-      ? `<img class="spot-img" src="${imgSrc}" alt="${alt}" loading="lazy" onerror="this.classList.add('broken');this.removeAttribute('src')">`
+      ? `<a href="${gmap}" target="_blank" rel="noopener" onclick="event.stopPropagation()" data-tip="פתיחת ${s.name} ב-Google Maps"><img class="spot-img" src="${imgSrc}" alt="${alt}" loading="lazy" onerror="this.parentElement.style.display='none'"></a>`
       : `<div class="spot-img noimg" role="img" aria-label="${alt} — אין תמונה">אין תמונה</div>`;
     return `<div class="spot" data-tod="${tod}" data-idx="${i}" onclick="highlightSpot('${tod}',${i},false)" style="cursor:pointer">
       ${img}
-      <div class="spot-name"><span style="display:inline-block;min-width:20px;color:#1d4ed8;font-weight:900">${num}.</span> ${s.name} <span class="spot-name-en">${s.nameEn || ''}</span></div>
+      <div class="spot-name"><span style="display:inline-block;min-width:20px;color:#1d4ed8;font-weight:900">${num}.</span> <a href="${gmap}" target="_blank" rel="noopener" class="spot-namelink" onclick="event.stopPropagation()" data-tip="פתיחה ב-Google Maps">${s.name}</a> <span class="spot-name-en">${s.nameEn || ''}</span></div>
       <div class="spot-meta">
         ${s.time ? `<span>${s.time}</span>` : ''}
         ${s.duration ? `<span>${s.duration}</span>` : ''}
@@ -647,9 +662,10 @@ function renderSpots(tod, spots) {
       ${s.addr ? `<div class="spot-meta"><span style="direction:ltr">${s.addr}</span></div>` : ''}
       ${s.notes ? `<div class="spot-notes">${s.notes}</div>` : ''}
       <div class="spot-links" onclick="event.stopPropagation()">
-        <a class="sl" href="${mapsSearch}" target="_blank">חפש במפות</a>
-        ${s.lat && s.lng ? `<a class="sl" href="https://www.google.com/maps/dir/?api=1&hl=he&destination=${s.lat},${s.lng}&travelmode=transit" target="_blank">ניווט תח״צ</a>` : ''}
-        ${s.lat && s.lng ? `<a class="sl" href="https://www.google.com/maps/dir/?api=1&hl=he&destination=${s.lat},${s.lng}&travelmode=driving" target="_blank">ניווט רכב</a>` : ''}
+        <a class="sl" href="${gmap}" target="_blank" rel="noopener">Google Maps</a>
+        <a class="sl sl-wiki" href="${wikiHe}" target="_blank" rel="noopener" data-tip="קריאה על ${s.name} בוויקיפדיה">ויקיפדיה</a>
+        ${official ? `<a class="sl sl-web" href="${official}" target="_blank" rel="noopener">אתר רשמי</a>` : ''}
+        ${s.lat && s.lng ? `<a class="sl" href="https://www.google.com/maps/dir/?api=1&hl=he&destination=${s.lat},${s.lng}&travelmode=transit" target="_blank">ניווט</a>` : ''}
         <button class="sl" style="cursor:pointer;border-color:#fee2e2;color:#991b1b" onclick="removeSpot('${tod}',${i})">מחק</button>
       </div>
     </div>`;
