@@ -12,14 +12,14 @@
 body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;font-size:14px;line-height:1.55;padding:0}
 
 .head{background:#1a1a1a;color:#e8e6e1;padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:10}
-.head .num{font-size:36px;font-weight:900;line-height:1;color:#e8e6e1}
-.head .info{flex:1}
+.head .num{font-size:36px;font-weight:900;line-height:1;color:#e8e6e1;flex:none}
+.head .info{flex:none}
 .head .date{font-size:18px;font-weight:700}
 .head .sub{font-size:12px;color:#aaa}
-.head .nav{display:flex;gap:6px}
+/* סרגל ניווט הימים — ממורכז בחלק העליון (יום קודם / כל הימים / יום הבא) */
+.head .nav{flex:1;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
 .head .nb{padding:4px 10px;border:1px solid #555;border-radius:4px;background:transparent;color:#aaa;font:600 11px/1.4 inherit;cursor:pointer;text-decoration:none;transition:.12s}
 .head .nb:hover{background:rgba(255,255,255,.1);color:#fff;border-color:#888}
-.head .nb.sv{border-color:#166534;color:#4ade80}
 
 /* ── סרגל ניווט ראשי (זהה ל-index) — קבוע בראש, טאבים ממורכזים ── */
 .mainnav{background:#1a1a1a;padding:8px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:0;z-index:1200;box-shadow:0 1px 0 rgba(255,255,255,.06)}
@@ -219,6 +219,7 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
     <a class="tab" href="index.html?tab=days">לוח ימים</a>
     <a class="tab" href="index.html?tab=calendar">לוח שנה</a>
     <a class="tab" href="index.html?tab=hotels">מלונות</a>
+    <a class="tab" href="index.html?tab=bookings">הזמנות</a>
     <a class="tab" href="index.html?tab=places">אתרים</a>
     <a class="tab" href="index.html?tab=costs">תקציב</a>
     <a class="tab" href="index.html?tab=flights">טיסות</a>
@@ -240,7 +241,6 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
     <a class="nb" id="prevDay" href="#">← היום הקודם</a>
     <a class="nb" href="index.html?tab=days">כל הימים</a>
     <a class="nb" id="nextDay" href="#">היום הבא →</a>
-    <button class="nb sv" onclick="saveDay()">שמור</button>
   </div>
 </div>
 
@@ -894,34 +894,6 @@ function highlightSpot(tod, idx, fromMap) {
     if (el) el.classList.add('active');
     if (!fromMap) { rtMap.panTo(m.marker.getLatLng()); m.marker.openPopup(); }
   }
-}
-
-// ══════════════════════════════════
-// SAVE
-// ══════════════════════════════════
-function saveDay() {
-  dayData.meals = {
-    breakfast: document.getElementById('meal-b').value,
-    lunch: document.getElementById('meal-l').value,
-    dinner: document.getElementById('meal-d').value,
-    icecream: document.getElementById('meal-i').value
-  };
-  dayData.transport = {
-    type: document.getElementById('tr-type').value,
-    from: document.getElementById('tr-from').value,
-    to: document.getElementById('tr-to').value,
-    duration: document.getElementById('tr-dur').value,
-    cost: document.getElementById('tr-cost').value
-  };
-  dayData.notes = document.getElementById('dayNotes').value;
-
-  const filename = `day-${String(dayId).padStart(2,'0')}.json`;
-  const blob = new Blob([JSON.stringify(dayData, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = filename;
-  a.click();
-  toast(`נשמר: ${filename} — העבירי לתיקיית data/days/`);
 }
 
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
