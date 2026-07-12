@@ -535,11 +535,7 @@ a.ml:hover{text-decoration:underline}
       <h2>יפן 2026 — אוסקה, קיוטו, קנאזאווה, הוקאידו וטוקיו</h2>
       <p>לוח ניהול מרכזי למלונות, ימים, תחבורה, תקציב ונתיבי המסע.</p>
     </div>
-    <div class="hero-pills">
-      <span class="hero-pill">31 ימים</span>
-      <span class="hero-pill">11 מלונות</span>
-      <span class="hero-pill">3 אזורים עיקריים</span>
-    </div>
+    <div class="hero-pills" id="heroPills"></div>
   </div>
 </section>
 <div class="stats" id="stats"></div>
@@ -896,52 +892,73 @@ function renderHelp() {
 // דף סיכומים מרכזי
 // ══════════════════════════════════
 function renderSummary() {
-  const H=DATA.hotels, D=DATA.days, P=DATA.places, C=DATA.costs, F=DATA.flights;
+  const H=DATA.hotels, D=DATA.days, P=DATA.places, F=DATA.flights;
 
-  // חישובים מהנתונים הקיימים בלבד
+  // ── כל המספרים מחושבים חי מ-DATA בכל רינדור (משתקפים מיד עם כל שינוי) ──
   const first=D[0], last=D[D.length-1];
   const dateRange = first&&last ? `${first.day}/${first.month} – ${last.day}/${last.month}` : '—';
   const regions = [...new Set(D.map(d=>d.regionHe).filter(Boolean))];
   const cities  = [...new Set(D.map(d=>d.city).filter(Boolean))];
   const booked = H.filter(h=>h.booked), missH = H.length-booked.length;
   const nights = booked.reduce((s,h)=>s+(h.nights||0),0);
-  const hotelPrice = booked.reduce((s,h)=>s+(h.price||0),0);
   const placeTypes = [...new Set(P.map(p=>p.type).filter(Boolean))];
-  const transTypes = [...new Set(F.map(f=>f.type).filter(Boolean))];
-  const costTotal = C.reduce((s,c)=>s+(c.amount||0),0);
-  const hasCost = costTotal>0;
 
-  // מרחק/זמן — אין נתונים כאלה עדיין (ימולא ידנית בהמשך)
-  const totalKm = D.reduce((s,d)=>s+(d.distanceKm||0),0);
-  const totalTravel = D.reduce((s,d)=>s+(d.travelMin||0),0);
+  // מרחק/זמן — מסוכמים מ-transport.summary של כל יום (המקור האמיתי בנתונים)
+  const daysWithSummary = D.filter(d=>d.transport&&d.transport.summary);
+  const totalKm = Math.round(daysWithSummary.reduce((s,d)=>s+(d.transport.summary.totalDistanceKm||0),0));
+  const totalTransitMin = daysWithSummary.reduce((s,d)=>s+(d.transport.summary.totalTransitMinutes||0),0);
+  const totalTravelHrs = totalTransitMin/60;
+  const daysCoverage = daysWithSummary.length; // כמה ימים כוללים נתוני מרחק/זמן
+  const avgKm = totalKm && D.length ? Math.round(totalKm/D.length) : 0;
 
-  // state: 'ok' | 'warn' | 'pending' | null — הצבע היחיד שמותר בכרטיסייה נגזר ממנו
+  // עלויות — אותו חישוב כמו דף התקציב (collectCosts) כדי שהמספרים יהיו עקביים בין הדפים
+  let costTotal=0, costPaid=0, costEst=0;
+  try {
+    const rows = collectCosts();
+    costTotal = rows.reduce((s,r)=>s+(r.ils||0),0);
+    costPaid  = rows.filter(r=>r.paid).reduce((s,r)=>s+(r.ils||0),0);
+    costEst   = rows.filter(r=>r.estimate).reduce((s,r)=>s+(r.ils||0),0);
+  } catch(e){ costTotal = booked.reduce((s,h)=>s+(h.price||0),0); }
+
+  const flightsCount = F.filter(f=>f.type&&f.type.includes('טיסה')).length;
+  const carDates = DATA.transport&&DATA.transport.carRental ? DATA.transport.carRental : null;
+
+  // state: 'ok' | 'warn' | 'pending' | null. tip = הסבר מלא: מה הנתון + לאן מובילה הלחיצה.
   const cards = [
-    {ic:'days',     topic:'ימים',            main:`${D.length}`, sub:'ימי טיול מתוכננים', tab:'days'},
-    {ic:'calendar', topic:'תאריכים',         main:dateRange, sub:`${regions.length} אזורים · ${cities.length} ערים`, tab:'calendar'},
-    {ic:'route',    topic:'מרחק כולל',        main: totalKm?`${totalKm} ק״מ`:'טרם הוזן', sub:'סה״כ מרחק המסלול', tab:'map', state: totalKm?null:'pending', note:!totalKm?'יתמלא כשיוזנו ק״מ לימים':''},
-    {ic:'pin',      topic:'מרחק לפי יום',     main: totalKm?`${(totalKm/(D.length||1)).toFixed(0)} ק״מ`:'טרם הוזן', sub:'ממוצע ליום טיול', tab:'days', state: totalKm?null:'pending', note:!totalKm?'יחושב אוטומטית מרגע שיוזנו מרחקים':''},
-    {ic:'clock',    topic:'זמני נסיעה',       main: totalTravel?`${Math.round(totalTravel/60)} שע׳`:'טרם הוזן', sub:'סה״כ זמן בדרכים', tab:'flights', state: totalTravel?null:'pending', note:!totalTravel?'יתמלא כשיוזנו זמני נסיעה':''},
-    {ic:'city',     topic:'יעדים ומקומות',    main:`${cities.length}`, sub:`${cities.slice(0,3).join(' · ')}${cities.length>3?'…':''}`, tab:'days'},
-    {ic:'bed',      topic:'לינה',             main:`${booked.length}/${H.length}`, sub:`${nights} לילות · ${missH} טרם הוזמנו`, tab:'hotels', state: missH?'warn':'ok'},
-    {ic:'star',     topic:'אטרקציות וחוויות', main:`${P.length}`, sub:`${placeTypes.length} סוגים של אתרים`, tab:'places'},
-    {ic:'train',    topic:'תחבורה',           main:`${F.filter(f=>f.type&&f.type.includes('טיסה')).length} טיסות`, sub:'רכב שכור · שאטל · טיסות פנים', tab:'transport'},
-    {ic:'money',    topic:'עלויות',           main: hasCost?`₪${costTotal.toLocaleString()}`:`₪${hotelPrice.toLocaleString()}`, sub: hasCost?'סה״כ הוצאות שנרשמו':'עלות מלונות (אין עדיין תקציב)', tab:'costs'},
+    {ic:'days',     topic:'ימים',            main:`${D.length}`, sub:'ימי טיול מתוכננים',
+      tab:'days', tip:`${D.length} ימי הטיול (${dateRange}). לחיצה: פתיחת לוח הימים המלא`},
+    {ic:'calendar', topic:'תאריכים',         main:dateRange, sub:`${regions.length} אזורים · ${cities.length} ערים`,
+      tab:'calendar', tip:`טווח התאריכים של הטיול, ${regions.length} אזורים ו-${cities.length} ערים. לחיצה: פתיחת לוח השנה`},
+    {ic:'route',    topic:'מרחק כולל',        main:`${totalKm.toLocaleString()} ק״מ`, sub:`סה״כ מרחק הנסיעות${daysCoverage<D.length?` (מ-${daysCoverage} ימים)`:''}`,
+      tab:'map', tip:`סכום המרחקים מכל מקטעי הנסיעה (${daysCoverage} ימים עם נתוני תחבורה). לחיצה: פתיחת המפה`},
+    {ic:'pin',      topic:'מרחק ממוצע ליום',  main:`${avgKm} ק״מ`, sub:'ממוצע נסיעה ליום טיול',
+      tab:'days', tip:`ממוצע ${avgKm} ק״מ ליום (${totalKm.toLocaleString()} ק״מ חלקי ${D.length} ימים). לחיצה: פתיחת לוח הימים`},
+    {ic:'clock',    topic:'זמן בדרכים',       main:`${totalTravelHrs.toFixed(1)} שע׳`, sub:`סה״כ זמן נסיעה בתחבורה${daysCoverage<D.length?` (מ-${daysCoverage} ימים)`:''}`,
+      tab:'transport', tip:`סכום זמני הנסיעה מכל המקטעים (${Math.round(totalTransitMin)} דקות = ${totalTravelHrs.toFixed(1)} שעות). לחיצה: פתיחת דף התחבורה`},
+    {ic:'city',     topic:'יעדים ומקומות',    main:`${cities.length}`, sub:`${cities.slice(0,3).join(' · ')}${cities.length>3?'…':''}`,
+      tab:'days', tip:`${cities.length} ערים ויעדים במסלול. לחיצה: פתיחת לוח הימים`},
+    {ic:'bed',      topic:'לינה',             main:`${booked.length}/${H.length}`, sub:`${nights} לילות · ${missH?missH+' טרם הוזמנו':'הכול הוזמן'}`,
+      tab:'hotels', state: missH?'warn':'ok', tip:`${booked.length} מתוך ${H.length} מלונות הוזמנו, ${nights} לילות סה״כ${missH?`. ${missH} עדיין לא הוזמנו`:''}. לחיצה: פתיחת דף המלונות`},
+    {ic:'star',     topic:'אטרקציות וחוויות', main:`${P.length}`, sub:`${placeTypes.length} סוגים של אתרים`,
+      tab:'places', tip:`${P.length} אתרים ונקודות עניין ב-${placeTypes.length} סוגים. לחיצה: פתיחת דף האתרים`},
+    {ic:'train',    topic:'תחבורה',           main:`${flightsCount} טיסות`, sub:`${carDates&&carDates.active?`רכב שכור ${(carDates.from||'').slice(5)}→${(carDates.to||'').slice(5)} · `:''}שאטלים`,
+      tab:'transport', tip:`${flightsCount} טיסות${carDates&&carDates.active?' + רכב שכור':''} + שאטלים. לחיצה: פתיחת דף התחבורה`},
+    {ic:'money',    topic:'עלויות',           main:`₪${costTotal.toLocaleString()}`, sub:`שולם ₪${costPaid.toLocaleString()}${costEst?` · משוער ₪${costEst.toLocaleString()}`:''}`,
+      tab:'costs', tip:`סה״כ עלות הטיול ₪${costTotal.toLocaleString()} (מלונות+טיסות+רכב+אטרקציות, כולל המרת מטבע). מזה שולם ₪${costPaid.toLocaleString()}. לחיצה: פתיחת דף התקציב`},
   ];
 
   const html = cards.map(c=>`
-    <a class="sum-card${c.state?' st-'+c.state:''}" href="#" onclick="goTab('${c.tab}');return false" aria-label="${c.topic}: ${c.main}. מעבר לדף">
+    <a class="sum-card${c.state?' st-'+c.state:''}" href="#" onclick="goTab('${c.tab}');return false" data-tip="${c.tip}" aria-label="${c.topic}: ${c.main}. ${c.tip}">
       <div class="sum-head">${icon(c.ic,'ic-lg')}<span class="sum-topic">${c.topic}</span></div>
       <div class="sum-main">${c.main}</div>
       <div class="sum-sub">${c.sub}</div>
       ${c.state==='warn'?`<div class="sum-flag st-warn-txt">${icon('alert')} דרוש טיפול</div>`:''}
       ${c.state==='ok'?`<div class="sum-flag st-ok-txt">${icon('check')} הכול מוזמן</div>`:''}
-      ${c.note?`<div class="sum-note">${c.note}</div>`:''}
     </a>`).join('');
 
   // רשימה מתחת לכרטיסיות — כל שורה קישור לדף שלה
   const list = cards.map(c=>`
-    <a class="sum-row${c.state?' st-'+c.state:''}" href="#" onclick="goTab('${c.tab}');return false">
+    <a class="sum-row${c.state?' st-'+c.state:''}" href="#" onclick="goTab('${c.tab}');return false" data-tip="${c.tip}" aria-label="${c.topic}: ${c.main}. ${c.tip}">
       <span class="sr-ic">${icon(c.ic)}</span>
       <span class="sr-topic">${c.topic}</span>
       <span class="sr-main">${c.main}</span>
@@ -949,8 +966,18 @@ function renderSummary() {
       <span class="sr-go">${icon('external')}</span>
     </a>`).join('');
 
+  // pills בכותרת ה-hero — דינמיים לפי הנתונים החיים (לא מקודדים קשיח)
+  const heroPills = document.getElementById('heroPills');
+  if (heroPills) {
+    heroPills.innerHTML =
+      `<span class="hero-pill">${D.length} ימים</span>` +
+      `<span class="hero-pill">${booked.length}/${H.length} מלונות</span>` +
+      `<span class="hero-pill">${regions.length} אזורים</span>` +
+      `<span class="hero-pill">₪${costTotal.toLocaleString()}</span>`;
+  }
+
   document.getElementById('sumWrap').innerHTML =
-    `<div class="view-bar"><div class="sum-intro">כל נתוני הטיול במבט אחד. לחיצה על כרטיסייה או שורה פותחת את הדף המפורט.</div>${viewToggle()}</div>
+    `<div class="view-bar"><div class="sum-intro">כל נתוני הטיול במבט אחד, מחושבים בזמן אמת. ריחוף מעל כרטיסייה מסביר את הנתון; לחיצה פותחת את הדף המפורט.</div>${viewToggle()}</div>
      ${viewMode==='cards' ? `<div class="sum-grid">${html}</div>` : `<div class="sum-list">${list}</div>`}`;
 }
 
@@ -1742,6 +1769,8 @@ function editCell(el) {
   }
   obj[keys[keys.length-1]] = el.textContent;
   toast('נשמר');
+  // רינדור מחדש כדי שכל הנתונים הנגזרים (סיכומים, תקציב, hero) יתעדכנו בזמן אמת
+  render();
 }
 
 // ══════════════════════════════════
