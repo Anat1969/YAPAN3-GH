@@ -104,6 +104,12 @@ th{background:#2c2c2c;color:#e8e6e1;font-weight:600;font-size:11px;padding:7px 8
 th:hover{background:#3a3a3a}
 th .arrow{font-size:9px;margin-right:3px;opacity:.5}
 td{padding:6px 8px;border-bottom:1px solid #eee;font-size:12px;vertical-align:top}
+/* עמודות בוקר/צהריים/ערב — שם אתר עברי + לועזי, אתר לכל שורה */
+.slot-cell{min-width:110px}
+.slot-spot{margin-bottom:3px;line-height:1.35}
+.slot-spot:last-child{margin-bottom:0}
+.slot-spot b{font-weight:700;color:#1c1c1a}
+.slot-en{display:block;font-size:10px;color:#8a857e;direction:ltr}
 tr:hover{background:#fafaf8}
 tr.miss{background:#fffef5}
 tr.miss td{color:#92400e}
@@ -596,6 +602,14 @@ async function loadData() {
     const bk = await fetch('data/bookings.json').then(r=>r.json()).catch(()=>null);
     const cl = await fetch('data/booking-checklist.json').then(r=>r.json()).catch(()=>null);
     DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl };
+    // מיזוג spots מקבצי הימים הפרטניים (data/days/day-XX.json) לתוך DATA.days —
+    // כדי למלא את עמודות בוקר/צהריים/ערב בטבלת לוח הימים בשמות האתרים בפועל
+    await Promise.all((DATA.days||[]).map(async function(day){
+      var idNum = day.id!=null ? day.id : day.tripDay;
+      var file = 'data/days/day-' + String(idNum).padStart(2,'0') + '.json';
+      try { var dj = await fetch(file).then(r=>r.ok?r.json():null); if(dj && dj.spots) day.spots = dj.spots; }
+      catch(e){ /* קובץ יום חסר — נשארים עם days.json */ }
+    }));
   } catch(e) {
     console.error('Load error:',e);
     toast('שגיאה בטעינת נתונים — ודאי שאת בשרת מקומי');
@@ -947,10 +961,26 @@ function ed(dataPath, value) {
 // ══════════════════════════════════
 // DAYS TABLE
 // ══════════════════════════════════
+// שמות האתרים המתוכננים למקטע (בוקר/צהריים/ערב) — עברית + לועזי, מ-spots של קובץ היום.
+// נופל חזרה ל-days.json (d.morning?.place) אם אין spots.
+function daySlotHtml(d, slot) {
+  const spots = d.spots && d.spots[slot];
+  if (Array.isArray(spots) && spots.length) {
+    return spots.map(s => {
+      const he = s.name || '';
+      const en = s.nameEn || '';
+      return `<div class="slot-spot"><b>${he}</b>${en?`<span class="slot-en">${en}</span>`:''}</div>`;
+    }).join('');
+  }
+  const legacy = d[slot] && d[slot].place;
+  return legacy ? `<div class="slot-spot"><b>${legacy}</b></div>` : '';
+}
+
 function renderDays() {
   const data = sorted(filtered(DATA.days), 'days');
   const t = document.getElementById('t-days');
   t.innerHTML = `<thead><tr>
+    <th>דף היום</th>
     ${th('days','tripDay','יום')}
     ${th('days','date','תאריך')}
     ${th('days','weekday','יום בשבוע')}
@@ -958,22 +988,22 @@ function renderDays() {
     ${th('days','hotelName','מלון')}
     ${th('days','city','עיר')}
     <th>בוקר</th><th>צהריים</th><th>ערב</th>
-    <th>תחבורה</th><th>הערות</th><th>דף היום</th>
+    <th>תחבורה</th><th>הערות</th>
   </tr></thead><tbody>${data.map(d => {
     const isMiss = DATA.hotels.find(h=>h.id===d.hotelId && !h.booked);
     return `<tr class="${isMiss?'miss':''}">
+      <td><a class="act act-open" href="day.html?d=${d.tripDay}">${icon('external')}פתח</a></td>
       <td><a href="day.html?d=${d.tripDay}" style="font-weight:700;color:#1d4ed8;text-decoration:none">${d.tripDay}</a></td>
       <td><a href="day.html?d=${d.tripDay}" style="color:#1d4ed8;text-decoration:none">${d.day}/${d.month}</a></td>
       <td>${d.weekday}</td>
       <td>${d.region?regionTag(d.region):''}</td>
       <td><div style="display:flex;align-items:center;gap:6px">${hotelThumbMini(hotelById(d.hotelId)||hotelByName(dayHotelName(d)))}${hotelNameLinked(d)}</div></td>
       <td>${dayCity(d)}</td>
-      <td ${ed('days.'+d.id+'.morning.place', d.morning?.place)}>${d.morning?.place||''}</td>
-      <td ${ed('days.'+d.id+'.afternoon.place', d.afternoon?.place)}>${d.afternoon?.place||''}</td>
-      <td ${ed('days.'+d.id+'.evening.place', d.evening?.place)}>${d.evening?.place||''}</td>
+      <td class="slot-cell">${daySlotHtml(d,'morning')}</td>
+      <td class="slot-cell">${daySlotHtml(d,'afternoon')}</td>
+      <td class="slot-cell">${daySlotHtml(d,'evening')}</td>
       <td ${ed('days.'+d.id+'.transport.type', d.transport?.type)}>${d.transport?.type||''}</td>
       <td ${ed('days.'+d.id+'.notes', d.notes)}>${d.notes||''}</td>
-      <td><a class="act act-open" href="day.html?d=${d.tripDay}">${icon('external')}פתח</a></td>
     </tr>`;
   }).join('')}</tbody>`;
 }
