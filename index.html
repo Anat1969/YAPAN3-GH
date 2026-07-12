@@ -359,6 +359,11 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .bk-missing > span{color:var(--err)}
 .bk-warn{margin-top:7px;font-size:11px;font-weight:700;color:var(--err);background:var(--err-bg);border-radius:7px;padding:6px 9px;line-height:1.5}
 .bk-note{margin-top:9px;font-size:11px;color:var(--ink-3);background:var(--bg);border-radius:8px;padding:7px 10px;line-height:1.6}
+/* קישורי מסמך ההזמנה המקורי (PDF) */
+.bk-docs{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;padding-top:9px;border-top:1px dashed var(--border)}
+.bk-doc{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border:1px solid var(--action);border-radius:7px;background:#eff4ff;color:var(--action);font-size:11px;font-weight:700;text-decoration:none;transition:.13s}
+.bk-doc:hover{background:var(--action);color:#fff}
+.bk-doc svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
 /* לקראת הזמנה */
 .cl-list{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px}
 .cl-row{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap;font-size:12px}
@@ -1731,6 +1736,9 @@ function renderBookings() {
       </div>
       <div class="bk-body">${body}</div>
       ${b.notes?`<div class="bk-note">${b.notes}</div>`:''}
+      ${Array.isArray(b.docs)&&b.docs.length?`<div class="bk-docs">${b.docs.map(doc=>
+        `<a class="bk-doc" href="${doc.file}" target="_blank" rel="noopener" data-tip="פתיחת מסמך ההזמנה המקורי (PDF) בכרטיסייה חדשה" aria-label="פתח PDF — ${doc.label||'מסמך ההזמנה'}">${icon('external')}${doc.label||'פתח PDF'}</a>`
+      ).join('')}</div>`:''}
     </div>`;
   }).join('');
 
