@@ -197,22 +197,32 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .cal-title{font-size:18px;font-weight:900;margin-bottom:8px;color:#1a1a1a}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
 .cal-dow{text-align:center;font-size:11px;font-weight:700;color:#888;padding:4px 0}
-.cal-cell{min-height:78px;border:1px solid #e5e3de;border-radius:6px;padding:4px 5px;background:#fff;font-size:10px;overflow:hidden}
+.cal-cell{position:relative;min-height:78px;border:1px solid #e5e3de;border-radius:6px;padding:4px 5px;background:#fff;font-size:10px;overflow:hidden}
 .cal-cell.empty{background:transparent;border:none}
 a.cal-cell{text-decoration:none;color:inherit;display:block;transition:.12s}
 a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px)}
+/* תמונת רקע ממלאת את כל התא בשקיפות 50% — מאחורי הטקסט */
+.cal-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.5;z-index:0}
+.cal-bg.split{display:flex}
+.cal-bg.split .cal-bg-half{flex:1;background-size:cover;background-position:center}
+/* הטקסט מעל התמונה, בולט (הצללה + משקל) */
+.cal-content{position:relative;z-index:1}
+.cal-cell.has-img .cal-content{text-shadow:0 1px 2px rgba(255,255,255,.9),0 0 6px rgba(255,255,255,.7)}
+.cal-cell.has-img .cal-dnum,.cal-cell.has-img .cal-city{font-weight:800;color:#111}
+.cal-cell.has-img .cal-hotel{font-weight:700;color:#222}
 .cal-dnum{font-size:13px;font-weight:700;color:#444}
 .cal-trip{display:inline-block;background:var(--brand);color:var(--brand-ink);font-size:9px;font-weight:900;border-radius:3px;padding:0 4px;margin-right:4px;vertical-align:1px}
 .cal-city{font-weight:700;font-size:11px;margin-top:3px;line-height:1.3}
 .cal-hotel{color:#666;font-size:9px;line-height:1.25;margin-top:1px}
-/* תמונות מלון בכרטיסי לוח השנה */
+/* תמונות מלון בכרטיסי לוח השנה — רקע מלא בשקיפות (ראה .cal-bg למעלה) */
 .cal-cell.has-img{min-height:112px}
-.cal-imgs{display:flex;gap:2px;margin:3px 0;border-radius:5px;overflow:hidden;height:44px}
-.cal-half{flex:1;background-size:cover;background-position:center;border-radius:4px}
-.cal-half.full{border-radius:4px}
-.cal-imgs.split .cal-half:first-child{border-radius:4px 0 0 4px}
-.cal-imgs.split .cal-half:last-child{border-radius:0 4px 4px 0}
-@media(max-width:640px){.cal-cell.has-img{min-height:90px}.cal-imgs{height:34px}}
+@media(max-width:640px){.cal-cell.has-img{min-height:90px}}
+/* יום טיסה (22/7 — יציאה מישראל) */
+.cal-cell.cal-flight{background:#fdecec;border-color:#f2b8b8}
+.cal-flight-badge{display:inline-flex;align-items:center;gap:4px;margin-top:3px;padding:1px 6px;border-radius:999px;background:#b91c1c;color:#fff;font-size:9px;font-weight:800}
+.cal-flight-badge svg{width:11px;height:11px;stroke:#fff;fill:none;stroke-width:2}
+.cal-flight .cal-city{color:#991b1b;font-weight:800}
+.cal-flight .cal-hotel{color:#b91c1c}
 .cal-k{background:var(--region-1)}.cal-h{background:var(--region-2)}.cal-t{background:var(--region-3)}.cal-t .cal-city,.cal-t .cal-dnum{color:#fff}.cal-t .cal-hotel{color:#e0e7ff}.cal-d{background:var(--region-4)}
 .cal-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;font-size:11px}
 .cal-legend span{display:inline-flex;align-items:center;gap:5px;font-weight:600;color:#555}
@@ -1115,7 +1125,19 @@ function renderCalendar() {
     for (let day=1; day<=daysInMonth; day++) {
       const d = byDate[`${month}-${day}`];
       if (!d) {
-        cells += `<div class="cal-cell"><div class="cal-dnum">${day}</div></div>`;
+        // 22/7 — יום היציאה מישראל (הטיסה יוצאת בערב ונוחתת ב-23/7). מסומן כיום טיסה.
+        if (month===7 && day===22) {
+          cells += `<a class="cal-cell cal-flight" href="index.html?tab=transport" data-tip="יום טיסה — יציאה מישראל בערב, נחיתה למחרת (23/7)">
+            <div class="cal-content">
+              <div class="cal-dnum">${day}</div>
+              <div class="cal-flight-badge">${icon('plane')||'✈'} יום טיסה</div>
+              <div class="cal-city">יציאה מישראל</div>
+              <div class="cal-hotel">EK 2121 · ערב</div>
+            </div>
+          </a>`;
+        } else {
+          cells += `<div class="cal-cell"><div class="cal-dnum">${day}</div></div>`;
+        }
       } else {
         const cls = regCls[d.region] || 'cal-d';
         // מלון היום ומלון היום הקודם — לזיהוי מעבר
@@ -1126,20 +1148,23 @@ function renderCalendar() {
         const prevSrc = prevH ? (localStorage.getItem('hotelimg-'+prevH.id)||prevH.image||prevH.mapImage) : '';
         // מעבר: מלון שונה מאתמול, ולשניהם יש תמונה → שני חצאים
         const isTransition = prevH && curH && prevH.id!==curH.id;
-        let imgHtml='';
+        // תמונת רקע ממלאת את כל התא בשקיפות 50%; ביום מעבר מלון — שני חצאים
+        let bgHtml='';
         if (isTransition && prevSrc && curSrc) {
-          imgHtml = `<div class="cal-imgs split">
-            <div class="cal-half" style="background-image:url('${prevSrc}')" title="${prevH.name}"></div>
-            <div class="cal-half" style="background-image:url('${curSrc}')" title="${curH.name}"></div>
+          bgHtml = `<div class="cal-bg split" aria-hidden="true">
+            <div class="cal-bg-half" style="background-image:url('${prevSrc}')"></div>
+            <div class="cal-bg-half" style="background-image:url('${curSrc}')"></div>
           </div>`;
         } else if (curSrc) {
-          imgHtml = `<div class="cal-imgs"><div class="cal-half full" style="background-image:url('${curSrc}')" title="${curH.name}"></div></div>`;
+          bgHtml = `<div class="cal-bg" aria-hidden="true" style="background-image:url('${curSrc}')"></div>`;
         }
-        cells += `<a class="cal-cell ${cls}${imgHtml?' has-img':''}" href="day.html?d=${d.tripDay}">
-          <div class="cal-dnum">${day}<span class="cal-trip">י${d.tripDay}</span></div>
-          ${imgHtml}
-          <div class="cal-city">${dayCity(d)}</div>
-          <div class="cal-hotel">${dayHotelName(d)}</div>
+        cells += `<a class="cal-cell ${cls}${bgHtml?' has-img':''}" href="day.html?d=${d.tripDay}">
+          ${bgHtml}
+          <div class="cal-content">
+            <div class="cal-dnum">${day}<span class="cal-trip">י${d.tripDay}</span></div>
+            <div class="cal-city">${dayCity(d)}</div>
+            <div class="cal-hotel">${dayHotelName(d)}</div>
+          </div>
         </a>`;
       }
     }
