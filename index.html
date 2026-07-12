@@ -457,14 +457,10 @@ a.ml:hover{text-decoration:underline}
     <button class="tab" data-tab="places" data-tip="אתרים ונקודות עניין במסלול" aria-label="מעבר לדף האתרים">אתרים</button>
     <button class="tab" data-tab="costs" data-tip="מעקב הוצאות ותקציב הטיול" aria-label="מעבר לדף התקציב">תקציב</button>
     <button class="tab" data-tab="transport" data-tip="טיסות, רכב שכור ושאטלים — כל התחבורה" aria-label="מעבר לדף התחבורה">תחבורה</button>
-    <button class="tab" data-tab="flights" data-tip="טבלת טיסות ותחבורה בין-עירונית" aria-label="מעבר לטבלת הטיסות">טיסות</button>
     <button class="tab" data-tab="map" data-tip="מפת כל המלונות והאתרים" aria-label="מעבר למפה">מפה</button>
   </div>
   <div class="actions">
     <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none" data-tip="חזרה לדף הקודם שביקרת בו" aria-label="חזרה לדף הקודם"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor"><path d="M5 12h14M12 5l-7 7 7 7"/></svg><span class="back-lbl">חזרה</span></button>
-    <button class="nav-btn save" onclick="saveAll()" data-tip="הורדת כל קובצי הנתונים לגיבוי מקומי" aria-label="שמירת גיבוי">שמור</button>
-    <button class="nav-btn" onclick="exportJSON()" data-tip="ייצוא הנתונים כקובץ JSON" aria-label="ייצוא JSON">JSON</button>
-    <button class="nav-btn" onclick="copyTable()" data-tip="העתקת הטבלה הנוכחית להדבקה באקסל" aria-label="העתקה לאקסל">אקסל</button>
   </div>
 </nav>
 
@@ -495,7 +491,6 @@ a.ml:hover{text-decoration:underline}
 <div class="panel" id="p-bookings"><div class="tw" id="bookingsWrap"></div></div>
 <div class="panel" id="p-checklist"><div class="tw" id="checklistWrap"></div></div>
 <div class="panel" id="p-transport"><div class="tw" id="transportWrap"></div></div>
-<div class="panel" id="p-flights"><div class="tw"><table id="t-flights"></table></div></div>
 <div class="panel" id="p-map">
   <div class="mapview-bar" role="group" aria-label="בחירת תצוגת מפה">
     <button class="mvb on" data-view="days" onclick="setMapView('days')" data-tip="מסלול כל יום — תחנות ממוספרות וקו מסלול" aria-label="תצוגה לפי יום ותאריך">לפי יום</button>
@@ -599,7 +594,7 @@ async function loadData() {
   }
   // פתיחת הטאב לפי ה-URL (מאפשר קישור ישיר ושמירת מצב ברענון — סעיף 4.5)
   const urlTab = new URLSearchParams(location.search).get('tab');
-  const valid = ['summary','days','calendar','hotels','bookings','checklist','places','costs','transport','flights','map'];
+  const valid = ['summary','days','calendar','hotels','bookings','checklist','places','costs','transport','map'];
   if (urlTab && valid.includes(urlTab) && urlTab!==activeTab) {
     activeTab = urlTab;
     document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===urlTab));
@@ -727,7 +722,6 @@ function render() {
   else if (activeTab==='bookings') renderBookings();
   else if (activeTab==='checklist') renderChecklist();
   else if (activeTab==='transport') renderTransport();
-  else if (activeTab==='flights') renderFlights();
 }
 
 function renderStats() {
@@ -806,11 +800,6 @@ function renderHelp() {
       'סימון <b>שולם</b> מציג אילו הוצאות כבר שולמו.'];
   } else if (activeTab==='transport' || activeTab==='bookings' || activeTab==='checklist') {
     el.innerHTML = ''; return; // לדפים אלו יש intro משלהם
-  } else if (activeTab==='flights') {
-    title = 'טיסות ותחבורה';
-    summary = [`<b>${F.length}</b> רשומות תחבורה`];
-    instr = ['לחיצה על <b>כותרת עמודה</b> ממיינת (תאריך, מוצא, יעד…).',
-      'עמודות <b>שעה / חברה / אישור / הערות</b> — ניתנות לעריכה ישירה.'];
   } else if (activeTab==='map') {
     title = 'מפה';
     summary = [`<b>${H.filter(h=>h.lat).length}</b> מלונות על המפה`, `<b>${P.filter(p=>p.lat).length}</b> אתרים`];

@@ -783,18 +783,15 @@ function buildMap() {
   else rtMap.setView([35.68,139.76], 11);
   setTimeout(()=>rtMap && rtMap.invalidateSize(), 100);
 
-  // קישורי ניווט חיצוני (נשמרים כגיבוי)
+  // קישור אחד למסלול המלא (כל התחנות). הניווט לכל מקטע נעשה דרך כפתור "נווט" לפי ה-mode שלו.
   const names = geo.map(s => encodeURIComponent(s.nameEn || s.name));
   const hotel = hotels.find(h => h.id === dayData.hotelId);
   const origin = hotel ? encodeURIComponent(hotel.addr || hotel.name) : names[0];
   if (names.length) {
     const dest = names[names.length-1];
     const wp = names.slice(0,-1).join('|');
-    const dir = `https://www.google.com/maps/dir/?api=1&hl=he&origin=${origin}&destination=${dest}${wp?`&waypoints=${wp}`:''}&travelmode=transit`;
-    document.getElementById('routeLinks').innerHTML = `
-      <a class="rl" href="${dir}" target="_blank">מסלול תח״צ / רכבת</a>
-      <a class="rl" href="${dir.replace('travelmode=transit','travelmode=driving')}" target="_blank">מסלול נהיגה</a>
-      <a class="rl" href="${dir.replace('travelmode=transit','travelmode=walking')}" target="_blank">מסלול הליכה</a>`;
+    const dir = `https://www.google.com/maps/dir/?api=1&hl=he&origin=${origin}&destination=${dest}${wp?`&waypoints=${wp}`:''}`;
+    document.getElementById('routeLinks').innerHTML = `<a class="rl" href="${dir}" target="_blank" rel="noopener">פתח את כל המסלול ב-Google Maps</a>`;
   }
 
   // מקרא אמצעי תחבורה (רק אלה שבשימוש היום)
