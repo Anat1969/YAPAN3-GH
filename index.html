@@ -2045,6 +2045,72 @@ window.yukoDayContext = function(){
   var iso = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
   return days.find(function(d){ return d.date === iso; }) || days[0];
 };
+
+// ── הוקים ליוקו: מעבר מסך + הצגת מקום על המפה ──
+window.DATA = DATA; // חשיפה לקריאה מ-yuko.js (let לא נכנס אוטומטית ל-window)
+
+window.yukoGoTab = function(tab){
+  var valid = ['summary','days','calendar','hotels','bookings','checklist','places','costs','transport','map'];
+  if (valid.indexOf(tab) === -1) return false;
+  goTab(tab);
+  return true;
+};
+
+// איתור מקום לפי שם (nameEn/name) — קודם ב-DATA.places, אחר כך בין ספוטי ומקטעי כל הימים
+function yukoFindPlace(query){
+  if(!query) return null;
+  var q = String(query).trim().toLowerCase();
+  var norm = function(s){ return String(s||'').trim().toLowerCase(); };
+  var hit = function(o){ return o && ((norm(o.nameEn)===q)||(norm(o.name)===q)); };
+  var inc = function(o){ return o && ((norm(o.nameEn).indexOf(q)>-1)||(norm(o.name).indexOf(q)>-1)); };
+  var places = (DATA.places||[]);
+  var p = places.find(hit) || places.find(inc);
+  if(p && p.lat && p.lng) return { name:p.name, nameEn:p.nameEn, lat:p.lat, lng:p.lng, category:p.category, _place:p };
+  // חיפוש בין ספוטים ומקטעי תחבורה של כל הימים (למשל עבודות טדאו אנדו שהן spots)
+  var cand = [];
+  (DATA.days||[]).forEach(function(d){
+    var sp = d.spots||{};
+    ['morning','afternoon','evening'].forEach(function(t){ (sp[t]||[]).forEach(function(s){ if(s&&s.lat&&s.lng) cand.push(s); }); });
+    var segs = (d.transport&&d.transport.segments)||[];
+    segs.forEach(function(sg){ if(sg.from&&sg.from.lat) cand.push(sg.from); if(sg.to&&sg.to.lat) cand.push(sg.to); });
+  });
+  var c = cand.find(hit) || cand.find(inc);
+  if(c) return { name:c.name, nameEn:c.nameEn, lat:c.lat, lng:c.lng };
+  return null;
+}
+
+// הצגת מקום על המפה: מעבר לטאב מפה, תצוגת אתרים, ומיקוד למקום. מחזיר false אם לא נמצא.
+window.yukoShowPlace = function(query){
+  var place = yukoFindPlace(query);
+  if(!place) return false;
+  goTab('map'); // קורא initMap (אסינכרוני ~100ms בפעם הראשונה)
+  var attempt = 0;
+  (function focus(){
+    attempt++;
+    if(typeof mapSpecObj!=='undefined' && mapSpecObj && typeof mapObj!=='undefined' && mapObj){
+      try{ setMapView('places'); }catch(e){}
+      try{
+        if(place._place){ showPlaceSpecific(place._place); }
+        else {
+          // מקום שאינו ב-places — מיקוד ישיר + מרקר על מפת הפירוט
+          var layer = focusSpec(null, place.name + (place.nameEn?(' · '+place.nameEn):''));
+          bigMarker([place.lat,place.lng],{text:'',color:'#166534',shape:'square',size:24,popup:bilingual(place.name,place.nameEn||''),aria:place.name}).addTo(layer);
+          mapSpecObj.setView([place.lat,place.lng],14);
+        }
+        mapObj.setView([place.lat,place.lng], 12);
+      }catch(e){}
+      return;
+    }
+    if(attempt<25) setTimeout(focus,80);
+  })();
+  return true;
+};
+
+// מיקוד המפה מפרמטר ?focus= (כשמגיעים מ-day.html דרך יוקו)
+(function(){
+  var f = new URLSearchParams(location.search).get('focus');
+  if(f){ var tries=0; (function wait(){ tries++; if(DATA.days&&DATA.days.length){ window.yukoShowPlace(f); } else if(tries<40){ setTimeout(wait,100); } })(); }
+})();
 </script>
 <script src="yuko.js" defer></script>
 </body>
