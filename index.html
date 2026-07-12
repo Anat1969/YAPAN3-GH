@@ -91,11 +91,11 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 
 /* FILTERS */
 /* סרגל ניווט משני — מסננים של הדף הנוכחי. ממורכז. מוסתר כשאין. */
-.filters{position:sticky;top:41px;z-index:40;background:var(--surface);border-bottom:1px solid var(--border);margin:0 0 10px;padding:0}
+.filters{position:sticky;top:41px;z-index:40;background:transparent;border:none;margin:0 0 10px;padding:0}
 .filters:empty{display:none}
-/* עטיפה פנימית — מיישרת את מסגרת הסינון לרוחב הטבלה (כמו .tw), עם תווית 'סינון:' */
-.filters-inner{max-width:1200px;margin:0 auto;padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:center}
-.filters-inner.filters-inner-wide{max-width:100%;padding:8px 8px;justify-content:flex-start}
+/* כפתורי הסינון ממורכזים, ללא מסגרת/רקע לסרגל */
+.filters-inner{margin:0 auto;padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:center}
+.filters-inner.filters-inner-wide{max-width:100%;padding:8px 8px;justify-content:center}
 .filters-inner::before{content:'סינון:';font-size:11px;font-weight:800;color:var(--ink-3);margin-left:2px}
 .flt{padding:3px 10px;border:1px solid #ddd;border-radius:3px;background:#fff;font:600 11px/1.4 inherit;cursor:pointer;color:#666;transition:.12s}
 .flt:hover{border-color:#999}.flt.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
