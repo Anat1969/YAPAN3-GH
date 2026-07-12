@@ -117,15 +117,19 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 #t-days th.slot-evening-h{border-top:3px solid #7c6df2}
 /* רוחב עמודות: קבועות צרות מימין, ובוקר/צהריים/ערב/הערות מקבלים את שאר הרוחב */
 #t-days col.c-page{width:5.5%}
-#t-days col.c-day{width:3%}
+#t-days col.c-day{width:4.5%}
 #t-days col.c-date{width:6%}
-#t-days col.c-weekday{width:5%}
+#t-days col.c-weekday{width:5.5%}
 #t-days col.c-region{width:5%}
 #t-days col.c-hotel{width:12.5%}
 #t-days col.c-city{width:5%}
-#t-days col.c-slot{width:12%}
-#t-days col.c-transport{width:7.5%}
-#t-days col.c-notes{width:10%}
+#t-days col.c-slot{width:11.5%}
+#t-days col.c-transport{width:7%}
+#t-days col.c-notes{width:9.5%}
+/* עמודת מספר היום — מספר בולט וברור, לא נחתך */
+#t-days td:nth-child(2){text-align:center;overflow:visible}
+#t-days td:nth-child(2) a{font-size:15px}
+#t-days th:nth-child(2){overflow:visible;text-align:center}
 /* עמודת 'דף היום' — לא נחתכת, כפתור שלם */
 #t-days .c-page-cell{overflow:visible}
 #t-days .c-page-cell .act{white-space:nowrap;padding:4px 8px}
