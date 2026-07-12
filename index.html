@@ -111,11 +111,11 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 #t-days col.c-date{width:4%}
 #t-days col.c-weekday{width:5.5%}
 #t-days col.c-region{width:5%}
-#t-days col.c-hotel{width:12%}
+#t-days col.c-hotel{width:13%}
 #t-days col.c-city{width:5%}
-#t-days col.c-slot{width:11.5%}
-#t-days col.c-transport{width:7%}
-#t-days col.c-notes{width:9.5%}
+#t-days col.c-slot{width:12.5%}
+#t-days col.c-transport{width:8%}
+#t-days col.c-notes{width:11%}
 table{width:100%;border-collapse:collapse;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 th{background:#2c2c2c;color:#e8e6e1;font-weight:600;font-size:11px;padding:7px 8px;text-align:right;white-space:nowrap;cursor:pointer;user-select:none}
 th:hover{background:#3a3a3a}
@@ -123,10 +123,11 @@ th .arrow{font-size:9px;margin-right:3px;opacity:.5}
 td{padding:6px 8px;border-bottom:1px solid #eee;font-size:12px;vertical-align:top}
 /* עמודות בוקר/צהריים/ערב — שם אתר עברי + לועזי באותה שורה, פונט קטן; אתר בכל שורה עם הפרדה */
 .slot-cell{min-width:120px}
-.slot-spot{line-height:1.3;font-size:10.5px;white-space:nowrap;padding:2px 0;border-bottom:1px solid #eee}
+.slot-spot{line-height:1.25;font-size:10.5px;padding:2px 0;border-bottom:1px solid #eee;text-align:right}
 .slot-spot:last-child{border-bottom:none}
-.slot-spot b{font-weight:700;color:#1c1c1a}
-.slot-en{font-size:9.5px;color:#8a857e;direction:ltr;margin-inline-start:4px}
+.slot-spot b{font-weight:700;color:#1c1c1a;display:block}
+/* הלועזי בשורה נפרדת מתחת, מיושר לימין (סוף המילה הלועזית מתחת לתחילת העברית) — מצמצם רוחב */
+.slot-en{display:block;font-size:9px;color:#8a857e;direction:ltr;text-align:right}
 tr:hover{background:#fafaf8}
 tr.miss{background:#fffef5}
 tr.miss td{color:#92400e}
