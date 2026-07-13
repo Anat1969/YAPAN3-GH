@@ -296,7 +296,22 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .itin-slot-evening .itin-slot-head .ic{stroke:#6366f1}
 .itin-slot-spots{display:flex;flex-direction:column;gap:10px}
 .itin-spot{display:flex;gap:12px;align-items:flex-start}
-.itin-img{width:96px;height:64px;object-fit:cover;border-radius:8px;flex-shrink:0}
+/* מסגרת תמונה אחידה עם גרירה/הדבקה/העלאה */
+.pframe{position:relative;flex-shrink:0;border-radius:8px;overflow:hidden;background:var(--bg);border:1px solid var(--border-strong);cursor:pointer;transition:box-shadow .12s,border-color .12s}
+.pframe img{width:100%;height:100%;object-fit:cover;display:block}
+.pframe:hover{box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.pframe:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
+.pframe.empty{border-style:dashed;display:flex;align-items:center;justify-content:center}
+.pframe .pf-hint{display:none;font-size:9px;line-height:1.25;color:var(--ink-3);text-align:center;padding:2px}
+.pframe.empty .pf-hint{display:block}
+.pframe.drop{border-color:var(--action);border-style:solid;box-shadow:0 0 0 3px rgba(29,78,216,.2)}
+.pframe .pf-badge{position:absolute;bottom:2px;inset-inline-start:2px;width:16px;height:16px;background:rgba(28,28,26,.6);border-radius:4px;display:flex;align-items:center;justify-content:center;opacity:0;transition:.12s}
+.pframe:hover .pf-badge,.pframe.empty .pf-badge{opacity:1}
+.pframe .pf-badge .ic{width:11px;height:11px;stroke:#fff}
+/* גדלים ספציפיים */
+.pframe.itin-img{width:96px;height:64px}
+.pframe.place-frame{width:64px;height:48px}
+#t-places .pframe.place-frame{width:100%;height:auto;aspect-ratio:16/10}
 .itin-spot-body{flex:1;min-width:0}
 .itin-spot-name .bn-he{font-size:14px}
 .itin-spot-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px;font-size:11.5px;color:var(--ink-2)}
@@ -860,7 +875,8 @@ const ICON_PATHS = {
   sun:       '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
   moon:      '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
   food:      '<path d="M5 3v7a3 3 0 0 0 6 0V3M8 3v18M17 3c-1.5 0-3 1.5-3 5s1.5 5 3 5v8"/>',
-  info:      '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/>'
+  info:      '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/>',
+  image:     '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>'
 };
 function icon(name, cls){
   const p = ICON_PATHS[name] || '';
@@ -929,6 +945,15 @@ async function loadData() {
       }
       catch(e){ /* קובץ יום חסר — נשארים עם days.json */ }
     }));
+    // שחזור תמונות שנערכו מקומית (מפתח זהות → base64) — עד ל-«שמור קבצים»
+    try {
+      const pi = JSON.parse(localStorage.getItem('pending-images')||'{}');
+      Object.keys(pi).forEach(key=>{
+        const p = findPlaceByKey(key); if(p){ p.image = pi[key]; p._imgEdited = true; }
+        (DATA.days||[]).forEach(d=>['morning','afternoon','evening'].forEach(t=>
+          (d.spots && d.spots[t] || []).forEach(s=>{ if(placeKey(s)===key) s.image = pi[key]; })));
+      });
+    } catch(e){}
     // שחזור spots שנוספו מקומית ליום וטרם נשמרו ל-Git (התמדה זמנית)
     try {
       const pd = JSON.parse(localStorage.getItem('pending-dayspots')||'{}');
@@ -973,7 +998,7 @@ let dragTab = null;
 let hasUnsaved = false;
 function markUnsaved(){ hasUnsaved = true; const b=document.getElementById('navSaveBtn'); if(b) b.style.display=''; }
 function updateSaveBtn(){
-  const pend = localStorage.getItem('pending-tabs') || localStorage.getItem('pending-places') || localStorage.getItem('pending-dayspots');
+  const pend = localStorage.getItem('pending-tabs') || localStorage.getItem('pending-places') || localStorage.getItem('pending-dayspots') || localStorage.getItem('pending-images');
   if(pend || hasUnsaved || _changedDays.size) markUnsaved();
 }
 // החלת סדר הכפתורים על ה-DOM לפי DATA.tabs (או pending-tabs מקומי אם קיים)
@@ -1466,17 +1491,126 @@ const ITIN_SLOTS = [
   {key:'afternoon', label:'צהריים', ic:'sun'},
   {key:'evening',   label:'ערב',    ic:'moon'},
 ];
-// כרטיס אתר בודד במסלול — משלים תמונה/אתר רשמי מ-places.json לפי nameEn/שם
+// ── תמונת אתר: מסגרת אחידה עם גרירה/הדבקה/העלאה ידנית ──
+// מפתח זהות של אתר לצורך שיוך תמונה בין spot ל-places (לועזי, נפילה לעברי)
+function placeKey(o){ return (o && (o.nameEn || o.name) || '').trim().toLowerCase(); }
+// איתור רשומת המקום התואמת ל-spot/place לפי מפתח הזהות
+function findPlaceByKey(key){
+  if(!key) return null;
+  return DATA.places.find(p=>placeKey(p)===key) || null;
+}
+// מקור התמונה לאתר: תמונת ה-place התואם > תמונת ה-spot המוטבעת
+function resolvePlaceImage(o){
+  const match = findPlaceByKey(placeKey(o));
+  return (match && match.image) || o.image || '';
+}
+// מסגרת תמונה אחידה — תמיד מוצגת (עם תמונה או placeholder), ניתנת לגרירה/הדבקה/לחיצה
+// key = מפתח הזהות; cls = מחלקת גודל (itin-img / place-frame וכו')
+function pframe(o, cls){
+  const key = placeKey(o);
+  const src = resolvePlaceImage(o);
+  const alt = `${o.name||''}${o.nameEn?' — '+o.nameEn:''}`;
+  const inner = src
+    ? `<img src="${src}" alt="${alt}" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('empty')">`
+    : `<span class="pf-hint">גררי · הדביקי · לחצי<br>להוספת תמונה</span>`;
+  const cleanKey = key.replace(/"/g,'&quot;');
+  return `<div class="pframe ${cls||''}${src?'':' empty'}" data-pkey="${cleanKey}" title="גררי/הדביקי/לחצי כדי להוסיף או להחליף תמונה"
+      onclick="pframeClick(this)" ondragover="pframeDragOver(event,this)" ondragleave="this.classList.remove('drop')" ondrop="pframeDrop(event,this)" tabindex="0">
+    ${inner}
+    <span class="pf-badge">${icon('image')}</span>
+  </div>`;
+}
+// כיווץ/שינוי גודל תמונה ל-JPEG base64 (למניעת נפח כבד ב-places.json)
+function compressImage(dataUrl, maxW, maxH, quality){
+  return new Promise((resolve)=>{
+    const im = new Image();
+    im.onload = ()=>{
+      let {width:w, height:h} = im;
+      const r = Math.min(maxW/w, maxH/h, 1);
+      w = Math.round(w*r); h = Math.round(h*r);
+      const cv = document.createElement('canvas'); cv.width=w; cv.height=h;
+      cv.getContext('2d').drawImage(im, 0, 0, w, h);
+      try { resolve(cv.toDataURL('image/jpeg', quality||0.72)); }
+      catch(e){ resolve(dataUrl); }
+    };
+    im.onerror = ()=>resolve(dataUrl);
+    im.src = dataUrl;
+  });
+}
+// שמירת תמונה לאתר לפי מפתח הזהות — כותב ל-place.image וגם ל-spots תואמים בכל הימים
+async function setPlaceImage(key, dataUrl){
+  const small = await compressImage(dataUrl, 800, 600, 0.72);
+  let place = findPlaceByKey(key);
+  if(place){
+    place.image = small;
+    // התמדה זמנית של אתרים (כולל קיימים ששונו) — נשמר ל-Git ב«שמור קבצים»
+    place._imgEdited = true;
+  }
+  // עדכון כל ה-spots התואמים בכל הימים + סימון הימים כשונו
+  (DATA.days||[]).forEach(d=>{
+    let touched=false;
+    ['morning','afternoon','evening'].forEach(t=>{
+      (d.spots && d.spots[t] || []).forEach(s=>{ if(placeKey(s)===key){ s.image=small; touched=true; } });
+    });
+    if(touched){ const idNum = d.id!=null?d.id:d.tripDay; _changedDays.add(String(idNum)); }
+  });
+  persistImageEdits();
+  persistPendingDaySpots();
+  markUnsaved();
+  render();
+  toast('התמונה נשמרה זמנית — לחצי «שמור קבצים» כדי לשמור ל-Git');
+}
+// התמדה זמנית של תמונות שנערכו (מפתח → base64) — משוחזר בטעינה עד ל-push
+function persistImageEdits(){
+  const out = {};
+  DATA.places.forEach(p=>{ if(p._imgEdited && p.image) out[placeKey(p)] = p.image; });
+  try { localStorage.setItem('pending-images', JSON.stringify(out)); } catch(e){}
+}
+// ── מטפלי גרירה/הדבקה/לחיצה ──
+function pframeReadFile(file, key){
+  if(!file || !/^image\//.test(file.type)) { toast('נא לבחור קובץ תמונה'); return; }
+  const r = new FileReader();
+  r.onload = ()=>setPlaceImage(key, r.result);
+  r.readAsDataURL(file);
+}
+function pframeClick(el){
+  const key = el.dataset.pkey;
+  const inp = document.createElement('input');
+  inp.type='file'; inp.accept='image/*';
+  inp.onchange = ()=>{ if(inp.files[0]) pframeReadFile(inp.files[0], key); };
+  inp.click();
+}
+function pframeDragOver(e, el){ e.preventDefault(); el.classList.add('drop'); }
+function pframeDrop(e, el){
+  e.preventDefault(); el.classList.remove('drop');
+  const key = el.dataset.pkey;
+  const dt = e.dataTransfer;
+  if(dt.files && dt.files[0]){ pframeReadFile(dt.files[0], key); return; }
+  // גרירת URL של תמונה מהאינטרנט
+  const url = dt.getData('text/uri-list') || dt.getData('text/plain');
+  if(url && /^https?:\/\//.test(url.trim())){ setPlaceImage(key, url.trim()); }
+}
+function pframePaste(e, el){
+  const key = el.dataset.pkey;
+  const items = (e.clipboardData||{}).items||[];
+  for(const it of items){
+    if(it.type && it.type.indexOf('image')===0){ const f=it.getAsFile(); if(f){ e.preventDefault(); pframeReadFile(f, key); return; } }
+  }
+  const txt = (e.clipboardData||{}).getData ? e.clipboardData.getData('text') : '';
+  if(txt && /^https?:\/\//.test(txt.trim())){ e.preventDefault(); setPlaceImage(key, txt.trim()); }
+}
+// מאזין הדבקה גלובלי — מפנה למסגרת שנמצאת בפוקוס/ריחוף (כדי ש-Ctrl+V יעבוד גם בלי פוקוס מפורש)
+document.addEventListener('paste', function(e){
+  const el = document.querySelector('.pframe:focus, .pframe:hover');
+  if(el) pframePaste(e, el);
+});
+
+// כרטיס אתר בודד במסלול — מסגרת תמונה אחידה + שם/אתר רשמי (מ-places לפי מפתח)
 function itinSpotHtml(s){
-  const match = DATA.places.find(p=>p.nameEn && s.nameEn && p.nameEn===s.nameEn)
-             || DATA.places.find(p=>p.name===s.name);
-  const img = s.image || (match && match.image);
+  const match = findPlaceByKey(placeKey(s));
   const site = s.officialUrl || (match && match.officialUrl);
   const maps = placeMapsLink({nameEn:s.nameEn, name:s.name, pid:s.placeId||(match&&match.pid), lat:s.lat, lng:s.lng, addr:s.addr});
-  const alt = `${s.name||''}${s.nameEn?' — '+s.nameEn:''}`;
-  const thumb = img
-    ? `<a href="${maps}" target="_blank" rel="noopener" data-tip="פתיחת ${s.name} ב-Google Maps"><img class="itin-img" src="${img}" alt="${alt}" loading="lazy" onerror="this.parentElement.style.display='none'"></a>`
-    : '';
+  const thumb = pframe(s, 'itin-img');
   const meta = [
     s.time ? `<span class="itin-time">${s.time}</span>` : '',
     s.duration ? `<span>${s.duration}</span>` : '',
@@ -1852,7 +1986,7 @@ function renderPlaces() {
   </tr></thead><tbody>${data.map(p => { const gm = placeMapsLink(p);
     const dNum = p.dayId!=null ? p.dayId : (DATA.days.find(d=>(d.spots&&['morning','afternoon','evening'].some(t=>(d.spots[t]||[]).some(s=>s.nameEn&&p.nameEn&&s.nameEn===p.nameEn)))) || {}).tripDay;
     return `<tr id="place-${p.id}">
-    <td><a href="${gm}" target="_blank" rel="noopener" data-tip="פתיחת ${p.name} ב-Google Maps" aria-label="פתיחת ${p.name} ב-Google Maps">${placeImg(p)}</a></td>
+    <td>${pframe(p, 'place-frame')}</td>
     <td>${bilingualName(p.name, p.nameEn, {maps:gm, site:p.officialUrl||''})}${p.type?`<span class="p-type">${p.type}</span>`:''}</td>
     <td class="p-day">${dNum?`<a href="day.html?d=${dNum}" data-tip="מעבר לדף היום">יום ${dNum}</a>`:'—'}</td>
     <td>${p.city}</td>
@@ -2679,7 +2813,7 @@ function renderMapPlaces(legend) {
     const cat = placeCats(p)[0];
     const color = CAT_COLOR[cat]||'#3b82f6';
     const day = DATA.days.find(d=>d.id===p.dayId);
-    const thumb = p.image?`<img src="${p.image}" style="width:100%;max-width:180px;border-radius:6px;margin-bottom:4px" alt="${p.name}">`:'';
+    const pimg = resolvePlaceImage(p); const thumb = pimg?`<img src="${pimg}" style="width:100%;max-width:180px;border-radius:6px;margin-bottom:4px" alt="${p.name}">`:'';
     const popup=`${thumb}${bilingual(p.name,p.nameEn)}<br><span style="font-size:11px">${placeCats(p).join(' · ')}${p.dayId?` · יום ${p.dayId}`:''}${p.timeOfDay?` · ${p.timeOfDay}`:''}${p.duration?` · ${p.duration}`:''}</span><br><a href="index.html?tab=places" style="font-size:11px;color:#1d4ed8">מידע מלא ›</a>${p.pid||p.addr?` · <a href="https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(p.nameEn||p.name)}" target="_blank" style="font-size:11px;color:#1d4ed8">מפה</a>`:''}`;
     bigMarker([p.lat,p.lng],{text:'',color,shape:'square',size:22,popup,aria:`${p.name} — ${cat}`, onClick:()=>showPlaceSpecific(p)}).addTo(mapLayer);
     pts.push([p.lat,p.lng]);
@@ -2757,6 +2891,8 @@ function copyMissingPrompt() {
 // SAVE / EXPORT
 // ══════════════════════════════════
 async function saveAll() {
+  // הסרת סמנים זמניים לפני יצוא (לא נשמרים לקובץ)
+  (DATA.places||[]).forEach(p=>{ delete p._imgEdited; });
   // קבצי הליבה (hotels/days/places/... כולל tabs)
   for (const [name, data] of Object.entries(DATA)) {
     downloadJSON(data, name+'.json');
@@ -2768,7 +2904,7 @@ async function saveAll() {
     if(raw){ downloadJSON(raw, 'day-'+String(idNum).padStart(2,'0')+'.json'); dayCount++; }
   });
   // התמדות זמניות ירדו כעת לקבצים — ניתן לנקות
-  try { localStorage.removeItem('pending-places'); localStorage.removeItem('pending-tabs'); localStorage.removeItem('pending-dayspots'); } catch(e){}
+  try { localStorage.removeItem('pending-places'); localStorage.removeItem('pending-tabs'); localStorage.removeItem('pending-dayspots'); localStorage.removeItem('pending-images'); } catch(e){}
   _changedDays.clear();
   hasUnsaved = false;
   const b=document.getElementById('navSaveBtn'); if(b) b.style.display='none';
