@@ -280,8 +280,13 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 /* פריסה דו-טורית: מפת המסלול (ימין ב-RTL) + הרשימה הטקסטואלית */
 .itin-body.has-map{display:grid;grid-template-columns:1fr minmax(360px,50%);gap:16px;align-items:start}
 .itin-map{position:sticky;top:78px;display:flex;flex-direction:column;gap:6px}
-.itin-map-box{width:100%;height:460px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--bg)}
+.itin-map-box{position:relative;width:100%;height:460px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--bg)}
 .itin-map-box iframe{width:100%;height:100%;border:0;display:block}
+/* כפתורי זום שלנו — תמיד זמינים מעל מפת Google */
+.itin-zoom{position:absolute;top:10px;inset-inline-start:10px;display:flex;flex-direction:column;gap:4px;z-index:5}
+.itin-zoom-btn{width:34px;height:34px;border:1px solid var(--border-strong);border-radius:8px;background:var(--surface);color:var(--ink);font:900 20px/1 inherit;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center}
+.itin-zoom-btn:hover{background:var(--action);color:#fff;border-color:var(--action)}
+.itin-zoom-btn:active{transform:scale(.94)}
 .itin-map-box .leaflet-container{width:100%;height:100%;background:var(--bg)}
 .itin-map-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;color:var(--action);text-decoration:none;padding:2px 2px}
 .itin-map-link:hover{text-decoration:underline}
@@ -1790,9 +1795,16 @@ function renderItinerary(){
     const spotsCol = slots || `<div class="itin-empty">אין תחנות מתוכננות ליום זה עדיין — <a href="day.html?d=${d.tripDay}">פתיחת דף היום להוספה</a></div>`;
     // מפת המסלול של היום — Google Maps מוטבעת (≥2 נקודות, כולל מלונות)
     const rp = itinRoutePoints(d);
+    const c = itinMapCenter(rp);
     const mapCol = rp.length >= 2
       ? `<div class="itin-map">
-          <div class="itin-map-box"><iframe src="${itinEmbedUrl(rp)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="מפת יום ${d.tripDay}"></iframe></div>
+          <div class="itin-map-box">
+            <iframe id="itmap-${d.tripDay}" data-lat="${c.lat}" data-lng="${c.lng}" data-z="${c.z}" src="${itinEmbedUrlAt(c.lat,c.lng,c.z)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="מפת יום ${d.tripDay}"></iframe>
+            <div class="itin-zoom" role="group" aria-label="זום מפה">
+              <button class="itin-zoom-btn" onclick="itinZoom(${d.tripDay},1)" data-tip="הגדלה (זום אין)" aria-label="זום אין">+</button>
+              <button class="itin-zoom-btn" onclick="itinZoom(${d.tripDay},-1)" data-tip="הקטנה (זום אאוט)" aria-label="זום אאוט">−</button>
+            </div>
+          </div>
           <a class="itin-map-link" href="${itinDirectionsUrl(rp)}" target="_blank" rel="noopener" data-tip="פתיחת המסלול המלא של היום ב-Google Maps — כולל המלונות שבהם קמנו וישנים">${icon('route')} פתחי מסלול מלא ב-Google Maps (כולל מלונות) ›</a>
         </div>`
       : '';
@@ -1890,16 +1902,28 @@ function itinRoutePoints(d){
   return pts;
 }
 function itinMapPointCount(d){ return itinRoutePoints(d).length; }
-// URL להטבעת מפת Google (ללא מפתח) — ממורכזת על מרכז המסלול
-function itinEmbedUrl(pts){
+// מרכז המסלול + זום התחלתי לפי פיזור הנקודות
+function itinMapCenter(pts){
   const lats = pts.map(p=>p.lat), lngs = pts.map(p=>p.lng);
   const cLat = (Math.min(...lats)+Math.max(...lats))/2;
   const cLng = (Math.min(...lngs)+Math.max(...lngs))/2;
-  // זום לפי פיזור הנקודות (span גדול → זום קטן)
   const span = Math.max(Math.max(...lats)-Math.min(...lats), Math.max(...lngs)-Math.min(...lngs));
   let z = 14;
   if(span>0.4) z=9; else if(span>0.15) z=11; else if(span>0.06) z=12; else if(span>0.02) z=13; else z=14;
-  return `https://maps.google.com/maps?q=${cLat},${cLng}&z=${z}&hl=he&output=embed`;
+  return { lat:+cLat.toFixed(5), lng:+cLng.toFixed(5), z };
+}
+// URL להטבעת מפת Google (ללא מפתח) בקואורדינטה וזום נתונים
+function itinEmbedUrlAt(lat,lng,z){
+  return `https://maps.google.com/maps?q=${lat},${lng}&z=${z}&hl=he&output=embed`;
+}
+// זום אין/אאוט למפת יום — טוען מחדש את ה-iframe עם רמת זום מעודכנת
+function itinZoom(tripDay, delta){
+  const f = document.getElementById('itmap-'+tripDay);
+  if(!f) return;
+  let z = (+f.dataset.z||13) + delta;
+  z = Math.max(3, Math.min(20, z));
+  f.dataset.z = z;
+  f.src = itinEmbedUrlAt(f.dataset.lat, f.dataset.lng, z);
 }
 // URL לפתיחת מסלול מלא ב-Google Maps (origin→waypoints→destination, כולל מלונות)
 function itinDirectionsUrl(pts){
@@ -2728,8 +2752,9 @@ function tile(m){
 function initMap() {
   if (mapObj) { setTimeout(()=>{mapObj.invalidateSize(); mapSpecObj&&mapSpecObj.invalidateSize(); renderMapLayer();},80); return; }
   setTimeout(() => {
-    mapObj = L.map('map').setView([37,138],5); tile(mapObj);
-    mapSpecObj = L.map('mapSpec').setView([35,137],5); tile(mapSpecObj);
+    const zoomOpts = {zoomControl:true, scrollWheelZoom:true, doubleClickZoom:true, touchZoom:true, boxZoom:true};
+    mapObj = L.map('map', zoomOpts).setView([37,138],5); tile(mapObj);
+    mapSpecObj = L.map('mapSpec', zoomOpts).setView([35,137],5); tile(mapSpecObj);
     document.querySelectorAll('.mvb').forEach(b=>b.classList.toggle('on', b.dataset.view===mapView));
     buildDaySelector();
     renderMapLayer();

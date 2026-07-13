@@ -752,7 +752,7 @@ function buildMap() {
   // רקע נקי + תוויות באנגלית (Esri) — שמות מקומות באנגלית, לא יפנית
   mapEl.innerHTML = '<div id="rtMap" style="width:100%;height:100%"></div>';
   if (rtMap) { rtMap.remove(); rtMap = null; }
-  rtMap = L.map('rtMap');
+  rtMap = L.map('rtMap', {zoomControl:true, scrollWheelZoom:true, doubleClickZoom:true, touchZoom:true, boxZoom:true});
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_nolabels/{z}/{x}/{y}{r}.png', {
     attribution: '© OpenStreetMap © CARTO', subdomains: 'abcd', maxZoom: 20
   }).addTo(rtMap);
