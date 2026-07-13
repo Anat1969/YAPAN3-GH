@@ -338,7 +338,43 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .itin-open:hover{text-decoration:underline}
 .itin-open .ic{width:13px;height:13px;stroke:currentColor;vertical-align:-2px;margin-inline-end:3px}
 .ap-dayhint{margin-top:-4px;margin-bottom:8px;font-size:11px;font-weight:700;color:var(--action);background:rgba(29,78,216,.08);border-radius:6px;padding:6px 10px}
-@media(max-width:640px){.itin-img{width:72px;height:52px}.itin-head-main{gap:8px}}
+/* עריכת שעה inline */
+.itin-time-edit{cursor:text;border-radius:4px;padding:0 3px;transition:background .12s}
+.itin-time-edit:hover{background:rgba(184,134,11,.12)}
+.itin-time-edit:focus{outline:none;background:#fffde7;box-shadow:inset 0 0 0 2px #fbbf24}
+/* שורת מלון במסלול (קמנו/ישנים) */
+.itin-hotel-row{background:linear-gradient(90deg,rgba(184,134,11,.06),transparent);border-radius:8px;padding:6px}
+.itin-hotel-img{width:96px;height:64px;object-fit:cover;border-radius:8px;flex-shrink:0;display:block;border:1px solid var(--border)}
+.itin-hotel-img.noimg{display:flex;align-items:center;justify-content:center;background:var(--bg);border:1px dashed var(--border-strong)}
+.itin-hotel-img.noimg .ic{width:26px;height:26px;stroke:var(--ink-3)}
+.itin-hotel-lbl{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:900;color:#a16207;margin-bottom:2px}
+.itin-hotel-lbl .ic{width:14px;height:14px;stroke:#a16207}
+.rt-marker.hotel{background:#a16207}
+/* בקרת עיצוב דף המסלול */
+.itin-bar{align-items:flex-start;gap:12px}
+.itin-appearance{display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex-shrink:0}
+.itin-ap-lbl{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;color:var(--ink-3)}
+.itin-ap-lbl .ic{width:13px;height:13px;stroke:var(--ink-3)}
+.itin-fsgroup{display:inline-flex;border:1px solid var(--border-strong);border-radius:7px;overflow:hidden}
+.itin-fsbtn{border:none;background:var(--surface);color:var(--ink-2);cursor:pointer;padding:5px 9px;font-weight:800;border-inline-start:1px solid var(--border)}
+.itin-fsgroup .itin-fsbtn:first-child{border-inline-start:none}
+.itin-fsgroup .itin-fsbtn:nth-child(1){font-size:11px}.itin-fsgroup .itin-fsbtn:nth-child(2){font-size:13px}.itin-fsgroup .itin-fsbtn:nth-child(3){font-size:15px}.itin-fsgroup .itin-fsbtn:nth-child(4){font-size:18px}
+.itin-fsbtn.on{background:var(--action);color:#fff}
+.itin-fsbtn:hover:not(.on){background:var(--bg)}
+.itin-colorlbl{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--ink-2)}
+.itin-colorlbl input[type=color]{width:26px;height:24px;border:1px solid var(--border-strong);border-radius:5px;padding:0;cursor:pointer;background:none}
+.itin-reset{border:1px solid var(--border-strong)!important;border-radius:7px;font-size:11px;padding:5px 10px;color:var(--ink-2)}
+/* החלת גודל טקסט (--itin-fs) וצבע (--itin-color) על תוכן המסלול */
+#itinWrap{--itin-fs:1}
+.itin-title{font-size:calc(16px * var(--itin-fs))}
+.itin-idea{font-size:calc(12px * var(--itin-fs))}
+.itin-spot-name .bn-he{font-size:calc(14px * var(--itin-fs))}
+.itin-spot-name .bn-en{font-size:calc(10px * var(--itin-fs))}
+.itin-spot-meta{font-size:calc(11.5px * var(--itin-fs))}
+.itin-spot-notes{font-size:calc(11px * var(--itin-fs))}
+.itin-meal,.itin-hotel-lbl,.itin-slot-head{font-size:calc(12px * var(--itin-fs))}
+#itinWrap.itin-tinted .itin-title,#itinWrap.itin-tinted .itin-spot-name .bn-he,#itinWrap.itin-tinted .itin-idea,#itinWrap.itin-tinted .itin-spot-notes,#itinWrap.itin-tinted .itin-spot-meta,#itinWrap.itin-tinted .itin-meal-v{color:var(--itin-color)}
+@media(max-width:640px){.itin-img,.itin-hotel-img{width:72px;height:52px}.itin-head-main{gap:8px}.itin-appearance{width:100%}}
 
 /* TAGS */
 .tg{display:inline-flex;align-items:center;gap:3px;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700;white-space:nowrap}
@@ -1606,13 +1642,16 @@ document.addEventListener('paste', function(e){
 });
 
 // כרטיס אתר בודד במסלול — מסגרת תמונה אחידה + שם/אתר רשמי (מ-places לפי מפתח)
-function itinSpotHtml(s){
+// dayId/slotKey/idx — לזיהוי לצורך עריכת שעה ושיבוץ מחדש
+function itinSpotHtml(s, dayId, slotKey, idx){
   const match = findPlaceByKey(placeKey(s));
   const site = s.officialUrl || (match && match.officialUrl);
   const maps = placeMapsLink({nameEn:s.nameEn, name:s.name, pid:s.placeId||(match&&match.pid), lat:s.lat, lng:s.lng, addr:s.addr});
   const thumb = pframe(s, 'itin-img');
+  // שעה ניתנת לעריכה בלחיצה — אחרי שינוי, האתר משובץ מחדש לפי השעה
+  const timeChip = `<span class="itin-time itin-time-edit" contenteditable="true" data-day="${dayId}" data-slot="${slotKey}" data-idx="${idx}" onfocus="itinTimeFocus(this)" onblur="itinTimeEdit(this)" onkeydown="itinTimeKey(event,this)" data-tip="לחצי לעריכת השעה — האתר יסודר מחדש לפי השעה">${s.time||'—:—'}</span>`;
   const meta = [
-    s.time ? `<span class="itin-time">${s.time}</span>` : '',
+    timeChip,
     s.duration ? `<span>${s.duration}</span>` : '',
     (s.price!=null && s.price!=='') ? `<span>¥${Number(s.price).toLocaleString()}</span>` : '',
     s.forWho ? `<span class="itin-who">${Array.isArray(s.forWho)?s.forWho.join(', '):s.forWho}</span>` : '',
@@ -1621,17 +1660,22 @@ function itinSpotHtml(s){
     ${thumb}
     <div class="itin-spot-body">
       <div class="itin-spot-name">${bilingualName(s.name, s.nameEn, {maps, site: site||''})}</div>
-      ${meta ? `<div class="itin-spot-meta">${meta}</div>` : ''}
+      <div class="itin-spot-meta">${meta}</div>
       ${s.notes ? `<div class="itin-spot-notes">${fmtNotes(s.notes)}</div>` : ''}
     </div>
   </div>`;
 }
 function itinSlotHtml(d, slot){
   const spots = (d.spots && d.spots[slot.key]) || [];
-  if(!Array.isArray(spots) || !spots.length) return '';
+  const hotelRow = (slot.key==='morning' || slot.key==='evening') ? hotelItinRow(d, slot.key) : '';
+  if((!Array.isArray(spots) || !spots.length) && !hotelRow) return '';
+  const dayId = d.id!=null?d.id:d.tripDay;
+  const rows = (Array.isArray(spots)?spots:[]).map((s,i)=>itinSpotHtml(s, dayId, slot.key, i)).join('');
+  // מלון בבוקר — לפני התחנות (קמנו); בערב — אחרי (הולכים לישון)
+  const inner = slot.key==='morning' ? (hotelRow + rows) : (rows + hotelRow);
   return `<div class="itin-slot itin-slot-${slot.key}">
     <div class="itin-slot-head">${icon(slot.ic)}<span>${slot.label}</span></div>
-    <div class="itin-slot-spots">${spots.map(itinSpotHtml).join('')}</div>
+    <div class="itin-slot-spots">${inner}</div>
   </div>`;
 }
 function mealsHtml(m){
@@ -1646,6 +1690,89 @@ function mealsHtml(m){
   return `<div class="itin-meals"><div class="itin-meals-head">${icon('food')}<span>ארוחות</span></div>
     ${rows.map(r=>`<div class="itin-meal"><span class="itin-meal-k">${r[0]}</span><span class="itin-meal-v">${r[1]}</span></div>`).join('')}</div>`;
 }
+
+// ── עריכת שעת אתר במסלול + שיבוץ מחדש לפי השעה ──
+// המקטע (בוקר/צהריים/ערב) שאליו שייכת שעה נתונה
+function slotForTime(mins){
+  if(mins==null) return null;
+  if(mins < toMin('12:30')) return 'morning';
+  if(mins < toMin('17:30')) return 'afternoon';
+  return 'evening';
+}
+function itinTimeFocus(el){ el.dataset.orig = el.textContent.trim(); document.execCommand&&document.getSelection&&getSelection().selectAllChildren?getSelection().selectAllChildren(el):0; }
+function itinTimeKey(e, el){
+  if(e.key==='Enter'){ e.preventDefault(); el.blur(); }
+  else if(e.key==='Escape'){ el.textContent = el.dataset.orig||''; el.blur(); }
+}
+function itinTimeEdit(el){
+  const dayId = el.dataset.day, fromSlot = el.dataset.slot, idx = +el.dataset.idx;
+  let txt = el.textContent.trim().replace(/[^\d:]/g,'');
+  // נורמליזציה: "9" → 09:00, "930" → 09:30, "9:5" → 09:05
+  let mins = null;
+  if(/^\d{1,2}:\d{1,2}$/.test(txt)){ const [h,m]=txt.split(':'); mins = (+h)*60+(+m); }
+  else if(/^\d{3,4}$/.test(txt)){ const h=txt.slice(0,txt.length-2), m=txt.slice(-2); mins=(+h)*60+(+m); }
+  else if(/^\d{1,2}$/.test(txt)){ mins = (+txt)*60; }
+  const raw = _dayFilesRaw[dayId];
+  const day = DATA.days.find(d=>String(d.id)===String(dayId)||String(d.tripDay)===String(dayId));
+  if(!raw || !day || mins==null || isNaN(mins)){ render(); return; }
+  mins = Math.max(0, Math.min(23*60+59, mins));
+  const newTime = toHHMM(mins);
+  const fromArr = raw.spots[fromSlot]||[];
+  const spot = fromArr[idx];
+  if(!spot){ render(); return; }
+  spot.time = newTime;
+  // אם השעה שייכת למקטע אחר — להעביר את האתר לשם
+  const toSlot = slotForTime(mins) || fromSlot;
+  if(toSlot!==fromSlot){
+    fromArr.splice(idx,1);
+    if(!Array.isArray(raw.spots[toSlot])) raw.spots[toSlot]=[];
+    raw.spots[toSlot].push(spot);
+  }
+  // מיון כרונולוגי של המקטעים המושפעים (מי שאין לו שעה — בסוף)
+  [fromSlot, toSlot].forEach(sl=>{ (raw.spots[sl]||[]).sort((a,b)=>{const x=toMin(a.time),y=toMin(b.time);if(x==null&&y==null)return 0;if(x==null)return 1;if(y==null)return -1;return x-y;}); });
+  day.spots = raw.spots;
+  // עדכון timeOfDay ברשומת המקום התואם
+  const pl = findPlaceByKey(placeKey(spot)); if(pl) pl.timeOfDay = newTime;
+  _changedDays.add(String(dayId));
+  persistPendingDaySpots(); markUnsaved();
+  render();
+  toast(toSlot!==fromSlot ? `השעה עודכנה — האתר עבר ל${{morning:'בוקר',afternoon:'צהריים',evening:'ערב'}[toSlot]}. «שמור קבצים»` : 'השעה עודכנה — «שמור קבצים» לשמירה ל-Git');
+}
+
+// ── מלון היום במסלול: קמנו (בוקר) / הולכים לישון (ערב) ──
+// המלון שבו לנים בלילה של תאריך היום: checkin ≤ date < checkout
+function hotelForNight(dateIso){
+  return (DATA.hotels||[]).find(h=>h.checkin && h.checkout && h.checkin<=dateIso && dateIso<h.checkout) || null;
+}
+function hotelItinRow(d, slotKey){
+  const date = d.date;
+  if(!date) return '';
+  // בוקר — המלון שבו ישנו בלילה הקודם (התעוררנו בו): הלילה של אתמול
+  // ערב — המלון שבו ישנים הלילה
+  let hotel=null, labelHe='', ic='bed';
+  if(slotKey==='morning'){
+    hotel = hotelForNight(isoAddDays(date, -1));
+    labelHe = 'קמנו ב';
+  } else {
+    hotel = hotelForNight(date);
+    labelHe = 'הולכים לישון ב';
+  }
+  if(!hotel) return '';
+  const src = hotelImgSrc(hotel);
+  const maps = gmapsLinkFor({nameEn:hotel.nameEn||hotel.name, name:hotel.name, pid:hotel.pid, lat:hotel.lat, lng:hotel.lng, addr:hotel.addr});
+  const alt = hotel.name||'';
+  const thumb = src
+    ? `<a href="${maps}" target="_blank" rel="noopener" onclick="event.stopPropagation()"><img class="itin-hotel-img" src="${src}" alt="${alt}" loading="lazy" onerror="this.parentElement.style.display='none'"></a>`
+    : `<div class="itin-hotel-img noimg">${icon('bed')}</div>`;
+  return `<div class="itin-spot itin-hotel-row itin-hotel-${slotKey}">
+    ${thumb}
+    <div class="itin-spot-body">
+      <div class="itin-hotel-lbl">${icon('bed')} ${labelHe}</div>
+      <div class="itin-spot-name">${bilingualName(hotel.name, hotel.nameEn||'', {maps, site:''})}</div>
+      ${hotel.city?`<div class="itin-spot-meta"><span>${hotel.city}</span></div>`:''}
+    </div>
+  </div>`;
+}
 function renderItinerary(){
   const data = sorted(filtered(DATA.days), 'days');
   const box = document.getElementById('itinWrap');
@@ -1653,9 +1780,8 @@ function renderItinerary(){
     const h = hotelById(d.hotelId) || hotelByName(dayHotelName(d));
     const slots = ITIN_SLOTS.map(sl=>itinSlotHtml(d, sl)).filter(Boolean).join('');
     const spotsCol = slots || `<div class="itin-empty">אין תחנות מתוכננות ליום זה עדיין — <a href="day.html?d=${d.tripDay}">פתיחת דף היום להוספה</a></div>`;
-    // מפת המסלול של היום — רק כשיש לפחות 2 נקודות עם קואורדינטות
-    const geoCount = itinGeoSpots(d).length;
-    const mapCol = geoCount >= 2
+    // מפת המסלול של היום — כשיש לפחות 2 נקודות עם קואורדינטות (כולל מלונות)
+    const mapCol = itinMapPointCount(d) >= 2
       ? `<div class="itin-map"><div class="itin-map-box" id="itinmap-${d.tripDay}"></div></div>`
       : '';
     const bodyCls = mapCol ? 'itin-body has-map' : 'itin-body';
@@ -1694,14 +1820,45 @@ function renderItinerary(){
       </div>
     </article>`;
   }).join('');
-  box.innerHTML = `<div class="view-bar"><div class="tr-intro">המסלול המלא של הטיול — כל יום עם התחנות המתוכננות לבוקר, צהריים וערב, שעות, אתרים וארוחות ומפת המסלול. לחיצה על מספר היום פותחת את הדף המלא עם ניווט.</div></div>
+  const fs = itinPrefs();
+  const fsBtn = (v,lbl)=>`<button class="itin-fsbtn${fs.size===v?' on':''}" onclick="setItinFont('${v}')" data-tip="גודל טקסט ${lbl}">${lbl}</button>`;
+  box.innerHTML = `<div class="view-bar itin-bar">
+      <div class="tr-intro">המסלול המלא — כל יום עם בוקר/צהריים/ערב, אתרים, שעות, מלונות ומפה. לחצי על שעה כדי לערוך; האתר יסודר מחדש לפי השעה.</div>
+      <div class="itin-appearance" data-tip="עיצוב דף המסלול — גודל טקסט וצבע">
+        <span class="itin-ap-lbl">${icon('image')} טקסט:</span>
+        <div class="itin-fsgroup">${fsBtn('s','א')}${fsBtn('m','א')}${fsBtn('l','א')}${fsBtn('xl','א')}</div>
+        <label class="itin-colorlbl" data-tip="צבע הטקסט בדף המסלול">צבע
+          <input type="color" id="itinColor" value="${fs.color}" onchange="setItinColor(this.value)">
+        </label>
+        <button class="itin-fsbtn itin-reset" onclick="resetItinPrefs()" data-tip="איפוס לברירת מחדל">איפוס</button>
+      </div>
+    </div>
     <div class="itin-list">${cards}</div>`;
+  applyItinPrefs();
   // בניית מפת המסלול לכל יום (Leaflet) אחרי שה-HTML נכתב
   renderAllItinMaps(data);
   // גלילה ליום מתוך ?d= בקישור עמוק
   const dq = new URLSearchParams(location.search).get('d');
   if(dq){ const el=document.getElementById('itin-'+dq); if(el) setTimeout(()=>{el.scrollIntoView({behavior:'smooth',block:'start'}); const m=itinMaps[dq]; if(m) m.invalidateSize();},80); }
 }
+// ── עיצוב דף המסלול (גודל טקסט + צבע) — נשמר בדפדפן (העדפת תצוגה) ──
+const ITIN_FS_SCALE = { s:0.9, m:1, l:1.15, xl:1.35 };
+function itinPrefs(){
+  let p = {};
+  try { p = JSON.parse(localStorage.getItem('itin-prefs')||'{}'); } catch(e){}
+  return { size: p.size||'m', color: p.color||'' };
+}
+function saveItinPrefs(p){ try{ localStorage.setItem('itin-prefs', JSON.stringify(p)); }catch(e){} }
+function applyItinPrefs(){
+  const w = document.getElementById('itinWrap'); if(!w) return;
+  const p = itinPrefs();
+  w.style.setProperty('--itin-fs', ITIN_FS_SCALE[p.size]||1);
+  if(p.color){ w.style.setProperty('--itin-color', p.color); w.classList.add('itin-tinted'); }
+  else { w.style.removeProperty('--itin-color'); w.classList.remove('itin-tinted'); }
+}
+function setItinFont(size){ const p=itinPrefs(); p.size=size; saveItinPrefs(p); renderItinerary(); }
+function setItinColor(color){ const p=itinPrefs(); p.color=color; saveItinPrefs(p); applyItinPrefs(); }
+function resetItinPrefs(){ saveItinPrefs({size:'m',color:''}); renderItinerary(); }
 
 // ── מפת המסלול לכל יום בדף המסלול ──
 const itinMaps = {};   // tripDay → Leaflet map instance
@@ -1713,17 +1870,23 @@ function itinGeoSpots(d){
   });
   return out;
 }
+// מספר הנקודות הממופות ליום — תחנות + מלונות (קמנו/ישנים)
+function itinMapPointCount(d){
+  let n = itinGeoSpots(d).length;
+  if(d.date){ const w=hotelForNight(isoAddDays(d.date,-1)); const s=hotelForNight(d.date);
+    if(w&&w.lat&&w.lng) n++; if(s&&s.lat&&s.lng&&(!w||w!==s)) n++; }
+  return n;
+}
 function renderAllItinMaps(days){
   if(typeof L === 'undefined'){ setTimeout(()=>renderAllItinMaps(days), 200); return; }
   // ניקוי מפות קודמות
   Object.values(itinMaps).forEach(m=>{ try{ m.remove(); }catch(e){} });
   for(const k in itinMaps) delete itinMaps[k];
   days.forEach(d=>{
-    const geo = itinGeoSpots(d);
-    if(geo.length < 2) return;
+    if(itinMapPointCount(d) < 2) return;
     const el = document.getElementById('itinmap-'+d.tripDay);
     if(!el) return;
-    renderItinMap(d, el, geo);
+    renderItinMap(d, el, itinGeoSpots(d));
   });
 }
 function renderItinMap(d, el, geo){
@@ -1751,7 +1914,20 @@ function renderItinMap(d, el, geo){
     const marker = L.marker([s.lat,s.lng],{icon:L.divIcon({className:'',html:`<div class="${cls}">${n}</div>`,iconSize:[24,24],iconAnchor:[12,12]})}).addTo(m);
     marker.bindPopup(`${bilingual(s.name,s.nameEn)}${s.time?`<br><span style="font-size:11px">${s.time}${s.duration?' · '+s.duration:''}</span>`:''}`);
   });
-  m.fitBounds(L.latLngBounds(geo.map(s=>[s.lat,s.lng])).pad(0.18));
+  // מלונות היום — קמנו (בוקר) והולכים לישון (ערב), כסמן מלון (לא ממוספר)
+  const allPts = geo.map(s=>[s.lat,s.lng]);
+  const wake = d.date ? hotelForNight(isoAddDays(d.date,-1)) : null;
+  const sleep = d.date ? hotelForNight(d.date) : null;
+  const seen = new Set();
+  [[wake,'קמנו כאן'],[sleep,'ישנים כאן']].forEach(([hot,lbl])=>{
+    if(!hot || !hot.lat || !hot.lng) return;
+    const key = hot.lat+','+hot.lng+lbl;
+    if(seen.has(key)) return; seen.add(key);
+    L.marker([hot.lat,hot.lng],{icon:L.divIcon({className:'',html:`<div class="rt-marker hotel"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#fff" stroke-width="2"><path d="M3 18v-6h18v6M3 12V7M21 12v-2a3 3 0 0 0-3-3H8v5"/></svg></div>`,iconSize:[24,24],iconAnchor:[12,12]})}).addTo(m)
+      .bindPopup(`<b>${lbl}</b><br>${bilingual(hot.name,hot.nameEn||'')}`);
+    allPts.push([hot.lat,hot.lng]);
+  });
+  m.fitBounds(L.latLngBounds(allPts).pad(0.18));
   setTimeout(()=>m.invalidateSize(),120);
 }
 
@@ -2197,6 +2373,13 @@ function renderFlights() {
 // דף תחבורה מרכזי
 // ══════════════════════════════════
 function fmtDate(iso){ if(!iso) return ''; const [y,m,d]=iso.split('-'); return `${+d}/${+m}`; }
+// חיבור/חיסור ימים ל-ISO (YYYY-MM-DD) בלי תלות באזור זמן
+function isoAddDays(iso, delta){
+  if(!iso) return iso;
+  const [y,m,d]=iso.split('-').map(Number);
+  const dt=new Date(Date.UTC(y,m-1,d)); dt.setUTCDate(dt.getUTCDate()+delta);
+  return dt.getUTCFullYear()+'-'+String(dt.getUTCMonth()+1).padStart(2,'0')+'-'+String(dt.getUTCDate()).padStart(2,'0');
+}
 // הערה מנוקדת: כל משפט (אחרי נקודה) יורד לשורה חדשה, ומובטחת נקודה בסוף.
 function fmtNotes(txt){
   if(!txt) return '';
