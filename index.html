@@ -61,6 +61,13 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 .tab.on{color:#fff;background:rgba(255,255,255,.15);font-weight:800}
 .tab.on::after{content:'';position:absolute;left:14px;right:14px;bottom:-8px;height:2px;background:var(--focus)}
 .tab:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
+/* מצב סידור כפתורים (drag & drop) */
+.nav .tabs.reordering .tab{cursor:grab;background:rgba(255,255,255,.08);border:1px dashed #888;animation:tabWiggle .5s ease-in-out infinite}
+.nav .tabs.reordering .tab.on::after{display:none}
+.nav .tabs.reordering .tab.dragging{opacity:.4;cursor:grabbing;animation:none}
+@keyframes tabWiggle{0%,100%{transform:rotate(-1deg)}50%{transform:rotate(1deg)}}
+.nav-btn.reorder-btn{display:inline-flex;align-items:center;gap:4px}
+.nav-btn.reorder-btn.on{background:var(--focus,#fbbf24);color:#1c1c1a;border-color:var(--focus,#fbbf24);font-weight:800}
 @media(max-width:900px){.nav .tabs{justify-content:flex-start;order:3;flex-basis:100%}.nav h1{order:1}.nav .actions{order:2;margin-right:auto}}
 .nav-btn{padding:4px 10px;border:1px solid #555;border-radius:4px;background:transparent;color:#aaa;font:600 11px/1.4 inherit;cursor:pointer;transition:.12s}
 .nav-btn:hover{background:rgba(255,255,255,.1);color:#fff;border-color:#888}
@@ -689,6 +696,8 @@ a.ml:hover{text-decoration:underline}
     <button class="tab" data-tab="map" data-tip="מפת כל המלונות והאתרים" aria-label="מעבר למפה">מפה</button>
   </div>
   <div class="actions">
+    <button class="nav-btn save" id="navSaveBtn" onclick="saveAll()" style="display:none" data-tip="הורדת הקבצים המעודכנים לשמירה ב-Git (סדר כפתורים, אתרים חדשים ועוד)" aria-label="שמירת הקבצים ל-Git">שמור קבצים</button>
+    <button class="nav-btn reorder-btn" id="reorderBtn" onclick="toggleReorder()" data-tip="מצב סידור — גררי כפתורים לסדר חדש, ואז שמרי" aria-label="סידור כפתורי הניווט"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor;fill:none;width:13px;height:13px;vertical-align:-2px"><path d="M4 9h16M4 15h16M8 5l-4 4 4 4M16 11l4 4-4 4"/></svg> <span class="reorder-lbl">סדר כפתורים</span></button>
     <a class="nav-btn vs-btn" href="https://github.com/Anat1969/YAPAN3-GH" target="_blank" rel="noopener" data-tip="פתיחת קוד האפליקציה ב-VS Code (GitHub) לשדרוג" aria-label="שדרוג VS — עריכת קוד האפליקציה"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor;fill:none;width:13px;height:13px;vertical-align:-2px"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg> שדרוג VS</a>
     <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none" data-tip="חזרה לדף הקודם שביקרת בו" aria-label="חזרה לדף הקודם"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor"><path d="M5 12h14M12 5l-7 7 7 7"/></svg><span class="back-lbl">חזרה</span></button>
   </div>
@@ -867,7 +876,10 @@ async function loadData() {
     ]);
     const bk = await fetch('data/bookings.json').then(r=>r.json()).catch(()=>null);
     const cl = await fetch('data/booking-checklist.json').then(r=>r.json()).catch(()=>null);
-    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl };
+    const tb = await fetch('data/tabs.json').then(r=>r.json()).catch(()=>null);
+    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb };
+    // סדר כפתורי הניווט — מקובץ (לכולם), עם התמדה מקומית זמנית עד ל-«שמור קבצים»
+    applyTabOrder();
     // ה-id הגבוה מהקובץ הסטטי — לזיהוי אתרים שנוספו מקומית (טרם נשמרו ל-Git)
     _basePlaceMaxId = (DATA.places||[]).reduce((m,x)=>Math.max(m, x.id||0), 0);
     // שחזור אתרים שנוספו מקומית ועדיין לא נשמרו ל-Git (התמדה עד ל-«שמור קבצים»)
@@ -905,6 +917,7 @@ async function loadData() {
     document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on', p.id==='p-'+urlTab));
     if (urlTab==='map') setTimeout(initMap,120);
   }
+  updateSaveBtn();
   render();
 }
 
@@ -912,8 +925,85 @@ async function loadData() {
 // TABS
 // ══════════════════════════════════
 document.querySelectorAll('.tab').forEach(btn => {
-  btn.addEventListener('click', () => goTab(btn.dataset.tab));
+  btn.addEventListener('click', () => { if(!reorderMode) goTab(btn.dataset.tab); });
 });
+
+// ── סידור כפתורי הניווט (drag & drop) ──
+// סדר נשמר ל-DATA.tabs → יורד כ-tabs.json ב-«שמור קבצים» → push ל-Git (לכולם).
+// התמדה מקומית זמנית ב-localStorage כדי לא לאבד את הסדר עד ל-push.
+let reorderMode = false;
+let dragTab = null;
+// הצגת כפתור «שמור קבצים» בסרגל כשיש שינויים מקומיים שלא נשמרו ל-Git
+let hasUnsaved = false;
+function markUnsaved(){ hasUnsaved = true; const b=document.getElementById('navSaveBtn'); if(b) b.style.display=''; }
+function updateSaveBtn(){
+  const pend = localStorage.getItem('pending-tabs') || localStorage.getItem('pending-places');
+  if(pend || hasUnsaved) markUnsaved();
+}
+// החלת סדר הכפתורים על ה-DOM לפי DATA.tabs (או pending-tabs מקומי אם קיים)
+function applyTabOrder() {
+  let order = null;
+  try { order = JSON.parse(localStorage.getItem('pending-tabs')||'null'); } catch(e){}
+  if(!order && Array.isArray(DATA.tabs)) order = DATA.tabs;
+  if(!Array.isArray(order) || !order.length) return;
+  const bar = document.querySelector('.nav .tabs');
+  if(!bar) return;
+  const byKey = {};
+  bar.querySelectorAll('.tab').forEach(b=>{ byKey[b.dataset.tab]=b; });
+  // קודם הכפתורים לפי הסדר השמור, ואז כל כפתור חדש שלא ברשימה (שמירה על גמישות)
+  order.forEach(k=>{ if(byKey[k]){ bar.appendChild(byKey[k]); delete byKey[k]; } });
+  Object.values(byKey).forEach(b=>bar.appendChild(b));
+}
+// הסדר הנוכחי מה-DOM
+function currentTabOrder(){
+  return Array.from(document.querySelectorAll('.nav .tabs .tab')).map(b=>b.dataset.tab);
+}
+function toggleReorder() {
+  reorderMode = !reorderMode;
+  const bar = document.querySelector('.nav .tabs');
+  const btn = document.getElementById('reorderBtn');
+  bar.classList.toggle('reordering', reorderMode);
+  btn.classList.toggle('on', reorderMode);
+  btn.querySelector('.reorder-lbl').textContent = reorderMode ? 'סיום סידור' : 'סדר כפתורים';
+  bar.querySelectorAll('.tab').forEach(b=>{
+    b.draggable = reorderMode;
+    if(reorderMode){
+      b.addEventListener('dragstart', onTabDragStart);
+      b.addEventListener('dragover', onTabDragOver);
+      b.addEventListener('drop', onTabDrop);
+      b.addEventListener('dragend', onTabDragEnd);
+    } else {
+      b.removeEventListener('dragstart', onTabDragStart);
+      b.removeEventListener('dragover', onTabDragOver);
+      b.removeEventListener('drop', onTabDrop);
+      b.removeEventListener('dragend', onTabDragEnd);
+    }
+  });
+  if(reorderMode){
+    toast('גררי כפתורים לסדר חדש, ואז «שמור קבצים»');
+  } else {
+    // יציאה ממצב סידור — שמירת הסדר ל-DATA.tabs + התמדה זמנית
+    const order = currentTabOrder();
+    DATA.tabs = order;
+    try { localStorage.setItem('pending-tabs', JSON.stringify(order)); } catch(e){}
+    markUnsaved();
+    toast('הסדר נשמר זמנית — לחצי «שמור קבצים» כדי לשמור ל-Git');
+  }
+}
+function onTabDragStart(e){ dragTab = this; this.classList.add('dragging'); try{e.dataTransfer.effectAllowed='move';}catch(_){} }
+function onTabDragOver(e){
+  e.preventDefault();
+  if(!dragTab || dragTab===this) return;
+  const bar = this.parentNode;
+  const items = Array.from(bar.querySelectorAll('.tab'));
+  // RTL: קובעים מיקום לפי מרכז הכפתור אופקית
+  const r = this.getBoundingClientRect();
+  const before = (e.clientX - r.left) > r.width/2; // בכיוון RTL "before" = ימינה
+  if(before) bar.insertBefore(dragTab, this);
+  else bar.insertBefore(dragTab, this.nextSibling);
+}
+function onTabDrop(e){ e.preventDefault(); }
+function onTabDragEnd(){ if(dragTab) dragTab.classList.remove('dragging'); dragTab=null; }
 
 function goTab(tab, isBack) {
   if (tab===activeTab) return;
@@ -2206,6 +2296,7 @@ function editCell(el) {
     obj = obj[keys[i]];
   }
   obj[keys[keys.length-1]] = el.textContent;
+  markUnsaved();
   toast('נשמר זמנית — לחצי «שמור קבצים» ל-Git');
   // רינדור מחדש כדי שכל הנתונים הנגזרים (סיכומים, תקציב, hero) יתעדכנו בזמן אמת
   render();
@@ -2564,8 +2655,10 @@ async function saveAll() {
   for (const [name, data] of Object.entries(DATA)) {
     downloadJSON(data, name+'.json');
   }
-  // האתרים שנוספו מקומית ירדו כעת בקובץ places.json — ניתן לנקות את ההתמדה הזמנית
-  try { localStorage.removeItem('pending-places'); } catch(e){}
+  // התמדות זמניות ירדו כעת לקבצים (places.json, tabs.json) — ניתן לנקות
+  try { localStorage.removeItem('pending-places'); localStorage.removeItem('pending-tabs'); } catch(e){}
+  hasUnsaved = false;
+  const b=document.getElementById('navSaveBtn'); if(b) b.style.display='none';
   toast('כל הקבצים נשמרו — העלי ל-Git');
 }
 
@@ -2702,6 +2795,7 @@ function confirmAddPlace() {
   render();
   // גלילה לאתר החדש + הדגשה
   setTimeout(()=>{ const row=document.getElementById('place-'+added.id); if(row){row.scrollIntoView({behavior:'smooth',block:'center'}); row.style.animation='placeFlash 2s';} },100);
+  markUnsaved();
   toast('נוסף! לחצי «שמור קבצים» כדי לשמור ל-Git');
   // התמדה זמנית עד לשמירה ל-Git — שלא ילך לאיבוד ב-refresh בטעות
   try { localStorage.setItem('pending-places', JSON.stringify(DATA.places.filter(p=>p.id>getBasePlaceMaxId()))); } catch(e){}
