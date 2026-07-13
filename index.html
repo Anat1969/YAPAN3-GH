@@ -261,7 +261,8 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 
 /* ITINERARY — מסלול מפורט */
 /* סרגל ימים קבוע (sticky) לאורך הדף — מספר יום + תאריך + עיר */
-.itin-rail{position:fixed;inset-inline-start:8px;top:80px;bottom:12px;width:var(--itin-rail-w,112px);z-index:40;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border-strong);border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.1);overflow:hidden}
+/* הסרגל צמוד לדופן תוכן המסלול (התוכן ממורכז ברוחב 1200px) */
+.itin-rail{position:fixed;left:max(8px, calc(50vw - 600px - var(--itin-rail-w,112px) - 8px));top:80px;bottom:12px;width:var(--itin-rail-w,112px);z-index:40;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border-strong);border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.1);overflow:hidden}
 .idr-head{flex-shrink:0;padding:8px 6px;font-size:12px;font-weight:900;color:var(--action);text-align:center;border-bottom:1px solid var(--border);background:var(--bg)}
 .idr-list{flex:1;overflow-y:auto;padding:6px;display:flex;flex-direction:column;gap:5px}
 .idr-day{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 4px;border-radius:8px;text-decoration:none;color:var(--ink);border:1px solid transparent;transition:.12s;position:relative}
@@ -273,10 +274,10 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .idr-city{font-size:9px;font-weight:700;line-height:1.1;text-align:center;color:var(--ink-3);overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;max-width:100%}
 .idr-day.cal-k{background:var(--region-1)}.idr-day.cal-h{background:var(--region-2)}.idr-day.cal-t{background:var(--region-3)}.idr-day.cal-t .idr-num,.idr-day.cal-t .idr-date,.idr-day.cal-t .idr-city{color:#fff}.idr-day.cal-d{background:var(--region-4)}
 .idr-day.idr-return{background:#e7f3ec}.idr-day.idr-return .idr-city{color:#166534;font-weight:800}
-/* פינוי מקום לסרגל כך שלא יכסה תוכן */
-#p-itinerary{padding-inline-start:128px}
+/* פינוי מקום לסרגל רק כשהוא נצמד לדופן המסך (מסך צר מ-1200+סרגל) — אחרת הוא בשוליים */
+@media(max-width:1460px){#p-itinerary{padding-inline-start:128px}}
 @media(max-width:1100px){.itin-rail{width:92px}#p-itinerary{padding-inline-start:104px}.idr-num{font-size:14px}}
-@media(max-width:760px){.itin-rail{position:static;inset:auto;width:auto;flex-direction:column;margin-bottom:14px;box-shadow:none}.idr-list{flex-direction:row;flex-wrap:wrap;overflow-x:auto}.idr-day{min-width:58px}#p-itinerary{padding-inline-start:12px}}
+@media(max-width:760px){.itin-rail{position:static;left:auto;inset:auto;width:auto;flex-direction:column;margin-bottom:14px;box-shadow:none}.idr-list{flex-direction:row;flex-wrap:wrap;overflow-x:auto}.idr-day{min-width:58px}#p-itinerary{padding-inline-start:12px}}
 .itin-list{display:flex;flex-direction:column;gap:16px}
 .itin-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;scroll-margin-top:90px}
 .itin-head{padding:14px 16px 13px;border-bottom:2px solid var(--border);background:var(--bg)}
@@ -330,10 +331,6 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .itin-map-box{position:relative;width:100%;height:460px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--bg)}
 .itin-map-box iframe{width:100%;height:100%;border:0;display:block}
 /* כפתורי זום שלנו — תמיד זמינים מעל מפת Google */
-.itin-zoom{position:absolute;top:10px;inset-inline-start:10px;display:flex;flex-direction:column;gap:4px;z-index:5}
-.itin-zoom-btn{width:34px;height:34px;border:1px solid var(--border-strong);border-radius:8px;background:var(--surface);color:var(--ink);font:900 20px/1 inherit;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center}
-.itin-zoom-btn:hover{background:var(--action);color:#fff;border-color:var(--action)}
-.itin-zoom-btn:active{transform:scale(.94)}
 .itin-map-box .leaflet-container{width:100%;height:100%;background:var(--bg)}
 .itin-map-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;color:var(--action);text-decoration:none;padding:2px 2px}
 .itin-map-link:hover{text-decoration:underline}
@@ -365,8 +362,10 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .pframe .pf-hint{display:none;font-size:9px;line-height:1.25;color:var(--ink-3);text-align:center;padding:2px}
 .pframe.empty .pf-hint{display:block}
 .pframe.drop{border-color:var(--action);border-style:solid;box-shadow:0 0 0 3px rgba(29,78,216,.2)}
-.pframe .pf-badge{position:absolute;bottom:2px;inset-inline-start:2px;width:16px;height:16px;background:rgba(28,28,26,.6);border-radius:4px;display:flex;align-items:center;justify-content:center;opacity:0;transition:.12s}
+.pframe .pf-badge{position:absolute;bottom:2px;inset-inline-start:2px;width:18px;height:18px;background:rgba(28,28,26,.6);border:none;border-radius:4px;display:flex;align-items:center;justify-content:center;opacity:0;transition:.12s;cursor:pointer;padding:0}
+button.pf-badge.pf-upload:hover{background:var(--action)}
 .pframe:hover .pf-badge,.pframe.empty .pf-badge{opacity:1}
+.pframe.pf-focus{cursor:zoom-in}
 .pframe .pf-badge .ic{width:11px;height:11px;stroke:#fff}
 /* גדלים ספציפיים */
 .pframe.itin-img{width:96px;height:64px}
@@ -1618,7 +1617,8 @@ function resolvePlaceImage(o){
 }
 // מסגרת תמונה אחידה — תמיד מוצגת (עם תמונה או placeholder), ניתנת לגרירה/הדבקה/לחיצה
 // key = מפתח הזהות; cls = מחלקת גודל (itin-img / place-frame וכו')
-function pframe(o, cls){
+// focusAttr — כשמסופק (למשל במסלול), לחיצה על תמונה קיימת ממקדת את המפה במקום לפתוח העלאה
+function pframe(o, cls, focusAttr){
   const key = placeKey(o);
   const src = resolvePlaceImage(o);
   const alt = `${o.name||''}${o.nameEn?' — '+o.nameEn:''}`;
@@ -1626,10 +1626,17 @@ function pframe(o, cls){
     ? `<img src="${src}" alt="${alt}" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('empty')">`
     : `<span class="pf-hint">גררי · הדביקי · לחצי<br>להוספת תמונה</span>`;
   const cleanKey = key.replace(/"/g,'&quot;');
-  return `<div class="pframe ${cls||''}${src?'':' empty'}" data-pkey="${cleanKey}" title="גררי/הדביקי/לחצי כדי להוסיף או להחליף תמונה"
-      onclick="pframeClick(this)" ondragover="pframeDragOver(event,this)" ondragleave="this.classList.remove('drop')" ondrop="pframeDrop(event,this)" tabindex="0">
+  // עם focus ותמונה קיימת: לחיצה על המסגרת ממקדת מפה; העלאה/החלפה דרך הבֵּייג' בפינה
+  const focusMode = focusAttr && src;
+  const clickHandler = focusMode ? focusAttr : 'pframeClick(this)';
+  const badge = focusMode
+    ? `<button class="pf-badge pf-upload" onclick="event.stopPropagation();pframeClick(this.parentElement)" data-tip="החלפת תמונה">${icon('image')}</button>`
+    : `<span class="pf-badge">${icon('image')}</span>`;
+  const tip = focusMode ? 'לחצי למיקוד האתר במפה · הבֵּייג׳ להחלפת תמונה' : 'גררי/הדביקי/לחצי כדי להוסיף או להחליף תמונה';
+  return `<div class="pframe ${cls||''}${src?'':' empty'}${focusMode?' pf-focus':''}" data-pkey="${cleanKey}" title="${tip}"
+      onclick="${clickHandler}" ondragover="pframeDragOver(event,this)" ondragleave="this.classList.remove('drop')" ondrop="pframeDrop(event,this)" tabindex="0">
     ${inner}
-    <span class="pf-badge">${icon('image')}</span>
+    ${badge}
   </div>`;
 }
 // כיווץ/שינוי גודל תמונה ל-JPEG base64 (למניעת נפח כבד ב-places.json)
@@ -1719,11 +1726,14 @@ document.addEventListener('paste', function(e){
 
 // כרטיס אתר בודד במסלול — מסגרת תמונה אחידה + שם/אתר רשמי (מ-places לפי מפתח)
 // dayId/slotKey/idx — לזיהוי לצורך עריכת שעה ושיבוץ מחדש
-function itinSpotHtml(s, dayId, slotKey, idx){
+function itinSpotHtml(s, dayId, slotKey, idx, tripDay){
   const match = findPlaceByKey(placeKey(s));
   const site = s.officialUrl || (match && match.officialUrl);
   const maps = placeMapsLink({nameEn:s.nameEn, name:s.name, pid:s.placeId||(match&&match.pid), lat:s.lat, lng:s.lng, addr:s.addr});
-  const thumb = pframe(s, 'itin-img');
+  // לחיצה על תמונת האתר → זום למיקום האתר במפת היום
+  const spotKey = (s.nameEn||s.name||'').replace(/'/g,"\\'").replace(/"/g,'&quot;');
+  const focusAttr = (tripDay!=null && (s.lat&&s.lng || (match&&match.lat&&match.lng))) ? `focusItinSpot(${tripDay},'${spotKey}')` : '';
+  const thumb = pframe(s, 'itin-img', focusAttr);
   // שעה ניתנת לעריכה בלחיצה — אחרי שינוי, האתר משובץ מחדש לפי השעה
   const timeChip = `<span class="itin-time itin-time-edit" contenteditable="true" data-day="${dayId}" data-slot="${slotKey}" data-idx="${idx}" onfocus="itinTimeFocus(this)" onblur="itinTimeEdit(this)" onkeydown="itinTimeKey(event,this)" data-tip="לחצי לעריכת השעה — האתר יסודר מחדש לפי השעה">${s.time||'—:—'}</span>`;
   const meta = [
@@ -1752,7 +1762,7 @@ function itinSlotHtml(d, slot){
   const spots = (d.spots && d.spots[slot.key]) || [];
   if(!Array.isArray(spots) || !spots.length) return '';
   const dayId = d.id!=null?d.id:d.tripDay;
-  const rows = spots.map((s,i)=>itinSpotHtml(s, dayId, slot.key, i)).join('');
+  const rows = spots.map((s,i)=>itinSpotHtml(s, dayId, slot.key, i, d.tripDay)).join('');
   return `<div class="itin-slot itin-slot-${slot.key}">
     <div class="itin-slot-head">${icon(slot.ic)}<span>${slot.label}</span></div>
     <div class="itin-slot-spots">${rows}</div>
@@ -1852,18 +1862,11 @@ function renderItinerary(){
   const cards = data.map(d => {
     const slots = ITIN_SLOTS.map(sl=>itinSlotHtml(d, sl)).filter(Boolean).join('');
     const spotsCol = slots || `<div class="itin-empty">אין תחנות מתוכננות ליום זה עדיין — <a href="day.html?d=${d.tripDay}">פתיחת דף היום להוספה</a></div>`;
-    // מפת המסלול של היום — Google Maps מוטבעת (≥2 נקודות, כולל מלונות)
+    // מפת המסלול של היום — Leaflet אינטראקטיבי (קו מסלול מצויר + זום גלגלת + לחיצה לזום לאתר)
     const rp = itinRoutePoints(d);
-    const c = itinMapCenter(rp);
     const mapCol = rp.length >= 2
       ? `<div class="itin-map">
-          <div class="itin-map-box">
-            <iframe id="itmap-${d.tripDay}" data-lat="${c.lat}" data-lng="${c.lng}" data-z="${c.z}" src="${itinEmbedUrlAt(c.lat,c.lng,c.z)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="מפת יום ${d.tripDay}"></iframe>
-            <div class="itin-zoom" role="group" aria-label="זום מפה">
-              <button class="itin-zoom-btn" onclick="itinZoom(${d.tripDay},1)" data-tip="הגדלה (זום אין)" aria-label="זום אין">+</button>
-              <button class="itin-zoom-btn" onclick="itinZoom(${d.tripDay},-1)" data-tip="הקטנה (זום אאוט)" aria-label="זום אאוט">−</button>
-            </div>
-          </div>
+          <div class="itin-map-box" id="itmapbox-${d.tripDay}"></div>
           <a class="itin-map-link" href="${itinDirectionsUrl(rp)}" target="_blank" rel="noopener" data-tip="פתיחת המסלול המלא של היום ב-Google Maps — כולל המלונות שבהם קמנו וישנים">${icon('route')} פתחי מסלול מלא ב-Google Maps (כולל מלונות) ›</a>
         </div>`
       : '';
@@ -1923,9 +1926,10 @@ function renderItinerary(){
   applyItinPrefs();
   applyLayout();
   initItinRailObserver();
+  renderAllItinMaps(data);   // מפות Leaflet אינטראקטיביות לכל יום
   // גלילה ליום מתוך ?d= בקישור עמוק
   const dq = new URLSearchParams(location.search).get('d');
-  if(dq){ const el=document.getElementById('itin-'+dq); if(el) setTimeout(()=>{el.scrollIntoView({behavior:'smooth',block:'start'}); setActiveRailDay(dq);},80); }
+  if(dq){ const el=document.getElementById('itin-'+dq); if(el) setTimeout(()=>{el.scrollIntoView({behavior:'smooth',block:'start'}); setActiveRailDay(dq); const mp=itinMaps[dq]; if(mp) mp.invalidateSize();},80); }
 }
 // ── סרגל ימים קבוע (sticky) לאורך הדף — מספר יום + תאריך, לחיצה קופצת ליום ──
 function itinDayRail(days){
@@ -2117,18 +2121,64 @@ function itinMapCenter(pts){
   if(span>0.4) z=9; else if(span>0.15) z=11; else if(span>0.06) z=12; else if(span>0.02) z=13; else z=14;
   return { lat:+cLat.toFixed(5), lng:+cLng.toFixed(5), z };
 }
-// URL להטבעת מפת Google (ללא מפתח) בקואורדינטה וזום נתונים
-function itinEmbedUrlAt(lat,lng,z){
-  return `https://maps.google.com/maps?q=${lat},${lng}&z=${z}&hl=he&output=embed`;
+// ── מפות Leaflet אינטראקטיביות למסלול (קו מסלול + סמנים + זום גלגלת + לחיצה-לזום) ──
+const itinMaps = {};      // tripDay → Leaflet map
+const itinMarkers = {};   // tripDay → { placeKey → {marker, latlng} }
+function renderAllItinMaps(days){
+  if(typeof L === 'undefined'){ setTimeout(()=>renderAllItinMaps(days), 200); return; }
+  Object.values(itinMaps).forEach(m=>{ try{ m.remove(); }catch(e){} });
+  for(const k in itinMaps) delete itinMaps[k];
+  for(const k in itinMarkers) delete itinMarkers[k];
+  days.forEach(d=>{
+    const pts = itinRoutePoints(d);
+    if(pts.length < 2) return;
+    const box = document.getElementById('itmapbox-'+d.tripDay);
+    if(box) renderItinMap(d, box, pts);
+  });
 }
-// זום אין/אאוט למפת יום — טוען מחדש את ה-iframe עם רמת זום מעודכנת
-function itinZoom(tripDay, delta){
-  const f = document.getElementById('itmap-'+tripDay);
-  if(!f) return;
-  let z = (+f.dataset.z||13) + delta;
-  z = Math.max(3, Math.min(20, z));
-  f.dataset.z = z;
-  f.src = itinEmbedUrlAt(f.dataset.lat, f.dataset.lng, z);
+function renderItinMap(d, box, pts){
+  const m = tile(L.map(box, {zoomControl:true, scrollWheelZoom:true, doubleClickZoom:true, touchZoom:true, boxZoom:true, attributionControl:false}));
+  itinMaps[d.tripDay] = m;
+  itinMarkers[d.tripDay] = {};
+  // קו מסלול מצויר בין כל הנקודות (מלון→תחנות→מלון), לפי מקטעי התחבורה אם יש
+  const segs = d.transport && d.transport.segments;
+  const drewSeg = segs && segs.length && segs.some(sg=>sg.from&&sg.to&&sg.from.lat&&sg.to.lat);
+  if(drewSeg){
+    segs.forEach(seg=>{
+      if(!(seg.from&&seg.to&&seg.from.lat&&seg.to.lat)) return;
+      const color = MODE_COLOR_M[seg.mode]||'#1d4ed8';
+      const dash = seg.mode==='walk' ? '4,6' : null;
+      L.polyline([[seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]],{color,weight:4,opacity:.75,dashArray:dash}).addTo(m)
+        .bindPopup(`<b>${MODE_HE_M[seg.mode]||seg.mode}</b>${seg.totalMinutes?` · ${seg.totalMinutes} דק׳`:''}<br>${seg.from.name} → ${seg.to.name}${seg.mapsUrl?`<br><a href="${seg.mapsUrl}" target="_blank" style="font-size:11px;color:#1d4ed8">ניווט ›</a>`:''}`);
+    });
+  }
+  // קו רציף בין נקודות המסלול (תמיד — מחבר ויזואלית את האתרים בסדר כרונולוגי)
+  L.polyline(pts.map(p=>[p.lat,p.lng]),{color:'#1d4ed8',weight:3,opacity:drewSeg?.35:.6,dashArray:'6,6'}).addTo(m);
+  // סמנים ממוספרים + מלונות
+  let n=0;
+  pts.forEach((p,i)=>{
+    const isHotel = p.kind==='hotel';
+    if(!isHotel) n++;
+    const cls = isHotel ? 'rt-marker hotel' : ('rt-marker'+(i===0?' start':(i===pts.length-1?' end':'')));
+    const inner = isHotel ? `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#fff" stroke-width="2"><path d="M3 18v-6h18v6M3 12V7M21 12v-2a3 3 0 0 0-3-3H8v5"/></svg>` : String(n);
+    const mk = L.marker([p.lat,p.lng],{icon:L.divIcon({className:'',html:`<div class="${cls}">${inner}</div>`,iconSize:[26,26],iconAnchor:[13,13]})}).addTo(m);
+    mk.bindPopup(`${p.label?`<b>${p.label}</b><br>`:''}${bilingual(p.name,p.nameEn)}`);
+    itinMarkers[d.tripDay][placeKey(p)] = { marker:mk, latlng:[p.lat,p.lng] };
+  });
+  m.fitBounds(L.latLngBounds(pts.map(p=>[p.lat,p.lng])).pad(0.18));
+  setTimeout(()=>m.invalidateSize(),120);
+}
+// לחיצה על תמונת אתר → זום למיקום האתר במפת היום + פתיחת פופאפ
+function focusItinSpot(tripDay, name){
+  const map = itinMaps[tripDay]; if(!map){ return; }
+  const key = String(name||'').trim().toLowerCase();
+  const rec = itinMarkers[tripDay] && itinMarkers[tripDay][key];
+  if(!rec){ return; }
+  map.setView(rec.latlng, 16, {animate:true});
+  rec.marker.openPopup();
+  // הבהוב עדין של המפה כדי להדגיש
+  const box = document.getElementById('itmapbox-'+tripDay);
+  if(box){ box.style.animation='none'; void box.offsetWidth; box.style.animation='placeFlash 1.2s'; }
 }
 // URL לפתיחת מסלול מלא ב-Google Maps (origin→waypoints→destination, כולל מלונות)
 function itinDirectionsUrl(pts){
