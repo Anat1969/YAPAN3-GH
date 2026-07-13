@@ -331,11 +331,16 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .layout-editing .itin-section:hover{border-color:var(--action)}
 .layout-editing .itin-section::before{content:'⋮⋮ גררי';position:absolute;top:-1px;inset-inline-end:6px;font-size:10px;font-weight:800;color:var(--action);background:var(--surface);padding:1px 6px;border-radius:0 0 6px 6px;z-index:2}
 .layout-editing .itin-section.sec-dragging{opacity:.4}
-.itin-map{position:sticky;top:78px;display:flex;flex-direction:column;gap:6px}
-.itin-map-box{position:relative;width:100%;height:460px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--bg)}
+.itin-map{position:sticky;top:78px;display:flex;flex-direction:column;gap:8px}
+.itin-map-box{position:relative;width:100%;height:400px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--bg)}
 .itin-map-box iframe{width:100%;height:100%;border:0;display:block}
-/* כפתורי זום שלנו — תמיד זמינים מעל מפת Google */
 .itin-map-box .leaflet-container{width:100%;height:100%;background:var(--bg)}
+/* מפת Google מוטבעת עם קו המסלול, בתוך מסגרת היום */
+.itin-gmap-wrap{display:flex;flex-direction:column;gap:4px}
+.itin-gmap-lbl{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;color:var(--ink-3)}
+.itin-gmap-lbl .ic{width:13px;height:13px;stroke:var(--ink-3)}
+.itin-gmap-box{width:100%;height:300px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--bg)}
+.itin-gmap-box iframe{width:100%;height:100%;border:0;display:block}
 .itin-map-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;color:var(--action);text-decoration:none;padding:2px 2px}
 .itin-map-link:hover{text-decoration:underline}
 .itin-map-link .ic{width:14px;height:14px;stroke:currentColor}
@@ -1865,11 +1870,16 @@ function renderItinerary(){
   const cards = data.map(d => {
     const slots = ITIN_SLOTS.map(sl=>itinSlotHtml(d, sl)).filter(Boolean).join('');
     const spotsCol = slots || `<div class="itin-empty">אין תחנות מתוכננות ליום זה עדיין — <a href="day.html?d=${d.tripDay}">פתיחת דף היום להוספה</a></div>`;
-    // מפת המסלול של היום — Leaflet אינטראקטיבי (קו מסלול מצויר + זום גלגלת + לחיצה לזום לאתר)
+    // מפת המסלול של היום — Leaflet אינטראקטיבי (קו מסלול + לחיצה לזום) + מפת Google מוטבעת עם המסלול
     const rp = itinRoutePoints(d);
+    const gEmbed = itinGoogleEmbedUrl(rp);
     const mapCol = rp.length >= 2
       ? `<div class="itin-map">
           <div class="itin-map-box" id="itmapbox-${d.tripDay}"></div>
+          <div class="itin-gmap-wrap">
+            <div class="itin-gmap-lbl">${icon('map')} מפת Google — מסלול היום</div>
+            <div class="itin-gmap-box"><iframe src="${gEmbed}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="מפת Google ליום ${d.tripDay}"></iframe></div>
+          </div>
           <a class="itin-map-link" href="${itinDirectionsUrl(rp)}" target="_blank" rel="noopener" data-tip="פתיחת המסלול המלא של היום ב-Google Maps — כולל המלונות שבהם קמנו וישנים">${icon('route')} פתחי מסלול מלא ב-Google Maps (כולל מלונות) ›</a>
         </div>`
       : '';
@@ -2195,6 +2205,15 @@ function itinDirectionsUrl(pts){
   let u = `https://www.google.com/maps/dir/?api=1&hl=he&origin=${origin}&destination=${dest}&travelmode=transit`;
   if(way) u += `&waypoints=${encodeURIComponent(way)}`;
   return u;
+}
+// מפת Google מוטבעת (ללא מפתח) עם קו המסלול המצויר — saddr/daddr+to:, מצב תחבורה ציבורית
+function itinGoogleEmbedUrl(pts){
+  if(!pts || pts.length<2) return '';
+  const co = p=>`${p.lat},${p.lng}`;
+  const saddr = co(pts[0]);
+  // Google keyless embed תומך בכ-10 נקודות ביעד; מגבילים כדי שהמסלול ייבנה
+  const rest = pts.slice(1, 10).map(co).join('+to:');
+  return `https://maps.google.com/maps?saddr=${saddr}&daddr=${rest}&dirflg=r&hl=he&output=embed`;
 }
 
 // ══════════════════════════════════
