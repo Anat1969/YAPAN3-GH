@@ -260,21 +260,23 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .ap-loading{text-align:center;padding:20px;color:var(--ink-3);font-size:13px}
 
 /* ITINERARY — מסלול מפורט */
-/* לוחות חודש קומפקטיים בראש המסלול (יולי/אוגוסט) */
-.itin-cals{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px}
-.imc-month{flex:1;min-width:320px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 12px}
-.imc-title{font-size:15px;font-weight:900;color:var(--action);margin-bottom:8px;text-align:center}
-.imc-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.imc-dow{font-size:10px;font-weight:800;color:var(--ink-3);text-align:center;padding-bottom:2px}
-.imc-cell{min-height:46px;border:1px solid var(--border);border-radius:6px;padding:3px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-decoration:none;color:inherit;background:var(--surface);transition:.12s}
-.imc-cell.empty{border:none;background:transparent}
-a.imc-cell:hover{box-shadow:0 2px 8px rgba(0,0,0,.14);transform:translateY(-1px)}
-.imc-dnum{font-size:14px;font-weight:900;color:var(--ink);direction:ltr}
-.imc-city{font-size:9.5px;font-weight:700;line-height:1.15;text-align:center;margin-top:1px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.imc-cell.cal-k{background:var(--region-1)}.imc-cell.cal-h{background:var(--region-2)}.imc-cell.cal-t{background:var(--region-3)}.imc-cell.cal-t .imc-dnum,.imc-cell.cal-t .imc-city{color:#fff}.imc-cell.cal-d{background:var(--region-4)}
-.imc-cell.imc-flight{background:#fdecec;border-color:#f2b8b8}.imc-cell.imc-flight .imc-city{color:#991b1b;font-weight:800}
-.imc-cell.imc-return{background:#e7f3ec;border-color:#a7d3b6}.imc-cell.imc-return .imc-city{color:#166534;font-weight:800}
-@media(max-width:760px){.imc-month{min-width:0;flex-basis:100%}.imc-cell{min-height:40px}}
+/* סרגל ימים קבוע (sticky) לאורך הדף — מספר יום + תאריך + עיר */
+.itin-rail{position:fixed;inset-inline-start:8px;top:80px;bottom:12px;width:112px;z-index:40;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border-strong);border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.1);overflow:hidden}
+.idr-head{flex-shrink:0;padding:8px 6px;font-size:12px;font-weight:900;color:var(--action);text-align:center;border-bottom:1px solid var(--border);background:var(--bg)}
+.idr-list{flex:1;overflow-y:auto;padding:6px;display:flex;flex-direction:column;gap:5px}
+.idr-day{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 4px;border-radius:8px;text-decoration:none;color:var(--ink);border:1px solid transparent;transition:.12s;position:relative}
+.idr-day:hover{box-shadow:0 1px 6px rgba(0,0,0,.15);transform:translateX(-2px)}
+.idr-day.on{outline:2px solid var(--action);outline-offset:-2px;font-weight:900}
+.idr-num{font-size:15px;font-weight:900;line-height:1;direction:ltr}
+.idr-num::before{content:'יום ';font-size:8px;font-weight:700}
+.idr-date{font-size:11px;font-weight:800;direction:ltr;color:var(--ink-2)}
+.idr-city{font-size:9px;font-weight:700;line-height:1.1;text-align:center;color:var(--ink-3);overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;max-width:100%}
+.idr-day.cal-k{background:var(--region-1)}.idr-day.cal-h{background:var(--region-2)}.idr-day.cal-t{background:var(--region-3)}.idr-day.cal-t .idr-num,.idr-day.cal-t .idr-date,.idr-day.cal-t .idr-city{color:#fff}.idr-day.cal-d{background:var(--region-4)}
+.idr-day.idr-return{background:#e7f3ec}.idr-day.idr-return .idr-city{color:#166534;font-weight:800}
+/* פינוי מקום לסרגל כך שלא יכסה תוכן */
+#p-itinerary{padding-inline-start:128px}
+@media(max-width:1100px){.itin-rail{width:92px}#p-itinerary{padding-inline-start:104px}.idr-num{font-size:14px}}
+@media(max-width:760px){.itin-rail{position:static;inset:auto;width:auto;flex-direction:column;margin-bottom:14px;box-shadow:none}.idr-list{flex-direction:row;flex-wrap:wrap;overflow-x:auto}.idr-day{min-width:58px}#p-itinerary{padding-inline-start:12px}}
 .itin-list{display:flex;flex-direction:column;gap:16px}
 .itin-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;scroll-margin-top:90px}
 .itin-head{padding:14px 16px 13px;border-bottom:2px solid var(--border);background:var(--bg)}
@@ -1880,7 +1882,7 @@ function renderItinerary(){
   }).join('');
   const fs = itinPrefs();
   const fsBtn = (v,lbl)=>`<button class="itin-fsbtn${fs.size===v?' on':''}" onclick="setItinFont('${v}')" data-tip="גודל טקסט ${lbl}">${lbl}</button>`;
-  box.innerHTML = `<div class="itin-cals">${itinMiniMonth(2026,7,'יולי 2026')}${itinMiniMonth(2026,8,'אוגוסט 2026')}</div>
+  box.innerHTML = `${itinDayRail(data)}
     <div class="view-bar itin-bar">
       <div class="tr-intro">המסלול המלא — כל יום עם בוקר/צהריים/ערב, אתרים, שעות, מלונות ומפה. לחצי על שעה כדי לערוך; האתר יסודר מחדש לפי השעה.</div>
       <div class="itin-appearance" data-tip="עיצוב דף המסלול — גודל טקסט וצבע">
@@ -1894,47 +1896,49 @@ function renderItinerary(){
     </div>
     <div class="itin-list">${cards}</div>`;
   applyItinPrefs();
+  initItinRailObserver();
   // גלילה ליום מתוך ?d= בקישור עמוק
   const dq = new URLSearchParams(location.search).get('d');
-  if(dq){ const el=document.getElementById('itin-'+dq); if(el) setTimeout(()=>{el.scrollIntoView({behavior:'smooth',block:'start'});},80); }
+  if(dq){ const el=document.getElementById('itin-'+dq); if(el) setTimeout(()=>{el.scrollIntoView({behavior:'smooth',block:'start'}); setActiveRailDay(dq);},80); }
 }
-// ── לוח חודשי קומפקטי בראש המסלול (יולי/אוגוסט) — תאריך, יום, ועיר ──
-function itinMiniMonth(year, month, title){
-  const DOW = ['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];
+// ── סרגל ימים קבוע (sticky) לאורך הדף — מספר יום + תאריך, לחיצה קופצת ליום ──
+function itinDayRail(days){
   const regCls = {kansai:'cal-k',hokkaido:'cal-h',tokyo:'cal-t',dubai:'cal-d'};
-  const byDate = {};
-  (DATA.days||[]).forEach(d => { byDate[`${d.month}-${d.day}`] = d; });
-  const dow = (y,m,day)=> new Date(Date.UTC(y,m-1,day)).getUTCDay();
-  const daysInMonth = new Date(Date.UTC(year, month, 0)).getUTCDate();
-  const firstDow = dow(year, month, 1);
-  let cells = '';
-  for(let i=0;i<firstDow;i++) cells += `<div class="imc-cell empty"></div>`;
-  for(let day=1; day<=daysInMonth; day++){
-    const d = byDate[`${month}-${day}`];
-    if(!d){
-      if(month===7 && day===22){
-        cells += `<div class="imc-cell imc-flight" data-tip="יום טיסה — יציאה מישראל"><span class="imc-dnum">${day}</span><span class="imc-city">✈ יציאה</span></div>`;
-      } else {
-        cells += `<div class="imc-cell"><span class="imc-dnum">${day}</span></div>`;
-      }
-    } else {
-      const cls = (d.region==='home'||d.city==='ישראל') ? 'imc-return' : (regCls[d.region]||'cal-d');
-      const city = (d.region==='home'||d.city==='ישראל') ? (d.city||'ישראל') : (dayCity(d)||'');
-      cells += `<a class="imc-cell ${cls}" href="index.html?tab=itinerary&d=${d.tripDay}" onclick="itinScrollTo(${d.tripDay});return false" data-tip="יום ${d.tripDay} · ${d.weekday||''} · ${city}">
-        <span class="imc-dnum">${day}</span>
-        <span class="imc-city">${city}</span>
-      </a>`;
-    }
-  }
-  return `<div class="imc-month">
-    <div class="imc-title">${title}</div>
-    <div class="imc-grid">${DOW.map(x=>`<div class="imc-dow">${x}</div>`).join('')}${cells}</div>
-  </div>`;
+  const items = days.map(d=>{
+    const isHome = d.region==='home' || d.city==='ישראל';
+    const cls = isHome ? 'idr-return' : (regCls[d.region]||'cal-d');
+    const city = isHome ? (d.city||'ישראל') : (dayCity(d)||'');
+    return `<a class="idr-day ${cls}" id="idr-${d.tripDay}" href="index.html?tab=itinerary&d=${d.tripDay}" onclick="itinScrollTo(${d.tripDay});return false" data-tip="יום ${d.tripDay} · ${d.weekday||''} · ${city}">
+      <span class="idr-num">${d.tripDay}</span>
+      <span class="idr-date">${d.day}/${d.month}</span>
+      <span class="idr-city">${city}</span>
+    </a>`;
+  }).join('');
+  return `<aside class="itin-rail" id="itinRail"><div class="idr-head">ימי הטיול</div><div class="idr-list">${items}</div></aside>`;
 }
-// גלילה חלקה ליום במסלול (מהלוח הקומפקטי)
+// גלילה חלקה ליום במסלול + סימון היום הפעיל בסרגל
 function itinScrollTo(tripDay){
   const el = document.getElementById('itin-'+tripDay);
   if(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); el.style.animation='placeFlash 2s'; }
+  setActiveRailDay(tripDay);
+}
+function setActiveRailDay(tripDay){
+  document.querySelectorAll('.idr-day.on').forEach(e=>e.classList.remove('on'));
+  const a = document.getElementById('idr-'+tripDay);
+  if(a){ a.classList.add('on'); a.scrollIntoView({block:'nearest'}); }
+}
+// מעקב אחר היום הנראה בגלילה — הדגשה בסרגל (IntersectionObserver)
+let _itinRailObs = null;
+function initItinRailObserver(){
+  if(_itinRailObs){ _itinRailObs.disconnect(); _itinRailObs=null; }
+  const cards = document.querySelectorAll('.itin-card');
+  if(!cards.length || !('IntersectionObserver' in window)) return;
+  _itinRailObs = new IntersectionObserver((entries)=>{
+    // בוחרים את הכרטיס העליון ביותר שנראה
+    const vis = entries.filter(e=>e.isIntersecting).sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top);
+    if(vis.length){ const id=vis[0].target.id.replace('itin-',''); setActiveRailDay(id); }
+  }, {rootMargin:'-90px 0px -60% 0px', threshold:0});
+  cards.forEach(c=>_itinRailObs.observe(c));
 }
 // ── עיצוב דף המסלול (גודל טקסט + צבע) — נשמר בדפדפן (העדפת תצוגה) ──
 const ITIN_FS_SCALE = { s:0.9, m:1, l:1.15, xl:1.35 };
