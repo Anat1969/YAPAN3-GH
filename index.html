@@ -1870,16 +1870,16 @@ function renderItinerary(){
   const cards = data.map(d => {
     const slots = ITIN_SLOTS.map(sl=>itinSlotHtml(d, sl)).filter(Boolean).join('');
     const spotsCol = slots || `<div class="itin-empty">אין תחנות מתוכננות ליום זה עדיין — <a href="day.html?d=${d.tripDay}">פתיחת דף היום להוספה</a></div>`;
-    // מפת Google מוטבעת עם קו המסלול של היום (מהמלון דרך התחנות) — אמינה, נטענת תמיד
+    // מפת Google מוטבעת (כתובת ישירה pb=, ללא redirect — נטענת אמין)
     const rp = itinRoutePoints(d);
     const gEmbed = itinGoogleEmbedUrl(rp);
     const mapCol = rp.length >= 2
       ? `<div class="itin-map">
           <div class="itin-gmap-lbl">${icon('map')} מפת Google — מסלול היום</div>
-          <div class="itin-gmap-box"><iframe id="gmap-${d.tripDay}" data-route="${encodeURIComponent(gEmbed)}" src="${gEmbed}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="מפת Google ליום ${d.tripDay}"></iframe></div>
+          <div class="itin-gmap-box"><iframe id="gmap-${d.tripDay}" data-route="${encodeURIComponent(gEmbed)}" src="${gEmbed}" loading="lazy" allowfullscreen title="מפת Google ליום ${d.tripDay}"></iframe></div>
           <div class="itin-map-links">
-            <a class="itin-map-link" href="${itinDirectionsUrl(rp)}" target="_blank" rel="noopener" data-tip="פתיחת המסלול המלא של היום ב-Google Maps — כולל המלונות שבהם קמנו וישנים">${icon('route')} מסלול מלא ב-Google Maps ›</a>
-            <button class="itin-map-reset" onclick="resetDayMap(${d.tripDay})" data-tip="חזרה למסלול המלא של היום במפה">${icon('route')} כל המסלול</button>
+            <a class="itin-map-link" href="${itinDirectionsUrl(rp)}" target="_blank" rel="noopener" data-tip="פתיחת מסלול היום המצויר ב-Google Maps (כולל מלונות)">${icon('route')} מסלול מצויר מלא ב-Google Maps ›</a>
+            <button class="itin-map-reset" onclick="resetDayMap(${d.tripDay})" data-tip="חזרה למרכז המסלול">${icon('route')} כל המסלול</button>
           </div>
         </div>`
       : '';
@@ -2146,7 +2146,7 @@ function focusItinSpot(tripDay, name){
   let hit = pts.find(p=>String(p.nameEn||'').trim().toLowerCase()===key || String(p.name||'').trim().toLowerCase()===key);
   if(!hit){ const m=findPlaceByKey(key); if(m&&m.lat&&m.lng) hit={lat:m.lat,lng:m.lng,name:m.name}; }
   if(!hit){ return; }
-  f.src = `https://maps.google.com/maps?q=${hit.lat},${hit.lng}&z=16&hl=he&output=embed`;
+  f.src = gmapEmbedPoint(hit.lat, hit.lng, 16);
   // הבהוב עדין להדגשה + גלילה למפה אם צריך
   const box = f.closest('.itin-gmap-box');
   if(box){ box.style.animation='none'; void box.offsetWidth; box.style.animation='placeFlash 1.2s'; }
@@ -2170,13 +2170,16 @@ function itinDirectionsUrl(pts){
   return u;
 }
 // מפת Google מוטבעת (ללא מפתח) עם קו המסלול המצויר — saddr/daddr+to:, מצב תחבורה ציבורית
+// כתובת ישירה למפת Google מוטבעת (ללא מפתח, ללא redirect) — נטענת אמין ב-iframe.
+// פורמט pb: !1m3!2m1!1s{lat},{lng}!6i{zoom}!3m1!1she!5m1!1she (נקודה ממורכזת).
+function gmapEmbedPoint(lat, lng, zoom){
+  return `https://www.google.com/maps/embed?pb=!1m3!2m1!1s${lat},${lng}!6i${zoom||12}!3m1!1she!5m1!1she`;
+}
+// מפת המסלול של היום — ממורכזת על מרכז המסלול (זום לפי פיזור הנקודות)
 function itinGoogleEmbedUrl(pts){
   if(!pts || pts.length<2) return '';
-  const co = p=>`${p.lat},${p.lng}`;
-  const saddr = co(pts[0]);
-  // Google keyless embed תומך בכ-10 נקודות ביעד; מגבילים כדי שהמסלול ייבנה
-  const rest = pts.slice(1, 10).map(co).join('+to:');
-  return `https://maps.google.com/maps?saddr=${saddr}&daddr=${rest}&dirflg=r&hl=he&output=embed`;
+  const c = itinMapCenter(pts);   // {lat,lng,z}
+  return gmapEmbedPoint(c.lat, c.lng, c.z);
 }
 
 // ══════════════════════════════════
