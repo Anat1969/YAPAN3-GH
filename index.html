@@ -313,9 +313,16 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .itin-meal-v{margin-inline-start:5px;color:var(--ink)}
 .itin-notes{padding:10px 16px;font-size:11.5px;line-height:1.5;color:var(--ink-2);display:flex;gap:6px;align-items:flex-start;border-top:1px solid var(--border)}
 .itin-notes .ic{width:14px;height:14px;stroke:var(--ink-3);flex-shrink:0;margin-top:1px}
-.itin-open{display:block;padding:10px 16px;font-size:12px;font-weight:800;color:var(--action);text-decoration:none;border-top:1px solid var(--border);background:var(--surface)}
-.itin-open:hover{background:var(--bg)}
+.itin-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--border);background:var(--surface)}
+.itin-addspot{display:flex;align-items:center;gap:6px}
+.itin-addbtn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border:1px solid var(--action);border-radius:7px;background:var(--action);color:#fff;font:800 12px inherit;cursor:pointer;white-space:nowrap}
+.itin-addbtn:hover{filter:brightness(1.08)}
+.itin-addbtn .ic{width:13px;height:13px;stroke:currentColor}
+.itin-slotsel{padding:6px 8px;border:1px solid var(--border-strong);border-radius:7px;background:var(--bg);color:var(--ink);font:700 12px inherit;cursor:pointer}
+.itin-open{font-size:12px;font-weight:800;color:var(--action);text-decoration:none}
+.itin-open:hover{text-decoration:underline}
 .itin-open .ic{width:13px;height:13px;stroke:currentColor;vertical-align:-2px;margin-inline-end:3px}
+.ap-dayhint{margin-top:-4px;margin-bottom:8px;font-size:11px;font-weight:700;color:var(--action);background:rgba(29,78,216,.08);border-radius:6px;padding:6px 10px}
 @media(max-width:640px){.itin-img{width:72px;height:52px}.itin-head-main{gap:8px}}
 
 /* TAGS */
@@ -797,6 +804,7 @@ a.ml:hover{text-decoration:underline}
           <select id="apDay"></select>
         </label>
       </div>
+      <div class="ap-dayhint" id="apDayHint" style="display:none"></div>
       <div class="ap-actions">
         <button class="ap-primary" id="apCompleteBtn" onclick="completeWithClaude()" data-tip="Claude ממלא את שאר הפרטים אוטומטית">השלם עם Claude</button>
       </div>
@@ -868,6 +876,9 @@ let navHistory = [];   // מחסנית ניווט — לחזרה לדף הקוד
 let sortState = {};
 let regionFilter = '';
 let mapObj = null;
+// קבצי הימים הגולמיים (day-XX.json) + מעקב אחר ימים ששונו (להורדה חזרה ל-Git)
+const _dayFilesRaw = {};       // dayId → אובייקט הקובץ הגולמי
+const _changedDays = new Set(); // dayId-ים ששונו מקומית וטרם נשמרו
 // מצב תצוגה (כרטיסים/רשימה) — נשמר בין דפים (סעיף 3.5)
 let viewMode = localStorage.getItem('viewMode') || 'cards';
 function setView(mode){ viewMode = mode; try{localStorage.setItem('viewMode',mode);}catch(e){} render(); }
@@ -906,7 +917,10 @@ async function loadData() {
       try {
         var dj = await fetch(file).then(r=>r.ok?r.json():null);
         if(dj){
-          if(dj.spots) day.spots = dj.spots;
+          if(!dj.spots) dj.spots = { morning:[], afternoon:[], evening:[] };
+          // שיתוף אותה הפניית spots בין DATA.days לקובץ הגולמי — עריכה בזה מתעדכנת בזה
+          day.spots = dj.spots;
+          _dayFilesRaw[idNum] = dj;   // הקובץ הגולמי לשמירה חזרה (day-XX.json)
           // כותרת/רעיון/ארוחות מהקובץ הייעודי — למסך המסלול (ריק לא דורס)
           if(dj.title && !day.title) day.title = dj.title;
           if(dj.idea && !day.idea) day.idea = dj.idea;
@@ -915,6 +929,17 @@ async function loadData() {
       }
       catch(e){ /* קובץ יום חסר — נשארים עם days.json */ }
     }));
+    // שחזור spots שנוספו מקומית ליום וטרם נשמרו ל-Git (התמדה זמנית)
+    try {
+      const pd = JSON.parse(localStorage.getItem('pending-dayspots')||'{}');
+      Object.keys(pd).forEach(idNum=>{
+        const raw = _dayFilesRaw[idNum]; if(!raw) return;
+        raw.spots = pd[idNum];
+        const day = DATA.days.find(d=>String(d.id)===String(idNum)||String(d.tripDay)===String(idNum));
+        if(day) day.spots = raw.spots;
+        _changedDays.add(String(idNum));
+      });
+    } catch(e){}
   } catch(e) {
     console.error('Load error:',e);
     toast('שגיאה בטעינת נתונים — ודאי שאת בשרת מקומי');
@@ -948,8 +973,8 @@ let dragTab = null;
 let hasUnsaved = false;
 function markUnsaved(){ hasUnsaved = true; const b=document.getElementById('navSaveBtn'); if(b) b.style.display=''; }
 function updateSaveBtn(){
-  const pend = localStorage.getItem('pending-tabs') || localStorage.getItem('pending-places');
-  if(pend || hasUnsaved) markUnsaved();
+  const pend = localStorage.getItem('pending-tabs') || localStorage.getItem('pending-places') || localStorage.getItem('pending-dayspots');
+  if(pend || hasUnsaved || _changedDays.size) markUnsaved();
 }
 // החלת סדר הכפתורים על ה-DOM לפי DATA.tabs (או pending-tabs מקומי אם קיים)
 function applyTabOrder() {
@@ -1522,7 +1547,17 @@ function renderItinerary(){
       <div class="${bodyCls}"><div class="itin-spots-col">${spotsCol}</div>${mapCol}</div>
       ${mealsHtml(d.meals)}
       ${d.notes ? `<div class="itin-notes">${icon('info')}${fmtNotes(d.notes)}</div>` : ''}
-      <a class="itin-open" href="day.html?d=${d.tripDay}" data-tip="פתיחת דף היום המלא עם מפה וניווט">${icon('external')} דף היום המלא ומפה ›</a>
+      <div class="itin-actions">
+        <div class="itin-addspot">
+          <button class="itin-addbtn" onclick="openAddPlace(${d.id},document.getElementById('itinslot-${d.tripDay}').value)" data-tip="הוספת אתר ליום זה — שם + Claude משלים, ושיבוץ אוטומטי במקטע ובמסלול">${icon('route')} הוסף אתר ליום</button>
+          <select id="itinslot-${d.tripDay}" class="itin-slotsel" data-tip="באיזה חלק ביום לשבץ את האתר">
+            <option value="morning">בוקר</option>
+            <option value="afternoon" selected>צהריים</option>
+            <option value="evening">ערב</option>
+          </select>
+        </div>
+        <a class="itin-open" href="day.html?d=${d.tripDay}" data-tip="פתיחת דף היום המלא עם מפה וניווט">${icon('external')} דף היום המלא ומפה ›</a>
+      </div>
     </article>`;
   }).join('');
   box.innerHTML = `<div class="view-bar"><div class="tr-intro">המסלול המלא של הטיול — כל יום עם התחנות המתוכננות לבוקר, צהריים וערב, שעות, אתרים וארוחות ומפת המסלול. לחיצה על מספר היום פותחת את הדף המלא עם ניווט.</div></div>
@@ -1558,7 +1593,7 @@ function renderAllItinMaps(days){
   });
 }
 function renderItinMap(d, el, geo){
-  const m = tile(L.map(el, {zoomControl:true, scrollWheelZoom:false, attributionControl:false}));
+  const m = tile(L.map(el, {zoomControl:true, scrollWheelZoom:true, attributionControl:false}));
   itinMaps[d.tripDay] = m;
   // קווי מסלול צבועים לפי mode משכבת התחבורה; נפילה חזרה לקו רציף בין הנקודות
   const segs = d.transport && d.transport.segments;
@@ -2722,15 +2757,22 @@ function copyMissingPrompt() {
 // SAVE / EXPORT
 // ══════════════════════════════════
 async function saveAll() {
-  // Download each JSON file
+  // קבצי הליבה (hotels/days/places/... כולל tabs)
   for (const [name, data] of Object.entries(DATA)) {
     downloadJSON(data, name+'.json');
   }
-  // התמדות זמניות ירדו כעת לקבצים (places.json, tabs.json) — ניתן לנקות
-  try { localStorage.removeItem('pending-places'); localStorage.removeItem('pending-tabs'); } catch(e){}
+  // קבצי ימים ששונו (day-XX.json) — spots ששובצו ליום
+  let dayCount = 0;
+  _changedDays.forEach(idNum=>{
+    const raw = _dayFilesRaw[idNum];
+    if(raw){ downloadJSON(raw, 'day-'+String(idNum).padStart(2,'0')+'.json'); dayCount++; }
+  });
+  // התמדות זמניות ירדו כעת לקבצים — ניתן לנקות
+  try { localStorage.removeItem('pending-places'); localStorage.removeItem('pending-tabs'); localStorage.removeItem('pending-dayspots'); } catch(e){}
+  _changedDays.clear();
   hasUnsaved = false;
   const b=document.getElementById('navSaveBtn'); if(b) b.style.display='none';
-  toast('כל הקבצים נשמרו — העלי ל-Git');
+  toast(dayCount ? `כל הקבצים נשמרו (כולל ${dayCount} קבצי ימים) — העלי ל-Git תחת data/days/` : 'כל הקבצים נשמרו — העלי ל-Git');
 }
 
 function downloadJSON(data, filename) {
@@ -2779,15 +2821,26 @@ const AP_FIELDS = [
   {k:'image',    label:'תמונה (URL)'},
 ];
 let apDraft = null;  // הרשומה שנוצרה, לפני אישור
+let apTargetSlot = ''; // מקטע יעד לשיבוץ במסלול (morning/afternoon/evening) — כשמוסיפים מדף המסלול
 
-function openAddPlace() {
+// dayId ו-slot אופציונליים: כשמגיעים מדף המסלול, היום ננעל והאתר ישובץ במקטע
+function openAddPlace(dayId, slot) {
+  apTargetSlot = slot || '';
   // מילוי בורר הימים מהמסלול
   const sel = document.getElementById('apDay');
   sel.innerHTML = '<option value="">— ללא —</option>' +
     DATA.days.map(d=>`<option value="${d.id}">יום ${d.tripDay} · ${d.day}/${d.month} · ${dayCity(d)||d.regionHe||''}</option>`).join('');
   document.getElementById('apName').value='';
   document.getElementById('apCity').value='';
-  sel.value='';
+  sel.value = dayId!=null ? String(dayId) : '';
+  // כשמגיעים מיום ספציפי — למלא עיר אוטומטית ולהראות למשתמשת לאיזה מקטע
+  const slotHe = {morning:'בוקר',afternoon:'צהריים',evening:'ערב'}[apTargetSlot]||'';
+  const hint = document.getElementById('apDayHint');
+  if(dayId!=null){
+    const day = DATA.days.find(d=>d.id===+dayId);
+    if(day){ const c=dayCity(day); if(c) document.getElementById('apCity').value=c; if(hint) hint.textContent = `האתר ישובץ ביום ${day.tripDay}${slotHe?' · '+slotHe:''} — במסלול ובדף היום.`; }
+    if(hint) hint.style.display='';
+  } else if(hint){ hint.style.display='none'; hint.textContent=''; }
   backToStep1();
   document.getElementById('apOverlay').style.display='flex';
   setTimeout(()=>document.getElementById('apName').focus(),50);
@@ -2852,6 +2905,45 @@ function apEdit(el) {
   else apDraft[k] = txt;
 }
 
+// שעות ברירת מחדל לכל מקטע — לחישוב שעה כשאין שכנים
+const SLOT_TIME_RANGE = { morning:['09:00','12:00'], afternoon:['13:00','17:00'], evening:['18:00','21:00'] };
+function toMin(t){ if(!t||!/^\d{1,2}:\d{2}/.test(t)) return null; const [h,m]=t.split(':'); return +h*60+(+m); }
+function toHHMM(mins){ mins=Math.max(0,Math.min(24*60-1,Math.round(mins))); return String(Math.floor(mins/60)).padStart(2,'0')+':'+String(mins%60).padStart(2,'0'); }
+// שיבוץ כרונולוגי: קובע שעה לאתר החדש ומכניס אותו במקום הנכון במקטע
+function insertSpotIntoDay(dayId, slot, place){
+  const idNum = dayId;
+  const raw = _dayFilesRaw[idNum];
+  const day = DATA.days.find(d=>d.id===+dayId);
+  if(!raw || !day) return null;
+  if(!raw.spots) raw.spots = { morning:[], afternoon:[], evening:[] };
+  if(!Array.isArray(raw.spots[slot])) raw.spots[slot] = [];
+  const arr = raw.spots[slot];
+  // שעה לאתר החדש — אחרי האחרון במקטע (או תחילת טווח המקטע), בהיגיון של משך הביקור הקודם
+  const timed = arr.map(s=>toMin(s.time)).filter(v=>v!=null);
+  const [rangeStart,rangeEnd] = SLOT_TIME_RANGE[slot] || ['12:00','18:00'];
+  let newMin;
+  if(timed.length){ newMin = Math.max(...timed) + 60; }         // שעה אחרי האחרון שיש לו זמן
+  else newMin = toMin(rangeStart);
+  if(newMin > toMin(rangeEnd)) newMin = toMin(rangeEnd);
+  const spot = {
+    name: place.name||'', nameEn: place.nameEn||'',
+    addr: place.addr||'', time: toHHMM(newMin), duration: place.duration||'',
+    price: (place.price!=null && place.price!=='')?place.price:null,
+    forWho: Array.isArray(place.forWho)?place.forWho.join(', '):(place.forWho||''),
+    notes: place.notes||'', placeId: place.pid||'',
+    lat: place.lat!=null?place.lat:null, lng: place.lng!=null?place.lng:null,
+    image: place.image||'', officialUrl: place.officialUrl||''
+  };
+  arr.push(spot);
+  // מיון המקטע לפי שעה (מי שאין לו שעה — נשאר בסוף)
+  arr.sort((a,b)=>{ const x=toMin(a.time), y=toMin(b.time); if(x==null&&y==null)return 0; if(x==null)return 1; if(y==null)return -1; return x-y; });
+  // day.spots חולק אותה הפניה ל-raw.spots — שניהם מעודכנים
+  day.spots = raw.spots;
+  _changedDays.add(String(idNum));
+  // עדכון timeOfDay ברשומת המקום, לעקביות
+  place.timeOfDay = spot.time;
+  return spot;
+}
 function confirmAddPlace() {
   if (!apDraft) return;
   if (!apDraft.name || !apDraft.name.trim()) { toast('חסר שם'); return; }
@@ -2859,17 +2951,37 @@ function confirmAddPlace() {
   const maxId = DATA.places.reduce((m,p)=>Math.max(m, p.id||0), 0);
   apDraft.id = maxId + 1;
   if (!apDraft.cityEn && apDraft.city) apDraft.cityEn = '';
+  // שיבוץ במסלול היום (אם נבחר יום + מקטע מדף המסלול)
+  const targetDay = apDraft.dayId;
+  const targetSlot = apTargetSlot;
+  if (targetDay!=null && targetSlot) insertSpotIntoDay(targetDay, targetSlot, apDraft);
   DATA.places.push(apDraft);
   const added = apDraft;
   closeAddPlace();
-  activeTab='places';
-  render();
-  // גלילה לאתר החדש + הדגשה
-  setTimeout(()=>{ const row=document.getElementById('place-'+added.id); if(row){row.scrollIntoView({behavior:'smooth',block:'center'}); row.style.animation='placeFlash 2s';} },100);
+  // אם שובץ ליום — נשארים בדף המסלול וגוללים ליום; אחרת לדף האתרים
+  if (targetDay!=null && targetSlot){
+    activeTab='itinerary';
+    const td = (DATA.days.find(d=>d.id===+targetDay)||{}).tripDay;
+    render();
+    setTimeout(()=>{ const el=document.getElementById('itin-'+td); if(el){el.scrollIntoView({behavior:'smooth',block:'start'}); el.style.animation='placeFlash 2s';} },120);
+  } else {
+    activeTab='places';
+    render();
+    setTimeout(()=>{ const row=document.getElementById('place-'+added.id); if(row){row.scrollIntoView({behavior:'smooth',block:'center'}); row.style.animation='placeFlash 2s';} },100);
+  }
   markUnsaved();
   toast('נוסף! לחצי «שמור קבצים» כדי לשמור ל-Git');
   // התמדה זמנית עד לשמירה ל-Git — שלא ילך לאיבוד ב-refresh בטעות
-  try { localStorage.setItem('pending-places', JSON.stringify(DATA.places.filter(p=>p.id>getBasePlaceMaxId()))); } catch(e){}
+  try {
+    localStorage.setItem('pending-places', JSON.stringify(DATA.places.filter(p=>p.id>getBasePlaceMaxId())));
+    persistPendingDaySpots();
+  } catch(e){}
+}
+// שמירת ה-spots של הימים ששונו ב-localStorage (התמדה זמנית עד «שמור קבצים»)
+function persistPendingDaySpots(){
+  const out = {};
+  _changedDays.forEach(id=>{ if(_dayFilesRaw[id]) out[id] = _dayFilesRaw[id].spots; });
+  try { localStorage.setItem('pending-dayspots', JSON.stringify(out)); } catch(e){}
 }
 // ה-id הגבוה ביותר שהגיע מהקובץ הסטטי (לזיהוי אתרים שנוספו מקומית)
 let _basePlaceMaxId = 0;
