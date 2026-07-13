@@ -175,9 +175,44 @@ td[contenteditable]:focus{background:#fffde7;box-shadow:inset 0 0 0 2px #fbbf24}
 tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .place-namelink{color:inherit;text-decoration:none}
 .place-namelink:hover{color:var(--action);text-decoration:underline}
+/* ── רכיב שם דו-לשוני אחיד (bilingualName) — צבע/גודל/מיקום קבועים בכל הדפים ── */
+.bn{display:block}
+.bn-he{display:block;font-weight:800;font-size:13px;color:var(--ink);line-height:1.3}
+.bn-sub{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin-top:1px}
+.bn-en{font-size:10px;font-weight:600;color:var(--action);direction:ltr;text-decoration:none}
+.bn-en:hover{text-decoration:underline}
+.bn-site{display:inline-flex;align-items:center;gap:2px;font-size:10px;font-weight:600;color:var(--ink-3);text-decoration:none}
+.bn-site svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2}
+.bn-site:hover{color:var(--action);text-decoration:underline}
 /* הדגשה זמנית לכרטיס אתר שהגיעו אליו מקישור ישיר (deep-link) */
 @keyframes placeFlash{0%{background:var(--warn-bg)}60%{background:var(--warn-bg)}100%{background:transparent}}
 .place-flash>td{animation:placeFlash 2.6s ease-out;box-shadow:inset 3px 0 0 var(--focus)}
+/* ── דף אתרים — רוחב שורות אחיד, תמונות גדולות, עמודות מסודרות ── */
+#t-places{table-layout:fixed;width:100%}
+#t-places th,#t-places td{vertical-align:top}
+#t-places col.pc-img{width:9%}
+#t-places col.pc-name{width:20%}
+#t-places col.pc-day{width:6%}
+#t-places col.pc-city{width:8%}
+#t-places col.pc-hours{width:9%}
+#t-places col.pc-price{width:7%}
+#t-places col.pc-dur{width:7%}
+#t-places col.pc-who{width:10%}
+#t-places col.pc-notes{width:24%}
+#t-places .place-img{width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;border-radius:6px}
+/* סוג האתר ליד/מתחת לשם */
+#t-places .p-type{display:inline-block;margin-top:3px;font-size:9px;font-weight:700;color:var(--ink-3);background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:1px 7px}
+/* מספר יום — קישור לדף היום */
+#t-places .p-day a{font-weight:800;color:var(--action);text-decoration:none;white-space:nowrap}
+#t-places .p-day a:hover{text-decoration:underline}
+/* שעות/מחיר/משך — מיושרים, שעות נפרדות (בלי לערבב עם תאריך) */
+#t-places .p-hours{direction:ltr;text-align:right;white-space:nowrap;color:var(--ink-2)}
+#t-places .p-price,#t-places .p-dur{white-space:nowrap;font-weight:700}
+/* שמות אנשים — אחד מתחת לשני */
+#t-places .p-who{display:flex;flex-direction:column;gap:1px}
+#t-places .p-who span{font-size:11px;color:var(--ink-2)}
+/* הערות — פונט קטן, כל משפט בשורה (fmtNotes מוסיף <br>) */
+#t-places .p-notes{font-size:10.5px;line-height:1.5;color:var(--ink-2)}
 
 /* TAGS */
 .tg{display:inline-flex;align-items:center;gap:3px;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700;white-space:nowrap}
@@ -345,7 +380,8 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .bk-date{font-size:12px;font-weight:900;color:var(--ink);background:var(--bg);padding:2px 9px;border-radius:999px;min-width:44px;text-align:center}
 .bk-type{font-size:11px;font-weight:800;color:var(--ink-3)}
 .bk-name{flex:1;font-size:14px;font-weight:800;color:var(--ink)}
-.bk-status{font-size:11px;font-weight:800;padding:2px 10px;border-radius:999px}
+.bk-status{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:800;padding:2px 10px;border-radius:999px}
+.bk-status svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2}
 .bk-ok{background:var(--ok-bg);color:var(--ok)}
 .bk-pend{background:var(--err-bg);color:var(--err)}
 .bk-body{display:flex;flex-direction:column;gap:5px}
@@ -364,20 +400,26 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .bk-doc{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border:1px solid var(--action);border-radius:7px;background:#eff4ff;color:var(--action);font-size:11px;font-weight:700;text-decoration:none;transition:.13s}
 .bk-doc:hover{background:var(--action);color:#fff}
 .bk-doc svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
-/* לקראת הזמנה */
+/* לקראת הזמנה — grid מיושר: סטטוס | שם | יום+עיר | תאריך | מחיר | הזמנה | פעולה */
 .cl-list{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px}
-.cl-row{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap;font-size:12px}
-.cl-row:last-child{border-bottom:none}
+.cl-grid{display:grid;grid-template-columns:96px minmax(150px,1fr) 130px 56px 78px minmax(110px,150px) 108px;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px}
+.cl-grid:last-child{border-bottom:none}
+.cl-head{background:var(--bg);font-weight:800;font-size:10px;color:var(--ink-3);letter-spacing:.02em}
 .cl-row.cl-done{background:var(--ok-bg)}
-.cl-name{font-weight:800;color:var(--ink);flex:1;min-width:150px}
-.cl-meta{color:var(--ink-3)}
-.cl-cost{font-weight:800;color:var(--ink);min-width:70px}
-.cl-link{color:var(--action);text-decoration:none;font-size:11px}
+.cl-c-status{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.cl-c-where{color:var(--ink-3);white-space:nowrap}
+.cl-c-date{font-weight:800;color:var(--ink);white-space:nowrap;direction:ltr;text-align:right}
+.cl-c-cost{font-weight:800;color:var(--ink);white-space:nowrap;text-align:right}
+/* סימון 'הוזמן' קטן ליד הסטטוס */
+.cl-booked-tag{font-size:8.5px;font-weight:800;color:var(--ok);background:var(--ok-bg);border:1px solid var(--ok);border-radius:999px;padding:0 5px;line-height:1.5}
+.cl-link{display:inline-flex;align-items:center;gap:3px;color:var(--action);text-decoration:none;font-size:10.5px;direction:ltr}
+.cl-link svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2}
 .cl-link:hover{text-decoration:underline}
 .cl-btn{padding:4px 11px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface);color:var(--action);font:700 11px inherit;cursor:pointer;white-space:nowrap}
 .cl-btn:hover{background:var(--bg)}
 .cl-done .cl-btn{color:var(--ok);border-color:var(--ok)}
 .cl-total{font-size:14px;font-weight:900;color:var(--ink);text-align:left;padding:4px 2px}
+@media(max-width:760px){.cl-grid{grid-template-columns:1fr 1fr;gap:6px}.cl-head{display:none}}
 /* badge "דורש הזמנה" בציר הזמן */
 .needs-booking{display:inline-block;font-size:10px;font-weight:800;color:var(--warn);background:var(--warn-bg);border-radius:999px;padding:1px 8px;margin-right:6px}
 /* דף עלויות מקיף */
@@ -567,7 +609,7 @@ a.ml:hover{text-decoration:underline}
 <div class="panel" id="p-days"><div class="tw days-wide"><table id="t-days"></table></div></div>
 <div class="panel" id="p-calendar"><div class="tw" id="calWrap"></div></div>
 <div class="panel" id="p-hotels"><div class="tw"><table id="t-hotels"></table></div></div>
-<div class="panel" id="p-places"><div class="tw"><table id="t-places"></table></div></div>
+<div class="panel" id="p-places"><div class="tw days-wide"><table id="t-places"></table></div></div>
 <div class="panel" id="p-costs"><div class="tw" id="costsWrap"></div></div>
 <div class="panel" id="p-bookings"><div class="tw" id="bookingsWrap"></div></div>
 <div class="panel" id="p-checklist"><div class="tw" id="checklistWrap"></div></div>
@@ -1233,7 +1275,7 @@ function renderHotels() {
       <button class="hotel-imgbtn" onclick="setHotelImage(${h.id})" data-tip="הוספת/החלפת תמונה — URL או קובץ">${localStorage.getItem('hotelimg-'+h.id)?'החלף':'הוסף'}</button>
       ${localStorage.getItem('hotelimg-'+h.id)?`<button class="hotel-imgbtn" onclick="clearHotelImage(${h.id})" data-tip="חזרה למפת מיקום">איפוס</button>`:''}
     </div></td>
-    <td><b>${hotelNameLink2(h)}</b><br><span style="font-size:10px;color:#888">${h.he||''}</span></td>
+    <td>${bilingualName(h.name, h.he||h.nameEn||'', {maps:mapsLink(h), site:h.officialUrl||''})}</td>
     <td>${h.city}</td>
     <td>${regionTag(h.region)}</td>
     <td class="hcell-date">${fmtDate(h.checkin)}</td>
@@ -1266,6 +1308,34 @@ function placeMapsLink(p) {
   return `https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(p.addr||p.nameEn||p.name||'')}`;
 }
 
+// קישור Google Maps גנרי לפי שם/מיקום (מטמיע את אותו דפוס hl=he)
+function gmapsLinkFor(o){
+  const q = encodeURIComponent(o.nameEn || o.name || o.he || '');
+  if (o.pid) return `https://www.google.com/maps/search/?api=1&hl=he&query=${q}&query_place_id=${o.pid}`;
+  if (o.lat && o.lng) return `https://www.google.com/maps/search/?api=1&hl=he&query=${o.lat},${o.lng}(${q})`;
+  return `https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(o.addr||o.nameEn||o.name||o.he||'')}`;
+}
+
+// ── רכיב אחיד לשם דו-לשוני בכל האפליקציה ──
+// עברית מודגש (צבע/גודל/מיקום קבועים) בשורה עליונה; מתחתיה הלועזי כקישור Google Maps
+// וליד קישור 'אתר' לאתר הרשמי. opts: {maps:URL, site:URL, mapsData:{...ל-gmapsLinkFor}}
+function bilingualName(he, en, opts){
+  opts = opts || {};
+  const mapsUrl = opts.maps || (opts.mapsData ? gmapsLinkFor(opts.mapsData) : gmapsLinkFor({nameEn:en, name:he}));
+  const heHtml = `<span class="bn-he">${he||en||''}</span>`;
+  let sub = '';
+  if (en && en!==he) {
+    sub += `<a class="bn-en" href="${mapsUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()" data-tip="פתיחת ${en} ב-Google Maps">${en}</a>`;
+  } else {
+    // אין לועזי נפרד — עדיין נספק קישור Maps קטן על השם העברי
+    sub += `<a class="bn-en" href="${mapsUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()" data-tip="פתיחה ב-Google Maps">מפה</a>`;
+  }
+  if (opts.site) {
+    sub += `<a class="bn-site" href="${/^https?:/.test(opts.site)?opts.site:'https://'+opts.site}" target="_blank" rel="noopener" onclick="event.stopPropagation()" data-tip="אתר הבית הרשמי">${icon('external')}אתר</a>`;
+  }
+  return `<span class="bn">${heHtml}<span class="bn-sub">${sub}</span></span>`;
+}
+
 // deep-link לכרטיס אתר: ?place=<id> (או ?q=<שם> להתאמה) — גלילה + הדגשה זמנית
 let _placeDeepLinkDone = false;
 function scrollToDeepLinkPlace() {
@@ -1294,25 +1364,31 @@ function scrollToDeepLinkPlace() {
 function renderPlaces() {
   const data = sorted(filtered(DATA.places), 'places');
   const t = document.getElementById('t-places');
-  t.innerHTML = `<thead><tr>
+  t.innerHTML = `<colgroup>
+    <col class="pc-img"><col class="pc-name"><col class="pc-day"><col class="pc-city">
+    <col class="pc-hours"><col class="pc-price"><col class="pc-dur"><col class="pc-who"><col class="pc-notes">
+  </colgroup><thead><tr>
     <th>תמונה</th>
-    ${th('places','name','שם')}
+    ${th('places','name','שם וסוג')}
+    ${th('places','dayId','יום')}
     ${th('places','city','עיר')}
-    ${th('places','type','סוג')}
     ${th('places','hours','שעות')}
     ${th('places','price','מחיר')}
     ${th('places','duration','משך')}
-    <th>למי</th><th>הערות</th>
-  </tr></thead><tbody>${data.map(p => { const gm = placeMapsLink(p); return `<tr id="place-${p.id}">
+    ${th('places','forWho','למי')}
+    <th>הערות</th>
+  </tr></thead><tbody>${data.map(p => { const gm = placeMapsLink(p);
+    const dNum = p.dayId!=null ? p.dayId : (DATA.days.find(d=>(d.spots&&['morning','afternoon','evening'].some(t=>(d.spots[t]||[]).some(s=>s.nameEn&&p.nameEn&&s.nameEn===p.nameEn)))) || {}).tripDay;
+    return `<tr id="place-${p.id}">
     <td><a href="${gm}" target="_blank" rel="noopener" data-tip="פתיחת ${p.name} ב-Google Maps" aria-label="פתיחת ${p.name} ב-Google Maps">${placeImg(p)}</a></td>
-    <td><a href="${gm}" target="_blank" rel="noopener" class="place-namelink" data-tip="פתיחת ${p.name} ב-Google Maps"><b>${p.name}</b></a><br><span style="font-size:10px;color:#888">${p.nameEn}</span></td>
+    <td>${bilingualName(p.name, p.nameEn, {maps:gm, site:p.officialUrl||''})}${p.type?`<span class="p-type">${p.type}</span>`:''}</td>
+    <td class="p-day">${dNum?`<a href="day.html?d=${dNum}" data-tip="מעבר לדף היום">יום ${dNum}</a>`:'—'}</td>
     <td>${p.city}</td>
-    <td>${p.type}</td>
-    <td>${p.hours||''}</td>
-    <td>${p.price?'¥'+p.price:''}</td>
-    <td>${p.duration||''}</td>
-    <td>${(p.forWho||[]).join(', ')}</td>
-    <td ${ed('places.'+p.id+'.notes', p.notes)}>${p.notes||''}</td>
+    <td class="p-hours">${p.hours||''}</td>
+    <td class="p-price">${p.price?'¥'+Number(p.price).toLocaleString():''}</td>
+    <td class="p-dur">${p.duration||''}</td>
+    <td class="p-who">${(p.forWho||[]).map(n=>`<span>${n}</span>`).join('')}</td>
+    <td class="p-notes" ${ed('places.'+p.id+'.notes', p.notes)}>${fmtNotes(p.notes)}</td>
   </tr>`; }).join('')}</tbody>`;
   scrollToDeepLinkPlace();
 }
@@ -1774,23 +1850,37 @@ function renderChecklist(){
   // מיון לפי יום
   const items = [...C.items].sort((a,b)=>(a.day||0)-(b.day||0));
   let booked=0;
+  // כותרות עמודות מיושרות (grid זהה בכל שורה)
+  const header = `<div class="cl-grid cl-head">
+    <span>סטטוס</span><span>אתר / פעילות</span><span>יום ועיר</span><span>תאריך</span><span>מחיר</span><span>הזמנה</span><span></span>
+  </div>`;
   const rows = items.map(it=>{
     const st = clStatus(it.item, it.day) || it.status || 'pending';
     if(st==='booked') booked++;
-    const link = it.url ? `<a href="${/^https?:/.test(it.url)?it.url:'https://'+it.url}" target="_blank" rel="noopener" class="cl-link">${it.url}</a>` : '';
-    return `<div class="cl-row ${st==='booked'?'cl-done':''}">
-      <span class="bk-status ${st==='booked'?'bk-ok':'bk-pend'}">${st==='booked'?'הוזמן':'ממתין'}</span>
-      <span class="cl-name">${it.item}</span>
-      <span class="cl-meta">יום ${it.day||'—'}${it.date?' · '+it.date:''}</span>
-      <span class="cl-cost">${it.cost||''}</span>
-      ${link}
-      <button class="cl-btn" onclick="toggleChecklist('${it.item.replace(/'/g,'')}',${it.day},'${st}')">${st==='booked'?'בטל':'סמן כהוזמן'}</button>
+    const he = it.nameHe || it.item;
+    const en = it.nameEn || '';
+    // עיר נגזרת מהיום (מקור אמת: days.json → dayCity)
+    const dayObj = DATA.days.find(d=>d.tripDay===it.day);
+    const city = dayObj ? dayCity(dayObj) : '';
+    const nameHtml = bilingualName(he, en, { mapsData:{nameEn:en, name:he}, site: it.officialUrl||'' });
+    const bookLink = it.url ? `<a href="${/^https?:/.test(it.url)?it.url:'https://'+it.url}" target="_blank" rel="noopener" class="cl-link" data-tip="פתיחת אתר ההזמנה (${it.url})">${icon('external')}${it.url}</a>` : '';
+    return `<div class="cl-grid cl-row ${st==='booked'?'cl-done':''}">
+      <span class="cl-c-status">
+        <span class="bk-status ${st==='booked'?'bk-ok':'bk-pend'}">${icon(st==='booked'?'check':'clock')}${st==='booked'?'מאושר':'ממתין'}</span>
+        ${st==='booked'?'<span class="cl-booked-tag">הוזמן</span>':''}
+      </span>
+      <span class="cl-c-name">${nameHtml}</span>
+      <span class="cl-c-where">יום ${it.day||'—'}${city?` · ${city}`:''}</span>
+      <span class="cl-c-date">${it.date||''}</span>
+      <span class="cl-c-cost">${it.cost||''}</span>
+      <span class="cl-c-book">${bookLink}</span>
+      <span class="cl-c-btn"><button class="cl-btn" onclick="toggleChecklist('${(it.item||'').replace(/'/g,'')}',${it.day},'${st}')">${st==='booked'?'בטל':'סמן כהוזמן'}</button></span>
     </div>`;
   }).join('');
   el.innerHTML = `
     <div class="tr-intro">אטרקציות ופעילויות שדורשות הזמנה מראש. סמני כל פריט כשהוזמן.</div>
     <div class="bk-summary">${booked}/${items.length} הוזמנו · עלות נוספת כוללת: ${C.totalAdditionalCost||''}</div>
-    <div class="cl-list">${rows}</div>
+    <div class="cl-list">${header}${rows}</div>
     <div class="cl-total">סה״כ עלות נוספת: <b>${C.totalAdditionalCost||''}</b></div>`;
 }
 

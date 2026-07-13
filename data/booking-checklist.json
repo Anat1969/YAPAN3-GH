@@ -2,74 +2,101 @@
   "items": [
     {
       "item": "USJ Studio Pass + Express Pass 4",
+      "nameHe": "יוניברסל סטודיוס — כרטיס + אקספרס 4",
+      "nameEn": "Universal Studios Japan",
       "day": 4,
       "date": "26/7",
       "cost": "~₪1,600",
       "url": "klook.com",
+      "officialUrl": "https://www.usj.co.jp/web/en/us",
       "status": "pending"
     },
     {
       "item": "רוקצו — YAMAMOTO Studio",
+      "nameHe": "רוקצו — סטודיו יממוטו",
+      "nameEn": "Roketsu YAMAMOTO Studio",
       "day": 7,
       "date": "29/7",
       "cost": "~₪250",
       "url": "roketsu.com",
+      "officialUrl": "https://www.roketsu.com/en/",
       "status": "pending"
     },
     {
       "item": "סמוראי — Sword Experience",
+      "nameHe": "חוויית סמוראי — חרב",
+      "nameEn": "Samurai Sword Experience Kyoto",
       "day": 7,
       "date": "29/7",
       "cost": "~₪200",
       "url": "viator.com",
+      "officialUrl": "",
       "status": "pending"
     },
     {
       "item": "קינצוגי — Kintsugi Workshop",
+      "nameHe": "סדנת קינצוגי",
+      "nameEn": "Kintsugi Workshop Kyoto",
       "day": 7,
       "date": "29/7",
       "cost": "~₪200",
       "url": "viator.com",
+      "officialUrl": "",
       "status": "pending"
     },
     {
       "item": "teamLab Biovortex Kyoto",
+      "nameHe": "טימלאב ביו-וורטקס קיוטו",
+      "nameEn": "teamLab Biovortex Kyoto",
       "day": 8,
       "date": "30/7",
       "cost": "~₪390",
       "url": "teamlab.art",
+      "officialUrl": "https://www.teamlab.art/e/biovortex-kyoto/",
       "status": "pending"
     },
     {
       "item": "קיאק ימי שירטוקו",
+      "nameHe": "קיאק ימי בשירטוקו",
+      "nameEn": "Shiretoko Sea Kayaking",
       "day": 12,
       "date": "3/8",
       "cost": "~₪1,000",
       "url": "hokkaidonaturetours.com",
+      "officialUrl": "https://www.hokkaidonaturetours.com/",
       "status": "pending"
     },
     {
       "item": "ראפטינג פוראנו",
+      "nameHe": "ראפטינג בפוראנו",
+      "nameEn": "Furano Rafting",
       "day": 20,
       "date": "11/8",
       "cost": "~₪1,000",
       "url": "getyourguide.com",
+      "officialUrl": "",
       "status": "pending"
     },
     {
       "item": "מנגה Workshop — Shibuya",
+      "nameHe": "סדנת מנגה — שיבויה",
+      "nameEn": "Manga Workshop Shibuya",
       "day": 25,
       "date": "16/8",
       "cost": "~₪610",
       "url": "getyourguide.com",
+      "officialUrl": "",
       "status": "pending"
     },
     {
       "item": "DisneySea Passport + Premier Access",
+      "nameHe": "דיסני סי — כרטיס + פרמייר אקסס",
+      "nameEn": "Tokyo DisneySea",
       "day": 27,
       "date": "18/8",
       "cost": "~₪1,070",
       "url": "klook.com",
+      "officialUrl": "https://www.tokyodisneyresort.jp/en/tds/",
       "status": "pending"
     }
   ],
