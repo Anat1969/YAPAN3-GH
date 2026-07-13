@@ -260,6 +260,21 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .ap-loading{text-align:center;padding:20px;color:var(--ink-3);font-size:13px}
 
 /* ITINERARY — מסלול מפורט */
+/* לוחות חודש קומפקטיים בראש המסלול (יולי/אוגוסט) */
+.itin-cals{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.imc-month{flex:1;min-width:320px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 12px}
+.imc-title{font-size:15px;font-weight:900;color:var(--action);margin-bottom:8px;text-align:center}
+.imc-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.imc-dow{font-size:10px;font-weight:800;color:var(--ink-3);text-align:center;padding-bottom:2px}
+.imc-cell{min-height:46px;border:1px solid var(--border);border-radius:6px;padding:3px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-decoration:none;color:inherit;background:var(--surface);transition:.12s}
+.imc-cell.empty{border:none;background:transparent}
+a.imc-cell:hover{box-shadow:0 2px 8px rgba(0,0,0,.14);transform:translateY(-1px)}
+.imc-dnum{font-size:14px;font-weight:900;color:var(--ink);direction:ltr}
+.imc-city{font-size:9.5px;font-weight:700;line-height:1.15;text-align:center;margin-top:1px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.imc-cell.cal-k{background:var(--region-1)}.imc-cell.cal-h{background:var(--region-2)}.imc-cell.cal-t{background:var(--region-3)}.imc-cell.cal-t .imc-dnum,.imc-cell.cal-t .imc-city{color:#fff}.imc-cell.cal-d{background:var(--region-4)}
+.imc-cell.imc-flight{background:#fdecec;border-color:#f2b8b8}.imc-cell.imc-flight .imc-city{color:#991b1b;font-weight:800}
+.imc-cell.imc-return{background:#e7f3ec;border-color:#a7d3b6}.imc-cell.imc-return .imc-city{color:#166534;font-weight:800}
+@media(max-width:760px){.imc-month{min-width:0;flex-basis:100%}.imc-cell{min-height:40px}}
 .itin-list{display:flex;flex-direction:column;gap:16px}
 .itin-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;scroll-margin-top:90px}
 .itin-head{padding:14px 16px 13px;border-bottom:2px solid var(--border);background:var(--bg)}
@@ -1865,7 +1880,8 @@ function renderItinerary(){
   }).join('');
   const fs = itinPrefs();
   const fsBtn = (v,lbl)=>`<button class="itin-fsbtn${fs.size===v?' on':''}" onclick="setItinFont('${v}')" data-tip="גודל טקסט ${lbl}">${lbl}</button>`;
-  box.innerHTML = `<div class="view-bar itin-bar">
+  box.innerHTML = `<div class="itin-cals">${itinMiniMonth(2026,7,'יולי 2026')}${itinMiniMonth(2026,8,'אוגוסט 2026')}</div>
+    <div class="view-bar itin-bar">
       <div class="tr-intro">המסלול המלא — כל יום עם בוקר/צהריים/ערב, אתרים, שעות, מלונות ומפה. לחצי על שעה כדי לערוך; האתר יסודר מחדש לפי השעה.</div>
       <div class="itin-appearance" data-tip="עיצוב דף המסלול — גודל טקסט וצבע">
         <span class="itin-ap-lbl">${icon('image')} טקסט:</span>
@@ -1881,6 +1897,44 @@ function renderItinerary(){
   // גלילה ליום מתוך ?d= בקישור עמוק
   const dq = new URLSearchParams(location.search).get('d');
   if(dq){ const el=document.getElementById('itin-'+dq); if(el) setTimeout(()=>{el.scrollIntoView({behavior:'smooth',block:'start'});},80); }
+}
+// ── לוח חודשי קומפקטי בראש המסלול (יולי/אוגוסט) — תאריך, יום, ועיר ──
+function itinMiniMonth(year, month, title){
+  const DOW = ['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];
+  const regCls = {kansai:'cal-k',hokkaido:'cal-h',tokyo:'cal-t',dubai:'cal-d'};
+  const byDate = {};
+  (DATA.days||[]).forEach(d => { byDate[`${d.month}-${d.day}`] = d; });
+  const dow = (y,m,day)=> new Date(Date.UTC(y,m-1,day)).getUTCDay();
+  const daysInMonth = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  const firstDow = dow(year, month, 1);
+  let cells = '';
+  for(let i=0;i<firstDow;i++) cells += `<div class="imc-cell empty"></div>`;
+  for(let day=1; day<=daysInMonth; day++){
+    const d = byDate[`${month}-${day}`];
+    if(!d){
+      if(month===7 && day===22){
+        cells += `<div class="imc-cell imc-flight" data-tip="יום טיסה — יציאה מישראל"><span class="imc-dnum">${day}</span><span class="imc-city">✈ יציאה</span></div>`;
+      } else {
+        cells += `<div class="imc-cell"><span class="imc-dnum">${day}</span></div>`;
+      }
+    } else {
+      const cls = (d.region==='home'||d.city==='ישראל') ? 'imc-return' : (regCls[d.region]||'cal-d');
+      const city = (d.region==='home'||d.city==='ישראל') ? (d.city||'ישראל') : (dayCity(d)||'');
+      cells += `<a class="imc-cell ${cls}" href="index.html?tab=itinerary&d=${d.tripDay}" onclick="itinScrollTo(${d.tripDay});return false" data-tip="יום ${d.tripDay} · ${d.weekday||''} · ${city}">
+        <span class="imc-dnum">${day}</span>
+        <span class="imc-city">${city}</span>
+      </a>`;
+    }
+  }
+  return `<div class="imc-month">
+    <div class="imc-title">${title}</div>
+    <div class="imc-grid">${DOW.map(x=>`<div class="imc-dow">${x}</div>`).join('')}${cells}</div>
+  </div>`;
+}
+// גלילה חלקה ליום במסלול (מהלוח הקומפקטי)
+function itinScrollTo(tripDay){
+  const el = document.getElementById('itin-'+tripDay);
+  if(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); el.style.animation='placeFlash 2s'; }
 }
 // ── עיצוב דף המסלול (גודל טקסט + צבע) — נשמר בדפדפן (העדפת תצוגה) ──
 const ITIN_FS_SCALE = { s:0.9, m:1, l:1.15, xl:1.35 };
