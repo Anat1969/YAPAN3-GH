@@ -313,11 +313,12 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .itin-hchip-name{font-size:12.5px;font-weight:800;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .itin-hotel .ic{width:13px;height:13px;stroke:var(--ink-3)}
 .itin-body{padding:6px 16px 4px}
-/* פריסה דו-טורית: מפת המסלול (ימין ב-RTL) + הרשימה הטקסטואלית */
-.itin-body.has-map{display:grid;grid-template-columns:1fr var(--itin-resize-w,0px) minmax(220px,var(--itin-map-w,50%));gap:10px;align-items:start}
+/* פריסה דו-טורית פשוטה: הרשימה (ימין) + מפת המסלול (שמאל) — flex יציב */
+.itin-body.has-map{display:flex;gap:12px;align-items:flex-start}
+.itin-body.has-map .itin-spots-col{flex:1 1 0;min-width:0}
+.itin-body.has-map .itin-map{flex:0 0 var(--itin-map-w,46%);max-width:var(--itin-map-w,46%)}
 /* ידית שינוי רוחב המפה (גלויה במצב עריכה) */
-.itin-resize{display:none;width:8px;align-self:stretch;min-height:120px;border-radius:5px;background:var(--border-strong);cursor:ew-resize;touch-action:none}
-.layout-editing .itin-body.has-map{--itin-resize-w:8px}
+.itin-resize{display:none;flex:0 0 8px;align-self:stretch;min-height:120px;border-radius:5px;background:var(--border-strong);cursor:ew-resize;touch-action:none}
 .layout-editing .itin-resize{display:block}
 .layout-editing .itin-resize:hover{background:var(--action)}
 /* מסגרות ניתנות לסידור (עריכת פריסה) */
@@ -348,7 +349,7 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .rt-marker{background:#1d4ed8;color:#fff;width:24px;height:24px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font:900 12px/1 'Noto Sans Hebrew',sans-serif}
 .rt-marker.start{background:#15803d}
 .rt-marker.end{background:#b91c1c}
-@media(max-width:760px){.itin-body.has-map{grid-template-columns:1fr}.itin-map{position:static}.itin-gmap-box{height:320px}}
+@media(max-width:760px){.itin-body.has-map{flex-direction:column}.itin-body.has-map .itin-map{flex-basis:auto;max-width:none;width:100%;position:static}.itin-gmap-box{height:320px}}
 /* כל חלק ביום במסגרת מלבנית נפרדת, עם צבע-רמז לפי שעת היום */
 .itin-spots-col{min-width:0;display:flex;flex-direction:column;gap:12px}
 .itin-slot{border:1px solid var(--border);border-radius:10px;padding:10px 12px;background:var(--surface);border-inline-start:4px solid var(--slot-accent,var(--border-strong))}
