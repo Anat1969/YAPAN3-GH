@@ -261,7 +261,7 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 
 /* ITINERARY — מסלול מפורט */
 /* סרגל ימים קבוע (sticky) לאורך הדף — מספר יום + תאריך + עיר */
-.itin-rail{position:fixed;inset-inline-start:8px;top:80px;bottom:12px;width:112px;z-index:40;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border-strong);border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.1);overflow:hidden}
+.itin-rail{position:fixed;inset-inline-start:8px;top:80px;bottom:12px;width:var(--itin-rail-w,112px);z-index:40;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border-strong);border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.1);overflow:hidden}
 .idr-head{flex-shrink:0;padding:8px 6px;font-size:12px;font-weight:900;color:var(--action);text-align:center;border-bottom:1px solid var(--border);background:var(--bg)}
 .idr-list{flex:1;overflow-y:auto;padding:6px;display:flex;flex-direction:column;gap:5px}
 .idr-day{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 4px;border-radius:8px;text-decoration:none;color:var(--ink);border:1px solid transparent;transition:.12s;position:relative}
@@ -309,7 +309,23 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .itin-hotel .ic{width:13px;height:13px;stroke:var(--ink-3)}
 .itin-body{padding:6px 16px 4px}
 /* פריסה דו-טורית: מפת המסלול (ימין ב-RTL) + הרשימה הטקסטואלית */
-.itin-body.has-map{display:grid;grid-template-columns:1fr minmax(360px,50%);gap:16px;align-items:start}
+.itin-body.has-map{display:grid;grid-template-columns:1fr var(--itin-resize-w,0px) minmax(220px,var(--itin-map-w,50%));gap:10px;align-items:start}
+/* ידית שינוי רוחב המפה (גלויה במצב עריכה) */
+.itin-resize{display:none;width:8px;align-self:stretch;min-height:120px;border-radius:5px;background:var(--border-strong);cursor:ew-resize;touch-action:none}
+.layout-editing .itin-body.has-map{--itin-resize-w:8px}
+.layout-editing .itin-resize{display:block}
+.layout-editing .itin-resize:hover{background:var(--action)}
+/* מסגרות ניתנות לסידור (עריכת פריסה) */
+.itin-sections{display:flex;flex-direction:column}
+.itin-section{order:0}
+.itin-section:empty{display:none}
+.itin-editbtn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1px solid var(--border-strong);border-radius:7px;background:var(--surface);color:var(--ink-2);font:700 11px inherit;cursor:pointer}
+.itin-editbtn .ic{width:13px;height:13px;stroke:currentColor}
+.itin-editbtn.on{background:var(--action);color:#fff;border-color:var(--action)}
+.layout-editing .itin-section{border:2px dashed var(--border-strong);border-radius:10px;margin:4px 0;cursor:grab;position:relative}
+.layout-editing .itin-section:hover{border-color:var(--action)}
+.layout-editing .itin-section::before{content:'⋮⋮ גררי';position:absolute;top:-1px;inset-inline-end:6px;font-size:10px;font-weight:800;color:var(--action);background:var(--surface);padding:1px 6px;border-radius:0 0 6px 6px;z-index:2}
+.layout-editing .itin-section.sec-dragging{opacity:.4}
 .itin-map{position:sticky;top:78px;display:flex;flex-direction:column;gap:6px}
 .itin-map-box{position:relative;width:100%;height:460px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--bg)}
 .itin-map-box iframe{width:100%;height:100%;border:0;display:block}
@@ -1000,11 +1016,17 @@ async function loadData() {
     const cl = await fetch('data/booking-checklist.json').then(r=>r.json()).catch(()=>null);
     const tb = await fetch('data/tabs.json').then(r=>r.json()).catch(()=>null);
     const mm = await fetch('data/mymarks.json').then(r=>r.json()).catch(()=>[]);
-    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb, mymarks:Array.isArray(mm)?mm:[] };
+    const ly = await fetch('data/layout.json').then(r=>r.json()).catch(()=>null);
+    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb, mymarks:Array.isArray(mm)?mm:[], layout:ly||{} };
     // שחזור סיכות משתמש שנוספו מקומית וטרם נשמרו ל-Git
     try {
       const pm = JSON.parse(localStorage.getItem('pending-mymarks')||'null');
       if(Array.isArray(pm)) DATA.mymarks = pm;
+    } catch(e){}
+    // שחזור פריסה מקומית (עריכת מסגרות) שטרם נשמרה ל-Git
+    try {
+      const pl = JSON.parse(localStorage.getItem('pending-layout')||'null');
+      if(pl && typeof pl==='object') DATA.layout = pl;
     } catch(e){}
     // סדר כפתורי הניווט — מקובץ (לכולם), עם התמדה מקומית זמנית עד ל-«שמור קבצים»
     applyTabOrder();
@@ -1088,7 +1110,7 @@ let dragTab = null;
 let hasUnsaved = false;
 function markUnsaved(){ hasUnsaved = true; const b=document.getElementById('navSaveBtn'); if(b) b.style.display=''; }
 function updateSaveBtn(){
-  const pend = localStorage.getItem('pending-tabs') || localStorage.getItem('pending-places') || localStorage.getItem('pending-dayspots') || localStorage.getItem('pending-images') || localStorage.getItem('pending-mymarks');
+  const pend = localStorage.getItem('pending-tabs') || localStorage.getItem('pending-places') || localStorage.getItem('pending-dayspots') || localStorage.getItem('pending-images') || localStorage.getItem('pending-mymarks') || localStorage.getItem('pending-layout');
   if(pend || hasUnsaved || _changedDays.size) markUnsaved();
 }
 // החלת סדר הכפתורים על ה-DOM לפי DATA.tabs (או pending-tabs מקומי אם קיים)
@@ -1864,9 +1886,11 @@ function renderItinerary(){
           ${hotelsHead}
         </div>
       </header>
-      <div class="${bodyCls}"><div class="itin-spots-col">${spotsCol}</div>${mapCol}</div>
-      ${mealsHtml(d.meals)}
-      ${d.notes ? `<div class="itin-notes">${icon('info')}${fmtNotes(d.notes)}</div>` : ''}
+      <div class="itin-sections">
+        <div class="itin-section" data-block="body">${mapCol?`<div class="${bodyCls}"><div class="itin-spots-col">${spotsCol}</div><div class="itin-resize" data-tip="גררי לשינוי רוחב המפה (במצב עריכה)" onpointerdown="startMapResize(event)"></div>${mapCol}</div>`:`<div class="itin-body"><div class="itin-spots-col">${spotsCol}</div></div>`}</div>
+        <div class="itin-section" data-block="meals">${mealsHtml(d.meals)}</div>
+        <div class="itin-section" data-block="notes">${d.notes ? `<div class="itin-notes">${icon('info')}${fmtNotes(d.notes)}</div>` : ''}</div>
+      </div>
       <div class="itin-actions">
         <div class="itin-addspot">
           <button class="itin-addbtn" onclick="openAddPlace(${d.id},document.getElementById('itinslot-${d.tripDay}').value)" data-tip="הוספת אתר ליום זה — שם + Claude משלים, ושיבוץ אוטומטי במקטע ובמסלול">${icon('route')} הוסף אתר ליום</button>
@@ -1892,10 +1916,12 @@ function renderItinerary(){
           <input type="color" id="itinColor" value="${fs.color}" onchange="setItinColor(this.value)">
         </label>
         <button class="itin-fsbtn itin-reset" onclick="resetItinPrefs()" data-tip="איפוס לברירת מחדל">איפוס</button>
+        <button class="itin-editbtn" id="layoutEditBtn" onclick="toggleLayoutEdit()" data-tip="מצב עריכת פריסה — גררי מסגרות לסדר חדש ומשכי ידית לשינוי גודל">${icon('grid')} עריכת פריסה</button>
       </div>
     </div>
     <div class="itin-list">${cards}</div>`;
   applyItinPrefs();
+  applyLayout();
   initItinRailObserver();
   // גלילה ליום מתוך ?d= בקישור עמוק
   const dq = new URLSearchParams(location.search).get('d');
@@ -1958,6 +1984,108 @@ function applyItinPrefs(){
 function setItinFont(size){ const p=itinPrefs(); p.size=size; saveItinPrefs(p); renderItinerary(); }
 function setItinColor(color){ const p=itinPrefs(); p.color=color; saveItinPrefs(p); applyItinPrefs(); }
 function resetItinPrefs(){ saveItinPrefs({size:'m',color:''}); renderItinerary(); }
+
+// ══════════════════════════════════
+// LAYOUT EDIT — עריכת פריסה: סידור מסגרות (גרירה) + שינוי גודל (ידית), נשמר ל-Git
+// ══════════════════════════════════
+let layoutEditMode = false;
+let _dragSection = null;
+const DEFAULT_ITIN_LAYOUT = { blockOrder:['body','meals','notes'], mapWidth:50, railWidth:112 };
+function itinLayout(){
+  const L = (DATA.layout && DATA.layout.itinerary) || {};
+  return {
+    blockOrder: Array.isArray(L.blockOrder)&&L.blockOrder.length ? L.blockOrder : DEFAULT_ITIN_LAYOUT.blockOrder.slice(),
+    mapWidth: +L.mapWidth || DEFAULT_ITIN_LAYOUT.mapWidth,
+    railWidth: +L.railWidth || DEFAULT_ITIN_LAYOUT.railWidth
+  };
+}
+function saveItinLayout(L){
+  if(!DATA.layout) DATA.layout = {};
+  DATA.layout.itinerary = L;
+  try{ localStorage.setItem('pending-layout', JSON.stringify(DATA.layout)); }catch(e){}
+  markUnsaved();
+}
+// החלת הפריסה השמורה: רוחב מפה/סרגל (CSS vars) + סדר מסגרות (order) על כל הכרטיסים
+function applyLayout(){
+  const w = document.getElementById('itinWrap'); if(!w) return;
+  const L = itinLayout();
+  w.style.setProperty('--itin-map-w', L.mapWidth+'%');
+  document.documentElement.style.setProperty('--itin-rail-w', L.railWidth+'px');
+  // סדר המסגרות בכל כרטיס לפי blockOrder
+  document.querySelectorAll('.itin-sections').forEach(sec=>{
+    L.blockOrder.forEach((key,i)=>{
+      const el = sec.querySelector(`.itin-section[data-block="${key}"]`);
+      if(el) el.style.order = i;
+    });
+  });
+}
+function toggleLayoutEdit(){
+  layoutEditMode = !layoutEditMode;
+  const wrap = document.getElementById('itinWrap');
+  const btn = document.getElementById('layoutEditBtn');
+  if(wrap) wrap.classList.toggle('layout-editing', layoutEditMode);
+  if(btn) btn.classList.toggle('on', layoutEditMode);
+  // הפעלת/כיבוי גרירה על המסגרות
+  document.querySelectorAll('.itin-section').forEach(sec=>{
+    sec.draggable = layoutEditMode;
+    if(layoutEditMode){
+      sec.addEventListener('dragstart', onSectionDragStart);
+      sec.addEventListener('dragover', onSectionDragOver);
+      sec.addEventListener('dragend', onSectionDragEnd);
+    } else {
+      sec.removeEventListener('dragstart', onSectionDragStart);
+      sec.removeEventListener('dragover', onSectionDragOver);
+      sec.removeEventListener('dragend', onSectionDragEnd);
+    }
+  });
+  toast(layoutEditMode ? 'מצב עריכת פריסה — גררי מסגרות לסדר חדש, משכי את הידית לשינוי רוחב המפה, ואז «שמור קבצים»' : 'עריכת הפריסה הסתיימה — «שמור קבצים» לשמירה ל-Git');
+}
+// גרירת מסגרת → סדר חדש (חל על כל הכרטיסים דרך blockOrder)
+function onSectionDragStart(e){ _dragSection=this; this.classList.add('sec-dragging'); try{e.dataTransfer.effectAllowed='move';}catch(_){} }
+function onSectionDragOver(e){
+  e.preventDefault();
+  if(!_dragSection || _dragSection===this || _dragSection.parentNode!==this.parentNode) return;
+  const cont=this.parentNode; const r=this.getBoundingClientRect();
+  const after=(e.clientY-r.top)>r.height/2;
+  if(after) cont.insertBefore(_dragSection, this.nextSibling);
+  else cont.insertBefore(_dragSection, this);
+}
+function onSectionDragEnd(){
+  if(_dragSection) _dragSection.classList.remove('sec-dragging');
+  // קריאת הסדר החדש מהכרטיס שנגרר בו ושמירה
+  const cont = _dragSection && _dragSection.parentNode;
+  _dragSection=null;
+  if(!cont) return;
+  const order = Array.from(cont.querySelectorAll('.itin-section')).map(s=>s.dataset.block);
+  const L = itinLayout(); L.blockOrder = order; saveItinLayout(L);
+  applyLayout();
+  toast('הסדר עודכן — «שמור קבצים»');
+}
+// שינוי רוחב המפה בגרירת הידית (חל על כל הכרטיסים)
+let _mapResize = null;
+function startMapResize(e){
+  if(!layoutEditMode) return;   // ידית פעילה רק במצב עריכה
+  e.preventDefault();
+  const body = e.target.closest('.itin-body'); if(!body) return;
+  _mapResize = { startX:e.clientX, rect:body.getBoundingClientRect(), startW:itinLayout().mapWidth };
+  window.addEventListener('pointermove', onMapResizeMove);
+  window.addEventListener('pointerup', endMapResize, {once:true});
+}
+function onMapResizeMove(e){
+  if(!_mapResize) return;
+  // RTL: המפה משמאל; גרירה שמאלה מגדילה את המפה
+  const dx = _mapResize.startX - e.clientX;
+  let w = _mapResize.startW + (dx/_mapResize.rect.width)*100;
+  w = Math.max(25, Math.min(70, w));
+  const wrap=document.getElementById('itinWrap');
+  if(wrap) wrap.style.setProperty('--itin-map-w', w.toFixed(1)+'%');
+  _mapResize.cur = w;
+}
+function endMapResize(){
+  window.removeEventListener('pointermove', onMapResizeMove);
+  if(_mapResize && _mapResize.cur!=null){ const L=itinLayout(); L.mapWidth=+_mapResize.cur.toFixed(1); saveItinLayout(L); toast('רוחב המפה עודכן — «שמור קבצים»'); }
+  _mapResize=null;
+}
 
 // ── מפת המסלול לכל יום בדף המסלול (Google Maps) ──
 // התחנות הכרונולוגיות של היום עם קואורדינטות (בוקר→צהריים→ערב)
@@ -3287,7 +3415,7 @@ async function saveAll() {
     if(raw){ downloadJSON(raw, 'day-'+String(idNum).padStart(2,'0')+'.json'); dayCount++; }
   });
   // התמדות זמניות ירדו כעת לקבצים — ניתן לנקות
-  try { localStorage.removeItem('pending-places'); localStorage.removeItem('pending-tabs'); localStorage.removeItem('pending-dayspots'); localStorage.removeItem('pending-images'); localStorage.removeItem('pending-mymarks'); } catch(e){}
+  try { localStorage.removeItem('pending-places'); localStorage.removeItem('pending-tabs'); localStorage.removeItem('pending-dayspots'); localStorage.removeItem('pending-images'); localStorage.removeItem('pending-mymarks'); localStorage.removeItem('pending-layout'); } catch(e){}
   _changedDays.clear();
   hasUnsaved = false;
   const b=document.getElementById('navSaveBtn'); if(b) b.style.display='none';

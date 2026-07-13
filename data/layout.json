@@ -1,0 +1,7 @@
+{
+  "itinerary": {
+    "blockOrder": ["body", "meals", "notes"],
+    "mapWidth": 50,
+    "railWidth": 112
+  }
+}
