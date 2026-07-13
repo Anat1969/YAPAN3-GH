@@ -728,5 +728,63 @@
     "category": [
       "טבע"
     ]
+  },
+  {
+    "id": 280,
+    "name": "טימלאב ביו-וורטקס קיוטו",
+    "nameEn": "teamLab Biovortex Kyoto",
+    "city": "קיוטו",
+    "cityEn": "Kyoto",
+    "region": "kansai",
+    "type": "אטרקציה",
+    "addr": "21-5 Higashikujo Higashi-Iwamotocho, Minami-ku, Kyoto",
+    "hours": "09:00-21:00 (כניסה אחרונה 19:30)",
+    "price": 4200,
+    "duration": "2 שעות",
+    "pid": "",
+    "lat": 34.9805,
+    "lng": 135.7595,
+    "forWho": [
+      "לוטם",
+      "עילאי"
+    ],
+    "dayId": 6,
+    "timeOfDay": "19:30",
+    "booked": false,
+    "notes": "מוזיאון אמנות דיגיטלית ענק שנפתח באוקטובר 2025 — מעל 50 יצירות אינטראקטיביות על 4 קומות, 10,000 מ\"ר. 7 דק' הליכה משער הצ'י מזרח של תחנת קיוטו. כרטיסים בכניסה מתוזמנת ובתמחור דינמי (~3,600-5,200 ין) — נמכרים מראש, חובה להזמין. פתוח עד 21:00 — מושלם לערב",
+    "image": "https://assets.team-lab.com/b5EBo9Uo-OK6SM09ZTkEZQ/32a55044-0951-4789-0df4-9c82e30bb000/width=1200,format=jpeg",
+    "category": [
+      "טכנולוגיה ועתיד",
+      "תרבות ואמנות"
+    ]
+  },
+  {
+    "id": 281,
+    "name": "מוזיאון ד.ט. סוזוקי",
+    "nameEn": "D.T. Suzuki Museum",
+    "city": "קנאזאווה",
+    "cityEn": "Kanazawa",
+    "region": "kansai",
+    "type": "אטרקציה",
+    "addr": "3-4-20 Honda-machi, Kanazawa, Ishikawa 920-0964",
+    "hours": "09:30-17:00 (כניסה אחרונה 16:30). סגור בימי שני",
+    "price": 310,
+    "duration": "45 דק'",
+    "pid": "",
+    "lat": 36.5548,
+    "lng": 136.665,
+    "forWho": [
+      "ענת",
+      "עילאי"
+    ],
+    "dayId": 9,
+    "timeOfDay": "13:15",
+    "booked": false,
+    "notes": "מוזיאון מינימליסטי לזכר דאיסץ טיטארו סוזוקי — הפילוסוף שהביא את הזן למערב. אדריכלות של יושיו טאניגוצ'י: 'חדר המים' עם בריכת השתקפות שקטה למדיטציה. מרחב זן טהור — לא תצוגה עמוסה אלא הזמנה לשקט. 5 דק' הליכה מגן קנרוקואן, ממש בין הגן לרובע הסמוראי",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/D._T._Suzuki_Museum%2C_Kanazawa_-_May_3%2C_2015_%281%29.jpg/500px-D._T._Suzuki_Museum%2C_Kanazawa_-_May_3%2C_2015_%281%29.jpg",
+    "category": [
+      "אתר דתי או רוחני",
+      "אדריכלות"
+    ]
   }
 ]

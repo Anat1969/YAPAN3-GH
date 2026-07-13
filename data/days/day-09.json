@@ -34,6 +34,20 @@
     ],
     "afternoon": [
       {
+        "name": "מוזיאון ד.ט. סוזוקי",
+        "nameEn": "D.T. Suzuki Museum",
+        "addr": "3-4-20 Honda-machi, Kanazawa",
+        "lat": 36.5548,
+        "lng": 136.665,
+        "time": "13:15",
+        "duration": "45 דק'",
+        "price": 310,
+        "forWho": "ענת, עילאי",
+        "notes": "מוזיאון מינימליסטי לזכר סוזוקי — הפילוסוף שהביא את הזן למערב. אדריכלות טאניגוצ'י: 'חדר המים' עם בריכת השתקפות למדיטציה. מרחב זן טהור. סגור בימי שני. 5 דק' הליכה מקנרוקואן",
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/D._T._Suzuki_Museum%2C_Kanazawa_-_May_3%2C_2015_%281%29.jpg/500px-D._T._Suzuki_Museum%2C_Kanazawa_-_May_3%2C_2015_%281%29.jpg"
+      },
+      {
         "name": "רובע הסמוראי נאגאמאצ׳י",
         "nameEn": "Nagamachi Samurai District",
         "addr": "Nagamachi, Kanazawa",
@@ -158,6 +172,32 @@
           "lng": 136.6624
         },
         "to": {
+          "name": "מוזיאון ד.ט. סוזוקי",
+          "nameEn": "D.T. Suzuki Museum",
+          "lat": 36.5548,
+          "lng": 136.665
+        },
+        "mode": "walk",
+        "details": {
+          "walkToStation": 0,
+          "rideTime": 9,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 9,
+        "distanceKm": 0.6,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5624,136.6624&destination=36.5548,136.665&travelmode=walking"
+      },
+      {
+        "id": "d9-s3b",
+        "from": {
+          "name": "מוזיאון ד.ט. סוזוקי",
+          "nameEn": "D.T. Suzuki Museum",
+          "lat": 36.5548,
+          "lng": 136.665
+        },
+        "to": {
           "name": "רובע הסמוראי נאגאמאצ׳י",
           "nameEn": "Nagamachi Samurai District",
           "lat": 36.5632,
@@ -166,14 +206,14 @@
         "mode": "metro",
         "details": {
           "walkToStation": 8,
-          "rideTime": 2,
+          "rideTime": 4,
           "transfers": 0,
           "cost": null,
           "currency": "JPY"
         },
-        "totalMinutes": 10,
-        "distanceKm": 1.2,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5624,136.6624&destination=36.5632,136.6518&travelmode=transit"
+        "totalMinutes": 12,
+        "distanceKm": 1.6,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=36.5548,136.665&destination=36.5632,136.6518&travelmode=transit"
       },
       {
         "id": "d9-s4",
@@ -281,9 +321,9 @@
       }
     ],
     "summary": {
-      "totalTransitMinutes": 60,
-      "totalWalkingMinutes": 20,
-      "totalDistanceKm": 11.2,
+      "totalTransitMinutes": 64,
+      "totalWalkingMinutes": 29,
+      "totalDistanceKm": 12.4,
       "modes": [
         "metro",
         "walk"

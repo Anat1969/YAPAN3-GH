@@ -83,12 +83,26 @@
         "addr": "Kawaramachi, Kyoto",
         "lat": 35.004,
         "lng": 135.769,
-        "time": "18:30",
-        "duration": "",
+        "time": "18:00",
+        "duration": "1 שעה",
         "price": "",
         "forWho": "כולם",
-        "notes": "",
+        "notes": "ארוחת ערב חופשית באזור קוואראמאצ'י לפני teamLab",
         "placeId": ""
+      },
+      {
+        "name": "טימלאב ביו-וורטקס קיוטו",
+        "nameEn": "teamLab Biovortex Kyoto",
+        "addr": "21-5 Higashikujo Higashi-Iwamotocho, Minami-ku, Kyoto",
+        "lat": 34.9805,
+        "lng": 135.7595,
+        "time": "19:30",
+        "duration": "2 שעות",
+        "price": 4200,
+        "forWho": "לוטם, עילאי",
+        "notes": "מוזיאון אמנות דיגיטלית ענק (נפתח אוקטובר 2025) — 50+ יצירות אינטראקטיביות על 4 קומות. פתוח עד 21:00, מושלם לערב. 7 דק' הליכה מתחנת קיוטו. כרטיסים מתוזמנים ובתמחור דינמי — חובה להזמין מראש",
+        "placeId": "",
+        "image": "https://assets.team-lab.com/b5EBo9Uo-OK6SM09ZTkEZQ/32a55044-0951-4789-0df4-9c82e30bb000/width=1200,format=jpeg"
       }
     ]
   },
@@ -265,30 +279,57 @@
           "lng": 135.769
         },
         "to": {
+          "name": "טימלאב ביו-וורטקס קיוטו",
+          "nameEn": "teamLab Biovortex Kyoto",
+          "lat": 34.9805,
+          "lng": 135.7595
+        },
+        "mode": "metro",
+        "details": {
+          "walkToStation": 6,
+          "rideTime": 6,
+          "transfers": 0,
+          "cost": null,
+          "currency": "JPY"
+        },
+        "totalMinutes": 14,
+        "distanceKm": 2.9,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.004,135.769&destination=34.9805,135.7595&travelmode=transit"
+      },
+      {
+        "id": "d6-s8",
+        "from": {
+          "name": "טימלאב ביו-וורטקס קיוטו",
+          "nameEn": "teamLab Biovortex Kyoto",
+          "lat": 34.9805,
+          "lng": 135.7595
+        },
+        "to": {
           "name": "מלון Mitsui Garden Kyoto Kawaramachi Jokyoji",
           "nameEn": "Mitsui Garden Kyoto Kawaramachi Jokyoji",
           "lat": 35.0028,
           "lng": 135.7671
         },
-        "mode": "walk",
+        "mode": "metro",
         "details": {
-          "walkToStation": 0,
-          "rideTime": 4,
+          "walkToStation": 7,
+          "rideTime": 7,
           "transfers": 0,
           "cost": null,
           "currency": "JPY"
         },
-        "totalMinutes": 4,
-        "distanceKm": 0.3,
-        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=35.004,135.769&destination=35.0028,135.7671&travelmode=walking"
+        "totalMinutes": 16,
+        "distanceKm": 3.1,
+        "mapsUrl": "https://www.google.com/maps/dir/?api=1&hl=he&origin=34.9805,135.7595&destination=35.0028,135.7671&travelmode=transit"
       }
     ],
     "summary": {
-      "totalTransitMinutes": 62,
-      "totalWalkingMinutes": 28,
-      "totalDistanceKm": 26.1,
+      "totalTransitMinutes": 88,
+      "totalWalkingMinutes": 24,
+      "totalDistanceKm": 32.4,
       "modes": [
         "train",
+        "metro",
         "walk"
       ]
     }
