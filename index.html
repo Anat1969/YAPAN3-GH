@@ -262,19 +262,33 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 /* ITINERARY — מסלול מפורט */
 .itin-list{display:flex;flex-direction:column;gap:16px}
 .itin-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;scroll-margin-top:90px}
-.itin-head{padding:14px 16px 12px;border-bottom:1px solid var(--border);background:var(--bg)}
-.itin-head-main{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
-.itin-daynum{flex-shrink:0;display:inline-flex;align-items:center;padding:5px 12px;border-radius:8px;background:var(--action);color:#fff;font:900 13px inherit;text-decoration:none;white-space:nowrap}
+.itin-head{padding:14px 16px 13px;border-bottom:2px solid var(--border);background:var(--bg)}
+.itin-head-main{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.itin-daynum{flex-shrink:0;display:inline-flex;align-items:center;padding:8px 14px;border-radius:10px;background:var(--action);color:#fff;font:900 16px inherit;text-decoration:none;white-space:nowrap}
 .itin-daynum:hover{filter:brightness(1.08)}
+/* תאריך + שם היום — מוגדלים מאוד */
+.itin-head-datebox{flex-shrink:0;display:flex;flex-direction:column;line-height:1.05}
+.itin-date{font-size:34px;font-weight:900;color:var(--action);direction:ltr;letter-spacing:-.5px}
+.itin-weekday{font-size:19px;font-weight:800;color:var(--ink)}
 .itin-head-txt{flex:1;min-width:150px}
-.itin-title{font-size:16px;font-weight:900;color:var(--ink);line-height:1.3}
-.itin-idea{font-size:12px;color:var(--ink-3);margin-top:2px}
-.itin-head-meta{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.itin-date{font-size:15px;font-weight:900;color:var(--action);direction:ltr}
-.itin-weekday{font-size:12px;font-weight:700;color:var(--ink-2)}
-.itin-head-sub{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--ink-2)}
-.itin-city{font-weight:800;color:var(--ink)}
-.itin-hotel{display:inline-flex;align-items:center;gap:4px}
+.itin-title{font-size:17px;font-weight:900;color:var(--ink);line-height:1.25}
+.itin-head-sub{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:3px;font-size:12px;color:var(--ink-2)}
+.itin-city{display:inline-flex;align-items:center;gap:3px;font-weight:800;color:var(--ink)}
+.itin-city .ic{width:12px;height:12px;stroke:var(--ink-3)}
+.itin-idea{color:var(--ink-3)}
+/* צ'יפ מלון בכותרת (קמנו/ישנים) עם תמונה */
+.itin-head-hotels{display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;margin-inline-start:auto}
+.itin-hchip{display:flex;align-items:center;gap:8px;padding:5px 10px 5px 5px;border:1px solid var(--border);border-radius:10px;background:var(--surface);text-decoration:none;max-width:230px}
+.itin-hchip:hover{border-color:var(--slot-accent,var(--action));box-shadow:0 1px 6px rgba(0,0,0,.1)}
+.itin-hchip-morning{--slot-accent:#d97706}
+.itin-hchip-evening{--slot-accent:#6366f1}
+.itin-hchip-img{width:56px;height:44px;object-fit:cover;border-radius:7px;flex-shrink:0}
+.itin-hchip-img.noimg{display:flex;align-items:center;justify-content:center;background:var(--bg);border:1px dashed var(--border-strong)}
+.itin-hchip-img.noimg .ic{width:20px;height:20px;stroke:var(--ink-3)}
+.itin-hchip-txt{display:flex;flex-direction:column;min-width:0}
+.itin-hchip-lbl{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:900;color:var(--slot-accent,var(--ink-3))}
+.itin-hchip-lbl .ic{width:12px;height:12px;stroke:var(--slot-accent,var(--ink-3))}
+.itin-hchip-name{font-size:12.5px;font-weight:800;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .itin-hotel .ic{width:13px;height:13px;stroke:var(--ink-3)}
 .itin-body{padding:6px 16px 4px}
 /* פריסה דו-טורית: מפת המסלול (ימין ב-RTL) + הרשימה הטקסטואלית */
@@ -356,12 +370,6 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .itin-time-edit:hover{background:rgba(184,134,11,.12)}
 .itin-time-edit:focus{outline:none;background:#fffde7;box-shadow:inset 0 0 0 2px #fbbf24}
 /* שורת מלון במסלול (קמנו/ישנים) */
-.itin-hotel-row{background:linear-gradient(90deg,rgba(184,134,11,.06),transparent);border-radius:8px;padding:6px}
-.itin-hotel-img{width:96px;height:64px;object-fit:cover;border-radius:8px;flex-shrink:0;display:block;border:1px solid var(--border)}
-.itin-hotel-img.noimg{display:flex;align-items:center;justify-content:center;background:var(--bg);border:1px dashed var(--border-strong)}
-.itin-hotel-img.noimg .ic{width:26px;height:26px;stroke:var(--ink-3)}
-.itin-hotel-lbl{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:900;color:#a16207;margin-bottom:2px}
-.itin-hotel-lbl .ic{width:14px;height:14px;stroke:#a16207}
 .rt-marker.hotel{background:#a16207}
 /* בקרת עיצוב דף המסלול */
 .itin-bar{align-items:flex-start;gap:12px}
@@ -385,9 +393,9 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .itin-spot-name .bn-en{font-size:calc(10px * var(--itin-fs))}
 .itin-spot-meta{font-size:calc(11.5px * var(--itin-fs))}
 .itin-spot-notes{font-size:calc(11px * var(--itin-fs))}
-.itin-meal,.itin-hotel-lbl,.itin-slot-head{font-size:calc(12px * var(--itin-fs))}
+.itin-meal,.itin-slot-head{font-size:calc(12px * var(--itin-fs))}
 #itinWrap.itin-tinted .itin-title,#itinWrap.itin-tinted .itin-spot-name .bn-he,#itinWrap.itin-tinted .itin-idea,#itinWrap.itin-tinted .itin-spot-notes,#itinWrap.itin-tinted .itin-spot-meta,#itinWrap.itin-tinted .itin-meal-v{color:var(--itin-color)}
-@media(max-width:640px){.itin-img,.itin-hotel-img{width:72px;height:52px}.itin-head-main{gap:8px}.itin-appearance{width:100%}}
+@media(max-width:640px){.itin-img{width:72px;height:52px}.itin-head-main{gap:10px}.itin-appearance{width:100%}.itin-date{font-size:28px}.itin-weekday{font-size:16px}.itin-head-hotels{margin-inline-start:0;width:100%}.itin-hchip{flex:1;max-width:none}}
 
 /* TAGS */
 .tg{display:inline-flex;align-items:center;gap:3px;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700;white-space:nowrap}
@@ -1680,15 +1688,12 @@ function itinSpotHtml(s, dayId, slotKey, idx){
 }
 function itinSlotHtml(d, slot){
   const spots = (d.spots && d.spots[slot.key]) || [];
-  const hotelRow = (slot.key==='morning' || slot.key==='evening') ? hotelItinRow(d, slot.key) : '';
-  if((!Array.isArray(spots) || !spots.length) && !hotelRow) return '';
+  if(!Array.isArray(spots) || !spots.length) return '';
   const dayId = d.id!=null?d.id:d.tripDay;
-  const rows = (Array.isArray(spots)?spots:[]).map((s,i)=>itinSpotHtml(s, dayId, slot.key, i)).join('');
-  // מלון בבוקר — לפני התחנות (קמנו); בערב — אחרי (הולכים לישון)
-  const inner = slot.key==='morning' ? (hotelRow + rows) : (rows + hotelRow);
+  const rows = spots.map((s,i)=>itinSpotHtml(s, dayId, slot.key, i)).join('');
   return `<div class="itin-slot itin-slot-${slot.key}">
     <div class="itin-slot-head">${icon(slot.ic)}<span>${slot.label}</span></div>
-    <div class="itin-slot-spots">${inner}</div>
+    <div class="itin-slot-spots">${rows}</div>
   </div>`;
 }
 function mealsHtml(m){
@@ -1757,40 +1762,32 @@ function itinTimeEdit(el){
 function hotelForNight(dateIso){
   return (DATA.hotels||[]).find(h=>h.checkin && h.checkout && h.checkin<=dateIso && dateIso<h.checkout) || null;
 }
-function hotelItinRow(d, slotKey){
+// צ'יפ מלון קומפקטי לכותרת היום (תמונה + תווית) — קמנו/הולכים לישון
+function hotelHeaderChip(d, slotKey){
   const date = d.date;
   if(!date) return '';
-  // בוקר — המלון שבו ישנו בלילה הקודם (התעוררנו בו): הלילה של אתמול
-  // ערב — המלון שבו ישנים הלילה
-  let hotel=null, labelHe='', ic='bed';
-  if(slotKey==='morning'){
-    hotel = hotelForNight(isoAddDays(date, -1));
-    labelHe = 'קמנו ב';
-  } else {
-    hotel = hotelForNight(date);
-    labelHe = 'הולכים לישון ב';
-  }
+  let hotel=null, labelHe='';
+  if(slotKey==='morning'){ hotel = hotelForNight(isoAddDays(date, -1)); labelHe = 'קמנו ב־'; }
+  else { hotel = hotelForNight(date); labelHe = 'ישנים ב־'; }
   if(!hotel) return '';
   const src = hotelImgSrc(hotel);
   const maps = gmapsLinkFor({nameEn:hotel.nameEn||hotel.name, name:hotel.name, pid:hotel.pid, lat:hotel.lat, lng:hotel.lng, addr:hotel.addr});
   const alt = hotel.name||'';
   const thumb = src
-    ? `<a href="${maps}" target="_blank" rel="noopener" onclick="event.stopPropagation()"><img class="itin-hotel-img" src="${src}" alt="${alt}" loading="lazy" onerror="this.parentElement.style.display='none'"></a>`
-    : `<div class="itin-hotel-img noimg">${icon('bed')}</div>`;
-  return `<div class="itin-spot itin-hotel-row itin-hotel-${slotKey}">
+    ? `<img class="itin-hchip-img" src="${src}" alt="${alt}" loading="lazy" onerror="this.style.display='none'">`
+    : `<div class="itin-hchip-img noimg">${icon('bed')}</div>`;
+  return `<a class="itin-hchip itin-hchip-${slotKey}" href="${maps}" target="_blank" rel="noopener" data-tip="${labelHe}${hotel.name} — פתיחה ב-Google Maps">
     ${thumb}
-    <div class="itin-spot-body">
-      <div class="itin-hotel-lbl">${icon('bed')} ${labelHe}</div>
-      <div class="itin-spot-name">${bilingualName(hotel.name, hotel.nameEn||'', {maps, site:''})}</div>
-      ${hotel.city?`<div class="itin-spot-meta"><span>${hotel.city}</span></div>`:''}
-    </div>
-  </div>`;
+    <span class="itin-hchip-txt">
+      <span class="itin-hchip-lbl">${icon(slotKey==='morning'?'sun':'moon')} ${labelHe}</span>
+      <span class="itin-hchip-name">${hotel.name}</span>
+    </span>
+  </a>`;
 }
 function renderItinerary(){
   const data = sorted(filtered(DATA.days), 'days');
   const box = document.getElementById('itinWrap');
   const cards = data.map(d => {
-    const h = hotelById(d.hotelId) || hotelByName(dayHotelName(d));
     const slots = ITIN_SLOTS.map(sl=>itinSlotHtml(d, sl)).filter(Boolean).join('');
     const spotsCol = slots || `<div class="itin-empty">אין תחנות מתוכננות ליום זה עדיין — <a href="day.html?d=${d.tripDay}">פתיחת דף היום להוספה</a></div>`;
     // מפת המסלול של היום — Google Maps מוטבעת (≥2 נקודות, כולל מלונות)
@@ -1809,23 +1806,22 @@ function renderItinerary(){
         </div>`
       : '';
     const bodyCls = mapCol ? 'itin-body has-map' : 'itin-body';
+    const wakeChip = hotelHeaderChip(d, 'morning');
+    const sleepChip = hotelHeaderChip(d, 'evening');
+    const hotelsHead = (wakeChip || sleepChip) ? `<div class="itin-head-hotels">${wakeChip}${sleepChip}</div>` : '';
     return `<article class="itin-card" id="itin-${d.tripDay}">
       <header class="itin-head">
         <div class="itin-head-main">
           <a class="itin-daynum" href="day.html?d=${d.tripDay}" data-tip="פתיחת דף היום המלא">יום ${d.tripDay}</a>
+          <div class="itin-head-datebox">
+            <span class="itin-date">${d.day}/${d.month}</span>
+            <span class="itin-weekday">יום ${d.weekday||''}</span>
+          </div>
           <div class="itin-head-txt">
             <div class="itin-title">${d.title || dayCity(d) || ''}</div>
-            ${d.idea ? `<div class="itin-idea">${d.idea}</div>` : ''}
+            <div class="itin-head-sub">${dayCity(d)?`<span class="itin-city">${icon('pin')}${dayCity(d)}</span>`:''}${d.region?regionTag(d.region):''}${d.idea?`<span class="itin-idea">${d.idea}</span>`:''}</div>
           </div>
-          <div class="itin-head-meta">
-            <span class="itin-date">${d.day}/${d.month}</span>
-            <span class="itin-weekday">${d.weekday||''}</span>
-            ${d.region?regionTag(d.region):''}
-          </div>
-        </div>
-        <div class="itin-head-sub">
-          <span class="itin-city">${dayCity(d)||''}</span>
-          ${h ? `<span class="itin-hotel">${icon('bed')}${hotelNameLink2(h, dayHotelName(d))}</span>` : ''}
+          ${hotelsHead}
         </div>
       </header>
       <div class="${bodyCls}"><div class="itin-spots-col">${spotsCol}</div>${mapCol}</div>
