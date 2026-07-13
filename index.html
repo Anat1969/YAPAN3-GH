@@ -214,6 +214,44 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 /* הערות — פונט קטן, כל משפט בשורה (fmtNotes מוסיף <br>) */
 #t-places .p-notes{font-size:10.5px;line-height:1.5;color:var(--ink-2)}
 
+/* ADD-PLACE — כפתור ומודאל הוספת אתר */
+.places-bar{align-items:flex-start}
+.places-bar-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.save-files-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 12px;border:1px solid var(--border-strong);border-radius:7px;background:var(--surface);color:var(--ink-2);font:700 12px inherit;cursor:pointer;white-space:nowrap}
+.save-files-btn:hover{border-color:var(--action);color:var(--action)}
+.add-place-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border:1px solid var(--action);border-radius:7px;background:var(--action);color:#fff;font:800 12px inherit;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.add-place-btn:hover{filter:brightness(1.08)}
+.ap-overlay{position:fixed;inset:0;background:rgba(28,28,26,.5);display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;z-index:1000;overflow-y:auto}
+.ap-modal{background:var(--surface);border:1px solid var(--border-strong);border-radius:12px;width:100%;max-width:520px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.ap-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ap-head h3{margin:0;font-size:16px;font-weight:900;color:var(--ink)}
+.ap-x{border:none;background:none;font-size:18px;color:var(--ink-3);cursor:pointer;line-height:1;padding:4px}
+.ap-x:hover{color:var(--ink)}
+.ap-step{padding:18px 20px}
+.ap-lbl{display:block;font-size:11px;font-weight:800;color:var(--ink-2);margin-bottom:12px}
+.ap-req{color:var(--err)}
+.ap-lbl input,.ap-lbl select{display:block;width:100%;margin-top:5px;padding:8px 10px;border:1px solid var(--border-strong);border-radius:7px;background:var(--bg);color:var(--ink);font:600 13px inherit}
+.ap-lbl input:focus,.ap-lbl select:focus{outline:none;border-color:var(--action);box-shadow:0 0 0 2px rgba(29,78,216,.15)}
+.ap-row{display:flex;gap:12px}
+.ap-row .ap-lbl{flex:1}
+.ap-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:6px}
+.ap-primary{padding:8px 18px;border:1px solid var(--action);border-radius:7px;background:var(--action);color:#fff;font:800 12px inherit;cursor:pointer}
+.ap-primary:hover{filter:brightness(1.08)}
+.ap-primary:disabled{opacity:.55;cursor:default}
+.ap-secondary{padding:8px 16px;border:1px solid var(--border-strong);border-radius:7px;background:var(--surface);color:var(--ink-2);font:700 12px inherit;cursor:pointer}
+.ap-hint{margin-top:12px;font-size:10.5px;line-height:1.5;color:var(--ink-3)}
+.ap-preview{border:1px solid var(--border);border-radius:8px;background:var(--bg);padding:14px;margin-bottom:14px;max-height:52vh;overflow-y:auto}
+.ap-pv-field{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px}
+.ap-pv-field:last-child{border-bottom:none}
+.ap-pv-key{flex:0 0 88px;font-weight:800;color:var(--ink-3)}
+.ap-pv-val{flex:1;color:var(--ink)}
+.ap-pv-val[contenteditable]{border-radius:3px;padding:1px 4px;transition:background .12s}
+.ap-pv-val[contenteditable]:hover{background:#f5f5f0}
+.ap-pv-val[contenteditable]:focus{outline:none;background:#fffde7;box-shadow:inset 0 0 0 2px #fbbf24}
+.ap-pv-empty{color:var(--warn);font-style:italic}
+.ap-pv-img{max-width:100%;border-radius:6px;margin-top:4px;max-height:120px;object-fit:cover}
+.ap-loading{text-align:center;padding:20px;color:var(--ink-3);font-size:13px}
+
 /* TAGS */
 .tg{display:inline-flex;align-items:center;gap:3px;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700;white-space:nowrap}
 /* אזורים — סקאלת כחול אחת */
@@ -625,7 +663,16 @@ a.ml:hover{text-decoration:underline}
 <div class="panel" id="p-days"><div class="tw days-wide"><table id="t-days"></table></div></div>
 <div class="panel" id="p-calendar"><div class="tw" id="calWrap"></div></div>
 <div class="panel" id="p-hotels"><div class="tw"><table id="t-hotels"></table></div></div>
-<div class="panel" id="p-places"><div class="tw days-wide"><table id="t-places"></table></div></div>
+<div class="panel" id="p-places">
+  <div class="view-bar places-bar">
+    <div class="tr-intro">כל האתרים המתוכננים לטיול. אפשר להוסיף אתר חדש — הקלידי שם והמערכת תשלים את הפרטים.</div>
+    <div class="places-bar-actions">
+      <button class="save-files-btn" onclick="saveAll()" data-tip="הורדת קובצי ה-JSON המעודכנים — להעלאה ל-Git" aria-label="שמירת הקבצים ל-Git"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor;fill:none;width:13px;height:13px;vertical-align:-2px"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2zM17 21v-8H7v8M7 3v5h8"/></svg> שמור קבצים</button>
+      <button class="add-place-btn" onclick="openAddPlace()" data-tip="הוספת אתר חדש לרשימה — שם + השלמה אוטומטית" aria-label="הוספת אתר חדש"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor;fill:none;width:14px;height:14px;vertical-align:-2px"><path d="M12 5v14M5 12h14"/></svg> הוסף אתר</button>
+    </div>
+  </div>
+  <div class="tw days-wide"><table id="t-places"></table></div>
+</div>
 <div class="panel" id="p-costs"><div class="tw" id="costsWrap"></div></div>
 <div class="panel" id="p-bookings"><div class="tw" id="bookingsWrap"></div></div>
 <div class="panel" id="p-checklist"><div class="tw" id="checklistWrap"></div></div>
@@ -658,6 +705,46 @@ a.ml:hover{text-decoration:underline}
 </div>
 
 <div class="foot">נשמר אוטומטית ל-JSON · גיבוי עם כפתור שמור</div>
+
+<!-- מודאל הוספת אתר -->
+<div class="ap-overlay" id="apOverlay" onclick="if(event.target===this)closeAddPlace()" role="dialog" aria-modal="true" aria-labelledby="apTitle" style="display:none">
+  <div class="ap-modal">
+    <div class="ap-head">
+      <h3 id="apTitle">הוספת אתר חדש</h3>
+      <button class="ap-x" onclick="closeAddPlace()" aria-label="סגירה" data-tip="סגירת החלון">✕</button>
+    </div>
+
+    <!-- שלב 1: שם + עיר + יום -->
+    <div class="ap-step" id="apStep1">
+      <label class="ap-lbl">שם האתר <span class="ap-req">*</span>
+        <input type="text" id="apName" placeholder="למשל: Kanazawa Castle / טירת קנאזאווה" autocomplete="off">
+      </label>
+      <div class="ap-row">
+        <label class="ap-lbl">עיר (אופציונלי)
+          <input type="text" id="apCity" placeholder="למשל: קנאזאווה" autocomplete="off">
+        </label>
+        <label class="ap-lbl">יום במסלול (אופציונלי)
+          <select id="apDay"></select>
+        </label>
+      </div>
+      <div class="ap-actions">
+        <button class="ap-primary" id="apCompleteBtn" onclick="completeWithClaude()" data-tip="Claude ממלא את שאר הפרטים אוטומטית">השלם עם Claude</button>
+      </div>
+      <div class="ap-hint">Claude ימלא כתובת, שעות, מחיר, קואורדינטות, קטגוריות ותיאור. שדות לא ודאיים יישארו ריקים — תוכלי לתקן לפני הוספה.</div>
+    </div>
+
+    <!-- שלב 2: תצוגה מקדימה ועריכה -->
+    <div class="ap-step" id="apStep2" style="display:none">
+      <div class="ap-preview" id="apPreview"></div>
+      <div class="ap-actions">
+        <button class="ap-secondary" onclick="backToStep1()" data-tip="חזרה לשינוי השם">חזרה</button>
+        <button class="ap-primary" onclick="confirmAddPlace()" data-tip="הוספת האתר לרשימה, למפה ולמסלול">הוסף לרשימה</button>
+      </div>
+      <div class="ap-hint">לאחר ההוספה — לחצי "שמור קבצים" והעלי ל-Git כדי שהאתר יופיע לכולם.</div>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
@@ -727,6 +814,13 @@ async function loadData() {
     const bk = await fetch('data/bookings.json').then(r=>r.json()).catch(()=>null);
     const cl = await fetch('data/booking-checklist.json').then(r=>r.json()).catch(()=>null);
     DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl };
+    // ה-id הגבוה מהקובץ הסטטי — לזיהוי אתרים שנוספו מקומית (טרם נשמרו ל-Git)
+    _basePlaceMaxId = (DATA.places||[]).reduce((m,x)=>Math.max(m, x.id||0), 0);
+    // שחזור אתרים שנוספו מקומית ועדיין לא נשמרו ל-Git (התמדה עד ל-«שמור קבצים»)
+    try {
+      const pend = JSON.parse(localStorage.getItem('pending-places')||'[]');
+      pend.forEach(pp=>{ if(pp && pp.id && !DATA.places.some(x=>x.id===pp.id)) DATA.places.push(pp); });
+    } catch(e){}
     // מיזוג spots מקבצי הימים הפרטניים (data/days/day-XX.json) לתוך DATA.days —
     // כדי למלא את עמודות בוקר/צהריים/ערב בטבלת לוח הימים בשמות האתרים בפועל
     await Promise.all((DATA.days||[]).map(async function(day){
@@ -1954,7 +2048,7 @@ function editCell(el) {
     obj = obj[keys[i]];
   }
   obj[keys[keys.length-1]] = el.textContent;
-  toast('נשמר');
+  toast('נשמר זמנית — לחצי «שמור קבצים» ל-Git');
   // רינדור מחדש כדי שכל הנתונים הנגזרים (סיכומים, תקציב, hero) יתעדכנו בזמן אמת
   render();
 }
@@ -2312,7 +2406,9 @@ async function saveAll() {
   for (const [name, data] of Object.entries(DATA)) {
     downloadJSON(data, name+'.json');
   }
-  toast('כל הקבצים נשמרו');
+  // האתרים שנוספו מקומית ירדו כעת בקובץ places.json — ניתן לנקות את ההתמדה הזמנית
+  try { localStorage.removeItem('pending-places'); } catch(e){}
+  toast('כל הקבצים נשמרו — העלי ל-Git');
 }
 
 function downloadJSON(data, filename) {
@@ -2340,6 +2436,121 @@ function copyTable() {
   });
   navigator.clipboard.writeText(rows.join('\n')).then(()=>toast('הועתק לאקסל'));
 }
+
+// ══════════════════════════════════
+// ADD PLACE — הוספת אתר: שם → Claude משלים → תצוגה מקדימה → הוספה
+// ══════════════════════════════════
+// שדות הרשומה בסדר תצוגה + תווית עברית. שדות ניתנים לעריכה ידנית בתצוגה המקדימה.
+const AP_FIELDS = [
+  {k:'name',     label:'שם (עברית)'},
+  {k:'nameEn',   label:'שם (אנגלית)'},
+  {k:'city',     label:'עיר'},
+  {k:'type',     label:'סוג'},
+  {k:'addr',     label:'כתובת'},
+  {k:'hours',    label:'שעות'},
+  {k:'price',    label:'מחיר (¥)'},
+  {k:'duration', label:'משך ביקור'},
+  {k:'lat',      label:'קו רוחב'},
+  {k:'lng',      label:'קו אורך'},
+  {k:'category', label:'קטגוריות'},
+  {k:'notes',    label:'הערות'},
+  {k:'image',    label:'תמונה (URL)'},
+];
+let apDraft = null;  // הרשומה שנוצרה, לפני אישור
+
+function openAddPlace() {
+  // מילוי בורר הימים מהמסלול
+  const sel = document.getElementById('apDay');
+  sel.innerHTML = '<option value="">— ללא —</option>' +
+    DATA.days.map(d=>`<option value="${d.id}">יום ${d.tripDay} · ${d.day}/${d.month} · ${dayCity(d)||d.regionHe||''}</option>`).join('');
+  document.getElementById('apName').value='';
+  document.getElementById('apCity').value='';
+  sel.value='';
+  backToStep1();
+  document.getElementById('apOverlay').style.display='flex';
+  setTimeout(()=>document.getElementById('apName').focus(),50);
+}
+function closeAddPlace(){ document.getElementById('apOverlay').style.display='none'; apDraft=null; }
+function backToStep1(){
+  document.getElementById('apStep1').style.display='';
+  document.getElementById('apStep2').style.display='none';
+  const b=document.getElementById('apCompleteBtn'); b.disabled=false; b.textContent='השלם עם Claude';
+}
+
+async function completeWithClaude() {
+  const name = document.getElementById('apName').value.trim();
+  const city = document.getElementById('apCity').value.trim();
+  const dayId = document.getElementById('apDay').value;
+  if (!name) { toast('נא להזין שם אתר'); document.getElementById('apName').focus(); return; }
+
+  const btn = document.getElementById('apCompleteBtn');
+  btn.disabled=true; btn.textContent='ממלא…';
+  try {
+    const r = await fetch('/api/yuko', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ mode:'place', name, city, dayId })
+    });
+    if (!r.ok) throw new Error('server');
+    const { place } = await r.json();
+    if (!place) throw new Error('empty');
+    // ברירות מחדל בטוחות + cityEn מ-city אם חסר
+    apDraft = Object.assign({
+      name, nameEn:'', city:city||'', cityEn:'', region:'kansai', type:'', addr:'',
+      hours:'', price:null, duration:'', pid:'', lat:null, lng:null,
+      forWho:[], dayId: dayId?+dayId:null, timeOfDay:'', booked:false, notes:'', image:'', category:[]
+    }, place);
+    renderApPreview();
+    document.getElementById('apStep1').style.display='none';
+    document.getElementById('apStep2').style.display='';
+  } catch(e) {
+    btn.disabled=false; btn.textContent='השלם עם Claude';
+    toast('ההשלמה נכשלה — נסי שוב, או מלאי ידנית');
+  }
+}
+
+// תצוגה מקדימה עם שדות ניתנים לעריכה (contenteditable) — אותו דפוס כמו editCell
+function renderApPreview() {
+  const box = document.getElementById('apPreview');
+  const val = (k) => {
+    let v = apDraft[k];
+    if (Array.isArray(v)) v = v.join(', ');
+    if (v==null || v==='') return `<span class="ap-pv-empty" contenteditable="true" data-k="${k}" onblur="apEdit(this)">— ריק —</span>`;
+    return `<span contenteditable="true" data-k="${k}" onblur="apEdit(this)">${v}</span>`;
+  };
+  box.innerHTML = AP_FIELDS.map(f=>`<div class="ap-pv-field"><div class="ap-pv-key">${f.label}</div><div class="ap-pv-val">${val(f.k)}</div></div>`).join('')
+    + (apDraft.image?`<img class="ap-pv-img" src="${apDraft.image}" alt="תצוגת תמונה" onerror="this.style.display='none'">`:'');
+}
+// עריכה ידנית של שדה בתצוגה המקדימה — כתיבה חזרה ל-apDraft עם המרת טיפוס
+function apEdit(el) {
+  const k = el.dataset.k;
+  let txt = el.textContent.trim();
+  if (txt==='— ריק —') txt='';
+  if (k==='category') apDraft[k] = txt ? txt.split(/[,،]/).map(s=>s.trim()).filter(Boolean) : [];
+  else if (k==='price'||k==='lat'||k==='lng') apDraft[k] = txt==='' ? null : (isNaN(+txt)?apDraft[k]:+txt);
+  else apDraft[k] = txt;
+}
+
+function confirmAddPlace() {
+  if (!apDraft) return;
+  if (!apDraft.name || !apDraft.name.trim()) { toast('חסר שם'); return; }
+  // id חדש = max+1
+  const maxId = DATA.places.reduce((m,p)=>Math.max(m, p.id||0), 0);
+  apDraft.id = maxId + 1;
+  if (!apDraft.cityEn && apDraft.city) apDraft.cityEn = '';
+  DATA.places.push(apDraft);
+  const added = apDraft;
+  closeAddPlace();
+  activeTab='places';
+  render();
+  // גלילה לאתר החדש + הדגשה
+  setTimeout(()=>{ const row=document.getElementById('place-'+added.id); if(row){row.scrollIntoView({behavior:'smooth',block:'center'}); row.style.animation='placeFlash 2s';} },100);
+  toast('נוסף! לחצי «שמור קבצים» כדי לשמור ל-Git');
+  // התמדה זמנית עד לשמירה ל-Git — שלא ילך לאיבוד ב-refresh בטעות
+  try { localStorage.setItem('pending-places', JSON.stringify(DATA.places.filter(p=>p.id>getBasePlaceMaxId()))); } catch(e){}
+}
+// ה-id הגבוה ביותר שהגיע מהקובץ הסטטי (לזיהוי אתרים שנוספו מקומית)
+let _basePlaceMaxId = 0;
+function getBasePlaceMaxId(){ return _basePlaceMaxId; }
 
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
 
