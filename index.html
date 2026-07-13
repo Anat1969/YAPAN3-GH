@@ -691,6 +691,12 @@ a.bk:hover{background:#00224f}
 #mapDaySel{padding:5px 9px;border:1px solid var(--border);border-radius:6px;font:600 12px inherit;background:var(--surface);color:var(--ink)}
 .mvb-reset{padding:5px 11px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--action);font:700 11px inherit;cursor:pointer}
 .mvb-reset:hover{background:var(--bg)}
+.addpin-btn.on{background:#db2777;color:#fff;border-color:#db2777}
+/* כפתור מיקוד אתר על המפה (ליד שם אתר) */
+.itin-focusbtn{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin-inline-start:6px;padding:0;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface);cursor:pointer;vertical-align:middle}
+.itin-focusbtn:hover{background:var(--action);border-color:var(--action)}
+.itin-focusbtn .ic{width:12px;height:12px;stroke:var(--action)}
+.itin-focusbtn:hover .ic{stroke:#fff}
 .map-place-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
 .mpf{padding:3px 10px;border:1px solid var(--border);border-radius:999px;background:var(--surface);font:600 11px inherit;cursor:pointer;color:var(--ink-3)}
 .mpf.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
@@ -832,7 +838,11 @@ a.ml:hover{text-decoration:underline}
     <button class="mvb" data-view="nights" onclick="setMapView('nights')" data-tip="מקום הלינה בכל לילה — לפי תאריכים" aria-label="תצוגה לפי לילות">לפי לילות</button>
     <button class="mvb" data-view="transport" onclick="setMapView('transport')" data-tip="מקטעי תחבורה צבועים לפי אמצעי" aria-label="תצוגה לפי תחבורה">לפי תחבורה</button>
     <button class="mvb" data-view="places" onclick="setMapView('places')" data-tip="אתרים לפי סוג, עם סינון" aria-label="תצוגה לפי אתרים">לפי אתרים</button>
+    <button class="mvb" data-view="mymarks" onclick="setMapView('mymarks')" data-tip="הסיכות שסימנת + ייבוא מ-Google" aria-label="תצוגה לפי הסיכות שלי">הסיכות שלי</button>
     <span class="mvb-controls">
+      <button class="mvb-reset addpin-btn" id="addPinBtn" onclick="toggleAddPin()" data-tip="מצב הוספת סיכה — לחצי על המפה כדי לסמן נקודה עם הערה">📍 הוסף סיכה</button>
+      <button class="mvb-reset" onclick="importMarksClick()" data-tip="ייבוא סימנים מ-Google (קובץ KML/GeoJSON מ-Takeout)">⬆ ייבוא סימנים</button>
+      <input type="file" id="importMarksInput" accept=".kml,.geojson,.json,.kmz" style="display:none" onchange="importMarksFile(this)">
       <select id="mapDaySel" onchange="renderMapLayer()" data-tip="בחירת יום להצגה" style="display:none"></select>
       <button class="mvb-reset" onclick="resetMapFilters()" data-tip="איפוס סינונים וזום">איפוס</button>
     </span>
@@ -972,7 +982,13 @@ async function loadData() {
     const bk = await fetch('data/bookings.json').then(r=>r.json()).catch(()=>null);
     const cl = await fetch('data/booking-checklist.json').then(r=>r.json()).catch(()=>null);
     const tb = await fetch('data/tabs.json').then(r=>r.json()).catch(()=>null);
-    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb };
+    const mm = await fetch('data/mymarks.json').then(r=>r.json()).catch(()=>[]);
+    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb, mymarks:Array.isArray(mm)?mm:[] };
+    // שחזור סיכות משתמש שנוספו מקומית וטרם נשמרו ל-Git
+    try {
+      const pm = JSON.parse(localStorage.getItem('pending-mymarks')||'null');
+      if(Array.isArray(pm)) DATA.mymarks = pm;
+    } catch(e){}
     // סדר כפתורי הניווט — מקובץ (לכולם), עם התמדה מקומית זמנית עד ל-«שמור קבצים»
     applyTabOrder();
     // ה-id הגבוה מהקובץ הסטטי — לזיהוי אתרים שנוספו מקומית (טרם נשמרו ל-Git)
@@ -1055,7 +1071,7 @@ let dragTab = null;
 let hasUnsaved = false;
 function markUnsaved(){ hasUnsaved = true; const b=document.getElementById('navSaveBtn'); if(b) b.style.display=''; }
 function updateSaveBtn(){
-  const pend = localStorage.getItem('pending-tabs') || localStorage.getItem('pending-places') || localStorage.getItem('pending-dayspots') || localStorage.getItem('pending-images');
+  const pend = localStorage.getItem('pending-tabs') || localStorage.getItem('pending-places') || localStorage.getItem('pending-dayspots') || localStorage.getItem('pending-images') || localStorage.getItem('pending-mymarks');
   if(pend || hasUnsaved || _changedDays.size) markUnsaved();
 }
 // החלת סדר הכפתורים על ה-DOM לפי DATA.tabs (או pending-tabs מקומי אם קיים)
@@ -1677,14 +1693,21 @@ function itinSpotHtml(s, dayId, slotKey, idx){
     (s.price!=null && s.price!=='') ? `<span>¥${Number(s.price).toLocaleString()}</span>` : '',
     s.forWho ? `<span class="itin-who">${Array.isArray(s.forWho)?s.forWho.join(', '):s.forWho}</span>` : '',
   ].filter(Boolean).join('');
+  // מיקוד במפת האפליקציה — רק אם יש קואורדינטות (בספוט או בפלייס התואם)
+  const hasGeo = (s.lat&&s.lng) || (match&&match.lat&&match.lng);
+  const focusBtn = hasGeo ? `<button class="itin-focusbtn" onclick="focusOnAppMap(${JSON.stringify(s.nameEn||s.name).replace(/"/g,'&quot;')})" data-tip="מיקוד האתר על המפה שבאפליקציה">${icon('pin')}</button>` : '';
   return `<div class="itin-spot">
     ${thumb}
     <div class="itin-spot-body">
-      <div class="itin-spot-name">${bilingualName(s.name, s.nameEn, {maps, site: site||''})}</div>
+      <div class="itin-spot-name">${bilingualName(s.name, s.nameEn, {maps, site: site||''})}${focusBtn}</div>
       <div class="itin-spot-meta">${meta}</div>
       ${s.notes ? `<div class="itin-spot-notes">${fmtNotes(s.notes)}</div>` : ''}
     </div>
   </div>`;
+}
+// מיקוד אתר על מפת האפליקציה (Leaflet) — שימוש חוזר ב-yukoShowPlace
+function focusOnAppMap(name){
+  if(!window.yukoShowPlace || !yukoShowPlace(name)){ toast('לא נמצאו קואורדינטות לאתר'); }
 }
 function itinSlotHtml(d, slot){
   const spots = (d.spots && d.spots[slot.key]) || [];
@@ -2165,7 +2188,7 @@ function renderPlaces() {
     const dNum = p.dayId!=null ? p.dayId : (DATA.days.find(d=>(d.spots&&['morning','afternoon','evening'].some(t=>(d.spots[t]||[]).some(s=>s.nameEn&&p.nameEn&&s.nameEn===p.nameEn)))) || {}).tripDay;
     return `<tr id="place-${p.id}">
     <td>${pframe(p, 'place-frame')}</td>
-    <td>${bilingualName(p.name, p.nameEn, {maps:gm, site:p.officialUrl||''})}${p.type?`<span class="p-type">${p.type}</span>`:''}</td>
+    <td>${bilingualName(p.name, p.nameEn, {maps:gm, site:p.officialUrl||''})}${(p.lat&&p.lng)?`<button class="itin-focusbtn" onclick="focusOnAppMap(${JSON.stringify(p.nameEn||p.name).replace(/"/g,'&quot;')})" data-tip="מיקוד האתר על המפה שבאפליקציה">${icon('pin')}</button>`:''}${p.type?`<span class="p-type">${p.type}</span>`:''}</td>
     <td class="p-day">${dNum?`<a href="day.html?d=${dNum}" data-tip="מעבר לדף היום">יום ${dNum}</a>`:'—'}</td>
     <td>${p.city}</td>
     <td class="p-hours">${p.hours||''}</td>
@@ -2769,6 +2792,7 @@ function setMapView(v) {
   else if(v==='nights'){ gt.textContent='כל הלינות'; st.textContent='פרטי הלינה הנבחרת'; }
   else if(v==='transport'){ gt.textContent='כל מקטעי התחבורה'; st.textContent='פירוט המקטע'; }
   else if(v==='places'){ gt.textContent='כל האתרים'; st.textContent='פירוט האתר'; }
+  else if(v==='mymarks'){ gt.textContent='הסיכות שלי — לחצי «הוסף סיכה» וסמני על המפה'; st.textContent='ייבוא מ-Google: «ייבוא סימנים»'; }
   renderMapLayer();
 }
 
@@ -2809,6 +2833,10 @@ function renderMapLayer() {
   else if (mapView==='nights') renderMapNights(legend);
   else if (mapView==='transport') renderMapTransport(legend);
   else if (mapView==='places') renderMapPlaces(legend);
+  else if (mapView==='mymarks') renderMyMarks(legend, true);
+
+  // הסיכות שלי מוצגות תמיד כשכבה על כל התצוגות
+  if (mapView!=='mymarks') renderMyMarks(legend, false);
 
   renderMapLegend(legend);
   renderDiversity();
@@ -3016,6 +3044,117 @@ function showPlaceSpecific(p){
   mapSpecObj.setView([p.lat,p.lng],14);
 }
 
+// ══════════════════════════════════
+// MY MARKS — הסיכות שלי (נקודות + הערה) על מפת Leaflet, נשמר ל-Git
+// ══════════════════════════════════
+const MYMARK_COLOR = '#db2777';   // ורוד-מג'נטה, נבדל מקטגוריות האתרים
+let addPinMode = false;
+let _mymarkClickBound = false;
+function nextMymarkId(){ return (DATA.mymarks||[]).reduce((m,x)=>Math.max(m,x.id||0),0)+1; }
+function persistMymarks(){ try{ localStorage.setItem('pending-mymarks', JSON.stringify(DATA.mymarks||[])); }catch(e){} }
+// ציור הסיכות על שתי המפות; focusView=true → מתמקד עליהן
+function renderMyMarks(legend, focusView){
+  const marks = DATA.mymarks||[];
+  if(focusView && legend) legend.push({label:'הסיכות שלי', color:MYMARK_COLOR, shape:'square'});
+  const pts=[];
+  marks.forEach(mk=>{
+    if(!(mk.lat&&mk.lng)) return;
+    const src = mk.src==='google' ? 'סימון מ-Google' : 'סיכה שלי';
+    const popup = `<div style="min-width:150px"><b style="color:${MYMARK_COLOR}">📍 ${mk.note||'(ללא הערה)'}</b><br><span style="font-size:10px;color:#888">${src}</span><br>`
+      + `<a href="#" onclick="editMymark(${mk.id});return false" style="font-size:11px;color:#1d4ed8">ערכי הערה</a> · `
+      + `<a href="#" onclick="deleteMymark(${mk.id});return false" style="font-size:11px;color:#b91c1c">מחקי</a> · `
+      + `<a href="https://www.google.com/maps/search/?api=1&hl=he&query=${mk.lat},${mk.lng}" target="_blank" style="font-size:11px;color:#1d4ed8">Google</a></div>`;
+    bigMarker([mk.lat,mk.lng],{text:'📍',color:MYMARK_COLOR,shape:'square',size:24,fontSize:12,popup,aria:mk.note||'סיכה'}).addTo(mapLayer);
+    pts.push([mk.lat,mk.lng]);
+  });
+  if(focusView && pts.length) mapObj.fitBounds(L.latLngBounds(pts).pad(0.2));
+}
+// מצב הוספת סיכה — לחיצה על המפה מוסיפה נקודה
+function toggleAddPin(){
+  addPinMode = !addPinMode;
+  const btn = document.getElementById('addPinBtn');
+  if(btn) btn.classList.toggle('on', addPinMode);
+  const el = document.getElementById('map');
+  if(el) el.style.cursor = addPinMode ? 'crosshair' : '';
+  if(addPinMode && mapObj && !_mymarkClickBound){
+    mapObj.on('click', onMapClickAddPin);
+    _mymarkClickBound = true;
+  }
+  toast(addPinMode ? 'מצב הוספת סיכה — לחצי על המפה כדי לסמן' : 'מצב הוספת סיכה בוטל');
+}
+function onMapClickAddPin(e){
+  if(!addPinMode) return;
+  const note = prompt('הערה לסיכה (שם המקום / תזכורת):', '');
+  if(note===null) return;   // ביטול
+  DATA.mymarks.push({ id:nextMymarkId(), lat:+e.latlng.lat.toFixed(6), lng:+e.latlng.lng.toFixed(6), note:note.trim(), src:'user' });
+  persistMymarks(); markUnsaved(); renderMapLayer();
+  toast('הסיכה נוספה — «שמור קבצים» לשמירה ל-Git');
+}
+function editMymark(id){
+  const mk = (DATA.mymarks||[]).find(x=>x.id===id); if(!mk) return;
+  const note = prompt('עריכת הערה:', mk.note||''); if(note===null) return;
+  mk.note = note.trim(); persistMymarks(); markUnsaved(); renderMapLayer();
+  toast('ההערה עודכנה — «שמור קבצים»');
+}
+function deleteMymark(id){
+  if(!confirm('למחוק את הסיכה?')) return;
+  DATA.mymarks = (DATA.mymarks||[]).filter(x=>x.id!==id);
+  persistMymarks(); markUnsaved(); renderMapLayer();
+  toast('הסיכה נמחקה — «שמור קבצים»');
+}
+
+// ── ייבוא סימנים מ-Google (KML / GeoJSON) ──
+function importMarksClick(){ document.getElementById('importMarksInput').click(); }
+function importMarksFile(input){
+  const f = input.files && input.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ()=>{
+    let pts=[];
+    try{
+      const txt = String(r.result||'');
+      if(/^\s*[[{]/.test(txt)) pts = parseGeoJSONMarks(txt);        // GeoJSON
+      else pts = parseKMLMarks(txt);                                 // KML/XML
+    }catch(e){ pts=[]; }
+    if(!pts.length){ toast('לא נמצאו נקודות בקובץ (KML/GeoJSON עם נקודות)'); input.value=''; return; }
+    let id = nextMymarkId();
+    pts.forEach(p=>{ DATA.mymarks.push({ id:id++, lat:p.lat, lng:p.lng, note:p.name||'', src:'google' }); });
+    persistMymarks(); markUnsaved();
+    setMapView('mymarks');
+    toast(`יובאו ${pts.length} סימונים — «שמור קבצים» לשמירה ל-Git`);
+    input.value='';
+  };
+  r.readAsText(f);
+}
+// GeoJSON → נקודות {lat,lng,name}
+function parseGeoJSONMarks(txt){
+  const g = JSON.parse(txt); const out=[];
+  const feats = g.type==='FeatureCollection' ? (g.features||[]) : (g.type==='Feature' ? [g] : []);
+  feats.forEach(ft=>{
+    const geo=ft.geometry; if(!geo) return;
+    const nm = (ft.properties&&(ft.properties.name||ft.properties.Name||ft.properties.title))||'';
+    if(geo.type==='Point' && geo.coordinates){ out.push({lat:+geo.coordinates[1], lng:+geo.coordinates[0], name:nm}); }
+  });
+  return out.filter(p=>isFinite(p.lat)&&isFinite(p.lng));
+}
+// KML → נקודות (Placemark: name + Point/coordinates), פרסור קליל ללא תוסף
+function parseKMLMarks(txt){
+  const out=[];
+  const doc = new DOMParser().parseFromString(txt, 'text/xml');
+  const pms = doc.getElementsByTagName('Placemark');
+  for(let i=0;i<pms.length;i++){
+    const pm = pms[i];
+    const nmEl = pm.getElementsByTagName('name')[0];
+    const nm = nmEl ? nmEl.textContent.trim() : '';
+    const coordEl = pm.getElementsByTagName('coordinates')[0];
+    if(!coordEl) continue;
+    // coordinates: "lng,lat,alt" (ייתכן כמה — ניקח את הראשון)
+    const first = coordEl.textContent.trim().split(/\s+/)[0];
+    const parts = first.split(',');
+    if(parts.length>=2){ const lng=+parts[0], lat=+parts[1]; if(isFinite(lat)&&isFinite(lng)) out.push({lat:+lat.toFixed(6),lng:+lng.toFixed(6),name:nm}); }
+  }
+  return out;
+}
+
 // ── סיכום מגוון + ניתוח חוסרים (סעיף 8, 11) ──
 const ESSENTIAL_CATS = ['היסטוריה','טבע','פעילות ספורטיבית','סדנה והתנסות','תרבות ואמנות','אדריכלות','קניות','אוכל'];
 function renderDiversity() {
@@ -3090,7 +3229,7 @@ async function saveAll() {
     if(raw){ downloadJSON(raw, 'day-'+String(idNum).padStart(2,'0')+'.json'); dayCount++; }
   });
   // התמדות זמניות ירדו כעת לקבצים — ניתן לנקות
-  try { localStorage.removeItem('pending-places'); localStorage.removeItem('pending-tabs'); localStorage.removeItem('pending-dayspots'); localStorage.removeItem('pending-images'); } catch(e){}
+  try { localStorage.removeItem('pending-places'); localStorage.removeItem('pending-tabs'); localStorage.removeItem('pending-dayspots'); localStorage.removeItem('pending-images'); localStorage.removeItem('pending-mymarks'); } catch(e){}
   _changedDays.clear();
   hasUnsaved = false;
   const b=document.getElementById('navSaveBtn'); if(b) b.style.display='none';
