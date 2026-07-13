@@ -355,16 +355,22 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .tr-note li{margin-bottom:3px}
 .tr-alert{margin-top:9px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:4px}
 @media(max-width:560px){.tr-cards{grid-template-columns:1fr}.tr-grid{grid-template-columns:1fr}}
-/* תצוגת רשימה לתחבורה — היררכיה קבועה */
+/* תצוגת רשימה לתחבורה — grid מיושר (עמודות ישרות בכל השורות), צבע לפי מוד */
 .tr-list{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.tr-row{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--border);font-size:12px}
-.tr-row:last-child{border-bottom:none}
-.tr-row .trr-ic{flex:none;display:inline-flex}.tr-row .trr-ic .ic{stroke:var(--icon)}
-.trr-main{font-weight:800;color:var(--ink);min-width:180px}
-.trr-val{font-weight:900;color:var(--ink);min-width:70px}
-.trr-date{color:var(--ink-3);font-weight:700;min-width:70px}
-.trr-sub{flex:1;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-@media(max-width:640px){.trr-sub,.trr-date{display:none}.trr-main{min-width:auto;flex:1}}
+.tr-grid-row{display:grid;grid-template-columns:34px minmax(150px,1.4fr) 120px 96px minmax(160px,2fr);align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px}
+.tr-grid-row:last-child{border-bottom:none}
+.tr-grid-head{background:var(--bg);font-size:10px;font-weight:800;color:var(--ink-3);letter-spacing:.02em}
+/* פס צבע-מוד בצד השורה — עקבי עם צבעי המפה */
+.tr-row{border-right:3px solid var(--mode-col,var(--border))}
+.tr-row .trr-ic{display:inline-flex}.tr-row .trr-ic .ic{stroke:currentColor}
+.trr-main{font-weight:800;color:var(--ink)}
+.trr-val{font-weight:900;color:var(--ink)}
+.trr-date{color:var(--ink-3);font-weight:700;direction:ltr;text-align:right;white-space:nowrap}
+.trr-sub{color:var(--ink-3)}
+/* מידע קריטי — אדום (var(--err)) */
+.trr-crit{display:inline-flex;align-items:center;gap:3px;color:var(--err);font-weight:800;background:var(--err-bg);border-radius:4px;padding:0 5px}
+.trr-crit svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2}
+@media(max-width:640px){.tr-grid-row{grid-template-columns:28px 1fr auto}.trr-date,.trr-sub{display:none}.tr-grid-head{display:none}}
 
 /* דף הזמנות — ציר זמן */
 .bk-alerts{background:var(--warn-bg);border:1px solid #f0dcc0;border-radius:12px;padding:12px 15px;margin-bottom:14px}
@@ -509,6 +515,8 @@ a.bk:hover{background:#00224f}
 .maps-dual-main{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .map-col-m{display:flex;flex-direction:column}
 .map-col-head-m{font-size:12px;font-weight:800;color:var(--ink-2);margin-bottom:6px}
+.map-col-head-m .msd-info{display:block;font-size:10.5px;font-weight:600;color:var(--ink-3);margin-top:2px}
+.map-col-head-m .msd-info svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;vertical-align:-1px}
 .map-square{aspect-ratio:1/1;min-height:340px;border-radius:8px;overflow:hidden;background:#e8e6e1}
 @media(max-width:760px){.maps-dual-main{grid-template-columns:1fr}}
 /* מקרא = מסננים לחיצים */
@@ -1687,29 +1695,37 @@ function renderTransport() {
   // ── מקרא ──
   const legend = (T.legend||[]).map(l=>`<span><i style="background:${l.color}"></i>${l.he}</span>`).join('');
 
-  // תצוגת רשימה — אותו מקור נתונים (סעיף 3.3), היררכיה קבועה: יעד → נתון → תאריך → משני
+  // תצוגת רשימה — grid מיושר, צבע לפי מוד תחבורה (עקבי עם המפה), מידע קריטי באדום
   const rows = [];
-  flights.forEach(f=>rows.push({ic:'plane',main:`${f.from} → ${f.to}`,val:f.flightNo||'טיסה',date:fmtDate(f.date),sub:f.dep&&f.arr?`${f.dep}–${f.arr}${f.toTerminal?' · '+f.toTerminal:''}`:'פרטים להשלמה'}));
-  if (T.carRental&&T.carRental.active){const c=T.carRental;rows.push({ic:'car',main:'רכב שכור — הוקאידו',val:'חד-כיווני',date:`${fmtDate(c.from)}–${fmtDate(c.to)}`,sub:`${c.pickup.location} → ${c.dropoff.location}`});}
-  if (T.shuttle&&T.shuttle.narita){const s=T.shuttle.narita;rows.push({ic:'shuttle',main:s.name,val:'ראשי',date:fmtDate(s.date),sub:s.hotel});}
-  const listHtml = rows.map(r=>`<div class="tr-row">
-    <span class="trr-ic">${icon(r.ic)}</span>
+  flights.forEach(f=>{
+    const missing = !(f.dep&&f.arr);
+    rows.push({mode:'flight', ic:'plane', main:`${f.from} → ${f.to}`, val:f.flightNo||'טיסה', date:fmtDate(f.date),
+      sub:missing?'פרטים להשלמה':`${f.dep}–${f.arr}${f.toTerminal?' · '+f.toTerminal:''}`, crit:missing?'שעות טיסה חסרות':''});
+  });
+  if (T.carRental&&T.carRental.active){const c=T.carRental;rows.push({mode:'car', ic:'car', main:'רכב שכור — הוקאידו', val:'חד-כיווני', date:`${fmtDate(c.from)}–${fmtDate(c.to)}`, sub:`${c.pickup.location} → ${c.dropoff.location}`, crit:c.oneWay?'החזרה חד-כיוונית — דמי דרופ-אוף':''});}
+  if (T.shuttle&&T.shuttle.narita){const s=T.shuttle.narita;rows.push({mode:'shuttle', ic:'shuttle', main:s.name, val:'ראשי', date:fmtDate(s.date), sub:s.hotel, crit:''});}
+  const MC = {train:'#1d4ed8',metro:'#2563eb',shinkansen:'#1e3a8a',walk:'#15803d',bus:'#b45309',car:'#6b7280',flight:'#b91c1c',taxi:'#7c3aed',shuttle:'#0891b2'};
+  const listHead = `<div class="tr-grid-row tr-grid-head"><span></span><span>מסלול</span><span>מספר / סוג</span><span>תאריך</span><span>פרטים</span></div>`;
+  const listHtml = rows.map(r=>{
+    const col = MC[r.mode]||'var(--icon)';
+    return `<div class="tr-grid-row tr-row" style="--mode-col:${col}">
+    <span class="trr-ic" style="color:${col}">${icon(r.ic)}</span>
     <span class="trr-main">${r.main}</span>
     <span class="trr-val">${r.val}</span>
     <span class="trr-date">${r.date}</span>
-    <span class="trr-sub">${r.sub}</span>
-  </div>`).join('');
+    <span class="trr-sub">${r.sub}${r.crit?` <span class="trr-crit">${icon('alert')}${r.crit}</span>`:''}</span>
+  </div>`;}).join('');
 
   const cardsView = `
-    <h3 class="tr-sec">✈️ טיסות</h3>
+    <h3 class="tr-sec">${icon('plane')} טיסות</h3>
     <div class="tr-cards">${flightCards}</div>
-    ${carHtml?`<h3 class="tr-sec">🚗 רכב שכור</h3><div class="tr-cards">${carHtml}</div>`:''}
-    ${shuttleHtml?`<h3 class="tr-sec">🚐 שאטל</h3><div class="tr-cards">${shuttleHtml}</div>`:''}`;
+    ${carHtml?`<h3 class="tr-sec">${icon('car')} רכב שכור</h3><div class="tr-cards">${carHtml}</div>`:''}
+    ${shuttleHtml?`<h3 class="tr-sec">${icon('shuttle')} שאטל</h3><div class="tr-cards">${shuttleHtml}</div>`:''}`;
 
   document.getElementById('transportWrap').innerHTML = `
     <div class="view-bar"><div class="tr-intro">כל התחבורה של הטיול במקום אחד — טיסות, רכב שכור, שאטלים.</div>${viewToggle()}</div>
     ${legend?`<div class="tr-legend">${legend}</div>`:''}
-    ${viewMode==='cards' ? cardsView : `<div class="tr-list">${listHtml}</div>`}
+    ${viewMode==='cards' ? cardsView : `<div class="tr-list">${listHead}${listHtml}</div>`}
     ${transitSavings()}
   `;
 }
@@ -1952,7 +1968,8 @@ let mapLayer = null, specLayer = null, mapSpecObj = null;
 let mapPlaceTypes = new Set();    // סינון סוגי אתרים (מקרא-סינון)
 const MODE_COLOR_M = {train:'#1d4ed8', metro:'#2563eb', shinkansen:'#1e3a8a', walk:'#15803d', bus:'#b45309', car:'#6b7280', flight:'#b91c1c', taxi:'#7c3aed', shuttle:'#0891b2'};
 const MODE_HE_M = {walk:'הליכה', metro:'מטרו', train:'רכבת', bus:'אוטובוס', car:'רכב', taxi:'מונית', shuttle:'שאטל', flight:'טיסה', shinkansen:'שינקנסן'};
-const bilingual = (he, en) => `<b style="font-size:13px">${he||en||''}</b>${en&&en!==he?`<br><span style="font-size:11px;color:#666;direction:ltr">${en}</span>`:''}`;
+// שם דו-לשוני בפופאפ מפה — עברית מודגש, לועזי צבעוני ובולט (בלי אפור דק/קונטור)
+const bilingual = (he, en) => `<b style="font-size:13px;color:#1c1c1a">${he||en||''}</b>${en&&en!==he?`<br><span style="font-size:11px;font-weight:700;color:#1d4ed8;direction:ltr">${en}</span>`:''}`;
 // רקע נקי (CARTO light) + שכבת תוויות באנגלית (Esri) — שמות מקומות באנגלית בלבד, לא יפנית
 function tile(m){
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_nolabels/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',subdomains:'abcd',maxZoom:20}).addTo(m);
@@ -2003,7 +2020,7 @@ function hasGeo(d){ return (d.transport?.segments||[]).length>0; }
 function bigMarker(latlng, opts) {
   const { text='', color='#1d4ed8', shape='circle', size=32, popup='', aria='', onClick, fontSize=13 } = opts;
   const radius = shape==='circle' ? '50%' : '5px';
-  const html = `<div style="width:${size}px;height:${size}px;border-radius:${radius};background:${color};color:#fff;border:2.5px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;font:900 ${fontSize}px/1 'Noto Sans Hebrew',sans-serif;opacity:.9;text-align:center" role="button" aria-label="${aria}" tabindex="0">${text}</div>`;
+  const html = `<div style="width:${size}px;height:${size}px;border-radius:${radius};background:${color};color:#fff;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font:900 ${fontSize}px/1 'Noto Sans Hebrew',sans-serif;text-align:center" role="button" aria-label="${aria}" tabindex="0">${text}</div>`;
   const mk = L.marker(latlng, {icon:L.divIcon({className:'',html,iconSize:[size,size],iconAnchor:[size/2,size/2]}), keyboard:true});
   if (popup) mk.bindPopup(popup);
   if (onClick) mk.on('click', onClick);
@@ -2108,9 +2125,14 @@ function selectDay(id, skipFly){
 // ── מפה שמאלית: פירוט היום הנבחר. אתרים ממוספרים 1,2,3 (נפרד ממספר היום) ──
 function showDaySpecific(d) {
   if(!d) return;
-  // כותרת מעל שמאל (סעיף 3.4)
+  // כותרת מעל שמאל + מידע מפורט (מרחק, זמן, אתרים, מודים)
+  const sum = d.transport && d.transport.summary;
+  const segs = (d.transport && d.transport.segments) || [];
+  const siteCount = segs.length ? segs.length : 0;
+  const modes = sum && sum.modes ? sum.modes.map(m=>MODE_HE_M[m]||m).join(' · ') : '';
+  const detail = sum ? `<span class="msd-info">${icon('route')||''} ${sum.totalDistanceKm||0} ק״מ · ${icon('clock')||''} ${sum.totalTransitMinutes||0} דק׳ · ${siteCount} מקטעים${modes?` · ${modes}`:''}</span>` : '';
   document.getElementById('mapSpecTitle').innerHTML =
-    `יום ${d.tripDay} · ${d.day}/${d.month} · ${dayCity(d)}${d.title?` — ${d.title}`:''}`;
+    `<b>יום ${d.tripDay} · ${d.day}/${d.month} · ${dayCity(d)}</b>${d.title?` — ${d.title}`:''}${detail}`;
   const layer = focusSpec(null);
   const pts=[];
   d.transport.segments.forEach((seg,i)=>{
@@ -2131,7 +2153,8 @@ function showDaySpecific(d) {
     bigMarker([seg.to.lat,seg.to.lng],{text:last?'':String(siteNum),color:last?'#1a1a1a':'#7c3aed',shape:last?'circle':'square',size:last?24:28,popup,aria:last?'סיום':`אתר ${siteNum}: ${seg.to.name}`}).addTo(layer);
     pts.push([seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]);
   });
-  if(pts.length) mapSpecObj.fitBounds(L.latLngBounds(pts).pad(0.15));
+  if(pts.length>1) mapSpecObj.fitBounds(L.latLngBounds(pts).pad(0.12), {maxZoom:15});
+  else if(pts.length===1) mapSpecObj.setView(pts[0], 14);
 }
 
 // ── תצוגה 2: לילות — טווח תאריכים בתוך הסימן ──

@@ -109,13 +109,13 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .nav-arrow:hover{background:#f5f4f0}.nav-arrow:disabled{opacity:.3;cursor:default}
 @media(max-width:760px){.maps-dual{grid-template-columns:1fr}}
 /* סמן ממוספר במפת המסלול */
-.rt-marker{background:#1d4ed8;color:#fff;width:26px;height:26px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font:900 13px/1 'Noto Sans Hebrew',sans-serif}
+.rt-marker{background:#1d4ed8;color:#fff;width:26px;height:26px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font:900 13px/1 'Noto Sans Hebrew',sans-serif}
 .rt-marker.active{background:#b8860b;transform:scale(1.25);z-index:1000}
 .rt-marker.start{background:#15803d}
 .rt-marker.end{background:#b91c1c}
 /* פופאפ דו-לשוני */
 .rt-pop b{font-size:13px;display:block}
-.rt-pop .en{font-size:11px;color:#666;direction:ltr;text-align:right}
+.rt-pop .en{font-size:11px;font-weight:700;color:#1d4ed8;direction:ltr;text-align:right}
 .rt-pop .meta{font-size:11px;color:#888;margin-top:3px}
 /* הדגשת ספוט ברשימה כשנבחר */
 .spot.hl{box-shadow:inset 0 0 0 2px #b8860b;border-radius:6px;background:#fffdf5}
@@ -160,7 +160,8 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .m-walk{background:#15803d}.m-bus{background:#b45309}.m-car{background:#6b7280}
 .m-flight{background:#b91c1c}.m-taxi{background:#7c3aed}.m-shuttle{background:#0891b2}
 .seg-mode.t-train,.seg-mode.t-metro,.seg-mode.t-shinkansen{color:#1d4ed8}
-.seg-mode.t-walk{color:#15803d}.seg-mode.t-bus{color:#b45309}.seg-mode.t-car{color:#57534e}.seg-mode.t-flight{color:#b91c1c}
+.seg-mode.t-walk{color:#15803d}.seg-mode.t-bus{color:#b45309}.seg-mode.t-car{color:#6b7280}.seg-mode.t-flight{color:#b91c1c}
+.seg-mode.t-taxi{color:#7c3aed}.seg-mode.t-shuttle{color:#0891b2}
 .route-seq{margin-top:10px;padding-top:10px;border-top:1px solid #eee}
 .route-stop{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#1a1a1a;padding:3px 0}
 .route-stop .rs-num{font-size:10px;font-weight:800;color:#fff;background:#1a1a1a;border-radius:999px;padding:1px 7px;min-width:20px;text-align:center;flex:none}
