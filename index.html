@@ -331,16 +331,16 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .layout-editing .itin-section:hover{border-color:var(--action)}
 .layout-editing .itin-section::before{content:'⋮⋮ גררי';position:absolute;top:-1px;inset-inline-end:6px;font-size:10px;font-weight:800;color:var(--action);background:var(--surface);padding:1px 6px;border-radius:0 0 6px 6px;z-index:2}
 .layout-editing .itin-section.sec-dragging{opacity:.4}
-.itin-map{position:sticky;top:78px;display:flex;flex-direction:column;gap:8px}
-.itin-map-box{position:relative;width:100%;height:400px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--bg)}
-.itin-map-box iframe{width:100%;height:100%;border:0;display:block}
-.itin-map-box .leaflet-container{width:100%;height:100%;background:var(--bg)}
+.itin-map{position:sticky;top:78px;display:flex;flex-direction:column;gap:6px}
 /* מפת Google מוטבעת עם קו המסלול, בתוך מסגרת היום */
-.itin-gmap-wrap{display:flex;flex-direction:column;gap:4px}
-.itin-gmap-lbl{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;color:var(--ink-3)}
-.itin-gmap-lbl .ic{width:13px;height:13px;stroke:var(--ink-3)}
-.itin-gmap-box{width:100%;height:300px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--bg)}
+.itin-gmap-lbl{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:800;color:var(--ink-3)}
+.itin-gmap-lbl .ic{width:14px;height:14px;stroke:var(--ink-3)}
+.itin-gmap-box{width:100%;height:460px;border-radius:10px;overflow:hidden;border:1px solid var(--border-strong);background:var(--bg)}
 .itin-gmap-box iframe{width:100%;height:100%;border:0;display:block}
+.itin-map-links{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.itin-map-reset{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:800;color:var(--ink-2);background:none;border:none;cursor:pointer;padding:0}
+.itin-map-reset:hover{color:var(--action)}
+.itin-map-reset .ic{width:13px;height:13px;stroke:currentColor}
 .itin-map-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;color:var(--action);text-decoration:none;padding:2px 2px}
 .itin-map-link:hover{text-decoration:underline}
 .itin-map-link .ic{width:14px;height:14px;stroke:currentColor}
@@ -348,7 +348,7 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .rt-marker{background:#1d4ed8;color:#fff;width:24px;height:24px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font:900 12px/1 'Noto Sans Hebrew',sans-serif}
 .rt-marker.start{background:#15803d}
 .rt-marker.end{background:#b91c1c}
-@media(max-width:760px){.itin-body.has-map{grid-template-columns:1fr}.itin-map{position:static}.itin-map-box{height:320px}}
+@media(max-width:760px){.itin-body.has-map{grid-template-columns:1fr}.itin-map{position:static}.itin-gmap-box{height:320px}}
 /* כל חלק ביום במסגרת מלבנית נפרדת, עם צבע-רמז לפי שעת היום */
 .itin-spots-col{min-width:0;display:flex;flex-direction:column;gap:12px}
 .itin-slot{border:1px solid var(--border);border-radius:10px;padding:10px 12px;background:var(--surface);border-inline-start:4px solid var(--slot-accent,var(--border-strong))}
@@ -1870,17 +1870,17 @@ function renderItinerary(){
   const cards = data.map(d => {
     const slots = ITIN_SLOTS.map(sl=>itinSlotHtml(d, sl)).filter(Boolean).join('');
     const spotsCol = slots || `<div class="itin-empty">אין תחנות מתוכננות ליום זה עדיין — <a href="day.html?d=${d.tripDay}">פתיחת דף היום להוספה</a></div>`;
-    // מפת המסלול של היום — Leaflet אינטראקטיבי (קו מסלול + לחיצה לזום) + מפת Google מוטבעת עם המסלול
+    // מפת Google מוטבעת עם קו המסלול של היום (מהמלון דרך התחנות) — אמינה, נטענת תמיד
     const rp = itinRoutePoints(d);
     const gEmbed = itinGoogleEmbedUrl(rp);
     const mapCol = rp.length >= 2
       ? `<div class="itin-map">
-          <div class="itin-map-box" id="itmapbox-${d.tripDay}"></div>
-          <div class="itin-gmap-wrap">
-            <div class="itin-gmap-lbl">${icon('map')} מפת Google — מסלול היום</div>
-            <div class="itin-gmap-box"><iframe src="${gEmbed}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="מפת Google ליום ${d.tripDay}"></iframe></div>
+          <div class="itin-gmap-lbl">${icon('map')} מפת Google — מסלול היום</div>
+          <div class="itin-gmap-box"><iframe id="gmap-${d.tripDay}" data-route="${encodeURIComponent(gEmbed)}" src="${gEmbed}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="מפת Google ליום ${d.tripDay}"></iframe></div>
+          <div class="itin-map-links">
+            <a class="itin-map-link" href="${itinDirectionsUrl(rp)}" target="_blank" rel="noopener" data-tip="פתיחת המסלול המלא של היום ב-Google Maps — כולל המלונות שבהם קמנו וישנים">${icon('route')} מסלול מלא ב-Google Maps ›</a>
+            <button class="itin-map-reset" onclick="resetDayMap(${d.tripDay})" data-tip="חזרה למסלול המלא של היום במפה">${icon('route')} כל המסלול</button>
           </div>
-          <a class="itin-map-link" href="${itinDirectionsUrl(rp)}" target="_blank" rel="noopener" data-tip="פתיחת המסלול המלא של היום ב-Google Maps — כולל המלונות שבהם קמנו וישנים">${icon('route')} פתחי מסלול מלא ב-Google Maps (כולל מלונות) ›</a>
         </div>`
       : '';
     const bodyCls = mapCol ? 'itin-body has-map' : 'itin-body';
@@ -1941,10 +1941,9 @@ function renderItinerary(){
   applyItinPrefs();
   applyLayout();
   initItinRailObserver();
-  renderAllItinMaps(data);   // מפות Leaflet אינטראקטיביות לכל יום
   // גלילה ליום מתוך ?d= בקישור עמוק
   const dq = new URLSearchParams(location.search).get('d');
-  if(dq){ const el=document.getElementById('itin-'+dq); if(el) setTimeout(()=>{el.scrollIntoView({behavior:'smooth',block:'start'}); setActiveRailDay(dq); const mp=itinMaps[dq]; if(mp) mp.invalidateSize();},80); }
+  if(dq){ const el=document.getElementById('itin-'+dq); if(el) setTimeout(()=>{el.scrollIntoView({behavior:'smooth',block:'start'}); setActiveRailDay(dq);},80); }
 }
 // ── סרגל ימים קבוע (sticky) לאורך הדף — מספר יום + תאריך, לחיצה קופצת ליום ──
 function itinDayRail(days){
@@ -2136,64 +2135,28 @@ function itinMapCenter(pts){
   if(span>0.4) z=9; else if(span>0.15) z=11; else if(span>0.06) z=12; else if(span>0.02) z=13; else z=14;
   return { lat:+cLat.toFixed(5), lng:+cLng.toFixed(5), z };
 }
-// ── מפות Leaflet אינטראקטיביות למסלול (קו מסלול + סמנים + זום גלגלת + לחיצה-לזום) ──
-const itinMaps = {};      // tripDay → Leaflet map
-const itinMarkers = {};   // tripDay → { placeKey → {marker, latlng} }
-function renderAllItinMaps(days){
-  if(typeof L === 'undefined'){ setTimeout(()=>renderAllItinMaps(days), 200); return; }
-  Object.values(itinMaps).forEach(m=>{ try{ m.remove(); }catch(e){} });
-  for(const k in itinMaps) delete itinMaps[k];
-  for(const k in itinMarkers) delete itinMarkers[k];
-  days.forEach(d=>{
-    const pts = itinRoutePoints(d);
-    if(pts.length < 2) return;
-    const box = document.getElementById('itmapbox-'+d.tripDay);
-    if(box) renderItinMap(d, box, pts);
-  });
-}
-function renderItinMap(d, box, pts){
-  const m = tile(L.map(box, {zoomControl:true, scrollWheelZoom:true, doubleClickZoom:true, touchZoom:true, boxZoom:true, attributionControl:false}));
-  itinMaps[d.tripDay] = m;
-  itinMarkers[d.tripDay] = {};
-  // קו מסלול מצויר בין כל הנקודות (מלון→תחנות→מלון), לפי מקטעי התחבורה אם יש
-  const segs = d.transport && d.transport.segments;
-  const drewSeg = segs && segs.length && segs.some(sg=>sg.from&&sg.to&&sg.from.lat&&sg.to.lat);
-  if(drewSeg){
-    segs.forEach(seg=>{
-      if(!(seg.from&&seg.to&&seg.from.lat&&seg.to.lat)) return;
-      const color = MODE_COLOR_M[seg.mode]||'#1d4ed8';
-      const dash = seg.mode==='walk' ? '4,6' : null;
-      L.polyline([[seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]],{color,weight:4,opacity:.75,dashArray:dash}).addTo(m)
-        .bindPopup(`<b>${MODE_HE_M[seg.mode]||seg.mode}</b>${seg.totalMinutes?` · ${seg.totalMinutes} דק׳`:''}<br>${seg.from.name} → ${seg.to.name}${seg.mapsUrl?`<br><a href="${seg.mapsUrl}" target="_blank" style="font-size:11px;color:#1d4ed8">ניווט ›</a>`:''}`);
-    });
-  }
-  // קו רציף בין נקודות המסלול (תמיד — מחבר ויזואלית את האתרים בסדר כרונולוגי)
-  L.polyline(pts.map(p=>[p.lat,p.lng]),{color:'#1d4ed8',weight:3,opacity:drewSeg?.35:.6,dashArray:'6,6'}).addTo(m);
-  // סמנים ממוספרים + מלונות
-  let n=0;
-  pts.forEach((p,i)=>{
-    const isHotel = p.kind==='hotel';
-    if(!isHotel) n++;
-    const cls = isHotel ? 'rt-marker hotel' : ('rt-marker'+(i===0?' start':(i===pts.length-1?' end':'')));
-    const inner = isHotel ? `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#fff" stroke-width="2"><path d="M3 18v-6h18v6M3 12V7M21 12v-2a3 3 0 0 0-3-3H8v5"/></svg>` : String(n);
-    const mk = L.marker([p.lat,p.lng],{icon:L.divIcon({className:'',html:`<div class="${cls}">${inner}</div>`,iconSize:[26,26],iconAnchor:[13,13]})}).addTo(m);
-    mk.bindPopup(`${p.label?`<b>${p.label}</b><br>`:''}${bilingual(p.name,p.nameEn)}`);
-    itinMarkers[d.tripDay][placeKey(p)] = { marker:mk, latlng:[p.lat,p.lng] };
-  });
-  m.fitBounds(L.latLngBounds(pts.map(p=>[p.lat,p.lng])).pad(0.18));
-  setTimeout(()=>m.invalidateSize(),120);
-}
-// לחיצה על תמונת אתר → זום למיקום האתר במפת היום + פתיחת פופאפ
+// ── מיקוד אתר במפת Google של היום (טעינת ה-iframe במיקום האתר) ──
+// לחיצה על תמונת/סיכת אתר → מפת Google של אותו יום מתמקדת על האתר
 function focusItinSpot(tripDay, name){
-  const map = itinMaps[tripDay]; if(!map){ return; }
+  const f = document.getElementById('gmap-'+tripDay); if(!f) return;
+  // איתור הנקודה לפי שם (בין נקודות המסלול של היום)
+  const day = DATA.days.find(x=>x.tripDay===tripDay); if(!day) return;
   const key = String(name||'').trim().toLowerCase();
-  const rec = itinMarkers[tripDay] && itinMarkers[tripDay][key];
-  if(!rec){ return; }
-  map.setView(rec.latlng, 16, {animate:true});
-  rec.marker.openPopup();
-  // הבהוב עדין של המפה כדי להדגיש
-  const box = document.getElementById('itmapbox-'+tripDay);
+  const pts = itinRoutePoints(day);
+  let hit = pts.find(p=>String(p.nameEn||'').trim().toLowerCase()===key || String(p.name||'').trim().toLowerCase()===key);
+  if(!hit){ const m=findPlaceByKey(key); if(m&&m.lat&&m.lng) hit={lat:m.lat,lng:m.lng,name:m.name}; }
+  if(!hit){ return; }
+  f.src = `https://maps.google.com/maps?q=${hit.lat},${hit.lng}&z=16&hl=he&output=embed`;
+  // הבהוב עדין להדגשה + גלילה למפה אם צריך
+  const box = f.closest('.itin-gmap-box');
   if(box){ box.style.animation='none'; void box.offsetWidth; box.style.animation='placeFlash 1.2s'; }
+  toast('המפה ממוקדת על ' + (hit.name||'האתר') + ' — «כל המסלול» לחזרה');
+}
+// חזרה למפת המסלול המלא של היום
+function resetDayMap(tripDay){
+  const f = document.getElementById('gmap-'+tripDay); if(!f) return;
+  const route = f.dataset.route ? decodeURIComponent(f.dataset.route) : '';
+  if(route) f.src = route;
 }
 // URL לפתיחת מסלול מלא ב-Google Maps (origin→waypoints→destination, כולל מלונות)
 function itinDirectionsUrl(pts){
