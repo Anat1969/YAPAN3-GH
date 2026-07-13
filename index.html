@@ -282,18 +282,22 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .itin-map{position:sticky;top:78px}
 .itin-map-box{width:100%;height:340px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--bg)}
 .itin-map-box .leaflet-container{width:100%;height:100%;background:var(--bg)}
-.itin-spots-col{min-width:0}
 /* סמני מסלול ממוספרים (זהה ל-day.html) */
 .rt-marker{background:#1d4ed8;color:#fff;width:24px;height:24px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font:900 12px/1 'Noto Sans Hebrew',sans-serif}
 .rt-marker.start{background:#15803d}
 .rt-marker.end{background:#b91c1c}
 @media(max-width:760px){.itin-body.has-map{grid-template-columns:1fr}.itin-map{position:static}.itin-map-box{height:240px}}
-.itin-slot{padding:10px 0;border-bottom:1px dashed var(--border)}
-.itin-slot:last-child{border-bottom:none}
-.itin-slot-head{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--ink-2);margin-bottom:8px}
-.itin-slot-head .ic{width:15px;height:15px;stroke:var(--ink-3)}
-.itin-slot-morning .itin-slot-head .ic{stroke:#d97706}
-.itin-slot-evening .itin-slot-head .ic{stroke:#6366f1}
+/* כל חלק ביום במסגרת מלבנית נפרדת, עם צבע-רמז לפי שעת היום */
+.itin-spots-col{min-width:0;display:flex;flex-direction:column;gap:12px}
+.itin-slot{border:1px solid var(--border);border-radius:10px;padding:10px 12px;background:var(--surface);border-inline-start:4px solid var(--slot-accent,var(--border-strong))}
+.itin-slot-morning{--slot-accent:#d97706;background:linear-gradient(180deg,rgba(217,119,6,.05),transparent 60%)}
+.itin-slot-afternoon{--slot-accent:#0891b2;background:linear-gradient(180deg,rgba(8,145,178,.05),transparent 60%)}
+.itin-slot-evening{--slot-accent:#6366f1;background:linear-gradient(180deg,rgba(99,102,241,.06),transparent 60%)}
+.itin-slot-head{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:900;color:var(--ink-2);margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--border)}
+.itin-slot-head .ic{width:15px;height:15px;stroke:var(--slot-accent,var(--ink-3))}
+.itin-slot-morning .itin-slot-head{color:#b45309}
+.itin-slot-afternoon .itin-slot-head{color:#0e7490}
+.itin-slot-evening .itin-slot-head{color:#4f46e5}
 .itin-slot-spots{display:flex;flex-direction:column;gap:10px}
 .itin-spot{display:flex;gap:12px;align-items:flex-start}
 /* מסגרת תמונה אחידה עם גרירה/הדבקה/העלאה */
