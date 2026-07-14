@@ -596,21 +596,39 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .tr-alert{margin-top:9px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:4px}
 @media(max-width:560px){.tr-cards{grid-template-columns:1fr}.tr-grid{grid-template-columns:1fr}}
 /* תצוגת רשימה לתחבורה — grid מיושר (עמודות ישרות בכל השורות), צבע לפי מוד */
+/* פריסת מפה+רשימה זו-לצד-זו (RTL: רשימה בימין, מפה בשמאל) */
+.tr-split{display:flex;gap:16px;align-items:flex-start}
+.tr-split .tr-list{flex:1 1 auto;min-width:0}
 .tr-list{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.tr-grid-row{display:grid;grid-template-columns:34px minmax(150px,1.4fr) 120px 96px minmax(160px,2fr);align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px}
+/* גריד יחיד — הכותרת והשורות חולקות אותה הגדרת עמודות, מיושרות למופת */
+.tr-grid-row{display:grid;grid-template-columns:34px minmax(140px,1.5fr) 110px 92px 84px 78px minmax(150px,2fr);align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;border-right:3px solid transparent}
 .tr-grid-row:last-child{border-bottom:none}
 .tr-grid-head{background:var(--bg);font-size:10px;font-weight:800;color:var(--ink-3);letter-spacing:.02em}
-/* פס צבע-מוד בצד השורה — עקבי עם צבעי המפה */
-.tr-row{border-right:3px solid var(--mode-col,var(--border))}
+.tr-grid-head .trr-num{text-align:right}
+/* פס צבע-מוד בצד השורה — עקבי עם צבעי המפה. אותו 3px גם בכותרת (שקוף) → יישור מדויק */
+.tr-row{border-right-color:var(--mode-col,var(--border))}
+.tr-row:nth-child(even){background:rgba(0,0,0,.015)}
 .tr-row .trr-ic{display:inline-flex}.tr-row .trr-ic .ic{stroke:currentColor}
 .trr-main{font-weight:800;color:var(--ink)}
 .trr-val{font-weight:900;color:var(--ink)}
 .trr-date{color:var(--ink-3);font-weight:700;direction:ltr;text-align:right;white-space:nowrap}
+.trr-num{direction:ltr;text-align:right;font-weight:800;color:var(--ink-2);white-space:nowrap;font-variant-numeric:tabular-nums}
+.trr-km{color:var(--action)}
 .trr-sub{color:var(--ink-3)}
 /* מידע קריטי — אדום (var(--err)) */
 .trr-crit{display:inline-flex;align-items:center;gap:3px;color:var(--err);font-weight:800;background:var(--err-bg);border-radius:4px;padding:0 5px}
 .trr-crit svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2}
-@media(max-width:640px){.tr-grid-row{grid-template-columns:28px 1fr auto}.trr-date,.trr-sub{display:none}.tr-grid-head{display:none}}
+/* מפת המסלולים — עמודה שמאלית */
+.tr-map{flex:0 0 300px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px;position:sticky;top:12px}
+.tr-map-title{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:900;color:var(--ink);margin-bottom:8px}
+.tr-map-title svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+.tr-map-svg{background:#f4f6fa;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.tr-map-svg svg{width:100%;height:auto;display:block}
+.tr-map-legend{display:flex;flex-wrap:wrap;gap:8px 12px;margin-top:10px}
+.trm-lg{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--ink-2)}
+.trm-lg i{width:16px;height:3px;border-radius:2px;display:inline-block}
+@media(max-width:900px){.tr-split{flex-direction:column}.tr-map{flex:1 1 auto;width:100%;position:static}.tr-map-svg svg{max-height:420px}}
+@media(max-width:640px){.tr-grid-row{grid-template-columns:28px 1fr auto auto}.trr-date,.trr-sub{display:none}.tr-grid-head{display:none}.tr-grid-head .trr-num{display:none}}
 
 /* דף הזמנות — ציר זמן */
 .bk-alerts{background:var(--warn-bg);border:1px solid #f0dcc0;border-radius:12px;padding:12px 15px;margin-bottom:14px}
@@ -2774,6 +2792,83 @@ function fmtNotes(txt){
 // הפרש בדקות בין שתי שעות HH:MM
 function minsBetween(a,b){ if(!a||!b) return null; const [ah,am]=a.split(':').map(Number),[bh,bm]=b.split(':').map(Number); return (bh*60+bm)-(ah*60+am); }
 
+// ── קואורדינטות שדות תעופה (לחישוב מרחק טיסות שאין להן ק״מ) ──
+const AIRPORT_LL = {
+  'TLV':[32.0114,34.8867], 'KIX':[34.4273,135.2440], 'HND':[35.5494,139.7798],
+  'KMQ':[36.3946,136.4074], 'MMB':[43.8806,144.1640], 'CTS':[42.7752,141.6923],
+  'NRT':[35.7720,140.3929], 'DXB':[25.2532,55.3657],
+};
+function airportCode(s){ const m=(s||'').match(/\(([A-Z]{3})\)/); return m?m[1]:null; }
+function haversineKm(a,b){
+  const R=6371, toR=x=>x*Math.PI/180;
+  const dLat=toR(b[0]-a[0]), dLng=toR(b[1]-a[1]);
+  const s=Math.sin(dLat/2)**2 + Math.cos(toR(a[0]))*Math.cos(toR(b[0]))*Math.sin(dLng/2)**2;
+  return Math.round(2*R*Math.asin(Math.sqrt(s)));
+}
+function flightKm(f){
+  const a=AIRPORT_LL[airportCode(f.from)], b=AIRPORT_LL[airportCode(f.to)];
+  return (a&&b)?haversineKm(a,b):null;
+}
+function fmtKm(km){ return km==null?'—':(km>=1000?(km/1000).toFixed(1).replace(/\.0$/,'')+' אלף ק״מ':km.toLocaleString()+' ק״מ'); }
+function fmtMins(m){ if(m==null) return '—'; const h=Math.floor(m/60), mm=m%60; return h?`${h}:${String(mm).padStart(2,'0')} שע׳`:`${mm} דק׳`; }
+
+// ── מפת מסלולי תחבורה (SVG עצמאי) — כל המקטעים בצבע לפי המקרא ──
+function transportRouteMap() {
+  const segs=[];
+  (DATA.days||[]).filter(hasGeo).forEach(d=>{
+    d.transport.segments.forEach(s=>{ if(s.from&&s.to) segs.push({mode:s.mode, a:[s.from.lat,s.from.lng], b:[s.to.lat,s.to.lng]}); });
+  });
+  // טיסות — קו אווירי בין שדות
+  (DATA.flights||[]).forEach(f=>{
+    const a=AIRPORT_LL[airportCode(f.from)], b=AIRPORT_LL[airportCode(f.to)];
+    if(a&&b) segs.push({mode:'flight', a, b, flight:true});
+  });
+  if(!segs.length) return '';
+  // גבולות (מתעלמים מטיסות רחוקות כמו DXB/TLV כדי שיפן תמלא את המסגרת)
+  const jp=segs.filter(s=>!(s.a[1]<130||s.b[1]<130));
+  const box=jp.length?jp:segs;
+  let minLat=90,maxLat=-90,minLng=180,maxLng=-180;
+  box.forEach(s=>{[s.a,s.b].forEach(p=>{minLat=Math.min(minLat,p[0]);maxLat=Math.max(maxLat,p[0]);minLng=Math.min(minLng,p[1]);maxLng=Math.max(maxLng,p[1]);});});
+  const W=560,H=760, pad=34;
+  const latR=(maxLat-minLat)||1, lngR=(maxLng-minLng)||1;
+  const cosLat=Math.cos((minLat+maxLat)/2*Math.PI/180);
+  // התאמת יחס — משמרים פרופורציה גאוגרפית
+  const geoW=lngR*cosLat, geoH=latR;
+  const sc=Math.min((W-2*pad)/geoW,(H-2*pad)/geoH);
+  const offX=(W-geoW*sc)/2, offY=(H-geoH*sc)/2;
+  const X=lng=>offX+(lng-minLng)*cosLat*sc;
+  const Y=lat=>offY+(maxLat-lat)*sc;  // צפון למעלה
+  const inBox=p=>p[1]>=minLng-3&&p[1]<=maxLng+3;
+  const MC={train:'#1d4ed8',metro:'#2563eb',shinkansen:'#1e3a8a',walk:'#15803d',bus:'#b45309',car:'#6b7280',flight:'#b91c1c',taxi:'#7c3aed',shuttle:'#0891b2'};
+  const used=new Set();
+  // קווים
+  const lines=segs.filter(s=>inBox(s.a)&&inBox(s.b)).map(s=>{
+    used.add(s.mode);
+    const c=MC[s.mode]||'#888';
+    const x1=X(s.a[1]),y1=Y(s.a[0]),x2=X(s.b[1]),y2=Y(s.b[0]);
+    if(s.flight){ // קשת עדינה לטיסה
+      const mx=(x1+x2)/2, my=(y1+y2)/2-Math.hypot(x2-x1,y2-y1)*0.14;
+      return `<path d="M${x1.toFixed(1)},${y1.toFixed(1)} Q${mx.toFixed(1)},${my.toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)}" fill="none" stroke="${c}" stroke-width="1.6" stroke-dasharray="5,5" opacity=".65"/>`;
+    }
+    return `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${c}" stroke-width="${s.mode==='car'?3:2.2}" opacity=".72" stroke-linecap="round"${s.mode==='walk'?' stroke-dasharray="2,5"':''}/>`;
+  }).join('');
+  // צמתים ייחודיים (ערים/שדות) — עיגול קטן
+  const seen={}; const nodes=[];
+  segs.filter(s=>inBox(s.a)&&inBox(s.b)).forEach(s=>{[s.a,s.b].forEach(p=>{
+    const k=p[0].toFixed(2)+','+p[1].toFixed(2);
+    if(!seen[k]){seen[k]=1;nodes.push(`<circle cx="${X(p[1]).toFixed(1)}" cy="${Y(p[0]).toFixed(1)}" r="2.4" fill="#fff" stroke="#555" stroke-width="1"/>`);}
+  });});
+  const legend=[...used].map(m=>`<span class="trm-lg"><i style="background:${MC[m]||'#888'}"></i>${MODE_HE_M[m]||m}</span>`).join('');
+  return `<div class="tr-map">
+    <div class="tr-map-title">${icon('route')} מפת המסלולים — כל אמצעי התחבורה</div>
+    <div class="tr-map-svg"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="מפת מסלולי התחבורה לפי אמצעי" preserveAspectRatio="xMidYMid meet">
+      <rect x="0" y="0" width="${W}" height="${H}" fill="#f4f6fa"/>
+      ${lines}${nodes.join('')}
+    </svg></div>
+    <div class="tr-map-legend">${legend}</div>
+  </div>`;
+}
+
 function renderTransport() {
   const F = DATA.flights || [];
   const T = DATA.transport || {};
@@ -2844,13 +2939,21 @@ function renderTransport() {
   const rows = [];
   flights.forEach(f=>{
     const missing = !(f.dep&&f.arr);
+    const dur = (f.dep&&f.arr) ? minsBetween(f.dep,f.arr) : null;
     rows.push({mode:'flight', ic:'plane', main:`${f.from} → ${f.to}`, val:f.flightNo||'טיסה', date:fmtDate(f.date),
+      km:flightKm(f), mins:dur,
       sub:missing?'פרטים להשלמה':`${f.dep}–${f.arr}${f.toTerminal?' · '+f.toTerminal:''}`, crit:missing?'שעות טיסה חסרות':''});
   });
-  if (T.carRental&&T.carRental.active){const c=T.carRental;rows.push({mode:'car', ic:'car', main:'רכב שכור — הוקאידו', val:'חד-כיווני', date:`${fmtDate(c.from)}–${fmtDate(c.to)}`, sub:`${c.pickup.location} → ${c.dropoff.location}`, crit:c.oneWay?'החזרה חד-כיוונית — דמי דרופ-אוף':''});}
-  if (T.shuttle&&T.shuttle.narita){const s=T.shuttle.narita;rows.push({mode:'shuttle', ic:'shuttle', main:s.name, val:'ראשי', date:fmtDate(s.date), sub:s.hotel, crit:''});}
+  if (T.carRental&&T.carRental.active){const c=T.carRental;
+    // מרחק רכב = סכום מקטעי car בימים
+    let carKm=0; (DATA.days||[]).forEach(d=>(d.transport?.segments||[]).forEach(s=>{if(s.mode==='car'&&s.distanceKm)carKm+=s.distanceKm;}));
+    const days=Math.round((new Date(c.to)-new Date(c.from))/864e5)+1;
+    rows.push({mode:'car', ic:'car', main:'רכב שכור — הוקאידו', val:'חד-כיווני', date:`${fmtDate(c.from)}–${fmtDate(c.to)}`,
+      km:carKm?Math.round(carKm):null, mins:null, daysLabel:isFinite(days)?days+' ימים':'',
+      sub:`${c.pickup.location} → ${c.dropoff.location}`, crit:c.oneWay?'החזרה חד-כיוונית — דמי דרופ-אוף':''});}
+  if (T.shuttle&&T.shuttle.narita){const s=T.shuttle.narita;rows.push({mode:'shuttle', ic:'shuttle', main:s.name, val:'ראשי', date:fmtDate(s.date), km:null, mins:null, sub:s.hotel, crit:''});}
   const MC = {train:'#1d4ed8',metro:'#2563eb',shinkansen:'#1e3a8a',walk:'#15803d',bus:'#b45309',car:'#6b7280',flight:'#b91c1c',taxi:'#7c3aed',shuttle:'#0891b2'};
-  const listHead = `<div class="tr-grid-row tr-grid-head"><span></span><span>מסלול</span><span>מספר / סוג</span><span>תאריך</span><span>פרטים</span></div>`;
+  const listHead = `<div class="tr-grid-row tr-grid-head"><span></span><span>מסלול</span><span>מספר / סוג</span><span>תאריך</span><span class="trr-num">מרחק</span><span class="trr-num">משך</span><span>פרטים</span></div>`;
   const listHtml = rows.map(r=>{
     const col = MC[r.mode]||'var(--icon)';
     return `<div class="tr-grid-row tr-row" style="--mode-col:${col}">
@@ -2858,6 +2961,8 @@ function renderTransport() {
     <span class="trr-main">${r.main}</span>
     <span class="trr-val">${r.val}</span>
     <span class="trr-date">${r.date}</span>
+    <span class="trr-num trr-km">${fmtKm(r.km)}</span>
+    <span class="trr-num trr-dur">${r.mins!=null?fmtMins(r.mins):(r.daysLabel||'—')}</span>
     <span class="trr-sub">${r.sub}${r.crit?` <span class="trr-crit">${icon('alert')}${r.crit}</span>`:''}</span>
   </div>`;}).join('');
 
@@ -2870,7 +2975,7 @@ function renderTransport() {
   document.getElementById('transportWrap').innerHTML = `
     <div class="view-bar"><div class="tr-intro">כל התחבורה של הטיול במקום אחד — טיסות, רכב שכור, שאטלים.</div>${viewToggle()}</div>
     ${legend?`<div class="tr-legend">${legend}</div>`:''}
-    ${viewMode==='cards' ? cardsView : `<div class="tr-list">${listHead}${listHtml}</div>`}
+    ${viewMode==='cards' ? cardsView : `<div class="tr-split"><div class="tr-list">${listHead}${listHtml}</div>${transportRouteMap()}</div>`}
     ${transitSavings()}
   `;
 }
