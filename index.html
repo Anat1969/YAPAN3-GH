@@ -1024,6 +1024,7 @@ a.ml:hover{text-decoration:underline}
     <button class="mvb" data-view="nights" onclick="setMapView('nights')" data-tip="מקום הלינה בכל לילה — לפי תאריכים" aria-label="תצוגה לפי לילות">לפי לילות</button>
     <button class="mvb" data-view="transport" onclick="setMapView('transport')" data-tip="מקטעי תחבורה צבועים לפי אמצעי" aria-label="תצוגה לפי תחבורה">לפי תחבורה</button>
     <button class="mvb" data-view="places" onclick="setMapView('places')" data-tip="אתרים לפי סוג, עם סינון" aria-label="תצוגה לפי אתרים">לפי אתרים</button>
+    <button class="mvb" data-view="architecture" onclick="setMapView('architecture')" data-tip="אתרי אדריכלות מפורסמים — אנדו, קומה, סאנא ועוד" aria-label="תצוגת ארכיטקטורה">ארכיטקטורה</button>
     <button class="mvb" data-view="mymarks" onclick="setMapView('mymarks')" data-tip="הסיכות שסימנת + ייבוא מ-Google" aria-label="תצוגה לפי הסיכות שלי">הסיכות שלי</button>
     <span class="mvb-controls">
       <button class="mvb-reset addpin-btn" id="addPinBtn" onclick="toggleAddPin()" data-tip="מצב הוספת סיכה — לחצי על המפה כדי לסמן נקודה עם הערה">📍 הוסף סיכה</button>
@@ -1173,7 +1174,8 @@ async function loadData() {
     const tb = await fetch('data/tabs.json').then(r=>r.json()).catch(()=>null);
     const mm = await fetch('data/mymarks.json').then(r=>r.json()).catch(()=>[]);
     const ly = await fetch('data/layout.json').then(r=>r.json()).catch(()=>null);
-    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb, mymarks:Array.isArray(mm)?mm:[], layout:ly||{} };
+    const arch = await fetch('data/architecture.json').then(r=>r.json()).catch(()=>[]);
+    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb, mymarks:Array.isArray(mm)?mm:[], layout:ly||{}, architecture:Array.isArray(arch)?arch:[] };
     // שחזור סיכות משתמש שנוספו מקומית וטרם נשמרו ל-Git
     try {
       const pm = JSON.parse(localStorage.getItem('pending-mymarks')||'null');
@@ -3580,6 +3582,7 @@ function setMapView(v) {
   else if(v==='nights'){ gt.textContent='כל הלינות'; st.textContent='פרטי הלינה הנבחרת'; }
   else if(v==='transport'){ gt.textContent='כל מקטעי התחבורה'; st.textContent='פירוט המקטע'; }
   else if(v==='places'){ gt.textContent='כל האתרים'; st.textContent='פירוט האתר'; }
+  else if(v==='architecture'){ gt.textContent='אתרי אדריכלות — לפי אדריכל'; st.textContent='פירוט המבנה הנבחר'; }
   else if(v==='mymarks'){ gt.textContent='הסיכות שלי — לחצי «הוסף סיכה» וסמני על המפה'; st.textContent='ייבוא מ-Google: «ייבוא סימנים»'; }
   renderMapLayer();
 }
@@ -3621,10 +3624,11 @@ function renderMapLayer() {
   else if (mapView==='nights') renderMapNights(legend);
   else if (mapView==='transport') renderMapTransport(legend);
   else if (mapView==='places') renderMapPlaces(legend);
+  else if (mapView==='architecture') renderMapArch(legend);
   else if (mapView==='mymarks') renderMyMarks(legend, true);
 
-  // הסיכות שלי מוצגות תמיד כשכבה על כל התצוגות
-  if (mapView!=='mymarks') renderMyMarks(legend, false);
+  // הסיכות שלי מוצגות תמיד כשכבה על כל התצוגות (חוץ מתצוגת ארכיטקטורה — נקייה)
+  if (mapView!=='mymarks' && mapView!=='architecture') renderMyMarks(legend, false);
 
   renderMapLegend(legend);
   renderDiversity();
@@ -3641,6 +3645,11 @@ function renderMapLegend(legend) {
       legend.map(l=>`<button class="leg-item filterable${mapPlaceTypes.has(l.key)?' on':''}" onclick="togglePlaceType('${l.key}')" aria-pressed="${mapPlaceTypes.has(l.key)}">
         <i class="${l.shape||'circle'}" style="background:${l.color}"></i>${l.label}</button>`).join('') +
       (mapPlaceTypes.size?`<button class="leg-all" onclick="showAllTypes()">איפוס</button>`:'');
+  } else if (mapView==='architecture') {
+    const allOn = !mapArchFilter;
+    box.innerHTML = `<button class="leg-all${allOn?' on':''}" onclick="setArchFilter('')">הצג הכול</button>` +
+      legend.map(l=>`<button class="leg-item filterable${mapArchFilter===l.key?' on':''}" onclick="setArchFilter('${l.key}')" aria-pressed="${mapArchFilter===l.key}">
+        <i class="${l.shape||'circle'}" style="background:${l.color}"></i>${l.label}</button>`).join('');
   } else {
     box.innerHTML = legend.map(l=>`<span class="leg-item"><i class="${l.shape||'circle'}" style="background:${l.color}"></i>${l.label}</span>`).join('');
   }
@@ -3848,6 +3857,48 @@ function showPlaceSpecific(p){
   bigMarker([p.lat,p.lng],{text:'',color,shape:'square',size:26,popup:bilingual(p.name,p.nameEn),aria:p.name}).addTo(layer);
   mapSpecObj.setView([p.lat,p.lng],16);   // הגדלה משמעותית סביב הסימן (סעיף 7)
   setSpecImage(resolvePlaceImage(p), p.name, placeCats(p)[0]);  // תמונת האתר (סעיף 8)
+}
+
+// ══════════════════════════════════
+// תצוגת ארכיטקטורה — אתרי אדריכלות מפורסמים, צבע לפי אדריכל, סינון במקרא
+// ══════════════════════════════════
+const ARCH_COLORS = { ando:'#c2553a', kuma:'#2d6a4f', sanaa:'#2b4162', tange:'#555555', other:'#8b6914' };
+const ARCH_GROUP_HE = { ando:'טדאו אנדו', kuma:'קנגו קומה', sanaa:'סאנא / סג׳ימה', tange:'קנזו טאנגה', other:'טויו איטו / אחר' };
+let mapArchFilter = '';   // קבוצת אדריכל פעילה לסינון ('' = הכל)
+function setArchFilter(g){ mapArchFilter = g; renderMapLayer(); }
+function renderMapArch(legend){
+  const sites = DATA.architecture || [];
+  // ספירה לכל קבוצת אדריכל
+  const cnt = {};
+  sites.forEach(s=>cnt[s.archGroup]=(cnt[s.archGroup]||0)+1);
+  const active = mapArchFilter ? sites.filter(s=>s.archGroup===mapArchFilter) : sites;
+  const pts=[];
+  active.forEach(s=>{
+    if(!s.lat||!s.lng) return;
+    const color = ARCH_COLORS[s.archGroup]||'#888';
+    const popup = `<b style="font-size:14px;color:#1a1a1a">${s.nameHe}</b>`
+      + `<br><span style="font-size:11px;color:#888;direction:ltr">${s.nameEn}</span>`
+      + `<br><span style="font-size:12px;font-weight:700;color:${color}">${s.architect} · ${s.year}</span>`
+      + `<br><span style="font-size:12px;color:#555">${s.desc||''}</span>`
+      + `<br><span style="font-size:11px;color:#999">${s.address||''}</span>`
+      + `<br><span style="font-size:11px;color:#999">${s.hours||''}${s.price?' · '+s.price:''}</span>`
+      + (s.day?`<br><span style="display:inline-block;margin-top:4px;padding:1px 8px;border-radius:10px;font-size:11px;font-weight:600;color:#fff;background:${color}">יום ${s.day}</span>`:'')
+      + ` · <a href="https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(s.nameEn)}" target="_blank" style="font-size:11px;color:#1d4ed8">מפה</a>`;
+    // סימן עגול ממוספר בצבע האדריכל (כמו במפה שהעלית)
+    bigMarker([s.lat,s.lng],{text:String(s.day||''),color,shape:'circle',size:30,fontSize:12,popup,aria:`${s.nameHe} — ${s.architect}`, onClick:()=>showArchSpecific(s)}).addTo(mapLayer);
+    pts.push([s.lat,s.lng]);
+  });
+  if(pts.length) mapObj.fitBounds(L.latLngBounds(pts).pad(0.15));
+  // מקרא-סינון לפי אדריכל + ספירה
+  Object.keys(ARCH_GROUP_HE).filter(g=>cnt[g]).forEach(g=>legend.push({key:g, label:`${ARCH_GROUP_HE[g]} (${cnt[g]})`, color:ARCH_COLORS[g], shape:'circle'}));
+  focusSpec(null,'לחץ מבנה להצגה מפורטת');
+}
+function showArchSpecific(s){
+  const layer=focusSpec(null,`${s.nameHe} · ${s.architect}`);
+  const color=ARCH_COLORS[s.archGroup]||'#888';
+  bigMarker([s.lat,s.lng],{text:String(s.day||''),color,shape:'circle',size:30,fontSize:12,popup:`<b>${s.nameHe}</b><br><span style="font-size:11px">${s.nameEn}</span>`,aria:s.nameHe}).addTo(layer);
+  mapSpecObj.setView([s.lat,s.lng],16);
+  clearSpecImage();
 }
 
 // ══════════════════════════════════
