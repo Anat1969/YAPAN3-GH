@@ -874,6 +874,9 @@ a.bk:hover{background:#00224f}
 #mapDaySel{padding:5px 9px;border:1px solid var(--border);border-radius:6px;font:600 12px inherit;background:var(--surface);color:var(--ink)}
 .mvb-reset{padding:5px 11px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--action);font:700 11px inherit;cursor:pointer}
 .mvb-reset:hover{background:var(--bg)}
+.mvb-reset.on{background:var(--action);color:#fff;border-color:var(--action)}
+/* מלבן כלי הזום (מסגור והגדלה) */
+.bz-rect{position:absolute;z-index:650;border:2px dashed var(--action);background:rgba(29,78,216,.14);pointer-events:none;border-radius:2px}
 .addpin-btn.on{background:#db2777;color:#fff;border-color:#db2777}
 /* כפתור מיקוד אתר על המפה (ליד שם אתר) */
 .itin-focusbtn{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin-inline-start:6px;padding:0;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface);cursor:pointer;vertical-align:middle}
@@ -895,7 +898,7 @@ a.bk:hover{background:#00224f}
 /* כרטיס אתר גדול — ממלא את כל שטח המפה השמאלית בלחיצה על סימן */
 .map-spec-card{position:absolute;inset:0;z-index:600;background:var(--surface);border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.25);overflow:auto;display:flex;flex-direction:column}
 .map-spec-card .msc-imgwrap{width:100%;flex-shrink:0;position:relative}
-.map-spec-card .msc-img{display:block;width:100%;height:48%;min-height:200px;max-height:340px;object-fit:cover}
+.map-spec-card .msc-img{display:block;width:100%;height:58%;min-height:240px;max-height:440px;object-fit:cover;cursor:zoom-in}
 .map-spec-card .msc-close{position:absolute;top:8px;left:8px;width:30px;height:30px;border-radius:50%;background:rgba(26,26,26,.72);color:#fff;border:none;cursor:pointer;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;z-index:2}
 .map-spec-card .msc-close:hover{background:#1a1a1a}
 .map-spec-card .msc-body{padding:16px 20px 20px;flex:1;display:flex;flex-direction:column}
@@ -904,8 +907,13 @@ a.bk:hover{background:#00224f}
 .map-spec-card .msc-meta{font-size:13px;font-weight:800;color:var(--ink-2);margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
 .map-spec-card .msc-meta span{background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:2px 10px}
 .map-spec-card .msc-desc{font-size:14px;color:var(--ink-2);line-height:1.6;margin-top:12px}
-.map-spec-card .msc-addr{font-size:12px;color:var(--ink-3);margin-top:8px}
-.map-spec-card .msc-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:900;color:#fff;background:var(--action);text-decoration:none;margin-top:auto;padding:11px 16px;border-radius:10px;justify-content:center}
+/* שורות פרטים מתויגות בכרטיס הגדול */
+.map-spec-card .msc-rows{margin-top:12px;display:flex;flex-direction:column;gap:7px}
+.map-spec-card .msc-row{display:flex;gap:10px;align-items:baseline;font-size:13px;line-height:1.4}
+.map-spec-card .msc-rlbl{flex:0 0 92px;display:inline-flex;align-items:center;gap:5px;font-weight:800;color:var(--ink-3)}
+.map-spec-card .msc-rlbl svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+.map-spec-card .msc-rval{flex:1;font-weight:700;color:var(--ink)}
+.map-spec-card .msc-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:900;color:#fff;background:var(--action);text-decoration:none;margin-top:16px;padding:12px 16px;border-radius:10px;justify-content:center}
 .map-spec-card .msc-link:hover{background:#1741b8}
 .map-spec-card .msc-link svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
 /* כרטיס-ריחוף קטן מעל הסימן (tooltip) במפה הימנית */
@@ -1061,6 +1069,7 @@ a.ml:hover{text-decoration:underline}
     <button class="mvb" data-view="architecture" onclick="setMapView('architecture')" data-tip="אתרי אדריכלות מפורסמים — אנדו, קומה, סאנא ועוד" aria-label="תצוגת ארכיטקטורה">ארכיטקטורה</button>
     <button class="mvb" data-view="mymarks" onclick="setMapView('mymarks')" data-tip="הסיכות שסימנת + ייבוא מ-Google" aria-label="תצוגה לפי הסיכות שלי">הסיכות שלי</button>
     <span class="mvb-controls">
+      <button class="mvb-reset boxzoom-btn" id="boxZoomBtn" onclick="toggleBoxZoom()" data-tip="כלי זום — גררי מלבן על המפה כדי למסגר ולהגדיל קטע">⛶ מסגר והגדל</button>
       <button class="mvb-reset addpin-btn" id="addPinBtn" onclick="toggleAddPin()" data-tip="מצב הוספת סיכה — לחצי על המפה כדי לסמן נקודה עם הערה">📍 הוסף סיכה</button>
       <button class="mvb-reset" onclick="importMarksClick()" data-tip="ייבוא סימנים מ-Google (קובץ KML/GeoJSON מ-Takeout)">⬆ ייבוא סימנים</button>
       <input type="file" id="importMarksInput" accept=".kml,.geojson,.json,.kmz" style="display:none" onchange="importMarksFile(this)">
@@ -3712,7 +3721,8 @@ function bigMarker(latlng, opts) {
   const html = `<div style="width:${size}px;height:${size}px;border-radius:${radius};background:${bg};color:${txtColor};border:${border};box-shadow:0 1px 4px rgba(0,0,0,.28);display:flex;align-items:center;justify-content:center;font:900 ${fontSize}px/1 'Noto Sans Hebrew',sans-serif;text-align:center" role="button" aria-label="${aria}" tabindex="0">${text}</div>`;
   const mk = L.marker(latlng, {icon:L.divIcon({className:'',html,iconSize:[size,size],iconAnchor:[size/2,size/2]}), keyboard:true});
   // ריחוף → כרטיס-ריחוף קטן מעל הסימן; אחרת פופאפ רגיל
-  if (hover) mk.bindTooltip(hover, {direction:'top', offset:[0,-size/2-2], className:'msc-hover', opacity:1, sticky:false});
+  // ריחוף → כרטיס-ריחוף במיקום קבוע תמיד מעל-מרכז הסימן (לא זז, לא נצמד לסמן/עכבר)
+  if (hover) mk.bindTooltip(hover, {direction:'top', offset:[0,-(size/2)-6], className:'msc-hover', opacity:1, sticky:false, permanent:false});
   else if (popup) mk.bindPopup(popup);
   if (onClick) mk.on('click', onClick);
   return mk;
@@ -3798,15 +3808,21 @@ function setSpecCard(o){
   const src = o.image || '';
   const gmaps = gmapsUrlFor(o);
   const metaParts = [o.kind, o.day!=null?('יום '+o.day):'', o.city].filter(Boolean);
+  const row = (ic,label,val)=> val ? `<div class="msc-row"><span class="msc-rlbl">${icon(ic)} ${label}</span><span class="msc-rval">${val}</span></div>` : '';
   card.innerHTML =
-    (src ? `<div class="msc-imgwrap"><img class="msc-img" src="${src}" alt="${o.name||''}" loading="lazy" onerror="this.closest('.msc-imgwrap').style.display='none'"><button class="msc-close" onclick="clearSpecImage()" aria-label="סגירה">×</button></div>` : `<button class="msc-close" style="position:absolute" onclick="clearSpecImage()" aria-label="סגירה">×</button>`)
+    (src ? `<div class="msc-imgwrap"><img class="msc-img" src="${src}" alt="${o.name||''}" loading="lazy" onclick="window.open('${src}','_blank')" title="לחצי לתמונה מלאה" onerror="this.closest('.msc-imgwrap').style.display='none'"><button class="msc-close" onclick="clearSpecImage()" aria-label="סגירה">×</button></div>` : `<button class="msc-close" style="position:absolute" onclick="clearSpecImage()" aria-label="סגירה">×</button>`)
     + `<div class="msc-body">
         <div class="msc-name">${o.name||''}</div>
         ${o.nameEn?`<div class="msc-en">${o.nameEn}</div>`:''}
         ${metaParts.length?`<div class="msc-meta">${metaParts.map(m=>`<span>${m}</span>`).join('')}</div>`:''}
         ${o.desc?`<div class="msc-desc">${o.desc}</div>`:''}
-        ${o.addr?`<div class="msc-addr">${o.addr}</div>`:''}
-        ${o.hours||o.price?`<div class="msc-addr">${[o.hours,o.price].filter(Boolean).join(' · ')}</div>`:''}
+        <div class="msc-rows">
+          ${row('info','אדריכל', o.architect ? `${o.architect}${o.year?' · '+o.year:''}` : '')}
+          ${row('pin','כתובת', o.addr||'')}
+          ${row('clock','שעות', o.hours||'')}
+          ${row('money','מחיר', o.price||'')}
+          ${row('calendar','שובץ ליום', o.day!=null?('יום '+o.day):'')}
+        </div>
         ${gmaps?`<a class="msc-link" href="${gmaps}" target="_blank" rel="noopener">${icon('external')} פתחי מיקום זה בגוגל מפות ›</a>`:''}
       </div>`;
   card.hidden = false;
@@ -4034,7 +4050,7 @@ function showArchSpecific(s){
   bigMarker([s.lat,s.lng],{text:String(s.day||''),color,shape:'circle',size:32,size2:46,fontSize:13,popup:`<b>${s.nameHe}</b><br><span style="font-size:11px">${s.nameEn}</span>`,aria:s.nameHe}).addTo(layer);
   mapSpecObj.setView([s.lat,s.lng],17);
   const img = s.image || resolvePlaceImage({name:s.nameHe, nameEn:s.nameEn});
-  setSpecCard({ image:img, name:s.nameHe, nameEn:s.nameEn, kind:'אדריכלות · '+s.architect+' · '+s.year, day:s.day||null, desc:s.desc, addr:s.address, hours:s.hours, price:s.price, lat:s.lat, lng:s.lng });
+  setSpecCard({ image:img, name:s.nameHe, nameEn:s.nameEn, kind:'אדריכלות', architect:s.architect, year:s.year, day:s.day||null, desc:s.desc, addr:s.address, hours:s.hours, price:s.price, lat:s.lat, lng:s.lng });
 }
 
 // ══════════════════════════════════
@@ -4061,6 +4077,63 @@ function renderMyMarks(legend, focusView){
     pts.push([mk.lat,mk.lng]);
   });
   if(focusView && pts.length) mapObj.fitBounds(L.latLngBounds(pts).pad(0.2));
+}
+// ── כלי זום: גרירת מלבן על המפה כדי למסגר ולהגדיל קטע ──
+let boxZoomMode = false;
+let _bzState = null;   // {map, el, start, rect}
+function toggleBoxZoom(){
+  boxZoomMode = !boxZoomMode;
+  const btn = document.getElementById('boxZoomBtn');
+  if(btn) btn.classList.toggle('on', boxZoomMode);
+  if(boxZoomMode && addPinMode) toggleAddPin();   // כיבוי מצב סיכה אם פעיל
+  [ {m:mapObj,id:'map'}, {m:mapSpecObj,id:'mapSpec'} ].forEach(({m,id})=>{
+    if(!m) return;
+    const el = document.getElementById(id);
+    if(boxZoomMode){
+      m.dragging.disable();
+      if(el){ el.style.cursor='crosshair'; el.addEventListener('pointerdown', bzDown); }
+    } else {
+      m.dragging.enable();
+      if(el){ el.style.cursor=''; el.removeEventListener('pointerdown', bzDown); }
+    }
+  });
+  toast(boxZoomMode ? 'כלי זום פעיל — גררי מלבן על המפה כדי להגדיל קטע' : 'כלי הזום כובה');
+}
+function bzMapFor(el){ return el.id==='mapSpec' ? mapSpecObj : mapObj; }
+function bzDown(e){
+  if(!boxZoomMode || e.button!==0) return;
+  const el = e.currentTarget;
+  const map = bzMapFor(el);
+  const rect = document.createElement('div');
+  rect.className = 'bz-rect';
+  el.appendChild(rect);
+  _bzState = { map, el, start:{x:e.clientX, y:e.clientY}, rect, box:el.getBoundingClientRect() };
+  el.setPointerCapture&&el.setPointerCapture(e.pointerId);
+  el.addEventListener('pointermove', bzMove);
+  el.addEventListener('pointerup', bzUp);
+  e.preventDefault();
+}
+function bzMove(e){
+  if(!_bzState) return;
+  const {start, rect, box} = _bzState;
+  const x1=Math.min(start.x,e.clientX)-box.left, y1=Math.min(start.y,e.clientY)-box.top;
+  const w=Math.abs(e.clientX-start.x), h=Math.abs(e.clientY-start.y);
+  rect.style.cssText = `left:${x1}px;top:${y1}px;width:${w}px;height:${h}px`;
+}
+function bzUp(e){
+  if(!_bzState) return;
+  const {map, el, start, rect, box} = _bzState;
+  el.removeEventListener('pointermove', bzMove);
+  el.removeEventListener('pointerup', bzUp);
+  const w=Math.abs(e.clientX-start.x), h=Math.abs(e.clientY-start.y);
+  rect.remove();
+  _bzState = null;
+  if(w>12 && h>12){
+    // המרת פינות המלבן (פיקסלים במסך) לקואורדינטות מפה → fitBounds
+    const p1 = map.containerPointToLatLng([Math.min(start.x,e.clientX)-box.left, Math.min(start.y,e.clientY)-box.top]);
+    const p2 = map.containerPointToLatLng([Math.max(start.x,e.clientX)-box.left, Math.max(start.y,e.clientY)-box.top]);
+    map.fitBounds(L.latLngBounds(p1,p2), {animate:true});
+  }
 }
 // מצב הוספת סיכה — לחיצה על המפה מוסיפה נקודה
 function toggleAddPin(){
