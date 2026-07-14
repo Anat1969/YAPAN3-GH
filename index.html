@@ -413,7 +413,19 @@ button.pf-badge.pf-upload:hover{background:var(--action)}
 .itin-field-who{background:rgba(184,134,11,.08);border-color:rgba(184,134,11,.25)}
 .itin-field-who .if-val{color:#a16207;font-weight:800;font-size:12px}
 .itin-field-who .if-lbl{color:#a16207;opacity:.7}
-.itin-spot-notes{font-size:11px;line-height:1.5;color:var(--ink-2);margin-top:4px}
+.itin-spot-notes{font-size:11px;line-height:1.5;color:var(--ink-2);margin-top:3px}
+/* שתי שורות נתונים: שורה 1 = שעה+יום (מתי), שורה 2 = פרמטרים סטטיים */
+.itin-meta-when{margin-top:6px}
+.itin-meta-params{margin-top:5px}
+/* צ'יפ סוג בשורת הפרמטרים — צבע לפי מבנה/טבע/פעילות */
+.itin-field-kind .if-val{display:inline-flex;align-items:center;gap:3px;direction:rtl}
+.itin-field-kind .itin-kind-ic{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2}
+.itin-field-kind.kind-build{background:#eef2f7;border-color:#cbd5e1}
+.itin-field-kind.kind-build .if-val{color:#475569}.itin-field-kind.kind-build .if-lbl{color:#475569;opacity:.7}
+.itin-field-kind.kind-nature{background:#e9f6ec;border-color:#b7e0c1}
+.itin-field-kind.kind-nature .if-val{color:#15803d}.itin-field-kind.kind-nature .if-lbl{color:#15803d;opacity:.7}
+.itin-field-kind.kind-activity{background:#fdf1e3;border-color:#f2d3a7}
+.itin-field-kind.kind-activity .if-val{color:#b45309}.itin-field-kind.kind-activity .if-lbl{color:#b45309;opacity:.7}
 .itin-empty{padding:14px 0;font-size:12px;color:var(--ink-3)}
 .itin-empty a,.itin-notes a{color:var(--action)}
 .itin-meals{padding:10px 16px;background:var(--bg);border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:6px 20px;align-items:baseline}
@@ -1913,9 +1925,11 @@ function itinSpotHtml(s, dayId, slotKey, idx, tripDay){
   const timeChip = `<span class="itin-field itin-field-time"><span class="if-lbl">שעה</span><span class="if-val itin-time itin-time-edit" contenteditable="true" data-day="${dayId}" data-slot="${slotKey}" data-idx="${idx}" onfocus="itinTimeFocus(this)" onblur="itinTimeEdit(this)" onkeydown="itinTimeKey(event,this)" data-tip="לחצי לעריכת השעה — האתר יסודר מחדש לפי השעה">${s.time||'—:—'}</span></span>`;
   // צ'יפ יום — העברת האתר ליום/תאריך אחר (כמו עריכת שעה, אבל בין ימים)
   const dayChip = itinDayChip(dayId, slotKey, idx);
-  const meta = [
-    timeChip,
-    dayChip,
+  // שורה 1: שעה + יום (מתי). שורה 2: שאר הפרמטרים הסטטיים (סוג/משך/מחיר/עם)
+  const kindChip = kind ? `<span class="itin-field itin-field-kind kind-${kind.key}"><span class="if-lbl">סוג</span><span class="if-val">${icon(kind.ic,'itin-kind-ic')}${kind.he}</span></span>` : '';
+  const rowWhen = [timeChip, dayChip].filter(Boolean).join('');
+  const rowParams = [
+    kindChip,
     s.duration ? field('משך', s.duration, 'itin-field-dur') : '',
     (s.price!=null && s.price!=='') ? field('מחיר', (Number(s.price)===0?'חינם':'¥'+Number(s.price).toLocaleString()), 'itin-field-price') : '',
     s.forWho ? field('עם', (Array.isArray(s.forWho)?s.forWho.join(', '):s.forWho), 'itin-field-who') : '',
@@ -1925,9 +1939,10 @@ function itinSpotHtml(s, dayId, slotKey, idx, tripDay){
   return `<div class="itin-spot">
     ${thumb}
     <div class="itin-spot-body">
-      <div class="itin-spot-name">${kind?`<span class="itin-kind kind-${kind.key}" data-tip="סוג: ${kind.he}">${icon(kind.ic,'itin-kind-ic')}${kind.he}</span>`:''}${bilingualName(s.name, s.nameEn, {maps, site: site||''})}${focusBtn}</div>
-      <div class="itin-spot-meta">${meta}</div>
+      <div class="itin-spot-name">${bilingualName(s.name, s.nameEn, {maps, site: site||''})}${focusBtn}</div>
       ${s.notes ? `<div class="itin-spot-notes">${fmtNotes(s.notes)}</div>` : ''}
+      <div class="itin-spot-meta itin-meta-when">${rowWhen}</div>
+      ${rowParams ? `<div class="itin-spot-meta itin-meta-params">${rowParams}</div>` : ''}
     </div>
   </div>`;
 }
