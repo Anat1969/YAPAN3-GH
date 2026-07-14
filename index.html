@@ -438,6 +438,12 @@ button.pf-badge.pf-upload:hover{background:var(--action)}
 .itin-time-edit{cursor:text;border-radius:4px;padding:0 3px;transition:background .12s}
 .itin-time-edit:hover{background:rgba(184,134,11,.12)}
 .itin-time-edit:focus{outline:none;background:#fffde7;box-shadow:inset 0 0 0 2px #fbbf24}
+/* צ'יפ יום — בחירת יום/תאריך אחר (העברת אתר בין ימים) */
+.itin-field-day{background:rgba(124,58,237,.08);border-color:rgba(124,58,237,.28)}
+.itin-field-day .if-lbl{color:#7c3aed;opacity:.75}
+.itin-daysel{border:none;background:none;color:#7c3aed;font-weight:900;font-size:calc(12px * var(--itin-fs,1));cursor:pointer;padding:0 2px;max-width:150px;border-radius:4px;transition:background .12s;font-family:inherit}
+.itin-daysel:hover{background:rgba(124,58,237,.12)}
+.itin-daysel:focus{outline:none;box-shadow:0 0 0 2px rgba(124,58,237,.4)}
 /* שורת מלון במסלול (קמנו/ישנים) */
 .rt-marker.hotel{background:#a16207}
 /* בקרת עיצוב דף המסלול */
@@ -1863,8 +1869,11 @@ function itinSpotHtml(s, dayId, slotKey, idx, tripDay){
   // רכיב פרמטר↔נתון: תווית קטנה ומעומעמת + ערך בולט — כדי שהמידע החשוב יבלוט
   const field = (lbl, val, cls) => `<span class="itin-field ${cls||''}"><span class="if-lbl">${lbl}</span><span class="if-val">${val}</span></span>`;
   const timeChip = `<span class="itin-field itin-field-time"><span class="if-lbl">שעה</span><span class="if-val itin-time itin-time-edit" contenteditable="true" data-day="${dayId}" data-slot="${slotKey}" data-idx="${idx}" onfocus="itinTimeFocus(this)" onblur="itinTimeEdit(this)" onkeydown="itinTimeKey(event,this)" data-tip="לחצי לעריכת השעה — האתר יסודר מחדש לפי השעה">${s.time||'—:—'}</span></span>`;
+  // צ'יפ יום — העברת האתר ליום/תאריך אחר (כמו עריכת שעה, אבל בין ימים)
+  const dayChip = itinDayChip(dayId, slotKey, idx);
   const meta = [
     timeChip,
+    dayChip,
     s.duration ? field('משך', s.duration, 'itin-field-dur') : '',
     (s.price!=null && s.price!=='') ? field('מחיר', (Number(s.price)===0?'חינם':'¥'+Number(s.price).toLocaleString()), 'itin-field-price') : '',
     s.forWho ? field('עם', (Array.isArray(s.forWho)?s.forWho.join(', '):s.forWho), 'itin-field-who') : '',
@@ -1953,6 +1962,49 @@ function itinTimeEdit(el){
   persistPendingDaySpots(); markUnsaved();
   render();
   toast(toSlot!==fromSlot ? `השעה עודכנה — האתר עבר ל${{morning:'בוקר',afternoon:'צהריים',evening:'ערב'}[toSlot]}. «שמור קבצים»` : 'השעה עודכנה — «שמור קבצים» לשמירה ל-Git');
+}
+
+// ── צ'יפ יום: בחירת יום/תאריך אחר להעברת האתר (במקביל לעריכת שעה) ──
+function itinDayChip(dayId, slotKey, idx){
+  const cur = DATA.days.find(d=>String(d.id)===String(dayId)||String(d.tripDay)===String(dayId));
+  if(!cur) return '';
+  const opts = (DATA.days||[]).filter(d=>d.tripDay)
+    .sort((a,b)=>a.tripDay-b.tripDay)
+    .map(d=>`<option value="${d.id!=null?d.id:d.tripDay}"${(String(d.id)===String(dayId)||String(d.tripDay)===String(dayId))?' selected':''}>יום ${d.tripDay} · ${d.day}/${d.month}${dayCity(d)?' · '+dayCity(d):''}</option>`)
+    .join('');
+  return `<span class="itin-field itin-field-day"><span class="if-lbl">יום</span>`
+    + `<select class="if-val itin-daysel" data-day="${dayId}" data-slot="${slotKey}" data-idx="${idx}" onchange="itinMoveSpotDay(this)" data-tip="בחרי יום אחר כדי להעביר את האתר לאותו תאריך">${opts}</select></span>`;
+}
+// העברת אתר ליום אחר — שומר על המקטע (בוקר/צהריים/ערב) והשעה, ממיין ביעד
+function itinMoveSpotDay(sel){
+  const fromDayId = sel.dataset.day, slot = sel.dataset.slot, idx = +sel.dataset.idx;
+  const toDayId = sel.value;
+  if(String(toDayId)===String(fromDayId)) return;
+  const fromRaw = _dayFilesRaw[fromDayId], toRaw = _dayFilesRaw[toDayId];
+  const fromDay = DATA.days.find(d=>String(d.id)===String(fromDayId)||String(d.tripDay)===String(fromDayId));
+  const toDay   = DATA.days.find(d=>String(d.id)===String(toDayId)  ||String(d.tripDay)===String(toDayId));
+  if(!fromRaw || !fromDay || !toDay){ toast('לא ניתן להעביר — חסרים נתוני יום'); render(); return; }
+  // ודא מבנה spots ביעד (גם אם קובץ היום טרם נטען/ריק)
+  if(!toRaw){ _dayFilesRaw[toDayId] = { spots:{morning:[],afternoon:[],evening:[]} }; }
+  const tRaw = _dayFilesRaw[toDayId];
+  if(!tRaw.spots) tRaw.spots = {morning:[],afternoon:[],evening:[]};
+  const fromArr = (fromRaw.spots && fromRaw.spots[slot]) || [];
+  const spot = fromArr[idx];
+  if(!spot){ render(); return; }
+  // הוצאה מהיום הנוכחי
+  fromArr.splice(idx,1);
+  // הכנסה לאותו מקטע ביום היעד (אם אין מקטע — נשתמש ב'afternoon')
+  const toSlot = Array.isArray(tRaw.spots[slot]) || tRaw.spots[slot]===undefined ? slot : 'afternoon';
+  if(!Array.isArray(tRaw.spots[toSlot])) tRaw.spots[toSlot] = [];
+  tRaw.spots[toSlot].push(spot);
+  // מיון כרונולוגי ביעד
+  tRaw.spots[toSlot].sort((a,b)=>{const x=toMin(a.time),y=toMin(b.time);if(x==null&&y==null)return 0;if(x==null)return 1;if(y==null)return -1;return x-y;});
+  fromDay.spots = fromRaw.spots;
+  toDay.spots = tRaw.spots;
+  _changedDays.add(String(fromDayId)); _changedDays.add(String(toDayId));
+  persistPendingDaySpots(); markUnsaved();
+  render();
+  toast(`«${spot.name||spot.nameEn||'האתר'}» הועבר ליום ${toDay.tripDay} (${toDay.day}/${toDay.month}) — «שמור קבצים» לשמירה`);
 }
 
 // ── מלון היום במסלול: קמנו (בוקר) / הולכים לישון (ערב) ──
