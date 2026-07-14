@@ -383,18 +383,31 @@ button.pf-badge.pf-upload:hover{background:var(--action)}
 #t-places .pframe.place-frame{width:100%;height:auto;aspect-ratio:16/10}
 .itin-spot-body{flex:1;min-width:0}
 .itin-spot-name .bn-he{font-size:14px}
-.itin-spot-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px;font-size:11.5px;color:var(--ink-2)}
-.itin-spot-meta .itin-time{font-weight:900;color:var(--action);direction:ltr}
-.itin-spot-meta .itin-who{color:var(--ink-3)}
+.itin-spot-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+/* רכיב פרמטר↔נתון: תווית קטנה מעומעמת + ערך בולט, בתוך צ'יפ — ניגוד ברור */
+.itin-field{display:inline-flex;align-items:baseline;gap:4px;padding:2px 8px;border-radius:999px;background:var(--bg);border:1px solid var(--border)}
+.itin-field .if-lbl{font-size:9px;font-weight:700;color:var(--ink-3);letter-spacing:.2px;text-transform:none}
+.itin-field .if-val{font-size:13px;font-weight:900;color:var(--ink)}
+/* גלים/צבעים שונים לפי סוג הפרמטר — הערך בולט בצבע-משמעות */
+.itin-field-time{background:rgba(29,78,216,.08);border-color:rgba(29,78,216,.25)}
+.itin-field-time .if-val{color:var(--action);direction:ltr}
+.itin-field-time .if-lbl{color:var(--action);opacity:.7}
+.itin-field-price{background:rgba(21,128,61,.08);border-color:rgba(21,128,61,.25)}
+.itin-field-price .if-val{color:#15803d;direction:ltr}
+.itin-field-price .if-lbl{color:#15803d;opacity:.7}
+.itin-field-dur .if-val{color:var(--ink-2);font-weight:800}
+.itin-field-who{background:rgba(184,134,11,.08);border-color:rgba(184,134,11,.25)}
+.itin-field-who .if-val{color:#a16207;font-weight:800;font-size:12px}
+.itin-field-who .if-lbl{color:#a16207;opacity:.7}
 .itin-spot-notes{font-size:11px;line-height:1.5;color:var(--ink-2);margin-top:4px}
 .itin-empty{padding:14px 0;font-size:12px;color:var(--ink-3)}
 .itin-empty a,.itin-notes a{color:var(--action)}
 .itin-meals{padding:10px 16px;background:var(--bg);border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:6px 20px;align-items:baseline}
 .itin-meals-head{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:800;color:var(--ink-2);width:100%}
 .itin-meals-head .ic{width:14px;height:14px;stroke:var(--ink-3)}
-.itin-meal{font-size:11.5px;color:var(--ink-2)}
-.itin-meal-k{font-weight:700;color:var(--ink-3)}
-.itin-meal-v{margin-inline-start:5px;color:var(--ink)}
+.itin-meal{font-size:11.5px;color:var(--ink-2);display:inline-flex;align-items:baseline;gap:4px}
+.itin-meal-k{font-size:9px;font-weight:700;color:var(--ink-3)}
+.itin-meal-v{margin-inline-start:0;font-weight:800;color:var(--ink)}
 .itin-notes{padding:10px 16px;font-size:11.5px;line-height:1.5;color:var(--ink-2);display:flex;gap:6px;align-items:flex-start;border-top:1px solid var(--border)}
 .itin-notes .ic{width:14px;height:14px;stroke:var(--ink-3);flex-shrink:0;margin-top:1px}
 .itin-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--border);background:var(--surface)}
@@ -433,7 +446,9 @@ button.pf-badge.pf-upload:hover{background:var(--action)}
 .itin-idea{font-size:calc(12px * var(--itin-fs))}
 .itin-spot-name .bn-he{font-size:calc(14px * var(--itin-fs))}
 .itin-spot-name .bn-en{font-size:calc(10px * var(--itin-fs))}
-.itin-spot-meta{font-size:calc(11.5px * var(--itin-fs))}
+.itin-field .if-val{font-size:calc(13px * var(--itin-fs))}
+.itin-field .if-lbl{font-size:calc(9px * var(--itin-fs))}
+.itin-field-who .if-val{font-size:calc(12px * var(--itin-fs))}
 .itin-spot-notes{font-size:calc(11px * var(--itin-fs))}
 .itin-meal,.itin-slot-head{font-size:calc(12px * var(--itin-fs))}
 #itinWrap.itin-tinted .itin-title,#itinWrap.itin-tinted .itin-spot-name .bn-he,#itinWrap.itin-tinted .itin-idea,#itinWrap.itin-tinted .itin-spot-notes,#itinWrap.itin-tinted .itin-spot-meta,#itinWrap.itin-tinted .itin-meal-v{color:var(--itin-color)}
@@ -661,14 +676,51 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .cfb.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
 .cfb.cfb-toggle{margin-right:auto;color:var(--action)}
 .cfb:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
+.cfb{display:inline-flex;align-items:center;gap:5px}
+.cfb .cc-ic{width:13px;height:13px;flex-shrink:0;opacity:.7}
+.cfb.on .cc-ic{opacity:1}
+/* גווני אפור לקטגוריות — סרגל + תגית בטבלה */
+.cc-sh0{--cc-grey:#8a8a8a}.cc-sh1{--cc-grey:#3f3f46}.cc-sh2{--cc-grey:#52525b}.cc-sh3{--cc-grey:#6b6b72}
+.cc-sh4{--cc-grey:#818189}.cc-sh5{--cc-grey:#9a9aa2}.cc-sh6{--cc-grey:#adadb4}
+.cfb:not(.on) .cc-ic{color:var(--cc-grey)}
+.cost-table .cc-tag{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.cost-table .cc-tag .cc-ic{width:14px;height:14px;flex-shrink:0;color:var(--cc-grey)}
+.cost-table .cc-tag .cc-txt{font-weight:800;color:#3f3f46;border-inline-start:3px solid var(--cc-grey);padding-inline-start:7px;line-height:1.15}
+/* עמודת מקור + עמודת הכסף (₪) — הכסף בולט ומנוגד */
+.cost-table td.cost-src{color:var(--ink-3);font-size:11px;direction:ltr;text-align:right;white-space:nowrap}
+.cost-table td.cost-money{font-weight:900;color:#15803d;direction:ltr;text-align:right;font-size:13px;background:rgba(21,128,61,.06);white-space:nowrap}
+.cost-total td:nth-child(4){color:#15803d;font-size:15px;direction:ltr;text-align:right;background:rgba(21,128,61,.1)}
 /* נושא הדף בולט וראשון — סה"כ התקציב בגדול */
 .cost-hero{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:linear-gradient(135deg,#eef4ff 0%,#ffffff 100%);border:1px solid #d5e0f5;border-radius:16px;padding:16px 20px;margin-bottom:12px}
 .cost-hero-label{display:block;font-size:12px;font-weight:800;color:var(--ink-3);margin-bottom:2px}
-.cost-hero-num{font-size:34px;font-weight:900;color:var(--ink);line-height:1}
+.cost-hero-num{font-size:40px;font-weight:900;color:#15803d;line-height:1;letter-spacing:-.5px}
 .cost-hero-side{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:700;color:var(--ink-2)}
 .cost-hero-side span{display:inline-flex;align-items:center;gap:6px}
 .cost-hero-side i{width:9px;height:9px;border-radius:50%}
 .dot-ok{background:var(--ok)}.dot-warn{background:var(--warn)}
+/* מחשבון המרת מטבע ₪⟷¥ */
+.fx-conv{background:linear-gradient(135deg,#f0fdf4 0%,#ffffff 60%);border:2px solid #bbf7d0;border-radius:16px;padding:14px 18px;margin-bottom:14px}
+.fx-head{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:900;color:#15803d;margin-bottom:12px}
+.fx-head .ic{width:17px;height:17px;stroke:#15803d}
+.fx-rows{display:flex}
+.fx-row{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;width:100%}
+.fx-cell{flex:1;min-width:130px;display:flex;flex-direction:column;gap:4px}
+.fx-cur{font-size:11px;font-weight:800;color:var(--ink-3)}
+.fx-cell input{width:100%;padding:10px 12px;border:2px solid var(--border-strong);border-radius:10px;font:900 22px inherit;color:var(--ink);background:var(--surface);direction:ltr;text-align:right}
+.fx-cell input:focus{outline:none;border-color:#15803d;box-shadow:0 0 0 3px rgba(21,128,61,.15)}
+.fx-from input{border-color:#93c5fd}.fx-from .fx-cur{color:var(--action)}
+.fx-to input{border-color:#fca5a5}.fx-to .fx-cur{color:#b91c1c}
+.fx-swap{flex:0 0 auto;align-self:center;margin-bottom:6px;width:38px;height:38px;border:2px solid var(--border-strong);border-radius:50%;background:var(--surface);color:var(--action);font:900 18px/1 inherit;cursor:pointer}
+.fx-swap:hover{background:var(--action);color:#fff;border-color:var(--action)}
+.fx-rate{margin-top:10px;font-size:12px;font-weight:700;color:var(--ink-2)}
+.fx-rate b{color:#15803d}
+.fx-quick{display:flex;gap:20px;flex-wrap:wrap;margin-top:12px;padding-top:10px;border-top:1px dashed var(--border)}
+.fxq-col{flex:1;min-width:130px}
+.fxq-title{font-size:11px;font-weight:900;color:var(--ink-3);margin-bottom:4px}
+.fxq-row{display:flex;justify-content:space-between;font-size:12px;padding:2px 0}
+.fxq-src{color:var(--ink-3);font-weight:700}
+.fxq-dst{color:var(--ink);font-weight:900;direction:ltr}
+@media(max-width:560px){.fx-swap{transform:rotate(90deg)}}
 .cost-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
 .cost-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px}
 .cost-card span{font-size:11px;font-weight:800;color:var(--ink-3);display:block;margin-bottom:3px}
@@ -1745,12 +1797,14 @@ function itinSpotHtml(s, dayId, slotKey, idx, tripDay){
   const focusAttr = (tripDay!=null && (s.lat&&s.lng || (match&&match.lat&&match.lng))) ? `focusItinSpot(${tripDay},'${spotKey}')` : '';
   const thumb = pframe(s, 'itin-img', focusAttr);
   // שעה ניתנת לעריכה בלחיצה — אחרי שינוי, האתר משובץ מחדש לפי השעה
-  const timeChip = `<span class="itin-time itin-time-edit" contenteditable="true" data-day="${dayId}" data-slot="${slotKey}" data-idx="${idx}" onfocus="itinTimeFocus(this)" onblur="itinTimeEdit(this)" onkeydown="itinTimeKey(event,this)" data-tip="לחצי לעריכת השעה — האתר יסודר מחדש לפי השעה">${s.time||'—:—'}</span>`;
+  // רכיב פרמטר↔נתון: תווית קטנה ומעומעמת + ערך בולט — כדי שהמידע החשוב יבלוט
+  const field = (lbl, val, cls) => `<span class="itin-field ${cls||''}"><span class="if-lbl">${lbl}</span><span class="if-val">${val}</span></span>`;
+  const timeChip = `<span class="itin-field itin-field-time"><span class="if-lbl">שעה</span><span class="if-val itin-time itin-time-edit" contenteditable="true" data-day="${dayId}" data-slot="${slotKey}" data-idx="${idx}" onfocus="itinTimeFocus(this)" onblur="itinTimeEdit(this)" onkeydown="itinTimeKey(event,this)" data-tip="לחצי לעריכת השעה — האתר יסודר מחדש לפי השעה">${s.time||'—:—'}</span></span>`;
   const meta = [
     timeChip,
-    s.duration ? `<span>${s.duration}</span>` : '',
-    (s.price!=null && s.price!=='') ? `<span>¥${Number(s.price).toLocaleString()}</span>` : '',
-    s.forWho ? `<span class="itin-who">${Array.isArray(s.forWho)?s.forWho.join(', '):s.forWho}</span>` : '',
+    s.duration ? field('משך', s.duration, 'itin-field-dur') : '',
+    (s.price!=null && s.price!=='') ? field('מחיר', (Number(s.price)===0?'חינם':'¥'+Number(s.price).toLocaleString()), 'itin-field-price') : '',
+    s.forWho ? field('עם', (Array.isArray(s.forWho)?s.forWho.join(', '):s.forWho), 'itin-field-who') : '',
   ].filter(Boolean).join('');
   // מיקוד האתר על מפת היום שבדף זה (לא מעבר לדף אחר) — רק אם יש קואורדינטות
   const focusBtn = focusAttr ? `<button class="itin-focusbtn" onclick="${focusAttr}" data-tip="הצגת האתר על מפת היום בדף זה">${icon('pin')}</button>` : '';
@@ -2522,6 +2576,22 @@ function hotelChart() {
   </div>`;
 }
 
+// מיפוי קטגוריה → אייקון (מאותם אייקונים כמו בסיכומים) + גוון אפור ייחודי
+const COST_CAT = {
+  'מלונות ולינה':        { ic:'bed',   sh:1 },
+  'טיסות':               { ic:'plane', sh:2 },
+  'רכב שכור':            { ic:'car',   sh:3 },
+  'אטרקציות ופעילויות':  { ic:'star',  sh:4 },
+  'דלק':                 { ic:'car',   sh:5 },
+  'כבישי אגרה':          { ic:'money', sh:6 },
+  'רכבות ומטרו':         { ic:'train', sh:2 },
+};
+function costCatMeta(cat){ return COST_CAT[cat] || { ic:'money', sh:0 }; }
+function costCatCell(cat){
+  const m = costCatMeta(cat);
+  return `<span class="cc-tag cc-sh${m.sh}">${icon(m.ic,'cc-ic')}<span class="cc-txt">${cat}</span></span>`;
+}
+
 function renderCosts() {
   const allRows = collectCosts();
   const showAll = window._costsShowAll || false;
@@ -2547,7 +2617,7 @@ function renderCosts() {
     .sort((a,b)=>b[1].ils-a[1].ils);
   const bar = `<div class="cost-filterbar">
     <button class="cfb${costsFilter==='all'?' on':''}" onclick="setCostsFilter('all')">הכל · ${fmtILS(allRows.reduce((s,r)=>s+r.ils,0))}</button>
-    ${catList.map(([c,v])=>`<button class="cfb${costsFilter===c?' on':''}" onclick="setCostsFilter('${c}')">${c}${v.ils?' · '+fmtILS(v.ils):''}</button>`).join('')}
+    ${catList.map(([c,v])=>`<button class="cfb cc-sh${costCatMeta(c).sh}${costsFilter===c?' on':''}" onclick="setCostsFilter('${c}')">${icon(costCatMeta(c).ic,'cc-ic')}<span>${c}${v.ils?' · '+fmtILS(v.ils):''}</span></button>`).join('')}
     <button class="cfb cfb-toggle" onclick="window._costsShowAll=!window._costsShowAll;renderCosts()">${showAll?'הסתר ריקות':'הצג הכול'}</button>
   </div>`;
 
@@ -2563,10 +2633,10 @@ function renderCosts() {
   const detail = rows
     .filter(r=>showAll || r.ils>0)
     .map(r=>`<tr class="${r.verify?'cost-verify':''}">
-      <td>${r.cat}</td>
+      <td>${costCatCell(r.cat)}</td>
       <td>${r.item}${r.verify?' <span class="cost-flag">טעון אימות</span>':''}${r.estimate&&!r.verify?' <span class="cost-flag est">משוער</span>':''}</td>
-      <td>${r.amount!=null?r.amount.toLocaleString()+' '+(r.currency||''):'—'}</td>
-      <td>${r.ils?fmtILS(r.ils):'—'}</td>
+      <td class="cost-src">${r.amount!=null?r.amount.toLocaleString()+' '+(r.currency||''):'—'}</td>
+      <td class="cost-money">${r.ils?fmtILS(r.ils):'—'}</td>
       <td><span class="tg ${r.paid?'tg-ok':'tg-no'}">${r.paid?'שולם':'טרם'}</span></td>
       <td>${r.note||''}</td>
     </tr>`).join('');
@@ -2587,6 +2657,7 @@ function renderCosts() {
 
   document.getElementById('costsWrap').innerHTML = `
     ${hero}
+    ${currencyConverterHtml()}
     <div class="tr-intro">כל הוצאות הטיול ממקור אחד. בחרי קטגוריה לבודד נושא — הסיכומים מתעדכנים.</div>
     ${bar}
     ${costsFilter!=='all'?cards:''}
@@ -2595,6 +2666,63 @@ function renderCosts() {
       <tbody>${detail}<tr class="cost-total"><td colspan="3">סה״כ · ${scope}</td><td>${fmtILS(total)}</td><td colspan="2"></td></tr></tbody></table></div>
     ${(costsFilter==='all'||costsFilter==='מלונות ולינה')?hotelChart():''}
     <div class="cost-note">שערי המרה משוערים: 1¥≈₪0.024 · 1$≈₪3.7. הסכומים במטבע המקור מדויקים מהמסמכים; ההמרה ל-₪ משוערת.</div>`;
+  // ערך התחלתי במחשבון
+  setTimeout(()=>{ const i=document.getElementById('fxIls'); if(i) convertFx('ils'); },0);
+}
+
+// ── מחשבון המרת מטבע: שקל (ILS) ↔ ין יפני (JPY) ──
+// 1¥ ≈ ₪0.024  →  1₪ ≈ 41.67¥
+function jpyPerIls(){ return 1 / (FX.JPY||0.024); }   // ~41.67
+function currencyConverterHtml(){
+  const rate = jpyPerIls();
+  return `<div class="fx-conv" data-tip="מחשבון המרה בין שקל לין יפני">
+    <div class="fx-head">${icon('money')} מחשבון המרה — שקל ⟷ ין יפני</div>
+    <div class="fx-rows">
+      <div class="fx-row">
+        <label class="fx-cell fx-from">
+          <span class="fx-cur">₪ שקל (ILS)</span>
+          <input type="number" id="fxIls" inputmode="decimal" placeholder="0" oninput="convertFx('ils')">
+        </label>
+        <button class="fx-swap" onclick="swapFx()" data-tip="החלפת כיוון">⇄</button>
+        <label class="fx-cell fx-to">
+          <span class="fx-cur">¥ ין יפני (JPY)</span>
+          <input type="number" id="fxJpy" inputmode="decimal" placeholder="0" oninput="convertFx('jpy')">
+        </label>
+      </div>
+    </div>
+    <div class="fx-rate">שער: <b>1₪ ≈ ${rate.toFixed(2)}¥</b> · <b>1¥ ≈ ₪${(FX.JPY||0.024).toFixed(3)}</b> (משוער)</div>
+    <div class="fx-quick" id="fxQuick"></div>
+  </div>`;
+}
+// המרה חיה — מקור 'ils' או 'jpy'
+function convertFx(from){
+  const ilsEl=document.getElementById('fxIls'), jpyEl=document.getElementById('fxJpy');
+  if(!ilsEl||!jpyEl) return;
+  const rate = jpyPerIls();
+  if(from==='ils'){
+    const v=parseFloat(ilsEl.value);
+    jpyEl.value = isFinite(v) ? Math.round(v*rate) : '';
+  } else {
+    const v=parseFloat(jpyEl.value);
+    ilsEl.value = isFinite(v) ? +(v/rate).toFixed(2) : '';
+  }
+  renderFxQuick();
+}
+// טבלת המרה מהירה לסכומים נפוצים
+function renderFxQuick(){
+  const box=document.getElementById('fxQuick'); if(!box) return;
+  const rate=jpyPerIls();
+  const ilsAmts=[50,100,200,500,1000];
+  const jpyAmts=[500,1000,3000,5000,10000];
+  box.innerHTML = `<div class="fxq-col"><div class="fxq-title">₪ → ¥</div>${ilsAmts.map(a=>`<div class="fxq-row"><span class="fxq-src">₪${a}</span><span class="fxq-dst">¥${Math.round(a*rate).toLocaleString()}</span></div>`).join('')}</div>`
+    + `<div class="fxq-col"><div class="fxq-title">¥ → ₪</div>${jpyAmts.map(a=>`<div class="fxq-row"><span class="fxq-src">¥${a.toLocaleString()}</span><span class="fxq-dst">₪${Math.round(a/rate).toLocaleString()}</span></div>`).join('')}</div>`;
+}
+function swapFx(){
+  const ilsEl=document.getElementById('fxIls'), jpyEl=document.getElementById('fxJpy');
+  if(!ilsEl||!jpyEl) return;
+  // אם יש ערך ב-ILS — נמיר ממנו; אחרת מ-JPY
+  if(ilsEl.value!=='') convertFx('ils'); else if(jpyEl.value!=='') convertFx('jpy');
+  ilsEl.focus();
 }
 
 // ══════════════════════════════════
