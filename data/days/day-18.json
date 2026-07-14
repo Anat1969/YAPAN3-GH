@@ -15,7 +15,8 @@
         "price": 1500,
         "forWho": "עילאי, כולם",
         "notes": "18 ק״מ, גבעות, שדות, עצי בודדים אייקוניים. השכרה ליד התחנה",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Blue_Sky_And_White_World_%28131608635%29.jpeg/500px-Blue_Sky_And_White_World_%28131608635%29.jpeg"
       }
     ],
     "afternoon": [
@@ -30,7 +31,8 @@
         "price": 500,
         "forWho": "לוטם, כולם",
         "notes": "שדות פרחים צבעוניים, באגי (500 ין), אלפקות",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Hokkaido_-_Biei%2C_Shikisai_no_Oka%2C_august_2010_%285059516597%29.jpg/500px-Hokkaido_-_Biei%2C_Shikisai_no_Oka%2C_august_2010_%285059516597%29.jpg"
       }
     ],
     "evening": [
@@ -45,7 +47,8 @@
         "price": 0,
         "forWho": "כולם",
         "notes": "בריכה כחולה־טורקיז מפורסמת. אור אחר הצהריים/ערב = צבע עז יותר. סמוך: מפלי שירוגאנה",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Blue_Pond_%28Aoiike%29_at_Biei%2C_Hokkaido%2C_Japan.jpg/500px-Blue_Pond_%28Aoiike%29_at_Biei%2C_Hokkaido%2C_Japan.jpg"
       }
     ]
   },

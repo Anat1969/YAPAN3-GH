@@ -15,7 +15,8 @@
         "price": 0,
         "forWho": "כולם",
         "notes": "תצפית על ים אוכוטסק. בהיר — נוף עד קונאשיר",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Rausu-dake_01.JPG/500px-Rausu-dake_01.JPG"
       },
       {
         "name": "אגם מאשו",
@@ -29,7 +30,7 @@
         "forWho": "ענת, כולם",
         "notes": "אגם מכתש ללא יציאה. מים הכי שקופים בעולם. ערפל מפורסם",
         "placeId": "",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Lake_Mash%C5%AB_Japan_during_wintertime_in_Akan_National_Park_Hokkaid%C5%8D.jpg/500px-Lake_Mash%C5%AB_Japan_during_wintertime_in_Akan_National_Park_Hokkaid%C5%8D.jpg"
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Hokkaido%2C_Japan%2C_Lake_Mash%C5%AB%2C_2008.jpg/500px-Hokkaido%2C_Japan%2C_Lake_Mash%C5%AB%2C_2008.jpg"
       }
     ],
     "afternoon": [
@@ -58,7 +59,8 @@
         "price": 0,
         "forWho": "כולם",
         "notes": "מעיינות גופרית, הליכה ביער",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Hot_spring_River_in_the_Kawayu_spa.jpg/500px-Hot_spring_River_in_the_Kawayu_spa.jpg"
       }
     ],
     "evening": [

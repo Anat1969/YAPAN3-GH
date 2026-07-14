@@ -15,7 +15,8 @@
         "price": 450,
         "forWho": "ענת, לוטם",
         "notes": "SANAA (סג׳ימה + נישיזאווה). מבנה עגול שקוף. בריכת לנדר. חינם בחלק מהגלריות",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/21st_Century_Museum_of_Contemporary_Art%2C_Kanazawa011.jpg/500px-21st_Century_Museum_of_Contemporary_Art%2C_Kanazawa011.jpg"
       },
       {
         "name": "גן קנרוקואן",
@@ -58,7 +59,8 @@
         "price": 0,
         "forWho": "ענת, נתן",
         "notes": "קירות אדמה, תעלות, בית נומורה (כניסה 550 ין)",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Nagamachi_buke_yashiki_-_samurai_residence_in_Kanazawa_-_Flickr_-_odako1_%281%29.jpg/500px-Nagamachi_buke_yashiki_-_samurai_residence_in_Kanazawa_-_Flickr_-_odako1_%281%29.jpg"
       },
       {
         "name": "שוק אומיצ׳ו",
@@ -71,7 +73,8 @@
         "price": 0,
         "forWho": "נתן",
         "notes": "סושי טרי, פירות ים, ירקות מקומיים",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Omicho_covered_market_western_entrance%2C_Kanazawa%2C_2016.jpg/500px-Omicho_covered_market_western_entrance%2C_Kanazawa%2C_2016.jpg"
       },
       {
         "name": "רובע היגאשי צ׳איה",
@@ -84,7 +87,8 @@
         "price": 0,
         "forWho": "לוטם, ענת",
         "notes": "רובע גיישות עם בתי תה, זהב. פחות תיירותי מגיון",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Higashi_Chaya_district%2C_Kanazawa_%283810723944%29.jpg/500px-Higashi_Chaya_district%2C_Kanazawa_%283810723944%29.jpg"
       }
     ],
     "evening": [
@@ -99,7 +103,8 @@
         "price": "",
         "forWho": "כולם",
         "notes": "",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Higashi_Chaya%2C_Kanazawa_-_Flickr_-_Sergiy_Galyonkin.jpg/500px-Higashi_Chaya%2C_Kanazawa_-_Flickr_-_Sergiy_Galyonkin.jpg"
       }
     ]
   },

@@ -16,7 +16,7 @@
         "forWho": "כולם, לוטם",
         "notes": "שדות לבנדר אייקוניים. השדות האחוריים פחות עמוסים. גלידת לבנדר",
         "placeId": "",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/%E3%83%95%E3%82%A1%E3%83%BC%E3%83%A0%E5%AF%8C%E7%94%B0%EF%BC%88Farm_Tomita%EF%BC%89_-_panoramio_%282%29.jpg/500px-%E3%83%95%E3%82%A1%E3%83%BC%E3%83%A0%E5%AF%8C%E7%94%B0%EF%BC%88Farm_Tomita%EF%BC%89_-_panoramio_%282%29.jpg"
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/140726_Farm_Tomita_Nakafurano_Hokkaido_Japan03bs.jpg/500px-140726_Farm_Tomita_Nakafurano_Hokkaido_Japan03bs.jpg"
       }
     ],
     "afternoon": [
@@ -31,7 +31,8 @@
         "price": 0,
         "forWho": "לוטם, ענת",
         "notes": "15 בקתות עץ ביער — מלאכת יד, נרות, זכוכית, עור",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/130503_Ningle_Terrace_Furano_Hokkaido_Japan05s10.jpg/500px-130503_Ningle_Terrace_Furano_Hokkaido_Japan05s10.jpg"
       },
       {
         "name": "Furano Cheese Factory",
@@ -60,7 +61,8 @@
         "price": 0,
         "forWho": "כולם",
         "notes": "תעלה היסטורית עם פנסי גז מוארים בערב — אווירה רומנטית. מחסני לבנים משופצים לאורך המים",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Otaru_Canal_HDR1.jpg/500px-Otaru_Canal_HDR1.jpg"
       }
     ]
   },

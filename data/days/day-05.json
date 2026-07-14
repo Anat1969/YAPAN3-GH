@@ -45,7 +45,8 @@
         "price": 0,
         "forWho": "ענת, נתן",
         "notes": "רובע הגיישות. שקט, פנסים, ארכיטקטורה מסורתית. מאצ׳יה — בתי עץ צרים",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Wooden_and_bamboo_facades_of_dwellings_with_sudare_in_a_cobbled_street_of_Gion%2C_perspective_effect_with_vanishing_point%2C_Kyoto%2C_Japan.jpg/500px-Wooden_and_bamboo_facades_of_dwellings_with_sudare_in_a_cobbled_street_of_Gion%2C_perspective_effect_with_vanishing_point%2C_Kyoto%2C_Japan.jpg"
       }
     ],
     "evening": [
@@ -61,7 +62,7 @@
         "forWho": "נתן, כולם",
         "notes": "סמטה צרה על נהר קאמו. מסעדות עם מרפסות על המים",
         "placeId": "",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Pontocho_by_Wolfiewolf_in_Nabeyacho%2C_Kyoto.jpg/500px-Pontocho_by_Wolfiewolf_in_Nabeyacho%2C_Kyoto.jpg"
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Pontocho_Alley%2C_Kyoto_-_Flickr_-_Sergiy_Galyonkin.jpg/500px-Pontocho_Alley%2C_Kyoto_-_Flickr_-_Sergiy_Galyonkin.jpg"
       }
     ]
   },

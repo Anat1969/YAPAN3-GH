@@ -28,7 +28,8 @@
         "price": 1800,
         "forWho": "עילאי, כולם",
         "notes": "נוף על האגם, קלדרת שואה-שינזאן, שביל מכתש הגעש",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/130922_Mount_Usu_Sobetsu_Hokkaido_Japan09bs5.jpg/500px-130922_Mount_Usu_Sobetsu_Hokkaido_Japan09bs5.jpg"
       }
     ],
     "afternoon": [
@@ -43,7 +44,8 @@
         "price": 0,
         "forWho": "עילאי, ענת",
         "notes": "שכונה שנקברה בהתפרצות 2000. מדרכות עקומות, עמודי חשמל שקועים — אדריכלות הרס",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/130922_Mount_Usu_Sobetsu_Hokkaido_Japan09bs5.jpg/500px-130922_Mount_Usu_Sobetsu_Hokkaido_Japan09bs5.jpg"
       },
       {
         "name": "טיילת אגם טויה",
@@ -56,7 +58,8 @@
         "price": 0,
         "forWho": "נתן, כולם",
         "notes": "הליכה על שפת האגם, פסלים, נוף",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/130922_Lake_Toya_Toyako_Hokkaido_Japan03s3.jpg/500px-130922_Lake_Toya_Toyako_Hokkaido_Japan03s3.jpg"
       }
     ],
     "evening": [
@@ -71,7 +74,8 @@
         "price": 0,
         "forWho": "כולם",
         "notes": "כל לילה באפריל-אוקטובר. מהטיילת או מהמלון",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/View_of_T%C5%8Dyako-onsen_town.JPG/500px-View_of_T%C5%8Dyako-onsen_town.JPG"
       }
     ]
   },

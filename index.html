@@ -34,6 +34,14 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--ink);font-size:13px;line-height:1.5}
+/* באנר אזהרת תמונות שלא נשמרו ל-Git */
+.img-warn{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff4d6;border-bottom:2px solid #e0a800;color:#7a5a00;padding:10px 16px;font-size:13px;font-weight:700}
+.img-warn .iw-txt b{color:#b45309;font-size:15px}
+.img-warn .iw-btn{border:1px solid #e0a800;background:#fff;color:#7a5a00;border-radius:6px;padding:5px 12px;font:800 12px/1 inherit;cursor:pointer;transition:.12s}
+.img-warn .iw-btn:hover{background:#e0a800;color:#fff}
+.img-warn .iw-save{background:#15803d;border-color:#15803d;color:#fff}
+.img-warn .iw-save:hover{background:#116932}
+.img-warn .iw-restore{display:inline-flex;align-items:center}
 
 /* אייקוני קו אחידים (SVG) — גודל, עובי-קו וצבע זהים בכל האפליקציה */
 .ic{width:16px;height:16px;flex:none;stroke:var(--icon);stroke-width:1.75;fill:none;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle}
@@ -917,6 +925,14 @@ a.ml:hover{text-decoration:underline}
   </div>
 </nav>
 
+<!-- אזהרה בולטת: תמונות שהודבקו ונשמרו רק בדפדפן, טרם נשמרו ל-Git (ייעלמו בניקוי דפדפן/החלפת מכשיר) -->
+<div class="img-warn" id="imgWarn" style="display:none" role="alert">
+  <span class="iw-txt">⚠️ יש <b class="iw-count">0</b> תמונות שהוספת ששמורות רק בדפדפן וטרם נשמרו לצמיתות. כדי לא לאבד אותן —</span>
+  <button class="iw-btn iw-save" onclick="saveAll()">שמור קבצים ל-Git</button>
+  <button class="iw-btn" onclick="backupImages()">גבי לקובץ</button>
+  <label class="iw-btn iw-restore">שחזרי מקובץ<input type="file" accept=".json" style="display:none" onchange="restoreImagesFile(this)"></label>
+</div>
+
 <section class="hero" id="hero">
   <div class="hero-card">
     <div>
@@ -1179,6 +1195,7 @@ async function loadData() {
     if (urlTab==='map') setTimeout(initMap,120);
   }
   updateSaveBtn();
+  updateImgWarn();
   render();
 }
 
@@ -1758,7 +1775,7 @@ async function setPlaceImage(key, dataUrl){
   (DATA.days||[]).forEach(d=>{
     let touched=false;
     ['morning','afternoon','evening'].forEach(t=>{
-      (d.spots && d.spots[t] || []).forEach(s=>{ if(placeKey(s)===key){ s.image=small; touched=true; } });
+      (d.spots && d.spots[t] || []).forEach(s=>{ if(placeKey(s)===key){ s.image=small; s._imgEdited=true; touched=true; } });
     });
     if(touched){ const idNum = d.id!=null?d.id:d.tripDay; _changedDays.add(String(idNum)); }
   });
@@ -1766,12 +1783,19 @@ async function setPlaceImage(key, dataUrl){
   persistPendingDaySpots();
   markUnsaved();
   render();
-  toast('התמונה נשמרה זמנית — לחצי «שמור קבצים» כדי לשמור ל-Git');
+  updateImgWarn();
+  toast('התמונה נשמרה זמנית — לחצי «שמור קבצים» או «גבי תמונות» כדי לא לאבד אותה');
 }
 // התמדה זמנית של תמונות שנערכו (מפתח → base64) — משוחזר בטעינה עד ל-push
+// חשוב: כולל גם תמונות שהודבקו על תחנות במסלול שאין להן רשומת-אתר תואמת (אחרת הן אבדו!)
 function persistImageEdits(){
-  const out = {};
+  let out = {};
+  try { out = JSON.parse(localStorage.getItem('pending-images')||'{}'); } catch(e){ out={}; }
+  // אתרים ששונו
   DATA.places.forEach(p=>{ if(p._imgEdited && p.image) out[placeKey(p)] = p.image; });
+  // תחנות במסלול ששונו (כולל כאלה שלא קיימות ברשימת האתרים) — לא לאבד
+  (DATA.days||[]).forEach(d=>['morning','afternoon','evening'].forEach(t=>
+    (d.spots&&d.spots[t]||[]).forEach(s=>{ if(s._imgEdited && s.image) out[placeKey(s)] = s.image; })));
   try { localStorage.setItem('pending-images', JSON.stringify(out)); } catch(e){}
 }
 // ── מטפלי גרירה/הדבקה/לחיצה ──
@@ -3707,6 +3731,8 @@ function copyMissingPrompt() {
 async function saveAll() {
   // הסרת סמנים זמניים לפני יצוא (לא נשמרים לקובץ)
   (DATA.places||[]).forEach(p=>{ delete p._imgEdited; });
+  (DATA.days||[]).forEach(d=>['morning','afternoon','evening'].forEach(t=>
+    (d.spots&&d.spots[t]||[]).forEach(s=>{ delete s._imgEdited; })));
   // קבצי הליבה (hotels/days/places/... כולל tabs)
   for (const [name, data] of Object.entries(DATA)) {
     downloadJSON(data, name+'.json');
@@ -3722,7 +3748,54 @@ async function saveAll() {
   _changedDays.clear();
   hasUnsaved = false;
   const b=document.getElementById('navSaveBtn'); if(b) b.style.display='none';
+  updateImgWarn();
   toast(dayCount ? `כל הקבצים נשמרו (כולל ${dayCount} קבצי ימים) — העלי ל-Git תחת data/days/` : 'כל הקבצים נשמרו — העלי ל-Git');
+}
+
+// ── גיבוי/שחזור תמונות מקומיות שטרם נשמרו ל-Git ──
+// מונע אובדן: אפשר להוריד את כל התמונות שהודבקו לקובץ, ולייבא אותן בחזרה בכל דפדפן/כתובת.
+function countPendingImages(){
+  try{ return Object.keys(JSON.parse(localStorage.getItem('pending-images')||'{}')).length; }catch(e){ return 0; }
+}
+function backupImages(){
+  let pi={}; try{ pi=JSON.parse(localStorage.getItem('pending-images')||'{}'); }catch(e){}
+  const keys=Object.keys(pi);
+  if(!keys.length){ toast('אין תמונות מקומיות לגבות כרגע'); return; }
+  downloadJSON({type:'japan-trip-images-backup', savedAt:new Date().toISOString(), images:pi}, 'תמונות-גיבוי.json');
+  toast(`גובו ${keys.length} תמונות לקובץ — שמרי אותו במקום בטוח`);
+}
+function restoreImagesFile(input){
+  const file=input.files&&input.files[0]; if(!file) return;
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const parsed=JSON.parse(r.result);
+      const imgs = parsed.images || parsed; // תומך גם בקובץ גיבוי וגם ב-pending-images גולמי
+      if(!imgs || typeof imgs!=='object') throw new Error('מבנה לא תקין');
+      let cur={}; try{ cur=JSON.parse(localStorage.getItem('pending-images')||'{}'); }catch(e){}
+      const merged={...cur, ...imgs};
+      localStorage.setItem('pending-images', JSON.stringify(merged));
+      // החלה מיידית על ה-DATA
+      Object.keys(imgs).forEach(k=>{
+        const p=findPlaceByKey(k); if(p){ p.image=imgs[k]; p._imgEdited=true; }
+        (DATA.days||[]).forEach(d=>['morning','afternoon','evening'].forEach(t=>
+          (d.spots&&d.spots[t]||[]).forEach(s=>{ if(placeKey(s)===k) s.image=imgs[k]; })));
+      });
+      markUnsaved(); render(); updateImgWarn();
+      toast(`שוחזרו ${Object.keys(imgs).length} תמונות — לחצי «שמור קבצים» כדי לשמור ל-Git`);
+    }catch(e){ toast('שחזור נכשל — הקובץ אינו קובץ גיבוי תקין'); }
+    input.value='';
+  };
+  r.readAsText(file);
+}
+// באנר אזהרה בולט: יש תמונות מקומיות שטרם נשמרו ל-Git
+function updateImgWarn(){
+  const el=document.getElementById('imgWarn'); if(!el) return;
+  const n=countPendingImages();
+  if(n>0){
+    el.style.display='';
+    el.querySelector('.iw-count').textContent=n;
+  } else { el.style.display='none'; }
 }
 
 function downloadJSON(data, filename) {

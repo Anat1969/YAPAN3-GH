@@ -28,7 +28,8 @@
         "price": 0,
         "forWho": "ענת, כולם",
         "notes": "כפר מסורתי של העם הילידי. מלאכת יד, גילופי עץ, מוזיקה",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/%E9%98%BF%E5%AF%92_%E3%82%B3%E3%82%BF%E3%83%B3%EF%BC%88_Ainu_village_of_Lake_Akan%EF%BC%89_-_panoramio.jpg/500px-%E9%98%BF%E5%AF%92_%E3%82%B3%E3%82%BF%E3%83%B3%EF%BC%88_Ainu_village_of_Lake_Akan%EF%BC%89_-_panoramio.jpg"
       }
     ],
     "afternoon": [
@@ -43,7 +44,8 @@
         "price": 2000,
         "forWho": "כולם",
         "notes": "שייט לאי צ׳ורוי — כדורי מרימו (אצות ירוקות כדוריות)",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Lake_Akan_-_Hokkaido_-_2021_12_09_-_various.jpeg/500px-Lake_Akan_-_Hokkaido_-_2021_12_09_-_various.jpeg"
       },
       {
         "name": "הליכת בוקאצ׳ו",
@@ -56,7 +58,8 @@
         "price": 0,
         "forWho": "עילאי, ענת",
         "notes": "מסלול הליכה ביער לאורך האגם. בוצה רותחת (Bokke)",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Bokke_by_Lake_Akan.JPG/500px-Bokke_by_Lake_Akan.JPG"
       }
     ],
     "evening": [
@@ -71,7 +74,8 @@
         "price": 1200,
         "forWho": "כולם",
         "notes": "ריקודים מסורתיים — מורשת עולמית של UNESCO",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Tamoto_Kenz%C5%8D_-_Ainu_Storehouse_with_Ainu_Children.jpg/500px-Tamoto_Kenz%C5%8D_-_Ainu_Storehouse_with_Ainu_Children.jpg"
       }
     ]
   },

@@ -15,7 +15,8 @@
         "price": 6000,
         "forWho": "עילאי, כולם",
         "notes": "ראפטינג משפחתי בקיץ — דרגת קושי נמוכה, מתאים מגיל 5. חברות: Niseko HANAZONO / NAC. הזמנה מראש",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Shiribetsu_River.JPG/500px-Shiribetsu_River.JPG"
       }
     ],
     "afternoon": [
@@ -30,7 +31,8 @@
         "price": 2000,
         "forWho": "כולם",
         "notes": "רכבל קיץ לנוף מרהיב של הר יוטיי (\"פוג'י של הוקאידו\"). מסלולי הליכה קלים בפסגה",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Mount_Y%C5%8Dtei_and_Mount_Niseko-Annupuri.jpg/500px-Mount_Y%C5%8Dtei_and_Mount_Niseko-Annupuri.jpg"
       }
     ],
     "evening": [
@@ -45,7 +47,8 @@
         "price": 800,
         "forWho": "נתן, ענת",
         "notes": "מעיינות חמים טבעיים אחרי יום ספורט. חלק מהמתחמים עם רוטנבורו (בריכה חיצונית) מול ההרים",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Mount_Y%C5%8Dtei_from_Niseko_Annupuri_%2833253188670%29.jpg/500px-Mount_Y%C5%8Dtei_from_Niseko_Annupuri_%2833253188670%29.jpg"
       }
     ]
   },

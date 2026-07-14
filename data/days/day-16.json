@@ -44,7 +44,8 @@
         "price": 0,
         "forWho": "כולם",
         "notes": "שני מפלים מקבילים — גינגא (כוכבים) וריוסיי (מטאור)",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Ryuseinotaki_Waterfall.JPG"
       }
     ],
     "evening": [
@@ -60,7 +61,7 @@
         "forWho": "כולם",
         "notes": "מעיין גופרית, ריוקאן קטן",
         "placeId": "",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/HPIM2742.JPG/500px-HPIM2742.JPG"
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Japan_Hokkaido%2C_Sounkyo_gorge_02.jpg/500px-Japan_Hokkaido%2C_Sounkyo_gorge_02.jpg"
       }
     ]
   },

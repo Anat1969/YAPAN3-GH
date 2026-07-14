@@ -15,7 +15,8 @@
         "price": 169,
         "forWho": "כולם",
         "notes": "הבניין הגבוה בעולם. תצפית קומות 124-125. להזמין כרטיסים מראש (מחיר בדירהם). בוקר = פחות אובך",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Burj_dubai_3.11.08.jpg/500px-Burj_dubai_3.11.08.jpg"
       }
     ],
     "afternoon": [
@@ -30,7 +31,8 @@
         "price": 0,
         "forWho": "ענת, נתן",
         "notes": "שוק זהב מסורתי בדֵירה. שילוב עם סוק התבלינים הסמוך ושיט אבּרה (סירה) על נחל הקריק — 1 דירהם",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Gold_Souk_%40_Deira_%40_Dubai_%2815698382719%29.jpg/500px-Gold_Souk_%40_Deira_%40_Dubai_%2815698382719%29.jpg"
       }
     ],
     "evening": [
@@ -39,13 +41,14 @@
         "nameEn": "Jumeirah Beach",
         "addr": "Jumeirah, Dubai",
         "lat": 25.2048,
-        "lng": 55.2440,
+        "lng": 55.244,
         "time": "17:30",
         "duration": "2 שעות",
         "price": 0,
         "forWho": "כולם",
         "notes": "חוף ציבורי עם נוף לבורג' אל ערב. רגיעה לפני טיסת ההמשך. שקיעה יפה על הים",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Dubai_Jumeirah_Beach.JPG/500px-Dubai_Jumeirah_Beach.JPG"
       }
     ]
   },

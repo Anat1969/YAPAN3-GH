@@ -15,7 +15,8 @@
         "price": 0,
         "forWho": "עילאי",
         "notes": "הר געש פעיל, 1,370 מ׳. מסלול מאתגר עם נוף 360. לעילאי",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Lake_Akan_and_Mount_Oakan_-_2005.jpg/500px-Lake_Akan_and_Mount_Oakan_-_2005.jpg"
       },
       {
         "name": "אונסן + מנוחה",
@@ -44,7 +45,8 @@
         "price": 0,
         "forWho": "נתן, לוטם",
         "notes": "חנויות מלאכת יד איינו, גילופי עץ, סדנאות",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Lake_Akan_20200223.jpg/500px-Lake_Akan_20200223.jpg"
       }
     ],
     "evening": []

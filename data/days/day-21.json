@@ -30,7 +30,8 @@
         "price": 0,
         "forWho": "לוטם, נתן, ענת",
         "notes": "תעלת אוטארו, Art Base, רחוב סאקאימאצ׳י — זכוכית, קופסאות נגינה, ממתקים",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Otaru_Canal_20140817.jpg/500px-Otaru_Canal_20140817.jpg"
       }
     ],
     "evening": [
@@ -45,7 +46,8 @@
         "price": null,
         "forWho": "כולם",
         "notes": "\"רחוב הסושי\" של אוטארו — עשרות מסעדות סושי טרי. אוטארו מפורסמת בפירות ים מים קרים",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Sushi_restaurant_by_Mr_Wabu_in_Otaru%2C_Hokkaido.jpg/500px-Sushi_restaurant_by_Mr_Wabu_in_Otaru%2C_Hokkaido.jpg"
       }
     ]
   },

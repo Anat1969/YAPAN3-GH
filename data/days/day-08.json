@@ -15,7 +15,8 @@
         "price": 0,
         "forWho": "כולם",
         "notes": "להגיע מוקדם (עד 09:00) לפני ההמון. שילוב עם גשר טוגטסוקיו וגן הקוקים סמוך",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Bamboo_Forest%2C_Arashiyama%2C_Kyoto%2C_Japan.jpg/500px-Bamboo_Forest%2C_Arashiyama%2C_Kyoto%2C_Japan.jpg"
       }
     ],
     "afternoon": [
@@ -30,7 +31,8 @@
         "price": null,
         "forWho": "כולם",
         "notes": "\"מטבח קיוטו\" — סמטת אוכל מקורה, טעימות רחוב, ממתקים ותבלינים. מצוין ליום גשום",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Nishiki_ichiba_kyoto.jpg/500px-Nishiki_ichiba_kyoto.jpg"
       },
       {
         "name": "שביל הפילוסוף",
@@ -43,7 +45,8 @@
         "price": 0,
         "forWho": "נתן, ענת",
         "notes": "שביל שקט לאורך תעלה, מחבר בין מקדשים. רגוע ופחות מתויר — מושלם ליום חופשי",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Tetsugaku_no_Michi_01.JPG/500px-Tetsugaku_no_Michi_01.JPG"
       }
     ],
     "evening": [
@@ -58,7 +61,8 @@
         "price": null,
         "forWho": "כולם",
         "notes": "רובע הגיישות ההיסטורי — סמטאות מוארות בערב, בתי תה מסורתיים. סיכוי לראות מאיקו",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Wooden_and_bamboo_facades_of_dwellings_with_sudare_in_a_cobbled_street_of_Gion%2C_perspective_effect_with_vanishing_point%2C_Kyoto%2C_Japan.jpg/500px-Wooden_and_bamboo_facades_of_dwellings_with_sudare_in_a_cobbled_street_of_Gion%2C_perspective_effect_with_vanishing_point%2C_Kyoto%2C_Japan.jpg"
       }
     ]
   },

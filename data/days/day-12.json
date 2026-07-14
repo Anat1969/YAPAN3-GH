@@ -15,7 +15,8 @@
         "price": 4000,
         "forWho": "עילאי, כולם",
         "notes": "שייט לאורך חצי האי — צוקים, מפלים, אפשר לראות דובים וארנבות ים",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Shiretoko_National_Park.jpg/500px-Shiretoko_National_Park.jpg"
       }
     ],
     "afternoon": [
@@ -30,7 +31,8 @@
         "price": 500,
         "forWho": "ענת, עילאי",
         "notes": "הליכה על שבילי עץ מוגבהים מעל הביצות. שקט מוחלט, השתקפויות",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/140829_Ichiko_of_Shiretoko_Goko_Lakes_Hokkaido_Japan02s5.jpg/500px-140829_Ichiko_of_Shiretoko_Goko_Lakes_Hokkaido_Japan02s5.jpg"
       },
       {
         "name": "מפל קאמואיוואקי",
@@ -43,7 +45,8 @@
         "price": 0,
         "forWho": "עילאי",
         "notes": "מפל מעיינות חמים — טיפוס במים חמים. נעלי מים חובה",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/140828_Kamuiwakka_Falls_and_Mount_Io_Shiretoko_Hokkaido_Japan01s13.jpg/500px-140828_Kamuiwakka_Falls_and_Mount_Io_Shiretoko_Hokkaido_Japan01s13.jpg"
       }
     ],
     "evening": [
@@ -58,7 +61,8 @@
         "price": "",
         "forWho": "",
         "notes": "שקיעה + אונסן במלון",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Yuuhidai_%28Sunset%29_Point%2C_Shiretoko.JPG/500px-Yuuhidai_%28Sunset%29_Point%2C_Shiretoko.JPG"
       }
     ]
   },

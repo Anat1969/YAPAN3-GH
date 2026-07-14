@@ -15,7 +15,8 @@
         "price": 400,
         "forWho": "ענת, נתן",
         "notes": "מתחם זן ענק. גני סלע שונים בכל תת-מקדש. שקט מוחלט",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Daitokuji_%28Kita-Ku_Kyoto%29_Temple_hdsr_S5_01.jpg/500px-Daitokuji_%28Kita-Ku_Kyoto%29_Temple_hdsr_S5_01.jpg"
       }
     ],
     "afternoon": [
@@ -30,7 +31,8 @@
         "price": 3000,
         "forWho": "לוטם, ענת",
         "notes": "סדנת ראקו או קינצוגי. להזמין מראש",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/MET_DP239563.jpg/500px-MET_DP239563.jpg"
       },
       {
         "name": "טראמאצ׳י",
@@ -43,7 +45,8 @@
         "price": 0,
         "forWho": "לוטם",
         "notes": "רחוב קניות מקורה — נייר יפני, סטיישנרי, מניפות, עיצוב",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Teramachi_shopping_street%2C_Kyoto%2C_May_2017.jpg/500px-Teramachi_shopping_street%2C_Kyoto%2C_May_2017.jpg"
       }
     ],
     "evening": [
@@ -58,7 +61,8 @@
         "price": 0,
         "forWho": "נתן",
         "notes": "טעימות ערב, סאקה, אווירה",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Nishiki_ichiba_kyoto.jpg/500px-Nishiki_ichiba_kyoto.jpg"
       }
     ]
   },

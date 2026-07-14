@@ -28,7 +28,8 @@
         "price": 500,
         "forWho": "כולם",
         "notes": "מים טורקיז + עצי ליבנה לבנים. צולם לרקע אייפון",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Biei_Blue-pond.jpg/500px-Biei_Blue-pond.jpg"
       }
     ],
     "afternoon": [
@@ -57,7 +58,8 @@
         "price": 0,
         "forWho": "כולם, לוטם",
         "notes": "גבעות צבעוניות — שדות חיטה, תפוחי אדמה, לבנדר. אופניים מומלץ",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Hokkaido_-_Biei%2C_Shikisai_no_Oka%2C_august_2010_%285059516597%29.jpg/500px-Hokkaido_-_Biei%2C_Shikisai_no_Oka%2C_august_2010_%285059516597%29.jpg"
       }
     ],
     "evening": [

@@ -15,7 +15,8 @@
         "price": 0,
         "forWho": "ענת",
         "notes": "טאדאו אנדו תכנן ותרם. תפוח ירוק על המרפסת. 3 קומות ספרים פתוחות",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Osaka_Prefectural_Nakanoshima_Library_at_night.jpg/500px-Osaka_Prefectural_Nakanoshima_Library_at_night.jpg"
       },
       {
         "name": "הליכה על אי נאקאנושימה",
@@ -28,7 +29,8 @@
         "price": 0,
         "forWho": "ענת, נתן",
         "notes": "אי בין תעלות, אדריכלות מודרנית, פארק ורדים",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Nakanoshima_Park_Kensaki_Fountain.JPG/500px-Nakanoshima_Park_Kensaki_Fountain.JPG"
       }
     ],
     "afternoon": [
@@ -44,7 +46,7 @@
         "forWho": "ענת",
         "notes": "טאדאו אנדו, 1989. צלב של אור חודר לקונכיית בטון. 25 דק׳ רכבת מאוסקה. הזמנה מראש חובה",
         "placeId": "",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Ibaraki_Kasugaoka_Church_light_cross.jpg/500px-Ibaraki_Kasugaoka_Church_light_cross.jpg"
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Church_of_Light.JPG/500px-Church_of_Light.JPG"
       },
       {
         "name": "דן דן טאון",
@@ -58,7 +60,7 @@
         "forWho": "עילאי, לוטם",
         "notes": "אלקטרוניקה, אנימה, גיימינג, רטרו",
         "placeId": "",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Nipponbashi_Osaka_Japan01-r.jpg/500px-Nipponbashi_Osaka_Japan01-r.jpg"
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Den-Den_Town%2C_Nipponbashi%2C_Osaka_-_Jul_12%2C_2023.jpg/500px-Den-Den_Town%2C_Nipponbashi%2C_Osaka_-_Jul_12%2C_2023.jpg"
       }
     ],
     "evening": [
@@ -74,7 +76,7 @@
         "forWho": "נתן, עילאי",
         "notes": "קושיקאצו (שיפודי טיגון), מגדל צוטנקאקו, אווירת רטרו",
         "placeId": "",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Shinsekai_and_Tsutenkaku_at_night_2019-04-12.jpg/500px-Shinsekai_and_Tsutenkaku_at_night_2019-04-12.jpg"
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Tsutenkaku_Tower_%40_Shinsekai_%40_Osaka_%2813382524693%29.jpg/500px-Tsutenkaku_Tower_%40_Shinsekai_%40_Osaka_%2813382524693%29.jpg"
       },
       {
         "name": "שוק קורומון",
@@ -87,7 +89,8 @@
         "price": 0,
         "forWho": "נתן",
         "notes": "המטבח של אוסקה — פירות ים, מוצ׳י, פירות",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Kuromon_Ichiba_Market_at_Lalaport_Kadoma2.jpg/500px-Kuromon_Ichiba_Market_at_Lalaport_Kadoma2.jpg"
       }
     ]
   },

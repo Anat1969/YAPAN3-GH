@@ -15,7 +15,8 @@
         "price": 0,
         "forWho": "נתן, ענת",
         "notes": "הליכת בוקר שקטה ברובע הסמוראי",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Samurai_Residence_view_in_Kanazawa_city.jpg/500px-Samurai_Residence_view_in_Kanazawa_city.jpg"
       }
     ],
     "afternoon": [
@@ -45,7 +46,8 @@
         "price": null,
         "forWho": "כולם",
         "notes": "ארוחה ראשונה בשירטוקו אחרי הנחיתה — פירות ים טריים מנמל אוטורו (סלמון, סרטן, איקורה)",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Yuuhidai_%28Sunset%29_Point%2C_Shiretoko.JPG/500px-Yuuhidai_%28Sunset%29_Point%2C_Shiretoko.JPG"
       }
     ]
   },
