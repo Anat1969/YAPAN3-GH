@@ -2838,7 +2838,8 @@ function transportRouteMap() {
   const offX=(W-geoW*sc)/2, offY=(H-geoH*sc)/2;
   const X=lng=>offX+(lng-minLng)*cosLat*sc;
   const Y=lat=>offY+(maxLat-lat)*sc;  // צפון למעלה
-  const inBox=p=>p[1]>=minLng-3&&p[1]<=maxLng+3;
+  // מסננים החוצה קווים לשדות רחוקים (DXB/TLV) — המפה מציגה את המסע בתוך יפן
+  const inBox=p=>p[0]>=minLat-2&&p[0]<=maxLat+2&&p[1]>=minLng-2&&p[1]<=maxLng+2;
   const MC={train:'#1d4ed8',metro:'#2563eb',shinkansen:'#1e3a8a',walk:'#15803d',bus:'#b45309',car:'#6b7280',flight:'#b91c1c',taxi:'#7c3aed',shuttle:'#0891b2'};
   const used=new Set();
   // קווים
@@ -2939,7 +2940,8 @@ function renderTransport() {
   const rows = [];
   flights.forEach(f=>{
     const missing = !(f.dep&&f.arr);
-    const dur = (f.dep&&f.arr) ? minsBetween(f.dep,f.arr) : null;
+    let dur = (f.dep&&f.arr) ? minsBetween(f.dep,f.arr) : null;
+    if(dur!=null && dur<0) dur += 1440;  // טיסת לילה — חוצה חצות
     rows.push({mode:'flight', ic:'plane', main:`${f.from} → ${f.to}`, val:f.flightNo||'טיסה', date:fmtDate(f.date),
       km:flightKm(f), mins:dur,
       sub:missing?'פרטים להשלמה':`${f.dep}–${f.arr}${f.toTerminal?' · '+f.toTerminal:''}`, crit:missing?'שעות טיסה חסרות':''});
