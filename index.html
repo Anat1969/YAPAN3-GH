@@ -961,11 +961,11 @@ a.ml:hover{text-decoration:underline}
   </div>
 </nav>
 
-<!-- אזהרה בולטת: תמונות שהודבקו ונשמרו רק בדפדפן, טרם נשמרו ל-Git (ייעלמו בניקוי דפדפן/החלפת מכשיר) -->
+<!-- אזהרה בולטת: שינויים ששמורים רק בדפדפן וטרם נשמרו ל-Git (ייעלמו בניקוי דפדפן/החלפת מכשיר/דיפלוי חדש) -->
 <div class="img-warn" id="imgWarn" style="display:none" role="alert">
-  <span class="iw-txt">⚠️ יש <b class="iw-count">0</b> תמונות שהוספת ששמורות רק בדפדפן וטרם נשמרו לצמיתות. כדי לא לאבד אותן —</span>
+  <span class="iw-txt">⚠️ <b class="iw-count">0</b> שינויים שעשית (<span class="iw-detail"></span>) שמורים רק בדפדפן וטרם נשמרו לצמיתות. כדי לא לאבד אותם —</span>
   <button class="iw-btn iw-save" onclick="saveAll()">שמור קבצים ל-Git</button>
-  <button class="iw-btn" onclick="backupImages()">גבי לקובץ</button>
+  <button class="iw-btn" onclick="backupImages()">גבי הכל לקובץ</button>
   <label class="iw-btn iw-restore">שחזרי מקובץ<input type="file" accept=".json" style="display:none" onchange="restoreImagesFile(this)"></label>
 </div>
 
@@ -1996,7 +1996,8 @@ function itinTimeEdit(el){
   else if(/^\d{1,2}$/.test(txt)){ mins = (+txt)*60; }
   const raw = _dayFilesRaw[dayId];
   const day = DATA.days.find(d=>String(d.id)===String(dayId)||String(d.tripDay)===String(dayId));
-  if(!raw || !day || mins==null || isNaN(mins)){ render(); return; }
+  if(mins==null || isNaN(mins)){ render(); return; }   // קלט לא תקין — פשוט מרנדר מחדש
+  if(!raw || !day){ toast('שגיאה: נתוני היום עדיין נטענים — נסי שוב עוד רגע'); render(); return; }
   mins = Math.max(0, Math.min(23*60+59, mins));
   const newTime = toHHMM(mins);
   const fromArr = raw.spots[fromSlot]||[];
@@ -3989,49 +3990,72 @@ async function saveAll() {
   toast(dayCount ? `כל הקבצים נשמרו (כולל ${dayCount} קבצי ימים) — העלי ל-Git תחת data/days/` : 'כל הקבצים נשמרו — העלי ל-Git');
 }
 
-// ── גיבוי/שחזור תמונות מקומיות שטרם נשמרו ל-Git ──
-// מונע אובדן: אפשר להוריד את כל התמונות שהודבקו לקובץ, ולייבא אותן בחזרה בכל דפדפן/כתובת.
-function countPendingImages(){
-  try{ return Object.keys(JSON.parse(localStorage.getItem('pending-images')||'{}')).length; }catch(e){ return 0; }
+// ── גיבוי/שחזור כל השינויים המקומיים שטרם נשמרו ל-Git ──
+// מונע אובדן: תמונות, עריכות שעה/יום במסלול, סיכות, פריסה — הכל לקובץ אחד וחזרה.
+const PENDING_KEYS = ['pending-images','pending-dayspots','pending-places','pending-mymarks','pending-layout','pending-tabs'];
+const PENDING_LABEL = { 'pending-images':'תמונות', 'pending-dayspots':'שעות/ימים במסלול', 'pending-places':'אתרים', 'pending-mymarks':'סיכות', 'pending-layout':'פריסה', 'pending-tabs':'סדר טאבים' };
+// כמה פריטים בכל מפתח (לספירה ולפירוט)
+function pendingCounts(){
+  const out={};
+  PENDING_KEYS.forEach(k=>{
+    let n=0;
+    try{ const v=JSON.parse(localStorage.getItem(k)||'null');
+      if(v==null) n=0;
+      else if(Array.isArray(v)) n=v.length;
+      else if(typeof v==='object') n=Object.keys(v).length;
+    }catch(e){}
+    if(n>0) out[k]=n;
+  });
+  return out;
 }
-function backupImages(){
-  let pi={}; try{ pi=JSON.parse(localStorage.getItem('pending-images')||'{}'); }catch(e){}
-  const keys=Object.keys(pi);
-  if(!keys.length){ toast('אין תמונות מקומיות לגבות כרגע'); return; }
-  downloadJSON({type:'japan-trip-images-backup', savedAt:new Date().toISOString(), images:pi}, 'תמונות-גיבוי.json');
-  toast(`גובו ${keys.length} תמונות לקובץ — שמרי אותו במקום בטוח`);
+function countPendingImages(){ return (pendingCounts()['pending-images']||0); }  // תאימות לאחור
+function backupImages(){   // מגבה את הכל (לא רק תמונות) — שם הפונקציה נשמר לתאימות
+  const bundle={ type:'japan-trip-backup', savedAt:new Date().toISOString(), data:{} };
+  let any=false;
+  PENDING_KEYS.forEach(k=>{ const raw=localStorage.getItem(k); if(raw){ bundle.data[k]=JSON.parse(raw); any=true; } });
+  if(!any){ toast('אין שינויים מקומיים לגבות כרגע'); return; }
+  downloadJSON(bundle, 'גיבוי-שינויים.json');
+  const tot=Object.values(pendingCounts()).reduce((a,b)=>a+b,0);
+  toast(`גובו ${tot} שינויים לקובץ — שמרי אותו במקום בטוח`);
 }
-function restoreImagesFile(input){
+function restoreImagesFile(input){   // משחזר את כל סוגי השינויים מקובץ הגיבוי
   const file=input.files&&input.files[0]; if(!file) return;
   const r=new FileReader();
   r.onload=()=>{
     try{
       const parsed=JSON.parse(r.result);
-      const imgs = parsed.images || parsed; // תומך גם בקובץ גיבוי וגם ב-pending-images גולמי
-      if(!imgs || typeof imgs!=='object') throw new Error('מבנה לא תקין');
-      let cur={}; try{ cur=JSON.parse(localStorage.getItem('pending-images')||'{}'); }catch(e){}
-      const merged={...cur, ...imgs};
-      localStorage.setItem('pending-images', JSON.stringify(merged));
-      // החלה מיידית על ה-DATA
-      Object.keys(imgs).forEach(k=>{
-        const p=findPlaceByKey(k); if(p){ p.image=imgs[k]; p._imgEdited=true; }
-        (DATA.days||[]).forEach(d=>['morning','afternoon','evening'].forEach(t=>
-          (d.spots&&d.spots[t]||[]).forEach(s=>{ if(placeKey(s)===k) s.image=imgs[k]; })));
+      // תמיכה: פורמט חדש {data:{pending-*}}, פורמט ישן {images:{}}, או pending-images גולמי
+      let data = parsed && parsed.data ? parsed.data : null;
+      if(!data){ const imgs = parsed.images || parsed; if(imgs && typeof imgs==='object') data={'pending-images':imgs}; }
+      if(!data || typeof data!=='object') throw new Error('מבנה לא תקין');
+      let restored=0;
+      Object.keys(data).forEach(k=>{
+        if(!PENDING_KEYS.includes(k)) return;
+        const incoming=data[k]; if(incoming==null) return;
+        // מיזוג עם הקיים (אובייקטים ממוזגים, מערכים מוחלפים)
+        let cur=null; try{ cur=JSON.parse(localStorage.getItem(k)||'null'); }catch(e){}
+        let merged = Array.isArray(incoming) ? incoming : {...(cur&&!Array.isArray(cur)?cur:{}), ...incoming};
+        localStorage.setItem(k, JSON.stringify(merged));
+        restored += Array.isArray(merged)?merged.length:Object.keys(merged).length;
       });
-      markUnsaved(); render(); updateImgWarn();
-      toast(`שוחזרו ${Object.keys(imgs).length} תמונות — לחצי «שמור קבצים» כדי לשמור ל-Git`);
+      toast(`שוחזרו ${restored} שינויים — טוענת מחדש כדי להחיל…`);
+      // הדרך הבטוחה להחיל שחזור מלא (כולל שעות/ימים) — טעינה מחדש; ההתמדה כבר נשמרה
+      setTimeout(()=>location.reload(), 900);
     }catch(e){ toast('שחזור נכשל — הקובץ אינו קובץ גיבוי תקין'); }
     input.value='';
   };
   r.readAsText(file);
 }
-// באנר אזהרה בולט: יש תמונות מקומיות שטרם נשמרו ל-Git
+// באנר אזהרה בולט: יש שינויים מקומיים שטרם נשמרו ל-Git
 function updateImgWarn(){
   const el=document.getElementById('imgWarn'); if(!el) return;
-  const n=countPendingImages();
-  if(n>0){
+  const counts=pendingCounts();
+  const total=Object.values(counts).reduce((a,b)=>a+b,0);
+  if(total>0){
     el.style.display='';
-    el.querySelector('.iw-count').textContent=n;
+    el.querySelector('.iw-count').textContent=total;
+    const detail=Object.keys(counts).map(k=>`${counts[k]} ${PENDING_LABEL[k]||k}`).join(', ');
+    const de=el.querySelector('.iw-detail'); if(de) de.textContent=detail;
   } else { el.style.display='none'; }
 }
 
@@ -4242,6 +4266,7 @@ function persistPendingDaySpots(){
   const out = {};
   _changedDays.forEach(id=>{ if(_dayFilesRaw[id]) out[id] = _dayFilesRaw[id].spots; });
   try { localStorage.setItem('pending-dayspots', JSON.stringify(out)); } catch(e){}
+  if(typeof updateImgWarn==='function') updateImgWarn();
 }
 // ה-id הגבוה ביותר שהגיע מהקובץ הסטטי (לזיהוי אתרים שנוספו מקומית)
 let _basePlaceMaxId = 0;
