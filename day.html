@@ -42,6 +42,21 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 /* ה-head של היום הופך לסרגל משני — פרטי היום + ניווט בין ימים */
 .head{top:41px !important;z-index:1100 !important}
 
+/* סרגל ימים — כפתור לכל יום. גוון אפור לפי חלק הטיול (דרום/מרכז/צפון) — צבע אינפורמטיבי בלבד */
+.daystrip{position:sticky;top:calc(41px + 62px);z-index:1090;display:flex;gap:4px;overflow-x:auto;padding:8px 14px;background:#232323;border-top:1px solid #333;scrollbar-width:thin}
+.daystrip::-webkit-scrollbar{height:5px}
+.daystrip::-webkit-scrollbar-thumb{background:#555;border-radius:3px}
+.ds-btn{flex:0 0 auto;min-width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;border:1px solid transparent;font:800 12px/1 inherit;color:#e8e6e1;text-decoration:none;background:var(--ds-grey,#4a4a4a);opacity:.7;transition:.12s}
+.ds-btn:hover{opacity:1;transform:translateY(-1px)}
+.ds-btn.on{opacity:1;border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.25)}
+/* 3 גווני אפור — חלקי הטיול */
+.ds-south{--ds-grey:#6b6b72}   /* דרום · קנסאי */
+.ds-center{--ds-grey:#4a4a50}  /* מרכז · טוקיו */
+.ds-north{--ds-grey:#2e2e33}   /* צפון · הוקאידו */
+.ds-other{--ds-grey:#5a5a5a}
+.ds-sep{flex:0 0 auto;align-self:center;font-size:9px;font-weight:800;color:#888;padding:0 4px;white-space:nowrap;letter-spacing:.02em}
+@media(max-width:760px){.daystrip{top:calc(41px + 96px)}}
+
 .wrap{max-width:900px;margin:0 auto;padding:16px}
 
 /* HOTEL BAR */
@@ -244,6 +259,8 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
     <a class="nb" id="nextDay" href="#">היום הבא →</a>
   </div>
 </div>
+<!-- סרגל ימים — כפתור לכל יום, לדפדוף ישיר; גוון אפור לפי חלק הטיול -->
+<div class="daystrip" id="dayStrip" role="navigation" aria-label="דפדוף בין ימי הטיול"></div>
 
 <div class="wrap">
 
@@ -335,6 +352,7 @@ const WD=['שני','שלישי','רביעי','חמישי','שישי','שבת','�
 const MO=['','ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט'];
 
 let dayData = null;
+let allDays = [];
 let hotels = [];
 let placesData = [];
 let bookingsData = null;
@@ -359,6 +377,7 @@ async function load() {
     ]);
     hotels = hotelsRes;
     placesData = placesRes || [];
+    allDays = Array.isArray(daysRes) ? daysRes : (daysRes.days || []);
     dayData = daysRes.find(d => d.id === dayId);
     if (!dayData) { document.body.innerHTML = '<p style="padding:40px">יום לא נמצא</p>'; return; }
 
@@ -448,6 +467,33 @@ function spotGmap(pt){
   return `https://www.google.com/maps/search/?api=1&hl=he&query=${q}`;
 }
 
+// חלק הטיול → גוון אפור (צבע אינפורמטיבי בלבד): דרום=קנסאי, מרכז=טוקיו, צפון=הוקאידו
+function regionPart(region){
+  const r = (region||'').toLowerCase();
+  if (r==='kansai') return {cls:'ds-south', he:'דרום · קנסאי'};
+  if (r==='tokyo')  return {cls:'ds-center', he:'מרכז · טוקיו'};
+  if (r==='hokkaido') return {cls:'ds-north', he:'צפון · הוקאידו'};
+  return {cls:'ds-other', he:region ? '' : ''};
+}
+function buildDayStrip(){
+  const strip = document.getElementById('dayStrip');
+  if (!strip || !allDays.length) return;
+  const trip = allDays.filter(d=>d.tripDay).sort((a,b)=>a.tripDay-b.tripDay);
+  let html = '', prevPart = null;
+  trip.forEach(d=>{
+    const part = regionPart(d.region);
+    // מפריד קטן כשעוברים בין חלקי הטיול — עוזר לזכור את המבנה
+    if (part.he && part.cls!==prevPart){ html += `<span class="ds-sep">${part.he}</span>`; prevPart = part.cls; }
+    const on = d.id===dayId ? ' on' : '';
+    const title = `יום ${d.tripDay} · ${d.day}/${d.month} · ${d.city||''} — ${part.he}`;
+    html += `<a class="ds-btn ${part.cls}${on}" href="day.html?d=${d.id}" title="${title}" aria-label="${title}"${on?' aria-current="page"':''}>${d.tripDay}</a>`;
+  });
+  strip.innerHTML = html;
+  // גלילה אל היום הפעיל
+  const active = strip.querySelector('.ds-btn.on');
+  if (active) active.scrollIntoView({inline:'center', block:'nearest'});
+}
+
 function renderDay() {
   const d = dayData;
   document.title = `יום ${d.tripDay} — ${d.city || ''}`;
@@ -461,6 +507,8 @@ function renderDay() {
   document.getElementById('nextDay').href = dayId < 31 ? `day.html?d=${dayId+1}` : '#';
   if (dayId <= 1) document.getElementById('prevDay').style.opacity = '0.3';
   if (dayId >= 31) document.getElementById('nextDay').style.opacity = '0.3';
+
+  buildDayStrip();
 
   // Hotel
   const hotel = hotels.find(h => h.id === d.hotelId);
