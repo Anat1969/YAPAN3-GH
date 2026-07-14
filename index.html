@@ -401,8 +401,21 @@ button.pf-badge.pf-upload:hover{background:var(--action)}
 .pframe.imglib-frame{width:100%;height:auto;aspect-ratio:16/11;border-radius:0;border:none;border-bottom:1px solid var(--border)}
 .imglib-name{font-size:13px;font-weight:900;color:#111;padding:8px 10px 2px;line-height:1.3}
 .imglib-en{display:block;font-size:10px;font-weight:600;color:var(--action);direction:ltr}
-.imglib-city{font-size:10.5px;font-weight:700;color:var(--ink-3);padding:0 10px 9px;display:flex;align-items:center;gap:3px}
+.imglib-meta{display:flex;flex-wrap:wrap;align-items:center;gap:5px;padding:0 10px 9px}
+.imglib-city{font-size:10.5px;font-weight:700;color:var(--ink-3);display:inline-flex;align-items:center;gap:3px}
 .imglib-city svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2}
+.imglib-tag{font-size:9.5px;font-weight:800;padding:1px 7px;border-radius:999px;white-space:nowrap}
+.imglib-tag.tag-day{background:rgba(29,78,216,.1);color:var(--action)}
+.imglib-tag.tag-kind{background:var(--bg);color:var(--ink-2);border:1px solid var(--border)}
+/* סרגל קיבוץ/מיון */
+.imglib-groupbar{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 14px}
+.ilg-btn{padding:6px 14px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--ink-2);font:800 12px/1 inherit;cursor:pointer;transition:.12s}
+.ilg-btn:hover{border-color:var(--border-strong)}
+.ilg-btn.on{background:var(--action);border-color:var(--action);color:#fff}
+/* קבוצות ממוינות */
+.imglib-group{margin-bottom:22px}
+.imglib-gtitle{font-size:15px;font-weight:900;color:#111;margin:0 0 10px;padding-bottom:6px;border-bottom:2px solid var(--border);display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.imglib-gcount{font-size:11px;font-weight:700;color:var(--ink-3)}
 .itin-spot-body{flex:1;min-width:0}
 /* שם האתר — מובלט ומואר: גדול, כהה-חזק, עם קו-הבלטה תחתון עדין */
 .itin-spot-name .bn-he{font-size:16px;font-weight:900;color:#111}
@@ -2896,30 +2909,89 @@ function costCatCell(cat){
 // ══════════════════════════════════
 // ספריית תמונות — כל אתרי הטיול, העלאה/החלפה/שמירה של תמונה לכל אחד
 // ══════════════════════════════════
-function renderImagesLib(){
-  const wrap = document.getElementById('imagesWrap'); if(!wrap) return;
-  // איסוף כל האתרים הייחודיים: רשומות places + תחנות המסלול (day files)
+// מיפוי אזור → חלק טיול (עברית) לספריית התמונות
+const TRIP_PART_HE = { kansai:'דרום · קנסאי', tokyo:'מרכז · טוקיו', hokkaido:'צפון · הוקאידו', dubai:'מעבר · דובאי', home:'בית' };
+let imgLibGroup = 'none';   // none | day | region | city | kind
+function setImgLibGroup(g){ imgLibGroup = g; renderImagesLib(); }
+// איסוף כל פריטי הספרייה (אתרי מסלול + אדריכלות) עם מטא לסינון/מיון
+function collectImageItems(){
   const byKey = new Map();
-  (DATA.places||[]).forEach(p=>{ const k=placeKey(p); if(k && !byKey.has(k)) byKey.set(k, {name:p.name, nameEn:p.nameEn, city:p.city||p.cityEn||'', src:'place', ref:p}); });
+  // אתרים מרשימת places (עם dayId/region אם יש)
+  (DATA.places||[]).forEach(p=>{
+    const k=placeKey(p); if(!k||byKey.has(k)) return;
+    const day = (DATA.days||[]).find(d=>d.id===p.dayId);
+    byKey.set(k, {name:p.name, nameEn:p.nameEn, city:p.city||p.cityEn||'', day:p.dayId||null, region:(p.region||day?.region||''), kindHe:(spotKind(p,p)||{}).he||'', ref:p});
+  });
+  // תחנות מהמסלול (day files) — נותנות יום/אזור/עיר מדויקים
   (DATA.days||[]).forEach(d=>['morning','afternoon','evening'].forEach(t=>
     (d.spots&&d.spots[t]||[]).forEach(s=>{
       const k=placeKey(s); if(!k) return;
-      // דילוג על תחנות שאינן אתרים (מלון/טיסה/נסיעה/צ'ק-אין)
       const nm=((s.nameEn||'')+' '+(s.name||'')).toLowerCase();
       if(/check-?in|check-?out|צ׳ק-אין|flight|טיסה|נחיתה|drive to|נסיעה ל|return to|מלון|hotel|free (day|morning|evening)|יום חופשי|ערב חופשי|העברה|minivan|מיניוואן/.test(nm)) return;
-      if(!byKey.has(k)) byKey.set(k, {name:s.name, nameEn:s.nameEn, city:s.city||dayCity(d)||'', src:'spot', ref:s});
+      const match = findPlaceByKey(k);
+      const kindHe = (spotKind(s, match)||{}).he || '';
+      if(byKey.has(k)){ const it=byKey.get(k); if(!it.day)it.day=d.tripDay; if(!it.region)it.region=d.region; if(!it.city)it.city=s.city||dayCity(d)||''; }
+      else byKey.set(k, {name:s.name, nameEn:s.nameEn, city:s.city||dayCity(d)||'', day:d.tripDay, region:d.region||'', kindHe, ref:s});
     })));
-  const all = [...byKey.values()];
-  const withImg = all.filter(o=>resolvePlaceImage(o)).length;
-  // כרטיס לכל אתר עם מסגרת תמונה (pframe) שמאפשרת גרירה/הדבקה/העלאה — נשמר ל-pending-images
-  const cards = all.map(o=>{
-    const frame = pframe(o, 'imglib-frame');   // ללא focus — לחיצה פותחת העלאה
-    return `<div class="imglib-card">
-      ${frame}
-      <div class="imglib-name">${o.name||''}${o.nameEn?`<span class="imglib-en">${o.nameEn}</span>`:''}</div>
-      ${o.city?`<div class="imglib-city">${icon('pin')}${o.city}</div>`:''}
-    </div>`;
-  }).join('');
+  const items = [...byKey.values()];
+  // אתרי אדריכלות — קטגוריה נפרדת "אדריכלות"
+  (DATA.architecture||[]).forEach(a=>{
+    const k=(a.nameEn||a.nameHe||'').trim().toLowerCase(); if(!k) return;
+    items.push({name:a.nameHe, nameEn:a.nameEn, city:'', day:a.day||null, region:a.region||'', kindHe:'אדריכלות', arch:true, ref:{name:a.nameHe, nameEn:a.nameEn, image:''}});
+  });
+  return items;
+}
+function imgItemGroupKey(o){
+  if(imgLibGroup==='day') return o.day!=null ? ('יום '+o.day) : 'ללא יום';
+  if(imgLibGroup==='region') return TRIP_PART_HE[o.region] || 'אחר';
+  if(imgLibGroup==='city') return o.city || 'ללא עיר';
+  if(imgLibGroup==='kind') return o.kindHe || 'אחר';
+  return '';
+}
+function imgCardHtml(o){
+  // אתרי אדריכלות אינם ב-places — מסגרת רגילה (o.ref עם image/nameEn) עדיין עובדת עם pframe
+  const frame = pframe(o.ref||o, 'imglib-frame');
+  const tags = [];
+  if(o.day!=null) tags.push(`<span class="imglib-tag tag-day">יום ${o.day}</span>`);
+  if(o.kindHe) tags.push(`<span class="imglib-tag tag-kind">${o.kindHe}</span>`);
+  return `<div class="imglib-card">
+    ${frame}
+    <div class="imglib-name">${o.name||''}${o.nameEn?`<span class="imglib-en">${o.nameEn}</span>`:''}</div>
+    <div class="imglib-meta">${o.city?`<span class="imglib-city">${icon('pin')}${o.city}</span>`:''}${tags.join('')}</div>
+  </div>`;
+}
+function renderImagesLib(){
+  const wrap = document.getElementById('imagesWrap'); if(!wrap) return;
+  const all = collectImageItems();
+  const withImg = all.filter(o=>resolvePlaceImage(o.ref||o)).length;
+  // מיון בסיסי: לפי יום ואז שם
+  all.sort((a,b)=>{ const x=a.day??999, y=b.day??999; if(x!==y)return x-y; return (a.name||'').localeCompare(b.name||'','he'); });
+  // סרגל מיון/קיבוץ
+  const modes = [['none','הכל'],['day','לפי יום'],['region','לפי חלק טיול'],['city','לפי עיר'],['kind','לפי סוג']];
+  const bar = `<div class="imglib-groupbar">${modes.map(([v,lbl])=>`<button class="ilg-btn${imgLibGroup===v?' on':''}" onclick="setImgLibGroup('${v}')">${lbl}</button>`).join('')}</div>`;
+  // גוף — מקובץ עם כותרות, או גריד אחד
+  let body;
+  if(imgLibGroup==='none'){
+    body = `<div class="imglib-grid">${all.map(imgCardHtml).join('')}</div>`;
+  } else {
+    const groups = new Map();
+    all.forEach(o=>{ const g=imgItemGroupKey(o); if(!groups.has(g))groups.set(g,[]); groups.get(g).push(o); });
+    // מיון קבוצות: יום מספרי, אחרת אלפביתי; קבוצות "ללא/אחר" בסוף
+    const keys = [...groups.keys()].sort((a,b)=>{
+      const na=parseInt((a.match(/\d+/)||[])[0]), nb=parseInt((b.match(/\d+/)||[])[0]);
+      if(!isNaN(na)&&!isNaN(nb)) return na-nb;
+      const isOtherA=/^ללא|^אחר/.test(a), isOtherB=/^ללא|^אחר/.test(b);
+      if(isOtherA!==isOtherB) return isOtherA?1:-1;
+      return a.localeCompare(b,'he');
+    });
+    body = keys.map(g=>{
+      const withN = groups.get(g).filter(o=>resolvePlaceImage(o.ref||o)).length;
+      return `<div class="imglib-group">
+        <h3 class="imglib-gtitle">${g} <span class="imglib-gcount">${groups.get(g).length} אתרים · ${withN} עם תמונה</span></h3>
+        <div class="imglib-grid">${groups.get(g).map(imgCardHtml).join('')}</div>
+      </div>`;
+    }).join('');
+  }
   wrap.innerHTML = `
     <div class="view-bar places-bar">
       <div class="tr-intro">ספריית התמונות של הטיול — ${all.length} אתרים, ${withImg} עם תמונה. גררי/הדביקי/לחצי על מסגרת כדי להעלות או להחליף תמונה. כל שינוי נשמר זמנית — «שמור קבצים» או «גבי לקובץ» כדי לא לאבד.</div>
@@ -2928,7 +3000,8 @@ function renderImagesLib(){
         <button class="add-place-btn" onclick="backupImages()" data-tip="גיבוי כל השינויים לקובץ">${icon('image')} גבי לקובץ</button>
       </div>
     </div>
-    <div class="imglib-grid">${cards}</div>`;
+    ${bar}
+    ${body}`;
 }
 
 function renderCosts() {
