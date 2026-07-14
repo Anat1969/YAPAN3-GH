@@ -438,6 +438,12 @@ button.pf-badge.pf-upload:hover{background:var(--action)}
 .itin-time-edit{cursor:text;border-radius:4px;padding:0 3px;transition:background .12s}
 .itin-time-edit:hover{background:rgba(184,134,11,.12)}
 .itin-time-edit:focus{outline:none;background:#fffde7;box-shadow:inset 0 0 0 2px #fbbf24}
+/* תווית סוג אטרקציה: מבנה / טבע / פעילות */
+.itin-kind{display:inline-flex;align-items:center;gap:3px;font-size:calc(10px * var(--itin-fs,1));font-weight:800;padding:1px 7px 1px 6px;border-radius:999px;vertical-align:middle;margin-inline-end:6px;white-space:nowrap;line-height:1.5}
+.itin-kind .itin-kind-ic{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+.kind-build{background:#eef2f7;color:#475569;border:1px solid #cbd5e1}
+.kind-nature{background:#e9f6ec;color:#15803d;border:1px solid #b7e0c1}
+.kind-activity{background:#fdf1e3;color:#b45309;border:1px solid #f2d3a7}
 /* צ'יפ יום — בחירת יום/תאריך אחר (העברת אתר בין ימים) */
 .itin-field-day{background:rgba(124,58,237,.08);border-color:rgba(124,58,237,.28)}
 .itin-field-day .if-lbl{color:#7c3aed;opacity:.75}
@@ -1857,9 +1863,45 @@ document.addEventListener('paste', function(e){
 
 // כרטיס אתר בודד במסלול — מסגרת תמונה אחידה + שם/אתר רשמי (מ-places לפי מפתח)
 // dayId/slotKey/idx — לזיהוי לצורך עריכת שעה ושיבוץ מחדש
+// ── סיווג אתר לשלושה סוגים: מבנה / טבע / פעילות ──
+// עדיפות: קטגוריה/סוג קיימים (places.json) → אחרת סיווג לפי מילות-מפתח בשם
+const SPOT_KINDS = {
+  build:    { key:'build',    he:'מבנה',    ic:'city' },
+  nature:   { key:'nature',   he:'טבע',     ic:'sun'  },
+  activity: { key:'activity', he:'פעילות',  ic:'activity' },
+};
+function spotKind(s, match){
+  // אתרים לא-אטרקציה (מלון/צ'ק-אין/טיסה/נסיעה) — ללא תווית
+  const nm = ((s.nameEn||'')+' '+(s.name||'')).toLowerCase();
+  if(/check-?in|check-?out|צ׳ק-אין|flight|טיסה|נחיתה|המראה|drive to|נסיעה ל|return to|מלון|hotel|לינה|free (day|morning|evening)|יום חופשי|ערב חופשי|בוקר חופשי|העברה|transfer|minivan|מיניוואן/.test(nm)) return null;
+  // סיווג מפורש אם הוגדר על הספוט
+  if(s.kind && SPOT_KINDS[s.kind]) return SPOT_KINDS[s.kind];
+  // פעילות מזוהה בשם גוברת תמיד (שייט/הליכה/רכבל באתר טבע — עדיין פעילות)
+  const ACTIVITY = /workshop|cruise|ropeway|gondola|cable car|cycling|\bbike|e-bike|rafting|\bhike|hiking|\btrail\b|experience|performance|\bshow\b|rental|climb|\bski\b|snorkel|\bdive\b|cooking|סדנה|שייט|רכבל|אופניים|רכיבה|ראפטינג|הליכת|התנסות|מופע|חוויה|טיפוס|סדנת|בישול|רחיצה/;
+  if(ACTIVITY.test(nm)) return SPOT_KINDS.activity;
+  // מיפוי מקטגוריה/סוג הרשומה התואמת (places.json)
+  const cats = match ? (Array.isArray(match.category)?match.category:(match.category?[match.category]:[])) : [];
+  const typ = (match && match.type) || '';
+  const NAT_CAT = ['טבע']; const ACT_CAT = ['סדנה והתנסות','פעילות ספורטיבית'];
+  const NAT_TYPE = ['גן','תצפית','אונסן','טבע','חוף']; const ACT_TYPE = ['ספורט','סדנה'];
+  const BUILD_CAT = ['אדריכלות','היסטוריה','אתר דתי או רוחני','תרבות ואמנות','קניות','טכנולוגיה ועתיד'];
+  const BUILD_TYPE = ['מקדש','שוק','קניון','רחוב','מוזיאון'];
+  if(cats.some(c=>ACT_CAT.includes(c)) || ACT_TYPE.includes(typ)) return SPOT_KINDS.activity;
+  if(cats.some(c=>NAT_CAT.includes(c)) || NAT_TYPE.includes(typ)) return SPOT_KINDS.nature;
+  if(cats.some(c=>BUILD_CAT.includes(c)) || BUILD_TYPE.includes(typ)) return SPOT_KINDS.build;
+  // מבנים מזוהים בשם (מוזיאון/ספרייה/מקדש) — לפני "טבע" הרחב
+  const BUILD = /temple|shrine|museum|castle|tower|\bmall\b|market|\bstreet\b|district|building|\bstation\b|library|church|gallery|shopping|arcade|skytree|observatory|book forest|מקדש|מוזיאון|טירה|מגדל|קניון|שוק|רחוב|רובע|שכונה|תחנה|ספריי|כנסיי|גלריה|בורג׳|סקיי|מרשה|יוקוצ׳ו|סמט|תעלה/;
+  if(BUILD.test(nm)) return SPOT_KINDS.build;
+  // טבע לפי מילות-מפתח
+  const NATURE = /park|garden|pond|lake|falls?|waterfall|river|mountain|mt\.|\bhill|beach|cape|onsen|hot spring|viewpoint|sunset|forest|grove|bamboo|valley|gorge|crater|volcano|marsh|\bpath\b|פארק|גן |גנים|בריכה|אגם|מפל|נהר|הר |גבעה|גבעות|חוף|אונסן|תצפית|שקיעה|יער|במבוק|נחל|לגונה|מכתש|מעיין|שביל/;
+  if(NATURE.test(nm)) return SPOT_KINDS.nature;
+  // ברירת מחדל — מבנה (רוב האתרים העירוניים)
+  return SPOT_KINDS.build;
+}
 function itinSpotHtml(s, dayId, slotKey, idx, tripDay){
   const match = findPlaceByKey(placeKey(s));
   const site = s.officialUrl || (match && match.officialUrl);
+  const kind = spotKind(s, match);
   const maps = placeMapsLink({nameEn:s.nameEn, name:s.name, pid:s.placeId||(match&&match.pid), lat:s.lat, lng:s.lng, addr:s.addr});
   // לחיצה על תמונת האתר → זום למיקום האתר במפת היום
   const spotKey = (s.nameEn||s.name||'').replace(/'/g,"\\'").replace(/"/g,'&quot;');
@@ -1883,7 +1925,7 @@ function itinSpotHtml(s, dayId, slotKey, idx, tripDay){
   return `<div class="itin-spot">
     ${thumb}
     <div class="itin-spot-body">
-      <div class="itin-spot-name">${bilingualName(s.name, s.nameEn, {maps, site: site||''})}${focusBtn}</div>
+      <div class="itin-spot-name">${kind?`<span class="itin-kind kind-${kind.key}" data-tip="סוג: ${kind.he}">${icon(kind.ic,'itin-kind-ic')}${kind.he}</span>`:''}${bilingualName(s.name, s.nameEn, {maps, site: site||''})}${focusBtn}</div>
       <div class="itin-spot-meta">${meta}</div>
       ${s.notes ? `<div class="itin-spot-notes">${fmtNotes(s.notes)}</div>` : ''}
     </div>
