@@ -890,13 +890,20 @@ a.bk:hover{background:#00224f}
 .map-col-head-m .msd-info{display:block;font-size:10.5px;font-weight:600;color:var(--ink-3);margin-top:2px}
 .map-col-head-m .msd-info svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;vertical-align:-1px}
 .map-square{aspect-ratio:1/1;min-height:340px;border-radius:8px;overflow:hidden;background:#e8e6e1}
-/* עטיפת המפה הספציפית + תמונת האתר המוגדל (מרחפת בפינה) */
+/* עטיפת המפה הספציפית + כרטיס האתר (מרחף בפינה, תמונה גדולה + פרטים + קישור) */
 .map-spec-wrap{position:relative}
-.map-spec-img{position:absolute;left:8px;bottom:8px;z-index:500;margin:0;width:132px;background:var(--surface);border:1px solid var(--border-strong);border-radius:8px;box-shadow:0 3px 10px rgba(0,0,0,.22);overflow:hidden}
-.map-spec-img img{display:block;width:100%;height:88px;object-fit:cover}
-.map-spec-img figcaption{font-size:10.5px;font-weight:800;color:var(--ink);padding:5px 7px;line-height:1.25}
-.map-spec-img figcaption small{display:block;font-weight:600;color:var(--ink-3);font-size:9.5px;direction:ltr;text-align:right}
-@media(max-width:760px){.maps-dual-main{grid-template-columns:1fr}.map-spec-img{width:108px}.map-spec-img img{height:72px}}
+.map-spec-card{position:absolute;left:10px;bottom:10px;z-index:500;width:210px;max-width:calc(100% - 20px);background:var(--surface);border:1px solid var(--border-strong);border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.28);overflow:hidden}
+.map-spec-card .msc-imgwrap{width:100%}
+.map-spec-card .msc-img{display:block;width:100%;height:130px;object-fit:cover}
+.map-spec-card .msc-body{padding:8px 11px 10px}
+.map-spec-card .msc-name{font-size:14px;font-weight:900;color:#111;line-height:1.25}
+.map-spec-card .msc-en{font-size:11px;font-weight:600;color:var(--action);direction:ltr;margin-top:1px}
+.map-spec-card .msc-meta{font-size:11px;font-weight:700;color:var(--ink-3);margin-top:4px}
+.map-spec-card .msc-desc{font-size:11px;color:var(--ink-2);line-height:1.45;margin-top:5px}
+.map-spec-card .msc-link{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:800;color:var(--action);text-decoration:none;margin-top:8px}
+.map-spec-card .msc-link:hover{text-decoration:underline}
+.map-spec-card .msc-link svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
+@media(max-width:760px){.maps-dual-main{grid-template-columns:1fr}.map-spec-card{width:170px}.map-spec-card .msc-img{height:104px}}
 /* מקרא = מסננים לחיצים */
 .map-legend{max-width:1200px;margin:10px auto 0;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;display:flex;gap:8px;flex-wrap:wrap;font-size:12px;font-weight:700;color:var(--ink-2);align-items:center}
 .map-legend:empty{display:none}
@@ -1057,7 +1064,7 @@ a.ml:hover{text-decoration:underline}
       <div class="map-col-head-m" id="mapSpecTitle">מפה ספציפית — פירוט היום</div>
       <div class="map-spec-wrap">
         <div id="mapSpec" class="map-square"></div>
-        <figure id="mapSpecImg" class="map-spec-img" hidden></figure>
+        <div id="mapSpecCard" class="map-spec-card" hidden></div>
       </div>
     </div>
   </div>
@@ -3626,8 +3633,9 @@ const MODE_HE_M = {walk:'הליכה', metro:'מטרו', train:'רכבת', bus:'�
 const bilingual = (he, en) => `<b style="font-size:13px;color:#1c1c1a">${he||en||''}</b>${en&&en!==he?`<br><span style="font-size:11px;font-weight:700;color:#1d4ed8;direction:ltr">${en}</span>`:''}`;
 // רקע נקי (CARTO light) + שכבת תוויות באנגלית (Esri) — שמות מקומות באנגלית בלבד, לא יפנית
 function tile(m){
+  // בסיס בהיר ללא תוויות + שכבת תוויות אפורות של CARTO (שמות ערים באפור, לא בצהוב)
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_nolabels/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',subdomains:'abcd',maxZoom:20}).addTo(m);
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{attribution:'Labels © Esri',maxZoom:20,pane:'overlayPane'}).addTo(m);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_only_labels/{z}/{x}/{y}{r}.png',{attribution:'',subdomains:'abcd',maxZoom:20,pane:'overlayPane'}).addTo(m);
   return m;
 }
 
@@ -3674,10 +3682,20 @@ function buildDaySelector() {
 function hasGeo(d){ return (d.transport?.segments||[]).length>0; }
 
 // סימן גדול נושא-מידע (מספר/תאריך/סמל בתוכו)
+// המרת צבע hex לרקע שקוף-למחצה (rgba) — לסימנים שקופים וגדולים (סעיף 3)
+function hexToRgba(hex, a){
+  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex||'');
+  if(!m) return hex;
+  return `rgba(${parseInt(m[1],16)},${parseInt(m[2],16)},${parseInt(m[3],16)},${a})`;
+}
 function bigMarker(latlng, opts) {
-  const { text='', color='#1d4ed8', shape='circle', size=32, popup='', aria='', onClick, fontSize=13 } = opts;
-  const radius = shape==='circle' ? '50%' : '5px';
-  const html = `<div style="width:${size}px;height:${size}px;border-radius:${radius};background:${color};color:#fff;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font:900 ${fontSize}px/1 'Noto Sans Hebrew',sans-serif;text-align:center" role="button" aria-label="${aria}" tabindex="0">${text}</div>`;
+  const { text='', color='#1d4ed8', shape='circle', size=32, popup='', aria='', onClick, fontSize=13, translucent=false } = opts;
+  const radius = shape==='circle' ? '50%' : '6px';
+  // שקוף-למחצה: מילוי חצי-שקוף, מסגרת בצבע מלא, טקסט בצבע כהה (עקבי בכל התצוגות)
+  const bg = translucent ? hexToRgba(color,0.45) : color;
+  const border = translucent ? `2.5px solid ${color}` : '2px solid #fff';
+  const txtColor = translucent ? '#1a1a1a' : '#fff';
+  const html = `<div style="width:${size}px;height:${size}px;border-radius:${radius};background:${bg};color:${txtColor};border:${border};box-shadow:0 1px 4px rgba(0,0,0,.28);display:flex;align-items:center;justify-content:center;font:900 ${fontSize}px/1 'Noto Sans Hebrew',sans-serif;text-align:center" role="button" aria-label="${aria}" tabindex="0">${text}</div>`;
   const mk = L.marker(latlng, {icon:L.divIcon({className:'',html,iconSize:[size,size],iconAnchor:[size/2,size/2]}), keyboard:true});
   if (popup) mk.bindPopup(popup);
   if (onClick) mk.on('click', onClick);
@@ -3738,16 +3756,34 @@ function focusSpec(pts, title) {
   clearSpecImage();
   return specLayer;
 }
-// תמונת האתר/מלון המוגדל על המפה הספציפית (סעיף 8)
-function setSpecImage(src, title, sub){
-  const fig = document.getElementById('mapSpecImg');
-  if(!fig) return;
-  if(!src){ clearSpecImage(); return; }
-  fig.innerHTML = `<img src="${src}" alt="${title||''}" loading="lazy" onerror="this.closest('figure').hidden=true">`
-    + `<figcaption>${title||''}${sub?`<small>${sub}</small>`:''}</figcaption>`;
-  fig.hidden = false;
+// כרטיס אתר מלא על המפה הספציפית: תמונה גדולה + שם + סוג/יום + קישור לגוגל מפות (סעיף 8)
+function setSpecCard(o){
+  const card = document.getElementById('mapSpecCard');
+  if(!card) return;
+  o = o || {};
+  const src = o.image || '';
+  const q = encodeURIComponent(o.nameEn || o.name || '');
+  const gmaps = (o.lat && o.lng)
+    ? `https://www.google.com/maps/search/?api=1&hl=he&query=${o.lat},${o.lng}`
+    : (q ? `https://www.google.com/maps/search/?api=1&hl=he&query=${q}` : '');
+  const meta = [o.kind, o.day!=null?('יום '+o.day):'', o.city].filter(Boolean).join(' · ');
+  card.innerHTML =
+    (src ? `<div class="msc-imgwrap"><img class="msc-img" src="${src}" alt="${o.name||''}" loading="lazy" onerror="this.closest('.msc-imgwrap').style.display='none'"></div>` : '')
+    + `<div class="msc-body">
+        <div class="msc-name">${o.name||''}</div>
+        ${o.nameEn?`<div class="msc-en">${o.nameEn}</div>`:''}
+        ${meta?`<div class="msc-meta">${meta}</div>`:''}
+        ${o.desc?`<div class="msc-desc">${o.desc}</div>`:''}
+        ${gmaps?`<a class="msc-link" href="${gmaps}" target="_blank" rel="noopener">${icon('external')} פתחי בגוגל מפות ›</a>`:''}
+      </div>`;
+  card.hidden = false;
 }
-function clearSpecImage(){ const fig=document.getElementById('mapSpecImg'); if(fig){ fig.hidden=true; fig.innerHTML=''; } }
+// תאימות לאחור — קריאות ישנות עם (src,title,sub)
+function setSpecImage(src, title, sub){
+  if(!src){ clearSpecImage(); return; }
+  setSpecCard({ image:src, name:title||'', kind:sub||'' });
+}
+function clearSpecImage(){ const c=document.getElementById('mapSpecCard'); if(c){ c.hidden=true; c.innerHTML=''; } }
 
 // ── תצוגה 1: ימים — מספר היום בתוך הסימן (גלובלי), תחנות ממוספרות (ספציפי) ──
 let activeDayId = null;
@@ -3855,10 +3891,9 @@ function showHotelSpecific(h) {
   if(!h||!h.lat) return;
   const layer = focusSpec(null, `${h.he||h.name} · ${fmtDate(h.checkin)}–${fmtDate(h.checkout)}`);
   const color = h.booked?'#15803d':'#b45309';
-  bigMarker([h.lat,h.lng],{text:'',color,shape:'square',size:26,popup:bilingual(h.he,h.name),aria:h.name}).addTo(layer);
-  mapSpecObj.setView([h.lat,h.lng],16);   // הגדלה משמעותית (סעיף 7)
-  // תמונת המלון — שדה image אם קיים, אחרת תצוגת מפה של המלון; אם אין — לא מוצג (סעיף 8)
-  setSpecImage(h.image||h.photo||h.mapImage||'', h.he||h.name, h.city||h.cityEn||'');
+  bigMarker([h.lat,h.lng],{text:'',color,shape:'square',size:30,size2:44,popup:bilingual(h.he,h.name),aria:h.name}).addTo(layer);
+  mapSpecObj.setView([h.lat,h.lng],17);   // זום גדול (סעיף 7)
+  setSpecCard({ image:h.image||h.photo||h.mapImage||'', name:h.he||h.name, nameEn:h.name, kind:'מלון · '+(h.booked?'מוזמן':'טרם'), city:h.city||h.cityEn||'', lat:h.lat, lng:h.lng });
 }
 
 // ── תצוגה 3: תחבורה — סמל אמצעי + קווים צבועים ──
@@ -3881,13 +3916,13 @@ function showSegSpecific(seg){
   const layer=focusSpec(null,`${MODE_HE_M[seg.mode]||seg.mode}: ${seg.from.name} → ${seg.to.name}`);
   const color=MODE_COLOR_M[seg.mode]||'#888';
   L.polyline([[seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]],{color,weight:5,opacity:.85,dashArray:seg.mode==='walk'?'4,6':null}).addTo(layer);
-  bigMarker([seg.from.lat,seg.from.lng],{text:'',color:'#1a1a1a',size:22,aria:seg.from.name}).addTo(layer);
-  bigMarker([seg.to.lat,seg.to.lng],{text:'',color,size:22,aria:seg.to.name}).addTo(layer);
-  mapSpecObj.fitBounds(L.latLngBounds([[seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]]).pad(0.25), {maxZoom:16});
-  // תמונת יעד המקטע — אם היעד הוא אתר מוכר (סעיף 8)
+  bigMarker([seg.from.lat,seg.from.lng],{text:'',color:'#1a1a1a',size:26,aria:seg.from.name}).addTo(layer);
+  bigMarker([seg.to.lat,seg.to.lng],{text:'',color,size:30,aria:seg.to.name}).addTo(layer);
+  mapSpecObj.fitBounds(L.latLngBounds([[seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]]).pad(0.25), {maxZoom:17});
+  // כרטיס יעד המקטע — אם היעד הוא אתר מוכר (סעיף 8)
   const dest = DATA.places.find(p=>p.nameEn && seg.to.nameEn && p.nameEn===seg.to.nameEn) ||
                DATA.places.find(p=>p.name===seg.to.name);
-  setSpecImage(dest?resolvePlaceImage(dest):'', seg.to.name, MODE_HE_M[seg.mode]||seg.mode);
+  setSpecCard({ image:dest?resolvePlaceImage(dest):'', name:seg.to.name, nameEn:seg.to.nameEn, kind:MODE_HE_M[seg.mode]||seg.mode, lat:seg.to.lat, lng:seg.to.lng });
 }
 
 // ── תצוגה 4: אתרים — סימן מינימלי, מקרא=סינון לפי סוג ──
@@ -3899,37 +3934,39 @@ const CAT_COLOR = {
 };
 function placeCats(p){ return Array.isArray(p.category)?p.category:(p.category?[p.category]:[p.type||'אחר']); }
 
+// צבע אחיד לפי סוג האתר — עקבי בין המסלול, ספריית התמונות והמפה (סעיף 3)
+const KIND_COLOR = { 'מבנה':'#475569', 'טבע':'#15803d', 'פעילות':'#b45309', 'אדריכלות':'#8b6914' };
+function placeKindHe(p){ return (spotKind(p, findPlaceByKey(placeKey(p))||p)||{}).he || 'מבנה'; }
 function renderMapPlaces(legend) {
-  // ספירה לכל קטגוריה
-  const catCount = {};
-  DATA.places.forEach(p=>placeCats(p).forEach(c=>catCount[c]=(catCount[c]||0)+1));
-  const cats = Object.keys(catCount).sort((a,b)=>catCount[b]-catCount[a]);
-
+  // ספירה לכל סוג (מבנה/טבע/פעילות) — עקבי עם דף המסלול
+  const kindCount = {};
+  DATA.places.forEach(p=>{ const k=placeKindHe(p); kindCount[k]=(kindCount[k]||0)+1; });
   const active = mapPlaceTypes.size
-    ? DATA.places.filter(p=>placeCats(p).some(c=>mapPlaceTypes.has(c)))
+    ? DATA.places.filter(p=>mapPlaceTypes.has(placeKindHe(p)))
     : DATA.places;
   const pts=[];
   active.forEach(p=>{
     if(!p.lat||!p.lng) return;
-    const cat = placeCats(p)[0];
-    const color = CAT_COLOR[cat]||'#3b82f6';
-    const day = DATA.days.find(d=>d.id===p.dayId);
-    const pimg = resolvePlaceImage(p); const thumb = pimg?`<img src="${pimg}" style="width:100%;max-width:180px;border-radius:6px;margin-bottom:4px" alt="${p.name}">`:'';
-    const popup=`${thumb}${bilingual(p.name,p.nameEn)}<br><span style="font-size:11px">${placeCats(p).join(' · ')}${p.dayId?` · יום ${p.dayId}`:''}${p.timeOfDay?` · ${p.timeOfDay}`:''}${p.duration?` · ${p.duration}`:''}</span><br><a href="index.html?tab=places" style="font-size:11px;color:#1d4ed8">מידע מלא ›</a>${p.pid||p.addr?` · <a href="https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(p.nameEn||p.name)}" target="_blank" style="font-size:11px;color:#1d4ed8">מפה</a>`:''}`;
-    bigMarker([p.lat,p.lng],{text:'',color,shape:'square',size:22,popup,aria:`${p.name} — ${cat}`, onClick:()=>showPlaceSpecific(p)}).addTo(mapLayer);
+    const kind = placeKindHe(p);
+    const color = KIND_COLOR[kind]||'#475569';
+    const pimg = resolvePlaceImage(p); const thumb = pimg?`<img src="${pimg}" style="width:100%;max-width:200px;border-radius:6px;margin-bottom:5px" alt="${p.name}">`:'';
+    const popup=`${thumb}${bilingual(p.name,p.nameEn)}<br><span style="font-size:11px">${kind}${p.dayId?` · יום ${p.dayId}`:''}${p.timeOfDay?` · ${p.timeOfDay}`:''}${p.duration?` · ${p.duration}`:''}</span><br><a href="https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(p.nameEn||p.name)}" target="_blank" style="font-size:11px;color:#1d4ed8">פתחי בגוגל מפות ›</a>`;
+    // סימן שקוף וגדול, עקבי בכל התצוגות (סעיף 3)
+    bigMarker([p.lat,p.lng],{text:'',color,shape:'circle',size:26,translucent:true,popup,aria:`${p.name} — ${kind}`, onClick:()=>showPlaceSpecific(p)}).addTo(mapLayer);
     pts.push([p.lat,p.lng]);
   });
   if(pts.length) mapObj.fitBounds(L.latLngBounds(pts).pad(0.15));
-  // מקרא-סינון: קטגוריה + ספירה (סעיף 12.4)
-  cats.forEach(c=>legend.push({key:c, label:`${c} (${catCount[c]})`, color:CAT_COLOR[c]||'#3b82f6', shape:'square'}));
+  // מקרא-סינון לפי סוג (מבנה/טבע/פעילות) — כמו בדף המסלול
+  ['מבנה','טבע','פעילות'].filter(k=>kindCount[k]).forEach(k=>legend.push({key:k, label:`${k} (${kindCount[k]})`, color:KIND_COLOR[k], shape:'circle'}));
   focusSpec(null,'לחץ אתר להצגה מפורטת');
 }
 function showPlaceSpecific(p){
   const layer=focusSpec(null,`${p.name}${p.nameEn?' · '+p.nameEn:''}`);
   const color=CAT_COLOR[placeCats(p)[0]]||'#3b82f6';
-  bigMarker([p.lat,p.lng],{text:'',color,shape:'square',size:26,popup:bilingual(p.name,p.nameEn),aria:p.name}).addTo(layer);
-  mapSpecObj.setView([p.lat,p.lng],16);   // הגדלה משמעותית סביב הסימן (סעיף 7)
-  setSpecImage(resolvePlaceImage(p), p.name, placeCats(p)[0]);  // תמונת האתר (סעיף 8)
+  bigMarker([p.lat,p.lng],{text:'',color,shape:'square',size:30,size2:44,popup:bilingual(p.name,p.nameEn),aria:p.name}).addTo(layer);
+  mapSpecObj.setView([p.lat,p.lng],17);   // זום גדול סביב הסימן (סעיף 7)
+  const kind=(spotKind(p,p)||{}).he || placeCats(p)[0];
+  setSpecCard({ image:resolvePlaceImage(p), name:p.name, nameEn:p.nameEn, kind, city:p.city||p.cityEn||'', day:p.dayId||null, lat:p.lat, lng:p.lng });
 }
 
 // ══════════════════════════════════
@@ -3957,8 +3994,8 @@ function renderMapArch(legend){
       + `<br><span style="font-size:11px;color:#999">${s.hours||''}${s.price?' · '+s.price:''}</span>`
       + (s.day?`<br><span style="display:inline-block;margin-top:4px;padding:1px 8px;border-radius:10px;font-size:11px;font-weight:600;color:#fff;background:${color}">יום ${s.day}</span>`:'')
       + ` · <a href="https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(s.nameEn)}" target="_blank" style="font-size:11px;color:#1d4ed8">מפה</a>`;
-    // סימן עגול ממוספר בצבע האדריכל (כמו במפה שהעלית)
-    bigMarker([s.lat,s.lng],{text:String(s.day||''),color,shape:'circle',size:30,fontSize:12,popup,aria:`${s.nameHe} — ${s.architect}`, onClick:()=>showArchSpecific(s)}).addTo(mapLayer);
+    // סימן עגול ממוספר שקוף וגדול בצבע האדריכל (עקבי עם שאר התצוגות)
+    bigMarker([s.lat,s.lng],{text:String(s.day||''),color,shape:'circle',size:32,translucent:true,fontSize:13,popup,aria:`${s.nameHe} — ${s.architect}`, onClick:()=>showArchSpecific(s)}).addTo(mapLayer);
     pts.push([s.lat,s.lng]);
   });
   if(pts.length) mapObj.fitBounds(L.latLngBounds(pts).pad(0.15));
@@ -3969,9 +4006,10 @@ function renderMapArch(legend){
 function showArchSpecific(s){
   const layer=focusSpec(null,`${s.nameHe} · ${s.architect}`);
   const color=ARCH_COLORS[s.archGroup]||'#888';
-  bigMarker([s.lat,s.lng],{text:String(s.day||''),color,shape:'circle',size:30,fontSize:12,popup:`<b>${s.nameHe}</b><br><span style="font-size:11px">${s.nameEn}</span>`,aria:s.nameHe}).addTo(layer);
-  mapSpecObj.setView([s.lat,s.lng],16);
-  clearSpecImage();
+  bigMarker([s.lat,s.lng],{text:String(s.day||''),color,shape:'circle',size:32,size2:46,fontSize:13,popup:`<b>${s.nameHe}</b><br><span style="font-size:11px">${s.nameEn}</span>`,aria:s.nameHe}).addTo(layer);
+  mapSpecObj.setView([s.lat,s.lng],17);
+  const img = resolvePlaceImage({name:s.nameHe, nameEn:s.nameEn});
+  setSpecCard({ image:img, name:s.nameHe, nameEn:s.nameEn, kind:'אדריכלות · '+s.architect, day:s.day||null, desc:s.desc, lat:s.lat, lng:s.lng });
 }
 
 // ══════════════════════════════════
