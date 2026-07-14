@@ -31,7 +31,8 @@
     "parking": "אין",
     "roomType": "חדר סופיריור משפחתי",
     "nameJp": "大阪府大阪市中央区難波千日前7-9",
-    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=135.5045,34.6632&z=15&size=280,180&l=map&pt=135.5045,34.6632,pm2rdm"
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=135.5045,34.6632&z=15&size=280,180&l=map&pt=135.5045,34.6632,pm2rdm",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Dotonbori%2C_Osaka%2C_at_night%2C_November_2016.jpg/500px-Dotonbori%2C_Osaka%2C_at_night%2C_November_2016.jpg"
   },
   {
     "id": 2,
@@ -65,7 +66,8 @@
     "parking": "אין",
     "roomType": "חדר סטנדרטי קווין ללא עישון x2",
     "nameJp": "三井ガーデンホテル京都河原町浄教寺",
-    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=135.7671,35.0028&z=15&size=280,180&l=map&pt=135.7671,35.0028,pm2rdm"
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=135.7671,35.0028&z=15&size=280,180&l=map&pt=135.7671,35.0028,pm2rdm",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Kyoto_Gion_Matsuri_J09_151.jpg/500px-Kyoto_Gion_Matsuri_J09_151.jpg"
   },
   {
     "id": 3,
@@ -99,7 +101,8 @@
     "parking": "ציבורית ¥1,500/יום",
     "roomType": "חדר קומפורט זוגי ללא עישון x2",
     "nameJp": "ホテル日航金沢",
-    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=136.6494,36.5763&z=15&size=280,180&l=map&pt=136.6494,36.5763,pm2rdm"
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=136.6494,36.5763&z=15&size=280,180&l=map&pt=136.6494,36.5763,pm2rdm",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Katamachi_Crossing.jpg/500px-Katamachi_Crossing.jpg"
   },
   {
     "id": 4,
@@ -133,7 +136,8 @@
     "parking": "חינם",
     "roomType": "Twin Room with Tatami, Shared Bathroom",
     "nameJp": "ザ・サンセット知床",
-    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=145.0007,44.0731&z=15&size=280,180&l=map&pt=145.0007,44.0731,pm2rdm"
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=145.0007,44.0731&z=15&size=280,180&l=map&pt=145.0007,44.0731,pm2rdm",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Yuuhidai_%28Sunset%29_Point%2C_Shiretoko.JPG/500px-Yuuhidai_%28Sunset%29_Point%2C_Shiretoko.JPG"
   },
   {
     "id": 5,
@@ -167,7 +171,8 @@
     "parking": "חינם",
     "roomType": "Twin ללא עישון + Twin Lake View Top Floor",
     "nameJp": "屈斜路プリンスホテル",
-    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=144.2745,43.5858&z=15&size=280,180&l=map&pt=144.2745,43.5858,pm2rdm"
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=144.2745,43.5858&z=15&size=280,180&l=map&pt=144.2745,43.5858,pm2rdm",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/130713_Lake_Kussharo_Teshikaga_Hokkaido_Japan01s5.jpg/500px-130713_Lake_Kussharo_Teshikaga_Hokkaido_Japan01s5.jpg"
   },
   {
     "id": 6,
@@ -201,7 +206,8 @@
     "parking": "חינם בסמוך",
     "roomType": "Japanese-Style Room with Shower, Wings BLD",
     "nameJp": "あかん遊久の里 鶴雅",
-    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=144.0909,43.4347&z=15&size=280,180&l=map&pt=144.0909,43.4347,pm2rdm"
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=144.0909,43.4347&z=15&size=280,180&l=map&pt=144.0909,43.4347,pm2rdm",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Lake_Akan_20140809.jpg/500px-Lake_Akan_20140809.jpg"
   },
   {
     "id": 7,
@@ -235,7 +241,8 @@
     "parking": "חינם",
     "roomType": "Standard Triple x2",
     "nameJp": "層雲峡温泉 ホテル雲井",
-    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=142.9471,43.7253&z=15&size=280,180&l=map&pt=142.9471,43.7253,pm2rdm"
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=142.9471,43.7253&z=15&size=280,180&l=map&pt=142.9471,43.7253,pm2rdm",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Sounkyo_Onsen_Wikivoyage_banner.jpg/500px-Sounkyo_Onsen_Wikivoyage_banner.jpg"
   },
   {
     "id": 8,
@@ -268,7 +275,8 @@
     "meals": "ללא (מטבח מלא)",
     "parking": "חינם",
     "roomType": "בית נופש עם 3 חדרי שינה",
-    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=142.3643,43.3432&z=15&size=280,180&l=map&pt=142.3643,43.3432,pm2rdm"
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=142.3643,43.3432&z=15&size=280,180&l=map&pt=142.3643,43.3432,pm2rdm",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Furano_Snow_Resort_view2.JPG/500px-Furano_Snow_Resort_view2.JPG"
   },
   {
     "id": 12,
@@ -302,7 +310,8 @@
     "parking": "¥1,200 לשהייה",
     "roomType": "Standard Twin ללא עישון x2",
     "nameJp": "ホテルノルド小樽",
-    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=141.0013,43.1994&z=15&size=280,180&l=map&pt=141.0013,43.1994,pm2rdm"
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=141.0013,43.1994&z=15&size=280,180&l=map&pt=141.0013,43.1994,pm2rdm",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Otaru_Canal_20140817.jpg/500px-Otaru_Canal_20140817.jpg"
   },
   {
     "id": 13,
@@ -336,7 +345,8 @@
     "parking": "חינם",
     "roomType": "חדר משפחה דלוקס טווין — נוף להר יוטיי",
     "nameJp": "ヒルトンニセコビレッジ",
-    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=140.6847,42.8466&z=15&size=280,180&l=map&pt=140.6847,42.8466,pm2rdm"
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=140.6847,42.8466&z=15&size=280,180&l=map&pt=140.6847,42.8466,pm2rdm",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Yotei_Volcano_on_Hokkaido_in_Japan_20101025.jpg/500px-Yotei_Volcano_on_Hokkaido_in_Japan_20101025.jpg"
   },
   {
     "id": 9,
@@ -370,7 +380,8 @@
     "parking": "חינם",
     "roomType": "Trailer House 2Bed x2",
     "nameJp": "洞爺湖温泉105番地",
-    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=140.85,42.5667&z=15&size=280,180&l=map&pt=140.85,42.5667,pm2rdm"
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=140.85,42.5667&z=15&size=280,180&l=map&pt=140.85,42.5667,pm2rdm",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/View_of_T%C5%8Dyako-onsen_town.JPG/500px-View_of_T%C5%8Dyako-onsen_town.JPG"
   },
   {
     "id": 10,
@@ -404,7 +415,8 @@
     "parking": "אין",
     "roomType": "חדר דלוקס טווין עם מיטות רחבות",
     "nameJp": "からくさホテルカラーズ東京八重洲",
-    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=139.7745,35.6812&z=15&size=280,180&l=map&pt=139.7745,35.6812,pm2rdm"
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=139.7745,35.6812&z=15&size=280,180&l=map&pt=139.7745,35.6812,pm2rdm",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Nihonbashi_Takashimaya_Mitsui_Building.jpg/500px-Nihonbashi_Takashimaya_Mitsui_Building.jpg"
   },
   {
     "id": 11,
@@ -430,6 +442,7 @@
     "notes": "עצירת ביניים — צריך להזמין · לא הוזמן! נחיתה 04:05 ב-20/8, טיסה 12:05 ב-22/8.",
     "booked": false,
     "bookingRef": null,
-    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=55.2708,25.2048&z=15&size=280,180&l=map&pt=55.2708,25.2048,pm2rdm"
+    "mapImage": "https://static-maps.yandex.ru/1.x/?ll=55.2708,25.2048&z=15&size=280,180&l=map&pt=55.2708,25.2048,pm2rdm",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Dubai_skyline_unsplash.jpg/500px-Dubai_skyline_unsplash.jpg"
   }
 ]

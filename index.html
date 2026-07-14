@@ -2941,10 +2941,10 @@ function collectImageItems(){
       else byKey.set(k, {name:s.name, nameEn:s.nameEn, city:s.city||dayCity(d)||'', day:d.tripDay, region:d.region||'', kindHe, ref:s});
     })));
   const items = [...byKey.values()];
-  // אתרי אדריכלות — קטגוריה נפרדת "אדריכלות"
+  // אתרי אדריכלות — קטגוריה נפרדת "אדריכלות" (עם התמונה מהקובץ)
   (DATA.architecture||[]).forEach(a=>{
     const k=(a.nameEn||a.nameHe||'').trim().toLowerCase(); if(!k) return;
-    items.push({name:a.nameHe, nameEn:a.nameEn, city:'', day:a.day||null, region:a.region||'', kindHe:'אדריכלות', arch:true, ref:{name:a.nameHe, nameEn:a.nameEn, image:''}});
+    items.push({name:a.nameHe, nameEn:a.nameEn, city:'', day:a.day||null, region:a.region||'', kindHe:'אדריכלות', arch:true, image:a.image||'', ref:{name:a.nameHe, nameEn:a.nameEn, image:a.image||''}});
   });
   return items;
 }
@@ -3986,7 +3986,8 @@ function renderMapArch(legend){
   active.forEach(s=>{
     if(!s.lat||!s.lng) return;
     const color = ARCH_COLORS[s.archGroup]||'#888';
-    const popup = `<b style="font-size:14px;color:#1a1a1a">${s.nameHe}</b>`
+    const popup = (s.image?`<img src="${s.image}" style="width:100%;max-width:210px;border-radius:6px;margin-bottom:5px" alt="${s.nameHe}">`:'')
+      + `<b style="font-size:14px;color:#1a1a1a">${s.nameHe}</b>`
       + `<br><span style="font-size:11px;color:#888;direction:ltr">${s.nameEn}</span>`
       + `<br><span style="font-size:12px;font-weight:700;color:${color}">${s.architect} · ${s.year}</span>`
       + `<br><span style="font-size:12px;color:#555">${s.desc||''}</span>`
@@ -4008,7 +4009,7 @@ function showArchSpecific(s){
   const color=ARCH_COLORS[s.archGroup]||'#888';
   bigMarker([s.lat,s.lng],{text:String(s.day||''),color,shape:'circle',size:32,size2:46,fontSize:13,popup:`<b>${s.nameHe}</b><br><span style="font-size:11px">${s.nameEn}</span>`,aria:s.nameHe}).addTo(layer);
   mapSpecObj.setView([s.lat,s.lng],17);
-  const img = resolvePlaceImage({name:s.nameHe, nameEn:s.nameEn});
+  const img = s.image || resolvePlaceImage({name:s.nameHe, nameEn:s.nameEn});
   setSpecCard({ image:img, name:s.nameHe, nameEn:s.nameEn, kind:'אדריכלות · '+s.architect, day:s.day||null, desc:s.desc, lat:s.lat, lng:s.lng });
 }
 
