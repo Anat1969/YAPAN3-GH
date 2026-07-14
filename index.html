@@ -720,8 +720,9 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .cost-table .cc-tag .cc-txt{font-weight:800;color:#3f3f46;border-inline-start:3px solid var(--cc-grey);padding-inline-start:7px;line-height:1.15}
 /* עמודת מקור + עמודת הכסף (₪) — הכסף בולט ומנוגד */
 .cost-table td.cost-src{color:var(--ink-3);font-size:11px;direction:ltr;text-align:right;white-space:nowrap}
+.cost-table td.cost-calc{color:var(--ink-2);font-size:11px;direction:ltr;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 .cost-table td.cost-money{font-weight:900;color:#15803d;direction:ltr;text-align:right;font-size:13px;background:rgba(21,128,61,.06);white-space:nowrap}
-.cost-total td:nth-child(4){color:#15803d;font-size:15px;direction:ltr;text-align:right;background:rgba(21,128,61,.1)}
+.cost-total td:nth-child(2){color:#15803d;font-size:15px;direction:ltr;text-align:right;background:rgba(21,128,61,.1)}
 /* נושא הדף בולט וראשון — סה"כ התקציב בגדול */
 .cost-hero{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:linear-gradient(135deg,#eef4ff 0%,#ffffff 100%);border:1px solid #d5e0f5;border-radius:16px;padding:16px 20px;margin-bottom:12px}
 .cost-hero-label{display:block;font-size:12px;font-weight:800;color:var(--ink-3);margin-bottom:2px}
@@ -732,8 +733,13 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .dot-ok{background:var(--ok)}.dot-warn{background:var(--warn)}
 /* מחשבון המרת מטבע ₪⟷¥ */
 .fx-conv{background:linear-gradient(135deg,#f0fdf4 0%,#ffffff 60%);border:2px solid #bbf7d0;border-radius:16px;padding:14px 18px;margin-bottom:14px}
-.fx-head{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:900;color:#15803d;margin-bottom:12px}
+.fx-head{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:900;color:#15803d;margin-bottom:10px;flex-wrap:wrap}
 .fx-head .ic{width:17px;height:17px;stroke:#15803d}
+.fx-head .fx-date{font-size:10px;font-weight:700;color:var(--ink-3);background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:2px 8px;margin-inline-start:auto}
+.fx-tabs{display:inline-flex;gap:4px;margin-bottom:10px}
+.fx-tab{border:1px solid var(--border);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:4px 14px;font:800 12px/1 inherit;cursor:pointer;transition:.12s}
+.fx-tab:hover{border-color:var(--border-strong)}
+.fx-tab.on{background:#15803d;border-color:#15803d;color:#fff}
 .fx-rows{display:flex}
 .fx-row{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;width:100%}
 .fx-cell{flex:1;min-width:130px;display:flex;flex-direction:column;gap:4px}
@@ -2642,10 +2648,18 @@ function renderPlaces() {
 // ══════════════════════════════════
 // COSTS TABLE
 // ══════════════════════════════════
-// שערי המרה משוערים למטבע מרכזי (ILS) — מסומנים כמשוערים
-const FX = { ILS:1, JPY:0.024, USD:3.7 };
+// שערי המרה למטבע מרכזי (ILS) — מעודכנים לתאריך שלהלן (מקור: open.er-api / frankfurter)
+// 1¥ = ₪0.0186  ·  1$ = ₪3.02  (14.7.2026). לעדכון — שני מספרים בלבד כאן.
+const FX_DATE = '14.7.2026';
+const FX = { ILS:1, JPY:0.0186, USD:3.02 };
 function toILS(amount, cur){ return Math.round((amount||0) * (FX[cur]||1)); }
 function fmtILS(n){ return '₪'+n.toLocaleString(); }
+// תיאור חישוב ההמרה לתא בטבלה: "94,240 ¥ × 0.0186 = ₪1,753"
+function fxCalc(amount, cur){
+  if(amount==null || !cur || cur==='ILS' || FX[cur]==null) return '';
+  const rate = FX[cur];
+  return `${amount.toLocaleString()} ${cur==='JPY'?'¥':(cur==='USD'?'$':cur)} × ${rate} = ${fmtILS(Math.round(amount*rate))}`;
+}
 
 // איסוף כל העלויות מכל המקורות לרשומות אחידות (מקור אמת יחיד לכל פריט)
 function collectCosts() {
@@ -2794,6 +2808,7 @@ function renderCosts() {
       <td>${costCatCell(r.cat)}</td>
       <td>${r.item}${r.verify?' <span class="cost-flag">טעון אימות</span>':''}${r.estimate&&!r.verify?' <span class="cost-flag est">משוער</span>':''}</td>
       <td class="cost-src">${r.amount!=null?r.amount.toLocaleString()+' '+(r.currency||''):'—'}</td>
+      <td class="cost-calc">${fxCalc(r.amount, r.currency) || (r.currency==='ILS'&&r.amount!=null?'ללא המרה':'—')}</td>
       <td class="cost-money">${r.ils?fmtILS(r.ils):'—'}</td>
       <td><span class="tg ${r.paid?'tg-ok':'tg-no'}">${r.paid?'שולם':'טרם'}</span></td>
       <td>${r.note||''}</td>
@@ -2820,21 +2835,28 @@ function renderCosts() {
     ${bar}
     ${costsFilter!=='all'?cards:''}
     <h3 class="tr-sec">פירוט — ${scope}</h3>
-    <div class="tw" style="padding:0"><table class="cost-table"><thead><tr><th>קטגוריה</th><th>פריט</th><th>מקור</th><th>₪ (משוער)</th><th>תשלום</th><th>הערות</th></tr></thead>
-      <tbody>${detail}<tr class="cost-total"><td colspan="3">סה״כ · ${scope}</td><td>${fmtILS(total)}</td><td colspan="2"></td></tr></tbody></table></div>
+    <div class="tw" style="padding:0"><table class="cost-table"><thead><tr><th>קטגוריה</th><th>פריט</th><th>מקור (מטבע מקורי)</th><th>חישוב ההמרה</th><th>₪</th><th>תשלום</th><th>הערות</th></tr></thead>
+      <tbody>${detail}<tr class="cost-total"><td colspan="4">סה״כ · ${scope}</td><td>${fmtILS(total)}</td><td colspan="2"></td></tr></tbody></table></div>
     ${(costsFilter==='all'||costsFilter==='מלונות ולינה')?hotelChart():''}
-    <div class="cost-note">שערי המרה משוערים: 1¥≈₪0.024 · 1$≈₪3.7. הסכומים במטבע המקור מדויקים מהמסמכים; ההמרה ל-₪ משוערת.</div>`;
+    <div class="cost-note"><b>שערי המרה (${FX_DATE}):</b> 1¥ = ₪${FX.JPY} (⇐ ₪1 = ${(1/FX.JPY).toFixed(1)}¥) · 1$ = ₪${FX.USD} (⇐ ₪1 = $${(1/FX.USD).toFixed(3)}). הסכומים במטבע המקור מדויקים מהמסמכים; עמודת «חישוב ההמרה» מציגה איך חושב כל סכום ב-₪. שער מטבע משתנה — ₪ בפועל ייקבע ביום החיוב.</div>`;
   // ערך התחלתי במחשבון
   setTimeout(()=>{ const i=document.getElementById('fxIls'); if(i) convertFx('ils'); },0);
 }
 
-// ── מחשבון המרת מטבע: שקל (ILS) ↔ ין יפני (JPY) ──
-// 1¥ ≈ ₪0.024  →  1₪ ≈ 41.67¥
-function jpyPerIls(){ return 1 / (FX.JPY||0.024); }   // ~41.67
+// ── מחשבון המרה: שקל (ILS) ⟷ ין (JPY) או דולר (USD) ──
+let fxCur = 'JPY';   // המטבע הזר הפעיל במחשבון
+function fxSym(c){ return c==='JPY'?'¥':(c==='USD'?'$':c); }
+function fxCurName(c){ return c==='JPY'?'ין יפני (JPY)':'דולר (USD)'; }
+function forPerIls(c){ return 1 / (FX[c]||1); }   // כמה יחידות מטבע-זר בשקל אחד
+function setFxCur(c){ fxCur=c; renderCosts(); }
 function currencyConverterHtml(){
-  const rate = jpyPerIls();
-  return `<div class="fx-conv" data-tip="מחשבון המרה בין שקל לין יפני">
-    <div class="fx-head">${icon('money')} מחשבון המרה — שקל ⟷ ין יפני</div>
+  const c = fxCur;
+  const per = forPerIls(c);              // ₪1 = per {c}
+  const inv = FX[c];                     // 1 {c} = ₪inv
+  const tab = (v,lbl)=>`<button class="fx-tab${fxCur===v?' on':''}" onclick="setFxCur('${v}')">${lbl}</button>`;
+  return `<div class="fx-conv" data-tip="מחשבון המרה בין שקל למטבע זר">
+    <div class="fx-head">${icon('money')} מחשבון המרה — שקל ⟷ מטבע זר <span class="fx-date">שער ${FX_DATE}</span></div>
+    <div class="fx-tabs">${tab('JPY','¥ ין')}${tab('USD','$ דולר')}</div>
     <div class="fx-rows">
       <div class="fx-row">
         <label class="fx-cell fx-from">
@@ -2843,43 +2865,42 @@ function currencyConverterHtml(){
         </label>
         <button class="fx-swap" onclick="swapFx()" data-tip="החלפת כיוון">⇄</button>
         <label class="fx-cell fx-to">
-          <span class="fx-cur">¥ ין יפני (JPY)</span>
-          <input type="number" id="fxJpy" inputmode="decimal" placeholder="0" oninput="convertFx('jpy')">
+          <span class="fx-cur">${fxSym(c)} ${fxCurName(c)}</span>
+          <input type="number" id="fxFor" inputmode="decimal" placeholder="0" oninput="convertFx('for')">
         </label>
       </div>
     </div>
-    <div class="fx-rate">שער: <b>1₪ ≈ ${rate.toFixed(2)}¥</b> · <b>1¥ ≈ ₪${(FX.JPY||0.024).toFixed(3)}</b> (משוער)</div>
+    <div class="fx-rate">שער: <b>1₪ = ${per.toFixed(c==='JPY'?1:3)}${fxSym(c)}</b> · <b>1${fxSym(c)} = ₪${inv}</b></div>
     <div class="fx-quick" id="fxQuick"></div>
   </div>`;
 }
-// המרה חיה — מקור 'ils' או 'jpy'
+// המרה חיה — מקור 'ils' או 'for'
 function convertFx(from){
-  const ilsEl=document.getElementById('fxIls'), jpyEl=document.getElementById('fxJpy');
-  if(!ilsEl||!jpyEl) return;
-  const rate = jpyPerIls();
+  const ilsEl=document.getElementById('fxIls'), forEl=document.getElementById('fxFor');
+  if(!ilsEl||!forEl) return;
+  const per = forPerIls(fxCur);
   if(from==='ils'){
     const v=parseFloat(ilsEl.value);
-    jpyEl.value = isFinite(v) ? Math.round(v*rate) : '';
+    forEl.value = isFinite(v) ? +(v*per).toFixed(fxCur==='JPY'?0:2) : '';
   } else {
-    const v=parseFloat(jpyEl.value);
-    ilsEl.value = isFinite(v) ? +(v/rate).toFixed(2) : '';
+    const v=parseFloat(forEl.value);
+    ilsEl.value = isFinite(v) ? +(v/per).toFixed(2) : '';
   }
   renderFxQuick();
 }
-// טבלת המרה מהירה לסכומים נפוצים
+// טבלת המרה מהירה לסכומים נפוצים — לפי המטבע הפעיל
 function renderFxQuick(){
   const box=document.getElementById('fxQuick'); if(!box) return;
-  const rate=jpyPerIls();
+  const c=fxCur, per=forPerIls(c), sym=fxSym(c);
   const ilsAmts=[50,100,200,500,1000];
-  const jpyAmts=[500,1000,3000,5000,10000];
-  box.innerHTML = `<div class="fxq-col"><div class="fxq-title">₪ → ¥</div>${ilsAmts.map(a=>`<div class="fxq-row"><span class="fxq-src">₪${a}</span><span class="fxq-dst">¥${Math.round(a*rate).toLocaleString()}</span></div>`).join('')}</div>`
-    + `<div class="fxq-col"><div class="fxq-title">¥ → ₪</div>${jpyAmts.map(a=>`<div class="fxq-row"><span class="fxq-src">¥${a.toLocaleString()}</span><span class="fxq-dst">₪${Math.round(a/rate).toLocaleString()}</span></div>`).join('')}</div>`;
+  const forAmts = c==='JPY' ? [500,1000,3000,5000,10000] : [10,50,100,500,1000];
+  box.innerHTML = `<div class="fxq-col"><div class="fxq-title">₪ → ${sym}</div>${ilsAmts.map(a=>`<div class="fxq-row"><span class="fxq-src">₪${a}</span><span class="fxq-dst">${sym}${(+(a*per).toFixed(c==='JPY'?0:1)).toLocaleString()}</span></div>`).join('')}</div>`
+    + `<div class="fxq-col"><div class="fxq-title">${sym} → ₪</div>${forAmts.map(a=>`<div class="fxq-row"><span class="fxq-src">${sym}${a.toLocaleString()}</span><span class="fxq-dst">₪${Math.round(a/per).toLocaleString()}</span></div>`).join('')}</div>`;
 }
 function swapFx(){
-  const ilsEl=document.getElementById('fxIls'), jpyEl=document.getElementById('fxJpy');
-  if(!ilsEl||!jpyEl) return;
-  // אם יש ערך ב-ILS — נמיר ממנו; אחרת מ-JPY
-  if(ilsEl.value!=='') convertFx('ils'); else if(jpyEl.value!=='') convertFx('jpy');
+  const ilsEl=document.getElementById('fxIls'), forEl=document.getElementById('fxFor');
+  if(!ilsEl||!forEl) return;
+  if(ilsEl.value!=='') convertFx('ils'); else if(forEl.value!=='') convertFx('for');
   ilsEl.focus();
 }
 
