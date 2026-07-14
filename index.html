@@ -24,11 +24,11 @@
   --ok:#15803d;  --ok-bg:#e7f3ec;   /* הצלחה / הושלם / מוזמן */
   --warn:#b45309; --warn-bg:#fbf1e3;/* אזהרה / חסר / טרם הוזמן */
   --err:#b91c1c; --err-bg:#f9e9e9;  /* שגיאה / חריגה */
-  /* חלקי הטיול — 3 גווני אפור ברורים (דרום→צפון), צבע אינפורמטיבי-ניטרלי בלבד */
-  --region-1:#d6d6d9; --region-1-ink:#3f3f46;  /* דרום · קנסאי — אפור בהיר */
-  --region-2:#5a5a61; --region-2-ink:#ffffff;  /* צפון · הוקאידו — אפור כהה */
-  --region-3:#9a9aa1; --region-3-ink:#ffffff;  /* מרכז · טוקיו — אפור בינוני */
-  --region-4:#ececec; --region-4-ink:#57534e;  /* דובאי/אחר — ניטרלי */
+  /* חלקי הטיול — 3 גווני אפור בהירים (דרום→צפון), צבע אינפורמטיבי-ניטרלי בלבד */
+  --region-1:#eef0f3; --region-1-ink:#3f3f46;  /* דרום · קנסאי — אפור בהיר מאוד */
+  --region-2:#c3c6cd; --region-2-ink:#2e2e33;  /* צפון · הוקאידו — אפור בהיר-בינוני */
+  --region-3:#dcdee2; --region-3-ink:#3f3f46;  /* מרכז · טוקיו — אפור בהיר */
+  --region-4:#f4f4f5; --region-4-ink:#57534e;  /* דובאי/אחר — ניטרלי בהיר */
   /* אייקונים — אפור בהיר אחיד */
   --icon:#9a958e; --icon-active:#57534e;
 }
@@ -270,22 +270,22 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 /* ITINERARY — מסלול מפורט */
 /* סרגל ימים קבוע (sticky) לאורך הדף — מספר יום + תאריך + עיר */
 /* הסרגל צמוד לדופן תוכן המסלול (התוכן ממורכז ברוחב 1200px) */
-.itin-rail{position:fixed;right:max(8px, calc(50vw - 600px - var(--itin-rail-w,112px) - 8px));top:80px;bottom:12px;width:var(--itin-rail-w,112px);z-index:40;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border-strong);border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.1);overflow:hidden}
-.idr-head{flex-shrink:0;padding:8px 6px;font-size:12px;font-weight:900;color:var(--action);text-align:center;border-bottom:1px solid var(--border);background:var(--bg)}
-.idr-list{flex:1;overflow-y:auto;padding:6px;display:flex;flex-direction:column;gap:5px}
-.idr-day{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 4px;border-radius:8px;text-decoration:none;color:var(--ink);border:1px solid transparent;transition:.12s;position:relative}
+.itin-rail{position:fixed;right:max(8px, calc(50vw - 600px - var(--itin-rail-w,150px) - 8px));top:80px;bottom:12px;width:var(--itin-rail-w,150px);z-index:40;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border-strong);border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.1);overflow:hidden}
+.idr-head{flex-shrink:0;padding:10px 6px;font-size:13px;font-weight:900;color:var(--action);text-align:center;border-bottom:1px solid var(--border);background:var(--bg)}
+.idr-list{flex:1;overflow-y:auto;padding:7px;display:flex;flex-direction:column;gap:7px}
+.idr-day{display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 6px;border-radius:10px;text-decoration:none;color:var(--ink);border:1px solid transparent;transition:.12s;position:relative}
 .idr-day:hover{box-shadow:0 1px 6px rgba(0,0,0,.15);transform:translateX(2px)}
 .idr-day.on{outline:2px solid var(--action);outline-offset:-2px;font-weight:900}
-.idr-num{font-size:15px;font-weight:900;line-height:1;direction:ltr}
-.idr-num::before{content:'יום ';font-size:8px;font-weight:700}
-.idr-date{font-size:11px;font-weight:800;direction:ltr;color:var(--ink-2)}
-.idr-city{font-size:9px;font-weight:700;line-height:1.1;text-align:center;color:var(--ink-3);overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;max-width:100%}
-.idr-day.cal-k{background:var(--region-1)}.idr-day.cal-h{background:var(--region-2)}.idr-day.cal-t{background:var(--region-3)}.idr-day.cal-t .idr-num,.idr-day.cal-t .idr-date,.idr-day.cal-t .idr-city{color:#fff}.idr-day.cal-d{background:var(--region-4)}
+.idr-num{font-size:20px;font-weight:900;line-height:1;direction:ltr}
+.idr-num::before{content:'יום ';font-size:10px;font-weight:700}
+.idr-date{font-size:14px;font-weight:800;direction:ltr;color:var(--ink-2)}
+.idr-city{font-size:11px;font-weight:700;line-height:1.15;text-align:center;color:var(--ink-3);overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;max-width:100%}
+.idr-day.cal-k{background:var(--region-1)}.idr-day.cal-h{background:var(--region-2)}.idr-day.cal-t{background:var(--region-3)}.idr-day.cal-d{background:var(--region-4)}
 .idr-day.idr-return{background:#e7f3ec}.idr-day.idr-return .idr-city{color:#166534;font-weight:800}
 /* פינוי מקום לסרגל (בצד ימין) רק כשהוא נצמד לדופן המסך — אחרת הוא בשוליים */
-@media(max-width:1460px){#p-itinerary{padding-inline-end:128px}}
-@media(max-width:1100px){.itin-rail{width:92px}#p-itinerary{padding-inline-end:104px}.idr-num{font-size:14px}}
-@media(max-width:760px){.itin-rail{position:static;right:auto;inset:auto;width:auto;flex-direction:column;margin-bottom:14px;box-shadow:none}.idr-list{flex-direction:row;flex-wrap:wrap;overflow-x:auto}.idr-day{min-width:58px}#p-itinerary{padding-inline-end:12px}}
+@media(max-width:1560px){#p-itinerary{padding-inline-end:166px}}
+@media(max-width:1100px){.itin-rail{width:120px}#p-itinerary{padding-inline-end:132px}.idr-num{font-size:18px}.idr-date{font-size:13px}}
+@media(max-width:760px){.itin-rail{position:static;right:auto;inset:auto;width:auto;flex-direction:column;margin-bottom:14px;box-shadow:none}.idr-list{flex-direction:row;flex-wrap:wrap;overflow-x:auto}.idr-day{min-width:70px}#p-itinerary{padding-inline-end:12px}}
 .itin-list{display:flex;flex-direction:column;gap:16px}
 .itin-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;scroll-margin-top:90px}
 .itin-head{padding:14px 16px 13px;border-bottom:2px solid var(--border);background:var(--bg)}
@@ -392,11 +392,21 @@ button.pf-badge.pf-upload:hover{background:var(--action)}
 .pframe.pf-focus{cursor:zoom-in}
 .pframe .pf-badge .ic{width:11px;height:11px;stroke:#fff}
 /* גדלים ספציפיים */
-.pframe.itin-img{width:96px;height:64px}
+.pframe.itin-img{width:140px;height:96px}
 .pframe.place-frame{width:64px;height:48px}
 #t-places .pframe.place-frame{width:100%;height:auto;aspect-ratio:16/10}
+/* ספריית תמונות */
+.imglib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;padding:4px 0 20px}
+.imglib-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.pframe.imglib-frame{width:100%;height:auto;aspect-ratio:16/11;border-radius:0;border:none;border-bottom:1px solid var(--border)}
+.imglib-name{font-size:13px;font-weight:900;color:#111;padding:8px 10px 2px;line-height:1.3}
+.imglib-en{display:block;font-size:10px;font-weight:600;color:var(--action);direction:ltr}
+.imglib-city{font-size:10.5px;font-weight:700;color:var(--ink-3);padding:0 10px 9px;display:flex;align-items:center;gap:3px}
+.imglib-city svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2}
 .itin-spot-body{flex:1;min-width:0}
-.itin-spot-name .bn-he{font-size:14px}
+/* שם האתר — מובלט ומואר: גדול, כהה-חזק, עם קו-הבלטה תחתון עדין */
+.itin-spot-name .bn-he{font-size:16px;font-weight:900;color:#111}
+.itin-spot-name .bn-en{font-size:11px}
 .itin-spot-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 /* רכיב פרמטר↔נתון: תווית קטנה מעומעמת + ערך בולט, בתוך צ'יפ — ניגוד ברור */
 .itin-field{display:inline-flex;align-items:baseline;gap:4px;padding:2px 8px;border-radius:999px;background:var(--bg);border:1px solid var(--border)}
@@ -415,8 +425,12 @@ button.pf-badge.pf-upload:hover{background:var(--action)}
 .itin-field-who .if-lbl{color:#a16207;opacity:.7}
 .itin-spot-notes{font-size:11px;line-height:1.5;color:var(--ink-2);margin-top:3px}
 /* שתי שורות נתונים: שורה 1 = שעה+יום (מתי), שורה 2 = פרמטרים סטטיים */
-.itin-meta-when{margin-top:6px}
-.itin-meta-params{margin-top:5px}
+.itin-meta-when{margin-top:7px}
+/* שורת הפרמטרים הסטטיים — צ'יפים קטנים, שורה אחת מלאה (גלילה אופקית אם צריך) */
+.itin-meta-params{margin-top:6px;flex-wrap:nowrap;overflow-x:auto;gap:5px;padding-bottom:2px;scrollbar-width:thin}
+.itin-meta-params::-webkit-scrollbar{height:4px}
+.itin-meta-params::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:2px}
+.itin-meta-params .itin-field{flex:0 0 auto;padding:1px 7px}
 /* צ'יפ סוג בשורת הפרמטרים — צבע לפי מבנה/טבע/פעילות */
 .itin-field-kind .if-val{display:inline-flex;align-items:center;gap:3px;direction:rtl}
 .itin-field-kind .itin-kind-ic{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2}
@@ -482,15 +496,15 @@ button.pf-badge.pf-upload:hover{background:var(--action)}
 #itinWrap{--itin-fs:1}
 .itin-title{font-size:calc(16px * var(--itin-fs))}
 .itin-idea{font-size:calc(12px * var(--itin-fs))}
-.itin-spot-name .bn-he{font-size:calc(14px * var(--itin-fs))}
-.itin-spot-name .bn-en{font-size:calc(10px * var(--itin-fs))}
-.itin-field .if-val{font-size:calc(13px * var(--itin-fs))}
-.itin-field .if-lbl{font-size:calc(9px * var(--itin-fs))}
+.itin-spot-name .bn-he{font-size:calc(16px * var(--itin-fs))}
+.itin-spot-name .bn-en{font-size:calc(11px * var(--itin-fs))}
+.itin-field .if-val{font-size:calc(12px * var(--itin-fs))}
+.itin-field .if-lbl{font-size:calc(8.5px * var(--itin-fs))}
 .itin-field-who .if-val{font-size:calc(12px * var(--itin-fs))}
 .itin-spot-notes{font-size:calc(11px * var(--itin-fs))}
 .itin-meal,.itin-slot-head{font-size:calc(12px * var(--itin-fs))}
 #itinWrap.itin-tinted .itin-title,#itinWrap.itin-tinted .itin-spot-name .bn-he,#itinWrap.itin-tinted .itin-idea,#itinWrap.itin-tinted .itin-spot-notes,#itinWrap.itin-tinted .itin-spot-meta,#itinWrap.itin-tinted .itin-meal-v{color:var(--itin-color)}
-@media(max-width:640px){.itin-img{width:72px;height:52px}.itin-head-main{gap:10px}.itin-appearance{width:100%}.itin-date{font-size:28px}.itin-weekday{font-size:16px}.itin-head-hotels{margin-inline-start:0;width:100%}.itin-hchip{flex:1;max-width:none}}
+@media(max-width:640px){.itin-img{width:104px;height:72px}.itin-head-main{gap:10px}.itin-appearance{width:100%}.itin-date{font-size:28px}.itin-weekday{font-size:16px}.itin-head-hotels{margin-inline-start:0;width:100%}.itin-hchip{flex:1;max-width:none}}
 
 /* TAGS */
 .tg{display:inline-flex;align-items:center;gap:3px;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:700;white-space:nowrap}
@@ -536,7 +550,7 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .cal-return .cal-flight-badge{background:#15803d}
 .cal-return .cal-city{color:#166534;font-weight:800}
 .cal-return .cal-hotel{color:#15803d}
-.cal-k{background:var(--region-1)}.cal-h{background:var(--region-2)}.cal-t{background:var(--region-3)}.cal-t .cal-city,.cal-t .cal-dnum{color:#fff}.cal-t .cal-hotel{color:#e0e7ff}.cal-d{background:var(--region-4)}
+.cal-k{background:var(--region-1)}.cal-h{background:var(--region-2)}.cal-t{background:var(--region-3)}.cal-d{background:var(--region-4)}
 .cal-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;font-size:11px}
 .cal-legend span{display:inline-flex;align-items:center;gap:5px;font-weight:600;color:#555}
 .cal-legend i{width:14px;height:14px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.08)}
@@ -949,6 +963,7 @@ a.ml:hover{text-decoration:underline}
     <button class="tab" data-tab="bookings" data-tip="כל ההזמנות לפי ציר זמן — טיסות, מלונות, רכב ומספרי אישור" aria-label="מעבר לדף ההזמנות">הזמנות</button>
     <button class="tab" data-tab="checklist" data-tip="אטרקציות שדורשות הזמנה מראש — סטטוס ועלות" aria-label="מעבר ללקראת הזמנה">לקראת הזמנה</button>
     <button class="tab" data-tab="places" data-tip="אתרים ונקודות עניין במסלול" aria-label="מעבר לדף האתרים">אתרים</button>
+    <button class="tab" data-tab="images" data-tip="ספריית תמונות — העלאה ושמירה של תמונות לאתרים" aria-label="מעבר לספריית התמונות">תמונות</button>
     <button class="tab" data-tab="costs" data-tip="מעקב הוצאות ותקציב הטיול" aria-label="מעבר לדף התקציב">תקציב</button>
     <button class="tab" data-tab="transport" data-tip="טיסות, רכב שכור ושאטלים — כל התחבורה" aria-label="מעבר לדף התחבורה">תחבורה</button>
     <button class="tab" data-tab="map" data-tip="מפת כל המלונות והאתרים" aria-label="מעבר למפה">מפה</button>
@@ -998,6 +1013,7 @@ a.ml:hover{text-decoration:underline}
   </div>
   <div class="tw days-wide"><table id="t-places"></table></div>
 </div>
+<div class="panel" id="p-images"><div id="imagesWrap"></div></div>
 <div class="panel" id="p-costs"><div class="tw" id="costsWrap"></div></div>
 <div class="panel" id="p-bookings"><div class="tw" id="bookingsWrap"></div></div>
 <div class="panel" id="p-checklist"><div class="tw" id="checklistWrap"></div></div>
@@ -1223,7 +1239,7 @@ async function loadData() {
   }
   // פתיחת הטאב לפי ה-URL (מאפשר קישור ישיר ושמירת מצב ברענון — סעיף 4.5)
   const urlTab = new URLSearchParams(location.search).get('tab');
-  const valid = ['summary','days','itinerary','calendar','hotels','bookings','checklist','places','costs','transport','map'];
+  const valid = ['summary','days','itinerary','calendar','hotels','bookings','checklist','places','images','costs','transport','map'];
   if (urlTab && valid.includes(urlTab) && urlTab!==activeTab) {
     activeTab = urlTab;
     document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===urlTab));
@@ -1431,6 +1447,7 @@ function render() {
   else if (activeTab==='calendar') renderCalendar();
   else if (activeTab==='hotels') renderHotels();
   else if (activeTab==='places') renderPlaces();
+  else if (activeTab==='images') renderImagesLib();
   else if (activeTab==='costs') renderCosts();
   else if (activeTab==='bookings') renderBookings();
   else if (activeTab==='checklist') renderChecklist();
@@ -2248,7 +2265,7 @@ function resetItinPrefs(){ saveItinPrefs({size:'m',color:''}); renderItinerary()
 // ══════════════════════════════════
 let layoutEditMode = false;
 let _dragSection = null;
-const DEFAULT_ITIN_LAYOUT = { blockOrder:['body','meals','notes'], mapWidth:50, railWidth:112 };
+const DEFAULT_ITIN_LAYOUT = { blockOrder:['body','meals','notes'], mapWidth:50, railWidth:150 };
 function itinLayout(){
   const L = (DATA.layout && DATA.layout.itinerary) || {};
   return {
@@ -2872,6 +2889,44 @@ function costCatMeta(cat){ return COST_CAT[cat] || { ic:'money', sh:0 }; }
 function costCatCell(cat){
   const m = costCatMeta(cat);
   return `<span class="cc-tag cc-sh${m.sh}">${icon(m.ic,'cc-ic')}<span class="cc-txt">${cat}</span></span>`;
+}
+
+// ══════════════════════════════════
+// ספריית תמונות — כל אתרי הטיול, העלאה/החלפה/שמירה של תמונה לכל אחד
+// ══════════════════════════════════
+function renderImagesLib(){
+  const wrap = document.getElementById('imagesWrap'); if(!wrap) return;
+  // איסוף כל האתרים הייחודיים: רשומות places + תחנות המסלול (day files)
+  const byKey = new Map();
+  (DATA.places||[]).forEach(p=>{ const k=placeKey(p); if(k && !byKey.has(k)) byKey.set(k, {name:p.name, nameEn:p.nameEn, city:p.city||p.cityEn||'', src:'place', ref:p}); });
+  (DATA.days||[]).forEach(d=>['morning','afternoon','evening'].forEach(t=>
+    (d.spots&&d.spots[t]||[]).forEach(s=>{
+      const k=placeKey(s); if(!k) return;
+      // דילוג על תחנות שאינן אתרים (מלון/טיסה/נסיעה/צ'ק-אין)
+      const nm=((s.nameEn||'')+' '+(s.name||'')).toLowerCase();
+      if(/check-?in|check-?out|צ׳ק-אין|flight|טיסה|נחיתה|drive to|נסיעה ל|return to|מלון|hotel|free (day|morning|evening)|יום חופשי|ערב חופשי|העברה|minivan|מיניוואן/.test(nm)) return;
+      if(!byKey.has(k)) byKey.set(k, {name:s.name, nameEn:s.nameEn, city:s.city||dayCity(d)||'', src:'spot', ref:s});
+    })));
+  const all = [...byKey.values()];
+  const withImg = all.filter(o=>resolvePlaceImage(o)).length;
+  // כרטיס לכל אתר עם מסגרת תמונה (pframe) שמאפשרת גרירה/הדבקה/העלאה — נשמר ל-pending-images
+  const cards = all.map(o=>{
+    const frame = pframe(o, 'imglib-frame');   // ללא focus — לחיצה פותחת העלאה
+    return `<div class="imglib-card">
+      ${frame}
+      <div class="imglib-name">${o.name||''}${o.nameEn?`<span class="imglib-en">${o.nameEn}</span>`:''}</div>
+      ${o.city?`<div class="imglib-city">${icon('pin')}${o.city}</div>`:''}
+    </div>`;
+  }).join('');
+  wrap.innerHTML = `
+    <div class="view-bar places-bar">
+      <div class="tr-intro">ספריית התמונות של הטיול — ${all.length} אתרים, ${withImg} עם תמונה. גררי/הדביקי/לחצי על מסגרת כדי להעלות או להחליף תמונה. כל שינוי נשמר זמנית — «שמור קבצים» או «גבי לקובץ» כדי לא לאבד.</div>
+      <div class="places-bar-actions">
+        <button class="save-files-btn" onclick="saveAll()" data-tip="הורדת הקבצים המעודכנים לשמירה ב-Git">${icon('check')} שמור קבצים</button>
+        <button class="add-place-btn" onclick="backupImages()" data-tip="גיבוי כל השינויים לקובץ">${icon('image')} גבי לקובץ</button>
+      </div>
+    </div>
+    <div class="imglib-grid">${cards}</div>`;
 }
 
 function renderCosts() {
@@ -4156,8 +4211,10 @@ async function completeWithClaude() {
     apDraft = Object.assign({
       name, nameEn:'', city:city||'', cityEn:'', region:'kansai', type:'', addr:'',
       hours:'', price:null, duration:'', pid:'', lat:null, lng:null,
-      forWho:[], dayId: dayId?+dayId:null, timeOfDay:'', booked:false, notes:'', image:'', category:[]
+      forWho:[], timeOfDay:'', booked:false, notes:'', image:'', category:[]
     }, place);
+    // ה-dayId שנבחר בבורר גובר תמיד (לא לתת ל-place מהשרת לדרוס אותו)
+    apDraft.dayId = dayId ? +dayId : null;
     renderApPreview();
     document.getElementById('apStep1').style.display='none';
     document.getElementById('apStep2').style.display='';
@@ -4195,10 +4252,12 @@ function toMin(t){ if(!t||!/^\d{1,2}:\d{2}/.test(t)) return null; const [h,m]=t.
 function toHHMM(mins){ mins=Math.max(0,Math.min(24*60-1,Math.round(mins))); return String(Math.floor(mins/60)).padStart(2,'0')+':'+String(mins%60).padStart(2,'0'); }
 // שיבוץ כרונולוגי: קובע שעה לאתר החדש ומכניס אותו במקום הנכון במקטע
 function insertSpotIntoDay(dayId, slot, place){
-  const idNum = dayId;
+  const day = DATA.days.find(d=>String(d.id)===String(dayId)||String(d.tripDay)===String(dayId));
+  if(!day){ toast('שגיאה: היום לא נמצא'); return null; }
+  const idNum = day.id!=null ? day.id : day.tripDay;
+  // אם קובץ היום עדיין לא נטען — יוצרים מבנה ריק כדי שהאתר לא יאבד
+  if(!_dayFilesRaw[idNum]) _dayFilesRaw[idNum] = { spots:{ morning:[], afternoon:[], evening:[] } };
   const raw = _dayFilesRaw[idNum];
-  const day = DATA.days.find(d=>d.id===+dayId);
-  if(!raw || !day) return null;
   if(!raw.spots) raw.spots = { morning:[], afternoon:[], evening:[] };
   if(!Array.isArray(raw.spots[slot])) raw.spots[slot] = [];
   const arr = raw.spots[slot];
@@ -4292,7 +4351,7 @@ window.yukoDayContext = function(){
 window.DATA = DATA; // חשיפה לקריאה מ-yuko.js (let לא נכנס אוטומטית ל-window)
 
 window.yukoGoTab = function(tab){
-  var valid = ['summary','days','calendar','hotels','bookings','checklist','places','costs','transport','map'];
+  var valid = ['summary','days','calendar','hotels','bookings','checklist','places','images','costs','transport','map'];
   if (valid.indexOf(tab) === -1) return false;
   goTab(tab);
   return true;
