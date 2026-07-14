@@ -2262,7 +2262,7 @@ function itinMapCenter(pts){
 // ══════════════════════════════════
 // מפת Leaflet ליום במסלול — סימן לכל אתר, לחיצה ממקדת ומגדילה (פיילוט)
 // ══════════════════════════════════
-const ITIN_PILOT_DAYS = new Set([2, 3, 6]);   // ימי פיילוט — נרחיב לכל הימים אם עובד טוב
+const ITIN_PILOT_DAYS = new Set();   // מפת Google מועדפת (מראה מסלול נסיעה בין אתרים) — Leaflet מושבת
 const _itinMaps = {};       // tripDay → { map, markers:{key→{marker,base,pt,num}}, bounds }
 
 function initItinLeafletMaps(days){
