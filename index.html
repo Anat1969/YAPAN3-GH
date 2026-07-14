@@ -892,18 +892,32 @@ a.bk:hover{background:#00224f}
 .map-square{aspect-ratio:1/1;min-height:340px;border-radius:8px;overflow:hidden;background:#e8e6e1}
 /* עטיפת המפה הספציפית + כרטיס האתר (מרחף בפינה, תמונה גדולה + פרטים + קישור) */
 .map-spec-wrap{position:relative}
-.map-spec-card{position:absolute;left:10px;bottom:10px;z-index:500;width:210px;max-width:calc(100% - 20px);background:var(--surface);border:1px solid var(--border-strong);border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.28);overflow:hidden}
-.map-spec-card .msc-imgwrap{width:100%}
-.map-spec-card .msc-img{display:block;width:100%;height:130px;object-fit:cover}
-.map-spec-card .msc-body{padding:8px 11px 10px}
-.map-spec-card .msc-name{font-size:14px;font-weight:900;color:#111;line-height:1.25}
-.map-spec-card .msc-en{font-size:11px;font-weight:600;color:var(--action);direction:ltr;margin-top:1px}
-.map-spec-card .msc-meta{font-size:11px;font-weight:700;color:var(--ink-3);margin-top:4px}
-.map-spec-card .msc-desc{font-size:11px;color:var(--ink-2);line-height:1.45;margin-top:5px}
-.map-spec-card .msc-link{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:800;color:var(--action);text-decoration:none;margin-top:8px}
-.map-spec-card .msc-link:hover{text-decoration:underline}
-.map-spec-card .msc-link svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
-@media(max-width:760px){.maps-dual-main{grid-template-columns:1fr}.map-spec-card{width:170px}.map-spec-card .msc-img{height:104px}}
+/* כרטיס אתר גדול — ממלא את כל שטח המפה השמאלית בלחיצה על סימן */
+.map-spec-card{position:absolute;inset:0;z-index:600;background:var(--surface);border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.25);overflow:auto;display:flex;flex-direction:column}
+.map-spec-card .msc-imgwrap{width:100%;flex-shrink:0;position:relative}
+.map-spec-card .msc-img{display:block;width:100%;height:48%;min-height:200px;max-height:340px;object-fit:cover}
+.map-spec-card .msc-close{position:absolute;top:8px;left:8px;width:30px;height:30px;border-radius:50%;background:rgba(26,26,26,.72);color:#fff;border:none;cursor:pointer;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;z-index:2}
+.map-spec-card .msc-close:hover{background:#1a1a1a}
+.map-spec-card .msc-body{padding:16px 20px 20px;flex:1;display:flex;flex-direction:column}
+.map-spec-card .msc-name{font-size:22px;font-weight:900;color:#111;line-height:1.2}
+.map-spec-card .msc-en{font-size:14px;font-weight:600;color:var(--action);direction:ltr;margin-top:3px}
+.map-spec-card .msc-meta{font-size:13px;font-weight:800;color:var(--ink-2);margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
+.map-spec-card .msc-meta span{background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:2px 10px}
+.map-spec-card .msc-desc{font-size:14px;color:var(--ink-2);line-height:1.6;margin-top:12px}
+.map-spec-card .msc-addr{font-size:12px;color:var(--ink-3);margin-top:8px}
+.map-spec-card .msc-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:900;color:#fff;background:var(--action);text-decoration:none;margin-top:auto;padding:11px 16px;border-radius:10px;justify-content:center}
+.map-spec-card .msc-link:hover{background:#1741b8}
+.map-spec-card .msc-link svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+/* כרטיס-ריחוף קטן מעל הסימן (tooltip) במפה הימנית */
+.leaflet-tooltip.msc-hover{background:var(--surface);border:1px solid var(--border-strong);border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.25);padding:0;overflow:hidden;width:180px;opacity:1}
+.leaflet-tooltip.msc-hover::before{border-top-color:var(--surface)}
+.msc-hover .mh-img{display:block;width:100%;height:96px;object-fit:cover}
+.msc-hover .mh-body{padding:6px 9px 8px}
+.msc-hover .mh-name{font-size:12.5px;font-weight:900;color:#111;line-height:1.25}
+.msc-hover .mh-en{font-size:10px;font-weight:600;color:var(--action);direction:ltr}
+.msc-hover .mh-meta{font-size:10px;font-weight:700;color:var(--ink-3);margin-top:2px}
+.msc-hover .mh-hint{font-size:9px;color:var(--ink-3);margin-top:3px}
+@media(max-width:760px){.maps-dual-main{grid-template-columns:1fr}.map-spec-card .msc-name{font-size:18px}}
 /* מקרא = מסננים לחיצים */
 .map-legend{max-width:1200px;margin:10px auto 0;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;display:flex;gap:8px;flex-wrap:wrap;font-size:12px;font-weight:700;color:var(--ink-2);align-items:center}
 .map-legend:empty{display:none}
@@ -3689,7 +3703,7 @@ function hexToRgba(hex, a){
   return `rgba(${parseInt(m[1],16)},${parseInt(m[2],16)},${parseInt(m[3],16)},${a})`;
 }
 function bigMarker(latlng, opts) {
-  const { text='', color='#1d4ed8', shape='circle', size=32, popup='', aria='', onClick, fontSize=13, translucent=false } = opts;
+  const { text='', color='#1d4ed8', shape='circle', size=32, popup='', aria='', onClick, fontSize=13, translucent=false, hover='' } = opts;
   const radius = shape==='circle' ? '50%' : '6px';
   // שקוף-למחצה: מילוי חצי-שקוף, מסגרת בצבע מלא, טקסט בצבע כהה (עקבי בכל התצוגות)
   const bg = translucent ? hexToRgba(color,0.45) : color;
@@ -3697,7 +3711,9 @@ function bigMarker(latlng, opts) {
   const txtColor = translucent ? '#1a1a1a' : '#fff';
   const html = `<div style="width:${size}px;height:${size}px;border-radius:${radius};background:${bg};color:${txtColor};border:${border};box-shadow:0 1px 4px rgba(0,0,0,.28);display:flex;align-items:center;justify-content:center;font:900 ${fontSize}px/1 'Noto Sans Hebrew',sans-serif;text-align:center" role="button" aria-label="${aria}" tabindex="0">${text}</div>`;
   const mk = L.marker(latlng, {icon:L.divIcon({className:'',html,iconSize:[size,size],iconAnchor:[size/2,size/2]}), keyboard:true});
-  if (popup) mk.bindPopup(popup);
+  // ריחוף → כרטיס-ריחוף קטן מעל הסימן; אחרת פופאפ רגיל
+  if (hover) mk.bindTooltip(hover, {direction:'top', offset:[0,-size/2-2], className:'msc-hover', opacity:1, sticky:false});
+  else if (popup) mk.bindPopup(popup);
   if (onClick) mk.on('click', onClick);
   return mk;
 }
@@ -3756,25 +3772,42 @@ function focusSpec(pts, title) {
   clearSpecImage();
   return specLayer;
 }
-// כרטיס אתר מלא על המפה הספציפית: תמונה גדולה + שם + סוג/יום + קישור לגוגל מפות (סעיף 8)
+// קישור לגוגל מפות של הסימן (לפי קואורדינטות מדויקות, אחרת לפי שם)
+function gmapsUrlFor(o){
+  const q = encodeURIComponent(o.nameEn || o.name || '');
+  return (o.lat && o.lng)
+    ? `https://www.google.com/maps/search/?api=1&hl=he&query=${o.lat},${o.lng}`
+    : (q ? `https://www.google.com/maps/search/?api=1&hl=he&query=${q}` : '');
+}
+// כרטיס-ריחוף קטן להצגה מעל הסימן (tooltip) — תמונה + שם + מטא
+function hoverCardHtml(o){
+  const src = o.image || '';
+  const meta = [o.kind, o.day!=null?('יום '+o.day):'', o.city].filter(Boolean).join(' · ');
+  return `<div class="msc-hover-inner">`
+    + (src?`<img class="mh-img" src="${src}" alt="" onerror="this.style.display='none'">`:'')
+    + `<div class="mh-body"><div class="mh-name">${o.name||''}</div>`
+    + (o.nameEn?`<div class="mh-en">${o.nameEn}</div>`:'')
+    + (meta?`<div class="mh-meta">${meta}</div>`:'')
+    + `<div class="mh-hint">לחצי להגדלה ›</div></div></div>`;
+}
+// כרטיס אתר גדול — ממלא את המפה השמאלית: תמונה גדולה + כל הטקסט + קישור לגוגל מפות (סעיף 8)
 function setSpecCard(o){
   const card = document.getElementById('mapSpecCard');
   if(!card) return;
   o = o || {};
   const src = o.image || '';
-  const q = encodeURIComponent(o.nameEn || o.name || '');
-  const gmaps = (o.lat && o.lng)
-    ? `https://www.google.com/maps/search/?api=1&hl=he&query=${o.lat},${o.lng}`
-    : (q ? `https://www.google.com/maps/search/?api=1&hl=he&query=${q}` : '');
-  const meta = [o.kind, o.day!=null?('יום '+o.day):'', o.city].filter(Boolean).join(' · ');
+  const gmaps = gmapsUrlFor(o);
+  const metaParts = [o.kind, o.day!=null?('יום '+o.day):'', o.city].filter(Boolean);
   card.innerHTML =
-    (src ? `<div class="msc-imgwrap"><img class="msc-img" src="${src}" alt="${o.name||''}" loading="lazy" onerror="this.closest('.msc-imgwrap').style.display='none'"></div>` : '')
+    (src ? `<div class="msc-imgwrap"><img class="msc-img" src="${src}" alt="${o.name||''}" loading="lazy" onerror="this.closest('.msc-imgwrap').style.display='none'"><button class="msc-close" onclick="clearSpecImage()" aria-label="סגירה">×</button></div>` : `<button class="msc-close" style="position:absolute" onclick="clearSpecImage()" aria-label="סגירה">×</button>`)
     + `<div class="msc-body">
         <div class="msc-name">${o.name||''}</div>
         ${o.nameEn?`<div class="msc-en">${o.nameEn}</div>`:''}
-        ${meta?`<div class="msc-meta">${meta}</div>`:''}
+        ${metaParts.length?`<div class="msc-meta">${metaParts.map(m=>`<span>${m}</span>`).join('')}</div>`:''}
         ${o.desc?`<div class="msc-desc">${o.desc}</div>`:''}
-        ${gmaps?`<a class="msc-link" href="${gmaps}" target="_blank" rel="noopener">${icon('external')} פתחי בגוגל מפות ›</a>`:''}
+        ${o.addr?`<div class="msc-addr">${o.addr}</div>`:''}
+        ${o.hours||o.price?`<div class="msc-addr">${[o.hours,o.price].filter(Boolean).join(' · ')}</div>`:''}
+        ${gmaps?`<a class="msc-link" href="${gmaps}" target="_blank" rel="noopener">${icon('external')} פתחי מיקום זה בגוגל מפות ›</a>`:''}
       </div>`;
   card.hidden = false;
 }
@@ -3949,10 +3982,9 @@ function renderMapPlaces(legend) {
     if(!p.lat||!p.lng) return;
     const kind = placeKindHe(p);
     const color = KIND_COLOR[kind]||'#475569';
-    const pimg = resolvePlaceImage(p); const thumb = pimg?`<img src="${pimg}" style="width:100%;max-width:200px;border-radius:6px;margin-bottom:5px" alt="${p.name}">`:'';
-    const popup=`${thumb}${bilingual(p.name,p.nameEn)}<br><span style="font-size:11px">${kind}${p.dayId?` · יום ${p.dayId}`:''}${p.timeOfDay?` · ${p.timeOfDay}`:''}${p.duration?` · ${p.duration}`:''}</span><br><a href="https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(p.nameEn||p.name)}" target="_blank" style="font-size:11px;color:#1d4ed8">פתחי בגוגל מפות ›</a>`;
-    // סימן שקוף וגדול, עקבי בכל התצוגות (סעיף 3)
-    bigMarker([p.lat,p.lng],{text:'',color,shape:'circle',size:26,translucent:true,popup,aria:`${p.name} — ${kind}`, onClick:()=>showPlaceSpecific(p)}).addTo(mapLayer);
+    // ריחוף → כרטיס-ריחוף מעל הסימן; לחיצה → כרטיס גדול משמאל (סעיף חדש)
+    const hover = hoverCardHtml({ image:resolvePlaceImage(p), name:p.name, nameEn:p.nameEn, kind, day:p.dayId||null, city:p.city||p.cityEn||'' });
+    bigMarker([p.lat,p.lng],{text:'',color,shape:'circle',size:26,translucent:true,hover,aria:`${p.name} — ${kind}`, onClick:()=>showPlaceSpecific(p)}).addTo(mapLayer);
     pts.push([p.lat,p.lng]);
   });
   if(pts.length) mapObj.fitBounds(L.latLngBounds(pts).pad(0.15));
@@ -3966,7 +3998,7 @@ function showPlaceSpecific(p){
   bigMarker([p.lat,p.lng],{text:'',color,shape:'square',size:30,size2:44,popup:bilingual(p.name,p.nameEn),aria:p.name}).addTo(layer);
   mapSpecObj.setView([p.lat,p.lng],17);   // זום גדול סביב הסימן (סעיף 7)
   const kind=(spotKind(p,p)||{}).he || placeCats(p)[0];
-  setSpecCard({ image:resolvePlaceImage(p), name:p.name, nameEn:p.nameEn, kind, city:p.city||p.cityEn||'', day:p.dayId||null, lat:p.lat, lng:p.lng });
+  setSpecCard({ image:resolvePlaceImage(p), name:p.name, nameEn:p.nameEn, kind, city:p.city||p.cityEn||'', day:p.dayId||null, desc:p.notes, addr:p.addr, hours:p.hours, price:(p.price!=null&&p.price!==''?('¥'+p.price):''), lat:p.lat, lng:p.lng });
 }
 
 // ══════════════════════════════════
@@ -3986,17 +4018,9 @@ function renderMapArch(legend){
   active.forEach(s=>{
     if(!s.lat||!s.lng) return;
     const color = ARCH_COLORS[s.archGroup]||'#888';
-    const popup = (s.image?`<img src="${s.image}" style="width:100%;max-width:210px;border-radius:6px;margin-bottom:5px" alt="${s.nameHe}">`:'')
-      + `<b style="font-size:14px;color:#1a1a1a">${s.nameHe}</b>`
-      + `<br><span style="font-size:11px;color:#888;direction:ltr">${s.nameEn}</span>`
-      + `<br><span style="font-size:12px;font-weight:700;color:${color}">${s.architect} · ${s.year}</span>`
-      + `<br><span style="font-size:12px;color:#555">${s.desc||''}</span>`
-      + `<br><span style="font-size:11px;color:#999">${s.address||''}</span>`
-      + `<br><span style="font-size:11px;color:#999">${s.hours||''}${s.price?' · '+s.price:''}</span>`
-      + (s.day?`<br><span style="display:inline-block;margin-top:4px;padding:1px 8px;border-radius:10px;font-size:11px;font-weight:600;color:#fff;background:${color}">יום ${s.day}</span>`:'')
-      + ` · <a href="https://www.google.com/maps/search/?api=1&hl=he&query=${encodeURIComponent(s.nameEn)}" target="_blank" style="font-size:11px;color:#1d4ed8">מפה</a>`;
-    // סימן עגול ממוספר שקוף וגדול בצבע האדריכל (עקבי עם שאר התצוגות)
-    bigMarker([s.lat,s.lng],{text:String(s.day||''),color,shape:'circle',size:32,translucent:true,fontSize:13,popup,aria:`${s.nameHe} — ${s.architect}`, onClick:()=>showArchSpecific(s)}).addTo(mapLayer);
+    // ריחוף → כרטיס-ריחוף מעל הסימן; לחיצה → כרטיס גדול משמאל
+    const hover = hoverCardHtml({ image:s.image, name:s.nameHe, nameEn:s.nameEn, kind:s.architect+' · '+s.year, day:s.day||null });
+    bigMarker([s.lat,s.lng],{text:String(s.day||''),color,shape:'circle',size:32,translucent:true,fontSize:13,hover,aria:`${s.nameHe} — ${s.architect}`, onClick:()=>showArchSpecific(s)}).addTo(mapLayer);
     pts.push([s.lat,s.lng]);
   });
   if(pts.length) mapObj.fitBounds(L.latLngBounds(pts).pad(0.15));
@@ -4010,7 +4034,7 @@ function showArchSpecific(s){
   bigMarker([s.lat,s.lng],{text:String(s.day||''),color,shape:'circle',size:32,size2:46,fontSize:13,popup:`<b>${s.nameHe}</b><br><span style="font-size:11px">${s.nameEn}</span>`,aria:s.nameHe}).addTo(layer);
   mapSpecObj.setView([s.lat,s.lng],17);
   const img = s.image || resolvePlaceImage({name:s.nameHe, nameEn:s.nameEn});
-  setSpecCard({ image:img, name:s.nameHe, nameEn:s.nameEn, kind:'אדריכלות · '+s.architect, day:s.day||null, desc:s.desc, lat:s.lat, lng:s.lng });
+  setSpecCard({ image:img, name:s.nameHe, nameEn:s.nameEn, kind:'אדריכלות · '+s.architect+' · '+s.year, day:s.day||null, desc:s.desc, addr:s.address, hours:s.hours, price:s.price, lat:s.lat, lng:s.lng });
 }
 
 // ══════════════════════════════════
