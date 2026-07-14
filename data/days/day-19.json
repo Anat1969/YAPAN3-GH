@@ -44,7 +44,8 @@
         "price": 0,
         "forWho": "נתן, לוטם",
         "notes": "טעימות גבינה, סדנת גלידה, חנות",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Mother_and_Child_with_Cow_Statue_-_Cheese_Factory_-_Furano_-_Hokkaido_-_Japan_%2848012302622%29.jpg/500px-Mother_and_Child_with_Cow_Statue_-_Cheese_Factory_-_Furano_-_Hokkaido_-_Japan_%2848012302622%29.jpg"
       }
     ],
     "evening": [

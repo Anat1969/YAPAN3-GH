@@ -15,7 +15,8 @@
         "price": null,
         "forWho": "כולם",
         "notes": "אחד הקניונים הגדולים בעולם, ממוזג. אקווריום ענק, מפל אנושי, קניות. מנוחה קלה אחרי טיסה",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Interior_of_Dubai_Mall.jpg/500px-Interior_of_Dubai_Mall.jpg"
       }
     ],
     "evening": [
@@ -30,7 +31,8 @@
         "price": 0,
         "forWho": "כולם",
         "notes": "מופע מים ואור על אגם בורג' ח'ליפה — כל 30 דק' מ-18:00. חינם, מרהיב. צפייה מגשר הסוק אל בהאר",
-        "placeId": ""
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/The_Dubai_Fountain_%283%29.jpg/500px-The_Dubai_Fountain_%283%29.jpg"
       }
     ],
     "morning": []
