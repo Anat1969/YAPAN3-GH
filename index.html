@@ -31,7 +31,26 @@
   --region-4:#f4f4f5; --region-4-ink:#57534e;  /* דובאי/אחר — ניטרלי בהיר */
   /* אייקונים — אפור בהיר אחיד */
   --icon:#9a958e; --icon-active:#57534e;
+  --surface-dark:#1c1c1a;           /* רקע כהה (ניווט, כותרות טבלה) — במקום #1a1a1a/#2c2c2c */
+  /* ── סקאלות עיצוב (מערכת אחת) ── */
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:20px; --space-6:28px;
+  --radius-sm:6px; --radius-md:10px; --radius-lg:12px; --radius-pill:999px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.08); --shadow-md:0 2px 10px rgba(0,0,0,.10); --shadow-lg:0 6px 22px rgba(0,0,0,.12);
+  --fs-xs:11px; --fs-sm:12px; --fs-base:13px; --fs-md:14px; --fs-lg:16px; --fs-xl:20px; --fs-2xl:26px;
 }
+/* ── פרימיטיבים אחידים: כפתורים + כרטיס (לשימוש חוזר, מצמצמים ~20 סגנונות ל-4) ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;font:800 var(--fs-sm)/1.2 inherit;border-radius:var(--radius-sm);padding:7px 14px;cursor:pointer;border:1px solid transparent;transition:.12s;text-decoration:none;white-space:nowrap}
+.btn:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
+.btn-primary{background:var(--action);color:#fff;border-color:var(--action)}
+.btn-primary:hover{background:#1741b8}
+.btn-secondary{background:var(--surface);color:var(--action);border-color:var(--border-strong)}
+.btn-secondary:hover{background:var(--bg)}
+.btn-ghost{background:transparent;color:var(--ink-2);border-color:transparent}
+.btn-ghost:hover{background:var(--bg)}
+.btn-pill{border-radius:var(--radius-pill);background:var(--surface);color:var(--ink-2);border-color:var(--border);font-weight:800;padding:5px 13px}
+.btn-pill:hover{border-color:var(--border-strong)}
+.btn-pill.on{background:var(--action);color:#fff;border-color:var(--action)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-4)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--ink);font-size:13px;line-height:1.5}
 /* באנר אזהרת תמונות שלא נשמרו ל-Git */
@@ -111,9 +130,10 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 /* כפתורי הסינון ממורכזים, ללא מסגרת/רקע לסרגל */
 .filters-inner{margin:0 auto;padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:center}
 .filters-inner.filters-inner-wide{max-width:100%;padding:8px 8px;justify-content:center}
-.filters-inner::before{content:'סינון:';font-size:11px;font-weight:800;color:var(--ink-3);margin-left:2px}
-.flt{padding:3px 10px;border:1px solid #ddd;border-radius:3px;background:#fff;font:600 11px/1.4 inherit;cursor:pointer;color:#666;transition:.12s}
-.flt:hover{border-color:#999}.flt.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.flt-axis{font-size:var(--fs-xs);font-weight:800;color:var(--ink-3);margin-inline-start:4px}
+.flt-sep{width:1px;height:16px;background:var(--border);margin:0 4px}
+.flt{padding:4px 11px;border:1px solid var(--border);border-radius:var(--radius-pill);background:var(--surface);font:700 var(--fs-xs)/1.4 inherit;cursor:pointer;color:var(--ink-2);transition:.12s}
+.flt:hover{border-color:var(--border-strong)}.flt.on{background:var(--action);color:#fff;border-color:var(--action)}
 
 /* TABLE */
 .tw{max-width:1200px;margin:0 auto;padding:0 12px;overflow-x:auto}
@@ -367,9 +387,10 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 /* כל חלק ביום במסגרת מלבנית נפרדת, עם צבע-רמז לפי שעת היום */
 .itin-spots-col{min-width:0;display:flex;flex-direction:column;gap:12px}
 .itin-slot{border:1px solid var(--border);border-radius:10px;padding:10px 12px;background:var(--surface);border-inline-start:4px solid var(--slot-accent,var(--border-strong))}
-.itin-slot-morning{--slot-accent:#d97706;background:linear-gradient(180deg,rgba(217,119,6,.05),transparent 60%)}
-.itin-slot-afternoon{--slot-accent:#0891b2;background:linear-gradient(180deg,rgba(8,145,178,.05),transparent 60%)}
-.itin-slot-evening{--slot-accent:#6366f1;background:linear-gradient(180deg,rgba(99,102,241,.06),transparent 60%)}
+/* מקטעי היום — ללא גרדיאנט רקע (מינימליזם); הכיוון נשמר דרך צבע הכותרת בלבד */
+.itin-slot-morning{--slot-accent:#b45309}
+.itin-slot-afternoon{--slot-accent:#0e7490}
+.itin-slot-evening{--slot-accent:#4f46e5}
 .itin-slot-head{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:900;color:var(--ink-2);margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--border)}
 .itin-slot-head .ic{width:15px;height:15px;stroke:var(--slot-accent,var(--ink-3))}
 .itin-slot-morning .itin-slot-head{color:#b45309}
@@ -756,7 +777,7 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .cost-filterbar{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 2px}
 .cfb{padding:5px 12px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--ink-2);font:700 12px/1.4 inherit;cursor:pointer;transition:.12s;white-space:nowrap}
 .cfb:hover{background:var(--bg);border-color:var(--border-strong)}
-.cfb.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.cfb.on{background:var(--action);color:#fff;border-color:var(--action)}
 .cfb.cfb-toggle{margin-right:auto;color:var(--action)}
 .cfb:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
 .cfb{display:inline-flex;align-items:center;gap:5px}
@@ -790,7 +811,7 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .fx-tabs{display:inline-flex;gap:4px;margin-bottom:10px}
 .fx-tab{border:1px solid var(--border);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:4px 14px;font:800 12px/1 inherit;cursor:pointer;transition:.12s}
 .fx-tab:hover{border-color:var(--border-strong)}
-.fx-tab.on{background:#15803d;border-color:#15803d;color:#fff}
+.fx-tab.on{background:var(--action);border-color:var(--action);color:#fff}
 .fx-rows{display:flex}
 .fx-row{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;width:100%}
 .fx-cell{flex:1;min-width:130px;display:flex;flex-direction:column;gap:4px}
@@ -885,7 +906,7 @@ a.bk:hover{background:#00224f}
 .itin-focusbtn:hover .ic{stroke:#fff}
 .map-place-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
 .mpf{padding:3px 10px;border:1px solid var(--border);border-radius:999px;background:var(--surface);font:600 11px inherit;cursor:pointer;color:var(--ink-3)}
-.mpf.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.mpf.on{background:var(--action);color:#fff;border-color:var(--action)}
 /* שתי מפות זו לצד זו — גודל שווה, מרובעות */
 .maps-dual-main{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .map-col-m{display:flex;flex-direction:column}
@@ -1496,22 +1517,46 @@ function arrow(tab, key) {
 // ══════════════════════════════════
 // REGION FILTER
 // ══════════════════════════════════
+let personFilter = '';   // סינון לפי אדם (ענת/עילאי/לוטם/נתן)
+let statusFilter = '';   // סינון לפי סטטוס (מוזמן/טרם)
 function renderFilters() {
   const el = document.getElementById('filters');
   if (activeTab!=='days' && activeTab!=='hotels' && activeTab!=='places') { el.innerHTML=''; return; }
   const regions = [
     {k:'',l:'הכל'},{k:'kansai',l:'קנסאי'},{k:'hokkaido',l:'הוקאידו'},{k:'tokyo',l:'טוקיו'},{k:'dubai',l:'דובאי'}
   ];
-  // עטיפה פנימית שמיישרת את מסגרת הסינון לרוחב הטבלה הפעילה (רחב בלוח ימים, ממורכז בשאר)
   const wide = activeTab==='days' ? ' filters-inner-wide' : '';
-  el.innerHTML = `<div class="filters-inner${wide}">` +
-    regions.map(r=>`<button class="flt${regionFilter===r.k?' on':''}" onclick="regionFilter='${r.k}';render()">${r.l}</button>`).join('') +
-    `</div>`;
+  let html = `<div class="filters-inner${wide}">` +
+    `<span class="flt-axis">אזור:</span>` +
+    regions.map(r=>`<button class="flt${regionFilter===r.k?' on':''}" onclick="regionFilter='${r.k}';render()">${r.l}</button>`).join('');
+  // דף האתרים — גם סינון לפי אדם וסטטוס (הנתונים תומכים: forWho + booked)
+  if(activeTab==='places'){
+    const people = [{k:'',l:'כולם'},{k:'ענת',l:'ענת'},{k:'עילאי',l:'עילאי'},{k:'לוטם',l:'לוטם'},{k:'נתן',l:'נתן'}];
+    html += `<span class="flt-sep"></span><span class="flt-axis">אדם:</span>` +
+      people.map(p=>`<button class="flt${personFilter===p.k?' on':''}" onclick="personFilter='${p.k}';render()">${p.l}</button>`).join('');
+    const statuses = [{k:'',l:'הכל'},{k:'booked',l:'מוזמן'},{k:'plan',l:'לתכנן'}];
+    html += `<span class="flt-sep"></span><span class="flt-axis">סטטוס:</span>` +
+      statuses.map(s=>`<button class="flt${statusFilter===s.k?' on':''}" onclick="statusFilter='${s.k}';render()">${s.l}</button>`).join('');
+  }
+  el.innerHTML = html + `</div>`;
 }
-
+// נרמול forWho — תמיד למערך (המקור: מערך או מחרוזת "ענת, נתן")
+function forWhoArr(x){
+  const v = x && x.forWho;
+  if(!v) return [];
+  return Array.isArray(v) ? v : String(v).split(/[,،]/).map(s=>s.trim()).filter(Boolean);
+}
+function personMatches(x, person){
+  if(!person) return true;
+  const arr = forWhoArr(x);
+  return arr.includes(person) || arr.includes('כולם');
+}
 function filtered(arr) {
-  if (!regionFilter) return arr;
-  return arr.filter(x => x.region === regionFilter);
+  let out = arr;
+  if (regionFilter) out = out.filter(x => x.region === regionFilter);
+  if (activeTab==='places' && personFilter) out = out.filter(x => personMatches(x, personFilter));
+  if (activeTab==='places' && statusFilter) out = out.filter(x => statusFilter==='booked' ? x.booked : !x.booked);
+  return out;
 }
 
 // ══════════════════════════════════
