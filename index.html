@@ -2265,6 +2265,12 @@ function renderItinerary(){
             <a class="itin-map-link" href="${itinDirectionsUrl(rp)}" target="_blank" rel="noopener" data-tip="פתיחת מסלול היום המצויר ב-Google Maps (כולל מלונות)">${icon('route')} מסלול מצויר מלא ב-Google Maps ›</a>
             <button class="itin-map-reset" onclick="resetDayMap(${d.tripDay})" data-tip="חזרה למרכז המסלול">${icon('route')} כל המסלול</button>
           </div>
+          ${ITIN_ROUTE_DAYS.has(d.tripDay) ? `
+          <div class="itin-gmap-lbl" style="margin-top:12px">${icon('route')} מפת המסלול — כל אתרי היום וקו הניווט ביניהם</div>
+          <div class="itin-lmap-box" style="height:360px"><div id="lmap-${d.tripDay}" class="itin-lmap" data-triptday="${d.tripDay}"></div></div>
+          <div class="itin-map-links">
+            <a class="itin-map-link" href="${itinDirectionsUrl(rp)}" target="_blank" rel="noopener" data-tip="ניווט מלא בין כל האתרים ב-Google Maps">${icon('external')} ניווט מלא בין האתרים ›</a>
+          </div>` : ''}
         </div>`
       : '');
     const bodyCls = mapCol ? 'itin-body has-map' : 'itin-body';
@@ -2523,13 +2529,15 @@ function itinMapCenter(pts){
 // ══════════════════════════════════
 // מפת Leaflet ליום במסלול — סימן לכל אתר, לחיצה ממקדת ומגדילה (פיילוט)
 // ══════════════════════════════════
-const ITIN_PILOT_DAYS = new Set();   // מפת Google מועדפת (מראה מסלול נסיעה בין אתרים) — Leaflet מושבת
+const ITIN_PILOT_DAYS = new Set();   // (לא בשימוש) — Leaflet במקום Google
+// ימים שבהם מוצגת מפת מסלול נוספת (Leaflet) עם כל אתרי היום + קו ניווט. מתחילים מיום 1.
+const ITIN_ROUTE_DAYS = new Set([1]);
 const _itinMaps = {};       // tripDay → { map, markers:{key→{marker,base,pt,num}}, bounds }
 
 function initItinLeafletMaps(days){
   if(typeof L === 'undefined') return;
   (days||[]).forEach(d=>{
-    if(!ITIN_PILOT_DAYS.has(d.tripDay)) return;
+    if(!ITIN_PILOT_DAYS.has(d.tripDay) && !ITIN_ROUTE_DAYS.has(d.tripDay)) return;
     const el = document.getElementById('lmap-'+d.tripDay); if(!el) return;
     setTimeout(()=>buildItinMap(d), 60);
   });
