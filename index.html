@@ -1219,6 +1219,20 @@ async function loadData() {
     const ly = await fetch('data/layout.json').then(r=>r.json()).catch(()=>null);
     const arch = await fetch('data/architecture.json').then(r=>r.json()).catch(()=>[]);
     DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb, mymarks:Array.isArray(mm)?mm:[], layout:ly||{}, architecture:Array.isArray(arch)?arch:[] };
+    // ── Reconcile: אם שינוי מקומי כבר קיים בקובץ ה-data ששרת (הועלה ל-Git), מנקים אותו מ-pending ──
+    // כך השינויים המקומיים שורדים ריענון עד שהם ב-Git, ואז נעלמים לבד — בלי איבוד ובלי הצטברות.
+    try {
+      const eq = (a,b)=>JSON.stringify(a)===JSON.stringify(b);
+      // סדר טאבים: אם השרת כבר תואם ל-pending — לנקות
+      const pt = JSON.parse(localStorage.getItem('pending-tabs')||'null');
+      if(pt && Array.isArray(DATA.tabs) && eq(pt, DATA.tabs)) localStorage.removeItem('pending-tabs');
+      // פריסה: אם השרת כבר תואם — לנקות
+      const plc = JSON.parse(localStorage.getItem('pending-layout')||'null');
+      if(plc && DATA.layout && eq(plc.itinerary||plc, (DATA.layout.itinerary||DATA.layout))) localStorage.removeItem('pending-layout');
+      // סיכות: אם השרת כבר תואם — לנקות
+      const pmc = JSON.parse(localStorage.getItem('pending-mymarks')||'null');
+      if(pmc && eq(pmc, DATA.mymarks||[])) localStorage.removeItem('pending-mymarks');
+    } catch(e){}
     // שחזור סיכות משתמש שנוספו מקומית וטרם נשמרו ל-Git
     try {
       const pm = JSON.parse(localStorage.getItem('pending-mymarks')||'null');
@@ -1234,9 +1248,16 @@ async function loadData() {
     // ה-id הגבוה מהקובץ הסטטי — לזיהוי אתרים שנוספו מקומית (טרם נשמרו ל-Git)
     _basePlaceMaxId = (DATA.places||[]).reduce((m,x)=>Math.max(m, x.id||0), 0);
     // שחזור אתרים שנוספו מקומית ועדיין לא נשמרו ל-Git (התמדה עד ל-«שמור קבצים»)
+    // Reconcile: אתר שכבר קיים בקובץ ה-data ששרת — יורד מ-pending (הגיע ל-Git)
     try {
-      const pend = JSON.parse(localStorage.getItem('pending-places')||'[]');
-      pend.forEach(pp=>{ if(pp && pp.id && !DATA.places.some(x=>x.id===pp.id)) DATA.places.push(pp); });
+      let pend = JSON.parse(localStorage.getItem('pending-places')||'[]');
+      const servedIds = new Set((DATA.places||[]).map(x=>x.id));
+      const stillPending = pend.filter(pp=>pp && pp.id && !servedIds.has(pp.id));
+      stillPending.forEach(pp=>DATA.places.push(pp));
+      if(stillPending.length !== pend.length){
+        if(stillPending.length) localStorage.setItem('pending-places', JSON.stringify(stillPending));
+        else localStorage.removeItem('pending-places');
+      }
     } catch(e){}
     // מיזוג spots מקבצי הימים הפרטניים (data/days/day-XX.json) לתוך DATA.days —
     // כדי למלא את עמודות בוקר/צהריים/ערב בטבלת לוח הימים בשמות האתרים בפועל
@@ -1258,25 +1279,42 @@ async function loadData() {
       }
       catch(e){ /* קובץ יום חסר — נשארים עם days.json */ }
     }));
-    // שחזור תמונות שנערכו מקומית (מפתח זהות → base64) — עד ל-«שמור קבצים»
+    // שחזור תמונות שנערכו מקומית (מפתח זהות → base64) — עם reconcile מול הקובץ ששרת
     try {
       const pi = JSON.parse(localStorage.getItem('pending-images')||'{}');
+      const kept = {};
       Object.keys(pi).forEach(key=>{
-        const p = findPlaceByKey(key); if(p){ p.image = pi[key]; p._imgEdited = true; }
+        const p = findPlaceByKey(key);
+        // אם התמונה שבקובץ ששרת כבר זהה למקומית — היא ב-Git, לא צריך pending
+        if(p && p.image===pi[key]){ return; }
+        kept[key]=pi[key];
+        if(p){ p.image = pi[key]; p._imgEdited = true; }
         (DATA.days||[]).forEach(d=>['morning','afternoon','evening'].forEach(t=>
           (d.spots && d.spots[t] || []).forEach(s=>{ if(placeKey(s)===key) s.image = pi[key]; })));
       });
+      if(Object.keys(kept).length!==Object.keys(pi).length){
+        if(Object.keys(kept).length) localStorage.setItem('pending-images', JSON.stringify(kept));
+        else localStorage.removeItem('pending-images');
+      }
     } catch(e){}
-    // שחזור spots שנוספו מקומית ליום וטרם נשמרו ל-Git (התמדה זמנית)
+    // שחזור spots שנוספו/שונו מקומית ליום — עם reconcile מול הקובץ ששרת (day-XX.json)
     try {
       const pd = JSON.parse(localStorage.getItem('pending-dayspots')||'{}');
+      const kept = {};
       Object.keys(pd).forEach(idNum=>{
         const raw = _dayFilesRaw[idNum]; if(!raw) return;
+        // אם ה-spots בקובץ ששרת כבר זהים למקומיים — השינוי ב-Git, לא צריך pending
+        if(JSON.stringify(raw.spots)===JSON.stringify(pd[idNum])){ return; }
+        kept[idNum]=pd[idNum];
         raw.spots = pd[idNum];
         const day = DATA.days.find(d=>String(d.id)===String(idNum)||String(d.tripDay)===String(idNum));
         if(day) day.spots = raw.spots;
         _changedDays.add(String(idNum));
       });
+      if(Object.keys(kept).length!==Object.keys(pd).length){
+        if(Object.keys(kept).length) localStorage.setItem('pending-dayspots', JSON.stringify(kept));
+        else localStorage.removeItem('pending-dayspots');
+      }
     } catch(e){}
   } catch(e) {
     console.error('Load error:',e);
@@ -4281,28 +4319,31 @@ function copyMissingPrompt() {
 // ══════════════════════════════════
 // SAVE / EXPORT
 // ══════════════════════════════════
+// «שמור קבצים» = יצוא ל-Git בלבד. השינויים כבר שמורים אוטומטית (localStorage) ושורדים ריענון.
+// קריטי: לא מנקים את pending-* כאן — אחרת שינוי שטרם הגיע ל-Git נמחק בריענון (זה היה באג האובדן).
 async function saveAll() {
   // הסרת סמנים זמניים לפני יצוא (לא נשמרים לקובץ)
-  (DATA.places||[]).forEach(p=>{ delete p._imgEdited; });
-  (DATA.days||[]).forEach(d=>['morning','afternoon','evening'].forEach(t=>
-    (d.spots&&d.spots[t]||[]).forEach(s=>{ delete s._imgEdited; })));
-  // קבצי הליבה (hotels/days/places/... כולל tabs)
+  const snapshot = new Set();
+  (DATA.places||[]).forEach(p=>{ if(p._imgEdited){snapshot.add(p);} });
+  const cleanPlaces = (DATA.places||[]).map(p=>{ const c={...p}; delete c._imgEdited; return c; });
+  // קבצי הליבה (hotels/days/places/... כולל tabs) — עותק נקי מסמנים זמניים
   for (const [name, data] of Object.entries(DATA)) {
-    downloadJSON(data, name+'.json');
+    const out = name==='places' ? cleanPlaces : data;
+    downloadJSON(out, name+'.json');
   }
-  // קבצי ימים ששונו (day-XX.json) — spots ששובצו ליום
+  // קבצי ימים ששונו (day-XX.json) — spots ששובצו ליום (עותק נקי)
   let dayCount = 0;
   _changedDays.forEach(idNum=>{
     const raw = _dayFilesRaw[idNum];
-    if(raw){ downloadJSON(raw, 'day-'+String(idNum).padStart(2,'0')+'.json'); dayCount++; }
+    if(raw){
+      const clean = JSON.parse(JSON.stringify(raw));
+      ['morning','afternoon','evening'].forEach(t=>(clean.spots&&clean.spots[t]||[]).forEach(s=>{ delete s._imgEdited; }));
+      downloadJSON(clean, 'day-'+String(idNum).padStart(2,'0')+'.json'); dayCount++;
+    }
   });
-  // התמדות זמניות ירדו כעת לקבצים — ניתן לנקות
-  try { localStorage.removeItem('pending-places'); localStorage.removeItem('pending-tabs'); localStorage.removeItem('pending-dayspots'); localStorage.removeItem('pending-images'); localStorage.removeItem('pending-mymarks'); localStorage.removeItem('pending-layout'); } catch(e){}
-  _changedDays.clear();
-  hasUnsaved = false;
-  const b=document.getElementById('navSaveBtn'); if(b) b.style.display='none';
-  updateImgWarn();
-  toast(dayCount ? `כל הקבצים נשמרו (כולל ${dayCount} קבצי ימים) — העלי ל-Git תחת data/days/` : 'כל הקבצים נשמרו — העלי ל-Git');
+  // חשוב: pending-* נשארים ב-localStorage — הם הזיכרון החי שמחזיק את השינויים עד שהם ב-Git.
+  // הם ינוקו אוטומטית בטעינה הבאה רק אם השינוי כבר נמצא בקובץ ה-data ששרת (reconcile ב-loadData).
+  toast(dayCount ? `יוצאו ${dayCount+Object.keys(DATA).length} קבצים ל-Git — השינויים כבר שמורים אצלך ולא ייעלמו` : 'הקבצים יוצאו ל-Git — השינויים כבר שמורים אצלך ולא ייעלמו');
 }
 
 // ── גיבוי/שחזור כל השינויים המקומיים שטרם נשמרו ל-Git ──
