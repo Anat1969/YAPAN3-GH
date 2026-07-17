@@ -2235,13 +2235,22 @@ function notesAdd(){
   // מיקוד בתא הנושא של השורה החדשה
   setTimeout(()=>{ const cells=document.querySelectorAll('.nt-topic'); const last=cells[cells.length-1]; if(last) last.focus(); }, 30);
 }
+// כל משפט בשורה חדשה (כמו במחברת המעשית) — פיצול אחרי נקודה+רווח, בלי לשבור מספרים עשרוניים
+function notesSentencesPerLine(txt){
+  if(!txt) return '';
+  let s = String(txt).replace(/\r\n?/g,'\n');
+  s = s.replace(/([^\d\s])([.!?…])[^\S\n]+/g, '$1$2\n');   // סוף משפט ואחריו רווח → שורה חדשה
+  return s.split('\n').map(l=>l.trim()).filter(Boolean).join('\n');
+}
 function notesEdit(el){
   const i = +el.getAttribute('data-i'); const f = el.getAttribute('data-f');
   if(!DATA.notes || !DATA.notes[i]) return;
-  const val = el.innerText.replace(/ /g,' ').trimEnd();
-  if((DATA.notes[i][f]||'') === val) return;   // ללא שינוי — לא לשמור
+  let val = el.innerText.trimEnd();
+  if(f==='text') val = notesSentencesPerLine(val);   // עמודת הטקסט — כל משפט בשורה חדשה
+  if((DATA.notes[i][f]||'') === val) return;
   DATA.notes[i][f] = val;
   _notesPersist();
+  if(f==='text' && el.innerText !== val) el.innerText = val;   // שיקוף מיידי בתא
 }
 function notesDel(i){
   if(!DATA.notes || !DATA.notes[i]) return;
