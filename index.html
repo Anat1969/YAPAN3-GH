@@ -92,6 +92,28 @@
 .brief-doc .bd-place{font-weight:800;color:var(--ink)}
 .brief-doc .bd-dot{color:var(--border-strong)}
 .brief-doc .bd-free{color:var(--ink-3);font-style:italic}
+/* מתגי תצוגה בדף התקציר */
+.brief-tabs{display:inline-flex;gap:var(--space-1);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-md);padding:3px;margin-bottom:var(--space-3)}
+.brief-tab{display:inline-flex;align-items:center;gap:5px;border:none;background:none;color:var(--ink-2);border-radius:var(--radius-sm);padding:6px 14px;font:800 var(--fs-sm)/1 inherit;cursor:pointer}
+.brief-tab svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.brief-tab.on{background:var(--surface);color:var(--action);box-shadow:var(--shadow-sm)}
+/* מחברת מעשית — טבלה על המסך */
+.brief-doc-nb{padding:var(--space-4)}
+.brief-doc .nb-day{margin-bottom:var(--space-4)}
+.brief-doc .nb-dhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--space-2);margin-bottom:var(--space-2)}
+.brief-doc .nb-dnum{font-size:var(--fs-lg);font-weight:900;color:var(--ink)}
+.brief-doc .nb-ddate{font-size:var(--fs-sm);font-weight:700;color:var(--ink-3);direction:ltr}
+.brief-doc .nb-dcity{font-size:var(--fs-md);font-weight:800;color:var(--action)}
+.brief-doc .nb-dtitle{font-size:var(--fs-sm);font-weight:700;color:var(--warn)}
+.brief-doc .nb-table{width:100%;border-collapse:collapse;font-size:var(--fs-sm)}
+.brief-doc .nb-table th{background:var(--bg);text-align:right;padding:6px 8px;font-weight:800;color:var(--ink-2);border:1px solid var(--border)}
+.brief-doc .nb-table td{padding:6px 8px;border:1px solid var(--border);vertical-align:top}
+.brief-doc .nb-time{font-weight:800;color:var(--action);direction:ltr;text-align:right;white-space:nowrap}
+.brief-doc .nb-loc b{font-weight:800;color:var(--ink)}
+.brief-doc .nb-en{display:block;font-size:10px;color:var(--ink-3);direction:ltr}
+.brief-doc .nb-how,.brief-doc .nb-act{color:var(--ink-2);line-height:1.5}
+.brief-doc .nb-who{display:block;font-size:10px;color:var(--ink-3);margin-top:2px}
+.brief-doc .nb-c-time{width:9%}.brief-doc .nb-c-loc{width:26%}.brief-doc .nb-c-how{width:24%}.brief-doc .nb-c-act{width:41%}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--ink);font-size:13px;line-height:1.5}
 /* באנר אזהרת תמונות שלא נשמרו ל-Git */
@@ -1797,14 +1819,80 @@ function buildBriefHtml(){
   }
   return html;
 }
+// ── מחברת מעשית: טבלה לכל יום — שעה · מיקום · איך מגיעים · פעילות ──
+// "איך מגיעים" לאתר — מהמקטע התחבורתי שיעדו הוא האתר (mode + זמן), אחרת מ-notes
+function spotHowToArrive(d, s){
+  const segs = (d.transport && d.transport.segments) || [];
+  const seg = segs.find(g => g.to && ((s.nameEn && g.to.nameEn===s.nameEn) || g.to.name===s.name));
+  if(seg){
+    const mode = MODE_HE_M[seg.mode] || seg.mode || '';
+    const det = seg.details||{};
+    const bits=[];
+    if(det.walkToStation) bits.push(`${det.walkToStation} דק׳ הליכה לתחנה`);
+    if(det.rideTime) bits.push(`${det.rideTime} דק׳ ${mode}`);
+    else if(mode) bits.push(mode);
+    if(det.transfers) bits.push(`${det.transfers} החלפות`);
+    if(bits.length) return bits.join(' · ');
+    if(mode) return mode;
+  }
+  return '';
+}
+// שורות המחברת ליום — כל spot עם שעה/מיקום
+function notebookRows(d){
+  const rows=[];
+  ['morning','afternoon','evening'].forEach(t=>(d.spots&&d.spots[t]||[]).forEach(s=>{
+    const loc=(s.name||s.nameEn||'').trim(); if(!loc) return;
+    rows.push({
+      time: s.time||'',
+      loc, locEn: s.nameEn||'',
+      how: spotHowToArrive(d,s),
+      act: [s.notes, s.duration?('משך: '+s.duration):''].filter(Boolean).join(' · '),
+      forWho: Array.isArray(s.forWho)?s.forWho.join(', '):(s.forWho||'')
+    });
+  }));
+  // מיון לפי שעה (מי שאין לו — בסוף)
+  const tm=x=>{const m=/^(\d{1,2}):(\d{2})/.exec(x.time); return m?(+m[1])*60+(+m[2]):9999;};
+  return rows.sort((a,b)=>tm(a)-tm(b));
+}
+function buildNotebookHtml(){
+  const days=(DATA.days||[]).filter(d=>d.tripDay && notebookRows(d).length).sort((a,b)=>a.tripDay-b.tripDay);
+  let html = `<h1 class="bd-title">מחברת מעשית — יפן 2026</h1><div class="bd-sub">הנחיות מסודרות לכל יום: שעה · מיקום · איך מגיעים · פעילות</div>`;
+  days.forEach(d=>{
+    const rows=notebookRows(d);
+    html += `<div class="nb-day">
+      <div class="nb-dhead"><span class="nb-dnum">יום ${d.tripDay}</span><span class="nb-ddate">${d.day}/${d.month}</span><span class="nb-dcity">${escHtml(dayCity(d)||d.regionHe||'')}</span>${d.title?`<span class="nb-dtitle">${escHtml(d.title)}</span>`:''}</div>
+      <table class="nb-table"><thead><tr><th class="nb-c-time">שעה</th><th class="nb-c-loc">מיקום</th><th class="nb-c-how">איך מגיעים</th><th class="nb-c-act">פעילות</th></tr></thead><tbody>
+      ${rows.map(r=>`<tr>
+        <td class="nb-time">${escHtml(r.time||'—')}</td>
+        <td class="nb-loc"><b>${escHtml(r.loc)}</b>${r.locEn?`<span class="nb-en">${escHtml(r.locEn)}</span>`:''}</td>
+        <td class="nb-how">${escHtml(r.how||'—')}</td>
+        <td class="nb-act">${escHtml(r.act||'')}${r.forWho?`<span class="nb-who">עם: ${escHtml(r.forWho)}</span>`:''}</td>
+      </tr>`).join('')}
+      </tbody></table>
+    </div>`;
+  });
+  return html;
+}
+
+let briefView = 'trip';   // 'trip' = מסלול טיול יפן · 'notebook' = מחברת מעשית
+function setBriefView(v){ briefView = v; renderBrief(); }
 function renderBrief(){
   const wrap=document.getElementById('briefWrap'); if(!wrap) return;
-  const saved = localStorage.getItem('brief-html');
-  const html = (saved!=null && saved!=='') ? saved : buildBriefHtml();
+  const isNb = briefView==='notebook';
+  const savedKey = isNb ? 'notebook-html' : 'brief-html';
+  const saved = localStorage.getItem(savedKey);
+  const html = (saved!=null && saved!=='') ? saved : (isNb ? buildNotebookHtml() : buildBriefHtml());
+  const intro = isNb
+    ? 'מחברת מעשית לכל יום — שעה, מיקום, איך מגיעים ואיזו פעילות. ערכי חופשי, ואז הורידי כ-PDF/העתיקי/שתפי.'
+    : 'תקציר המסלול לשיתוף — ערכי את המסמך חופשי (לחצי על טקסט ושני אותו), ואז העתיקי, שלחי או הורידי כ-PDF.';
   wrap.innerHTML = `
     <div class="brief-page">
+      <div class="brief-tabs">
+        <button class="brief-tab${!isNb?' on':''}" onclick="setBriefView('trip')">${icon('route')} מסלול טיול יפן</button>
+        <button class="brief-tab${isNb?' on':''}" onclick="setBriefView('notebook')">${icon('list')} מחברת מעשית</button>
+      </div>
       <div class="brief-bar">
-        <div class="brief-intro">תקציר המסלול לשיתוף — ערכי את המסמך חופשי (לחצי על טקסט ושני אותו), ואז העתיקי, שלחי או הורידי כ-PDF.</div>
+        <div class="brief-intro">${intro}</div>
         <div class="brief-actions">
           <button class="btn btn-primary" onclick="downloadBriefPDF()">${icon('external')} הורדת PDF</button>
           <button class="btn btn-secondary" onclick="copyBrief()">${icon('check')} העתקה</button>
@@ -1812,11 +1900,11 @@ function renderBrief(){
           <button class="btn btn-ghost" onclick="resetBrief()" data-tip="בנייה מחדש מהמסלול">${icon('route')} רענון מהמסלול</button>
         </div>
       </div>
-      <div id="briefDoc" class="brief-doc" contenteditable="true" spellcheck="false" oninput="saveBrief()">${html}</div>
+      <div id="briefDoc" class="brief-doc${isNb?' brief-doc-nb':''}" contenteditable="true" spellcheck="false" oninput="saveBrief()">${html}</div>
     </div>`;
 }
-function saveBrief(){ const el=document.getElementById('briefDoc'); if(!el) return; try{ localStorage.setItem('brief-html', el.innerHTML); }catch(e){} }
-function resetBrief(){ try{ localStorage.removeItem('brief-html'); localStorage.removeItem('brief-text'); }catch(e){} renderBrief(); toast('התקציר נבנה מחדש מהמסלול'); }
+function saveBrief(){ const el=document.getElementById('briefDoc'); if(!el) return; const key=briefView==='notebook'?'notebook-html':'brief-html'; try{ localStorage.setItem(key, el.innerHTML); }catch(e){} }
+function resetBrief(){ const key=briefView==='notebook'?'notebook-html':'brief-html'; try{ localStorage.removeItem(key); localStorage.removeItem('brief-text'); }catch(e){} renderBrief(); toast(briefView==='notebook'?'המחברת נבנתה מחדש מהמסלול':'התקציר נבנה מחדש מהמסלול'); }
 function copyBrief(){
   const el=document.getElementById('briefDoc'); if(!el) return;
   // בחירה + העתקה עשירה (כולל עיצוב לוואטסאפ/מייל שתומכים ב-HTML); נופל לטקסט רגיל
@@ -1839,7 +1927,7 @@ function downloadBriefPDF(){
     <style>
       @page{margin:16mm}
       *{box-sizing:border-box}
-      body{font-family:'Noto Sans Hebrew','Arial',sans-serif;color:#1c1c1a;line-height:1.6;max-width:720px;margin:0 auto;padding:8px}
+      body{font-family:'Noto Sans Hebrew','Arial',sans-serif;color:#1c1c1a;line-height:1.6;max-width:${briefView==='notebook'?'840px':'720px'};margin:0 auto;padding:8px}
       .bd-title{font-size:26px;font-weight:900;text-align:center;margin:0 0 4px}
       .bd-sub{text-align:center;font-size:12px;color:#8a857e;font-weight:700;border-bottom:2px solid #1c1c1a;padding-bottom:14px;margin-bottom:18px}
       .bd-day{padding:10px 0;border-bottom:1px solid #eee;break-inside:avoid}
@@ -1853,6 +1941,23 @@ function downloadBriefPDF(){
       .bd-place{font-weight:800;color:#1c1c1a}
       .bd-dot{color:#c9c6bf}
       .bd-free{color:#8a857e;font-style:italic}
+      /* מחברת מעשית — טבלה */
+      .nb-day{margin:14px 0;break-inside:avoid}
+      .nb-dhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin-bottom:5px}
+      .nb-dnum{font-size:16px;font-weight:900;color:#1c1c1a}
+      .nb-ddate{font-size:12px;font-weight:700;color:#8a857e;direction:ltr}
+      .nb-dcity{font-size:14px;font-weight:800;color:#1d4ed8}
+      .nb-dtitle{font-size:12px;font-weight:700;color:#b45309}
+      .nb-table{width:100%;border-collapse:collapse;font-size:11px}
+      .nb-table th{background:#f0f0ee;text-align:right;padding:5px 7px;font-weight:800;color:#57534e;border:1px solid #e3e1dc}
+      .nb-table td{padding:5px 7px;border:1px solid #e3e1dc;vertical-align:top}
+      .nb-time{font-weight:800;color:#1d4ed8;direction:ltr;text-align:right;white-space:nowrap}
+      .nb-loc b{font-weight:800;color:#1c1c1a}
+      .nb-en{display:block;font-size:9px;color:#8a857e;direction:ltr}
+      .nb-how{color:#57534e}
+      .nb-act{color:#57534e}
+      .nb-who{display:block;font-size:9px;color:#8a857e;margin-top:1px}
+      .nb-c-time{width:9%}.nb-c-loc{width:26%}.nb-c-how{width:24%}.nb-c-act{width:41%}
     </style></head><body>${el.innerHTML}
     <scr${''}ipt>window.onload=function(){setTimeout(function(){window.print();},350);}<\/scr${''}ipt>
     </body></html>`;
