@@ -488,16 +488,15 @@ button.pf-badge.pf-upload:hover{background:var(--action)}
 .pframe.pf-focus{cursor:zoom-in}
 .pframe .pf-badge .ic{width:11px;height:11px;stroke:#fff}
 /* תג עדיפות/לייב בפינה העליונה — 3 דרגות צבע */
-.pframe .pf-like{position:absolute;top:2px;inset-inline-end:2px;width:18px;height:18px;background:rgba(28,28,26,.55);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transition:.12s;cursor:pointer;padding:0;z-index:2}
-.pframe .pf-like .ic{width:12px;height:12px;fill:none;stroke:#fff;stroke-width:2}
+.pframe .pf-like{position:absolute;top:2px;inset-inline-end:2px;width:19px;height:19px;background:rgba(28,28,26,.55);border:1.5px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transition:.12s;cursor:pointer;padding:0;z-index:2;box-shadow:0 1px 3px rgba(0,0,0,.35)}
+.pframe .pf-like .ic{width:12px;height:12px;fill:#fff;stroke:#fff;stroke-width:1.5}
 .pframe:hover .pf-like{opacity:1}
 .pframe .pf-like.on{opacity:1}
-.pframe .pf-like.on .ic{stroke:#fff;fill:currentColor;stroke-width:1.5}
-.pframe .pf-like.lv-1{background:#dc2626;color:#dc2626}
-.pframe .pf-like.lv-2{background:#f97316;color:#f97316}
-.pframe .pf-like.lv-3{background:#facc15;color:#facc15}
-.pframe .pf-like.lv-1 .ic,.pframe .pf-like.lv-2 .ic{stroke:#fff}
-.pframe .pf-like.lv-3 .ic{stroke:#7c5e00}
+/* לב לבן על רקע צבע הדרגה — ניגודיות ברורה */
+.pframe .pf-like.lv-1{background:#dc2626}
+.pframe .pf-like.lv-2{background:#f97316}
+.pframe .pf-like.lv-3{background:#eab308}
+.pframe .pf-like.on .ic{fill:#fff;stroke:#fff}
 /* גדלים ספציפיים */
 .pframe.itin-img{width:140px;height:96px}
 .pframe.place-frame{width:64px;height:48px}
