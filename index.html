@@ -56,8 +56,23 @@
 .brief-bar{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);flex-wrap:wrap;margin-bottom:var(--space-3)}
 .brief-intro{font-size:var(--fs-base);color:var(--ink-2);flex:1;min-width:240px}
 .brief-actions{display:flex;gap:var(--space-2);flex-wrap:wrap}
-.brief-text{width:100%;min-height:60vh;border:1px solid var(--border-strong);border-radius:var(--radius-lg);padding:var(--space-4) var(--space-5);font-family:'Noto Sans Hebrew',sans-serif;font-size:var(--fs-md);line-height:1.75;color:var(--ink);background:var(--surface);resize:vertical;box-shadow:var(--shadow-sm)}
-.brief-text:focus{outline:none;border-color:var(--action);box-shadow:0 0 0 2px rgba(29,78,216,.15)}
+/* מסמך התקציר — תצוגה מעוצבת עריכה (contenteditable) */
+.brief-doc{border:1px solid var(--border-strong);border-radius:var(--radius-lg);padding:var(--space-5) var(--space-6);background:var(--surface);box-shadow:var(--shadow-sm);min-height:60vh;line-height:1.6}
+.brief-doc:focus{outline:none;border-color:var(--action);box-shadow:0 0 0 2px rgba(29,78,216,.15)}
+.brief-doc .bd-title{font-size:var(--fs-2xl);font-weight:900;text-align:center;color:var(--ink);margin:0 0 var(--space-1)}
+.brief-doc .bd-sub{text-align:center;font-size:var(--fs-sm);font-weight:700;color:var(--ink-3);border-bottom:2px solid var(--ink);padding-bottom:var(--space-3);margin-bottom:var(--space-4)}
+.brief-doc .bd-day{padding:var(--space-3) 0;border-bottom:1px solid var(--border)}
+.brief-doc .bd-day:last-child{border-bottom:none}
+.brief-doc .bd-dhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--space-2)}
+.brief-doc .bd-dnum{font-size:var(--fs-lg);font-weight:900;color:var(--ink)}
+.brief-doc .bd-ddate{font-size:var(--fs-sm);font-weight:700;color:var(--ink-3);direction:ltr}
+.brief-doc .bd-dcity{font-size:var(--fs-md);font-weight:800;color:var(--action)}
+.brief-doc .bd-dreg{font-size:var(--fs-xs);font-weight:700;color:var(--ink-3);background:var(--bg);border-radius:var(--radius-pill);padding:1px 9px}
+.brief-doc .bd-hi{font-size:var(--fs-base);font-weight:800;color:var(--warn);margin:var(--space-1) 0}
+.brief-doc .bd-body{font-size:var(--fs-base);color:var(--ink-2);line-height:1.8;margin-top:2px}
+.brief-doc .bd-place{font-weight:800;color:var(--ink)}
+.brief-doc .bd-dot{color:var(--border-strong)}
+.brief-doc .bd-free{color:var(--ink-3);font-style:italic}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--ink);font-size:13px;line-height:1.5}
 /* באנר אזהרת תמונות שלא נשמרו ל-Git */
@@ -1699,40 +1714,52 @@ function briefDaySites(d){
   }));
   return names;
 }
-// יצירת טקסט התקציר האוטומטי — קיבוץ ימים רצופים עם אותה עיר לטווח
-function buildBriefText(){
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+// כותרת/אטרקציה ראשית של טווח ימים (title של יום אם יש, אחרת האתר הבולט הראשון)
+function briefHighlight(days,i,j){
+  for(let k=i;k<=j;k++){ if(days[k].title) return days[k].title; }
+  for(let k=i;k<=j;k++){ const s=briefDaySites(days[k]); if(s.length) return s[0]; }
+  return '';
+}
+// בניית מסמך התקציר המעוצב (HTML) — כותרת, כותרות ימים בבולד, שמות מקומות מודגשים
+function buildBriefHtml(){
   const days=(DATA.days||[]).filter(d=>d.tripDay).sort((a,b)=>a.tripDay-b.tripDay);
-  const lines=['מסלול הטיול — יפן 2026',''];
+  const first=days[0], last=days[days.length-1];
+  const range = first&&last ? `${first.day}/${first.month} – ${last.day}/${last.month} · ${days.length} ימים` : '';
+  let html = `<h1 class="bd-title">מסלול הטיול — יפן 2026</h1>`;
+  if(range) html += `<div class="bd-sub">${range}</div>`;
   let i=0;
   while(i<days.length){
-    const d=days[i];
-    const city=dayCity(d)||d.regionHe||'';
-    // איחוד ימים רצופים עם אותה עיר
+    const city=dayCity(days[i])||days[i].regionHe||'';
     let j=i;
     while(j+1<days.length && (dayCity(days[j+1])||days[j+1].regionHe||'')===city) j++;
-    const first=days[i], last=days[j];
-    const dayLabel = i===j ? `יום ${first.tripDay}` : `ימים ${first.tripDay}–${last.tripDay}`;
-    const dateLabel = i===j ? `${first.day}/${first.month}` : `${first.day}/${first.month}–${last.day}/${last.month}`;
-    // מקום – מקום: אם הטווח כולל מספר ערים (בפועל אותה עיר כאן), נציג עיר; כותרת היום אם יש
-    const titles=[]; for(let k=i;k<=j;k++){ if(days[k].title && !titles.includes(days[k].title)) titles.push(days[k].title); }
-    // תקציר פעילויות — עד ~5 אתרים מרכזיים מכל הטווח
+    const f=days[i], l=days[j];
+    const dayLabel = i===j ? `יום ${f.tripDay}` : `ימים ${f.tripDay}–${l.tripDay}`;
+    const dateLabel = i===j ? `${f.day}/${f.month}` : `${f.day}/${f.month}–${l.day}/${l.month}`;
+    const region = f.regionHe||'';
+    const highlight = briefHighlight(days,i,j);
+    // כל האתרים המרכזיים של הטווח — כל שם מודגש
     const sites=[]; for(let k=i;k<=j;k++){ briefDaySites(days[k]).forEach(n=>{ if(!sites.includes(n)) sites.push(n); }); }
-    const head = `${dayLabel} · ${dateLabel} | ${city}${titles.length?(' — '+titles.join(', ')):''}`;
-    const body = sites.length ? sites.slice(0,6).join(' · ') : 'יום חופשי / השלמות';
-    lines.push(head, body, '');
+    const sitesHtml = sites.length
+      ? sites.map(n=>`<b class="bd-place">${escHtml(n)}</b>`).join('<span class="bd-dot"> · </span>')
+      : '<span class="bd-free">יום חופשי / השלמות</span>';
+    html += `<div class="bd-day">
+      <div class="bd-dhead"><span class="bd-dnum">${dayLabel}</span><span class="bd-ddate">${dateLabel}</span><span class="bd-dcity">${escHtml(city)}</span>${region&&region!==city?`<span class="bd-dreg">${escHtml(region)}</span>`:''}</div>
+      ${highlight?`<div class="bd-hi">✦ ${escHtml(highlight)}</div>`:''}
+      <div class="bd-body">${sitesHtml}</div>
+    </div>`;
     i=j+1;
   }
-  return lines.join('\n').trim();
+  return html;
 }
 function renderBrief(){
   const wrap=document.getElementById('briefWrap'); if(!wrap) return;
-  // טקסט שמור (עריכות המשתמשת) גובר על האוטומטי
-  const saved = localStorage.getItem('brief-text');
-  const text = (saved!=null && saved!=='') ? saved : buildBriefText();
+  const saved = localStorage.getItem('brief-html');
+  const html = (saved!=null && saved!=='') ? saved : buildBriefHtml();
   wrap.innerHTML = `
     <div class="brief-page">
       <div class="brief-bar">
-        <div class="brief-intro">תקציר המסלול לשיתוף — ערכי את הטקסט חופשי, ואז העתיקי, שלחי או הורידי כ-PDF.</div>
+        <div class="brief-intro">תקציר המסלול לשיתוף — ערכי את המסמך חופשי (לחצי על טקסט ושני אותו), ואז העתיקי, שלחי או הורידי כ-PDF.</div>
         <div class="brief-actions">
           <button class="btn btn-primary" onclick="downloadBriefPDF()">${icon('external')} הורדת PDF</button>
           <button class="btn btn-secondary" onclick="copyBrief()">${icon('check')} העתקה</button>
@@ -1740,55 +1767,55 @@ function renderBrief(){
           <button class="btn btn-ghost" onclick="resetBrief()" data-tip="בנייה מחדש מהמסלול">${icon('route')} רענון מהמסלול</button>
         </div>
       </div>
-      <textarea id="briefText" class="brief-text" oninput="saveBrief(this.value)" spellcheck="false">${text.replace(/</g,'&lt;')}</textarea>
+      <div id="briefDoc" class="brief-doc" contenteditable="true" spellcheck="false" oninput="saveBrief()">${html}</div>
     </div>`;
 }
-function saveBrief(v){ try{ localStorage.setItem('brief-text', v); }catch(e){} }
-function resetBrief(){ try{ localStorage.removeItem('brief-text'); }catch(e){} renderBrief(); toast('התקציר נבנה מחדש מהמסלול'); }
+function saveBrief(){ const el=document.getElementById('briefDoc'); if(!el) return; try{ localStorage.setItem('brief-html', el.innerHTML); }catch(e){} }
+function resetBrief(){ try{ localStorage.removeItem('brief-html'); localStorage.removeItem('brief-text'); }catch(e){} renderBrief(); toast('התקציר נבנה מחדש מהמסלול'); }
 function copyBrief(){
-  const t=document.getElementById('briefText'); if(!t) return;
-  t.select(); t.setSelectionRange(0,999999);
-  try{ document.execCommand('copy'); toast('הטקסט הועתק — אפשר להדביק בוואטסאפ/מייל'); }
-  catch(e){ navigator.clipboard&&navigator.clipboard.writeText(t.value); toast('הטקסט הועתק'); }
-  window.getSelection&&window.getSelection().removeAllRanges();
+  const el=document.getElementById('briefDoc'); if(!el) return;
+  // בחירה + העתקה עשירה (כולל עיצוב לוואטסאפ/מייל שתומכים ב-HTML); נופל לטקסט רגיל
+  const range=document.createRange(); range.selectNodeContents(el);
+  const sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+  try{ document.execCommand('copy'); toast('התקציר הועתק (עם עיצוב) — הדביקי בוואטסאפ/מייל'); }
+  catch(e){ navigator.clipboard&&navigator.clipboard.writeText(el.innerText); toast('הטקסט הועתק'); }
+  sel.removeAllRanges();
 }
 function shareBrief(){
-  const t=document.getElementById('briefText'); if(!t) return;
-  const data={ title:'מסלול יפן 2026', text:t.value };
+  const el=document.getElementById('briefDoc'); if(!el) return;
+  const data={ title:'מסלול יפן 2026', text:el.innerText };
   if(navigator.share){ navigator.share(data).catch(()=>{}); }
   else { copyBrief(); toast('שיתוף לא נתמך בדפדפן — הטקסט הועתק, הדביקי בוואטסאפ'); }
 }
-// הורדת PDF — פותח חלון הדפסה מעוצב; המשתמשת בוחרת «שמור כ-PDF»
+// הורדת PDF — פותח חלון הדפסה מעוצב עם אותו HTML של המסמך; המשתמשת בוחרת «שמור כ-PDF»
 function downloadBriefPDF(){
-  const t=document.getElementById('briefText'); if(!t) return;
-  const lines = t.value.split('\n');
-  // בניית HTML מעוצב: השורה הראשונה כותרת; שורות עם | ככותרות-יום; השאר גוף
-  let html='';
-  lines.forEach((ln,idx)=>{
-    const s=ln.trim();
-    if(idx===0){ html+=`<h1>${escHtml(s)}</h1>`; return; }
-    if(!s){ html+='<div class="sp"></div>'; return; }
-    if(s.includes('|')){ html+=`<h2>${escHtml(s)}</h2>`; }
-    else { html+=`<p>${escHtml(s)}</p>`; }
-  });
+  const el=document.getElementById('briefDoc'); if(!el) return;
   const doc=`<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><title>מסלול יפן 2026</title>
     <style>
-      @page{margin:18mm}
-      body{font-family:'Noto Sans Hebrew','Arial',sans-serif;color:#1c1c1a;line-height:1.6;max-width:720px;margin:0 auto;padding:10px}
-      h1{font-size:24px;font-weight:900;text-align:center;border-bottom:2px solid #1c1c1a;padding-bottom:12px;margin-bottom:20px}
-      h2{font-size:15px;font-weight:800;color:#1d4ed8;margin:16px 0 4px;border-inline-start:3px solid #1d4ed8;padding-inline-start:8px}
-      p{font-size:13px;color:#444;margin:0 0 4px}
-      .sp{height:6px}
-      @media print{ .noprint{display:none} }
-    </style></head><body>${html}
-    <script>window.onload=function(){setTimeout(function(){window.print();},300);}<\/script>
+      @page{margin:16mm}
+      *{box-sizing:border-box}
+      body{font-family:'Noto Sans Hebrew','Arial',sans-serif;color:#1c1c1a;line-height:1.6;max-width:720px;margin:0 auto;padding:8px}
+      .bd-title{font-size:26px;font-weight:900;text-align:center;margin:0 0 4px}
+      .bd-sub{text-align:center;font-size:12px;color:#8a857e;font-weight:700;border-bottom:2px solid #1c1c1a;padding-bottom:14px;margin-bottom:18px}
+      .bd-day{padding:10px 0;border-bottom:1px solid #eee;break-inside:avoid}
+      .bd-dhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px}
+      .bd-dnum{font-size:16px;font-weight:900;color:#1c1c1a}
+      .bd-ddate{font-size:12px;font-weight:700;color:#8a857e;direction:ltr}
+      .bd-dcity{font-size:15px;font-weight:800;color:#1d4ed8}
+      .bd-dreg{font-size:11px;font-weight:700;color:#8a857e;background:#f4f4f2;border-radius:999px;padding:1px 8px}
+      .bd-hi{font-size:13px;font-weight:800;color:#b45309;margin:3px 0}
+      .bd-body{font-size:13px;color:#57534e;line-height:1.7;margin-top:2px}
+      .bd-place{font-weight:800;color:#1c1c1a}
+      .bd-dot{color:#c9c6bf}
+      .bd-free{color:#8a857e;font-style:italic}
+    </style></head><body>${el.innerHTML}
+    <scr${''}ipt>window.onload=function(){setTimeout(function(){window.print();},350);}<\/scr${''}ipt>
     </body></html>`;
   const w=window.open('','_blank');
   if(!w){ toast('הדפדפן חסם חלון — אפשרי חלונות קופצים'); return; }
   w.document.write(doc); w.document.close();
   toast('נפתח חלון הדפסה — בחרי «שמור כ-PDF» ליעד');
 }
-function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 // ══════════════════════════════════
 // דף סיכומים מרכזי
