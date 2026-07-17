@@ -1,0 +1,426 @@
+[
+  {
+    "name_he": "טוקיו",
+    "name_en": "Tokyo, Japan",
+    "category": "city",
+    "region": "קנטו",
+    "lat": 35.6762,
+    "lng": 139.6503
+  },
+  {
+    "name_he": "מקדש מייג'י",
+    "name_en": "Meiji Shrine, Tokyo, Japan",
+    "category": "shrine",
+    "region": "טוקיו",
+    "lat": 35.6765,
+    "lng": 139.7005
+  },
+  {
+    "name_he": "שדרת אומוטסנדו",
+    "name_en": "Omotesando, Tokyo, Japan",
+    "category": "street",
+    "region": "טוקיו",
+    "lat": 35.6655,
+    "lng": 139.7298
+  },
+  {
+    "name_he": "שוק דגים טוקיו",
+    "name_en": "Tsukiji Outer Market, Tokyo, Japan",
+    "category": "market",
+    "region": "טוקיו",
+    "lat": 35.6654,
+    "lng": 139.7757
+  },
+  {
+    "name_he": "שיבויה",
+    "name_en": "Shibuya, Tokyo, Japan",
+    "category": "district",
+    "region": "טוקיו",
+    "lat": 35.6595,
+    "lng": 139.7004
+  },
+  {
+    "name_he": "מקדש סנסוג'י",
+    "name_en": "Senso-ji Temple, Tokyo, Japan",
+    "category": "temple",
+    "region": "טוקיו",
+    "lat": 35.7148,
+    "lng": 139.7967
+  },
+  {
+    "name_he": "רובע גינזה",
+    "name_en": "Ginza, Tokyo, Japan",
+    "category": "district",
+    "region": "טוקיו",
+    "lat": 35.6729,
+    "lng": 139.7644
+  },
+  {
+    "name_he": "רובע שינג'וקו",
+    "name_en": "Shinjuku, Tokyo, Japan",
+    "category": "district",
+    "region": "טוקיו",
+    "lat": 35.6895,
+    "lng": 139.7006
+  },
+  {
+    "name_he": "רובע רופונגי",
+    "name_en": "Roppongi, Tokyo, Japan",
+    "category": "district",
+    "region": "טוקיו",
+    "lat": 35.6627,
+    "lng": 139.7286
+  },
+  {
+    "name_he": "רובע אואנו",
+    "name_en": "Ueno, Tokyo, Japan",
+    "category": "district",
+    "region": "טוקיו",
+    "lat": 35.7139,
+    "lng": 139.7694
+  },
+  {
+    "name_he": "Team Lab",
+    "name_en": "Team Lab Borderless / Digital Art Museum, Tokyo, Japan",
+    "category": "museum",
+    "region": "טוקיו",
+    "lat": 35.6295,
+    "lng": 139.8107
+  },
+  {
+    "name_he": "קיוטו",
+    "name_en": "Kyoto, Japan",
+    "category": "city",
+    "region": "קנסאי",
+    "lat": 35.0116,
+    "lng": 135.7681
+  },
+  {
+    "name_he": "מקדש קיומיזודרה",
+    "name_en": "Kiyomizu-dera Temple, Kyoto, Japan",
+    "category": "temple",
+    "region": "קיוטו",
+    "lat": 34.9954,
+    "lng": 135.7841
+  },
+  {
+    "name_he": "סמטות נינזאקה וסאננזקה",
+    "name_en": "Ninenzaka and Sannenzaka Streets, Kyoto, Japan",
+    "category": "street",
+    "region": "קיוטו",
+    "lat": 35.0028,
+    "lng": 135.7847
+  },
+  {
+    "name_he": "מקדש קינקאקוג'י (מקדש הזהב)",
+    "name_en": "Kinkaku-ji (Golden Pavilion), Kyoto, Japan",
+    "category": "temple",
+    "region": "קיוטו",
+    "lat": 35.0394,
+    "lng": 135.7297
+  },
+  {
+    "name_he": "מקדש ריואנג'י",
+    "name_en": "Ryoan-ji Temple, Kyoto, Japan",
+    "category": "temple",
+    "region": "קיוטו",
+    "lat": 35.05,
+    "lng": 135.728
+  },
+  {
+    "name_he": "טירת ניג'ו",
+    "name_en": "Nijo Castle, Kyoto, Japan",
+    "category": "castle",
+    "region": "קיוטו",
+    "lat": 35.0145,
+    "lng": 135.7476
+  },
+  {
+    "name_he": "שוק נישיקי",
+    "name_en": "Nishiki Market, Kyoto, Japan",
+    "category": "market",
+    "region": "קיוטו",
+    "lat": 35.0053,
+    "lng": 135.7693
+  },
+  {
+    "name_he": "רובע גיון",
+    "name_en": "Gion District, Kyoto, Japan",
+    "category": "district",
+    "region": "קיוטו",
+    "lat": 35.005,
+    "lng": 135.7767
+  },
+  {
+    "name_he": "רובע פונטוצ'ו",
+    "name_en": "Pontocho District, Kyoto, Japan",
+    "category": "district",
+    "region": "קיוטו",
+    "lat": 35.0053,
+    "lng": 135.7723
+  },
+  {
+    "name_he": "מקדש פושימי אינארי",
+    "name_en": "Fushimi Inari Shrine, Kyoto, Japan",
+    "category": "shrine",
+    "region": "קיוטו",
+    "lat": 34.8671,
+    "lng": 135.7329
+  },
+  {
+    "name_he": "רובע אראשיאמה",
+    "name_en": "Arashiyama District, Kyoto, Japan",
+    "category": "district",
+    "region": "קיוטו",
+    "lat": 35.0104,
+    "lng": 135.6709
+  },
+  {
+    "name_he": "גשר טוגצו-קיו",
+    "name_en": "Togetsukyo Bridge, Kyoto, Japan",
+    "category": "bridge",
+    "region": "קיוטו",
+    "lat": 35.0087,
+    "lng": 135.6729
+  },
+  {
+    "name_he": "מקדש טנריו-ג'י",
+    "name_en": "Tenryu-ji Temple, Kyoto, Japan",
+    "category": "temple",
+    "region": "קיוטו",
+    "lat": 35.0139,
+    "lng": 135.6704
+  },
+  {
+    "name_he": "נארה",
+    "name_en": "Nara, Japan",
+    "category": "city",
+    "region": "קנסאי",
+    "lat": 34.6852,
+    "lng": 135.8048
+  },
+  {
+    "name_he": "מקדש טודאיג'י",
+    "name_en": "Todai-ji Temple, Nara, Japan",
+    "category": "temple",
+    "region": "נארה",
+    "lat": 34.6936,
+    "lng": 135.8294
+  },
+  {
+    "name_he": "מקדש קאסוגה",
+    "name_en": "Kasuga Taisha, Nara, Japan",
+    "category": "shrine",
+    "region": "נארה",
+    "lat": 34.6849,
+    "lng": 135.8359
+  },
+  {
+    "name_he": "מוזיאום מיהו",
+    "name_en": "Miho Museum, Nara, Japan",
+    "category": "museum",
+    "region": "נארה",
+    "lat": 34.8217,
+    "lng": 136.1131
+  },
+  {
+    "name_he": "הירושימה",
+    "name_en": "Hiroshima, Japan",
+    "category": "city",
+    "region": "צ'וגוקו",
+    "lat": 34.3853,
+    "lng": 132.4553
+  },
+  {
+    "name_he": "מיאג'ימה",
+    "name_en": "Miyajima, Hiroshima, Japan",
+    "category": "island",
+    "region": "הירושימה",
+    "lat": 34.2956,
+    "lng": 132.3177
+  },
+  {
+    "name_he": "שער הטורי המצוף",
+    "name_en": "Great Floating Torii Gate, Miyajima, Japan",
+    "category": "shrine_gate",
+    "region": "מיאג'ימה",
+    "lat": 34.2962,
+    "lng": 132.319
+  },
+  {
+    "name_he": "מקדש איצוקושימה",
+    "name_en": "Itsukushima Shrine, Miyajima, Japan",
+    "category": "shrine",
+    "region": "מיאג'ימה",
+    "lat": 34.2973,
+    "lng": 132.3207
+  },
+  {
+    "name_he": "פארק השלום בהירושימה",
+    "name_en": "Peace Memorial Park, Hiroshima, Japan",
+    "category": "park",
+    "region": "הירושימה",
+    "lat": 34.3955,
+    "lng": 132.4518
+  },
+  {
+    "name_he": "עמק קיסו",
+    "name_en": "Kiso Valley, Nagano, Japan",
+    "category": "valley",
+    "region": "הרים",
+    "lat": 35.4667,
+    "lng": 137.6333
+  },
+  {
+    "name_he": "כפר מגומה / צומגו",
+    "name_en": "Magome / Tsumago Village, Kiso Valley, Japan",
+    "category": "village",
+    "region": "עמק קיסו",
+    "lat": 35.4528,
+    "lng": 137.6519
+  },
+  {
+    "name_he": "אינויאמה",
+    "name_en": "Inuyama, Aichi, Japan",
+    "category": "city",
+    "region": "מחוז אישי",
+    "lat": 35.3881,
+    "lng": 137.0428
+  },
+  {
+    "name_he": "טאקאימה",
+    "name_en": "Takayama, Gifu, Japan",
+    "category": "city",
+    "region": "הרים",
+    "lat": 36.1439,
+    "lng": 137.214
+  },
+  {
+    "name_he": "כפר שירקווה-גו",
+    "name_en": "Shirakawa-go Village, Gifu, Japan",
+    "category": "village",
+    "region": "הרים",
+    "lat": 36.2671,
+    "lng": 137.207
+  },
+  {
+    "name_he": "קנאזאווה",
+    "name_en": "Kanazawa, Ishikawa, Japan",
+    "category": "city",
+    "region": "קנסאי",
+    "lat": 36.5641,
+    "lng": 136.6564
+  },
+  {
+    "name_he": "גן קנרוקו-אן",
+    "name_en": "Kenroku-en Garden, Kanazawa, Japan",
+    "category": "garden",
+    "region": "קנאזאווה",
+    "lat": 36.5611,
+    "lng": 136.6612
+  },
+  {
+    "name_he": "רובע האמנויות בקנאזאווה",
+    "name_en": "Higashi-chaya District (Arts Quarter), Kanazawa, Japan",
+    "category": "district",
+    "region": "קנאזאווה",
+    "lat": 36.5667,
+    "lng": 136.6636
+  },
+  {
+    "name_he": "מטסומוטו",
+    "name_en": "Matsumoto, Nagano, Japan",
+    "category": "city",
+    "region": "הרים",
+    "lat": 36.2383,
+    "lng": 137.9703
+  },
+  {
+    "name_he": "טירת מטסומוטו (טירת הערוב)",
+    "name_en": "Matsumoto Castle, Nagano, Japan",
+    "category": "castle",
+    "region": "מטסומוטו",
+    "lat": 36.2406,
+    "lng": 137.9708
+  },
+  {
+    "name_he": "שמורת קאמיקוצ'י",
+    "name_en": "Kamikochi, Nagano, Japan",
+    "category": "nature_reserve",
+    "region": "הרים",
+    "lat": 36.25,
+    "lng": 137.6333
+  },
+  {
+    "name_he": "נהר האזוסה",
+    "name_en": "Azusa River, Kamikochi, Japan",
+    "category": "river",
+    "region": "קאמיקוצ'י",
+    "lat": 36.2528,
+    "lng": 137.6361
+  },
+  {
+    "name_he": "שמורת קופי השלג",
+    "name_en": "Snow Monkey Park, Yamanouchi, Nagano, Japan",
+    "category": "nature_reserve",
+    "region": "הרים",
+    "lat": 36.8192,
+    "lng": 138.3897
+  },
+  {
+    "name_he": "האקונה",
+    "name_en": "Hakone, Kanagawa, Japan",
+    "category": "town",
+    "region": "קנטו",
+    "lat": 35.232,
+    "lng": 139.0147
+  },
+  {
+    "name_he": "עמק געשי",
+    "name_en": "Hakone Volcanic Valley, Kanagawa, Japan",
+    "category": "valley",
+    "region": "האקונה",
+    "lat": 35.2339,
+    "lng": 139.0106
+  },
+  {
+    "name_he": "אגם קאווגוצ'י",
+    "name_en": "Lake Kawaguchi, Yamanashi, Japan",
+    "category": "lake",
+    "region": "הר פוג'י",
+    "lat": 35.5202,
+    "lng": 138.7715
+  },
+  {
+    "name_he": "אגם אשי",
+    "name_en": "Lake Ashi, Hakone, Japan",
+    "category": "lake",
+    "region": "האקונה",
+    "lat": 35.1906,
+    "lng": 139.0022
+  },
+  {
+    "name_he": "הר פוג'י",
+    "name_en": "Mount Fuji, Japan",
+    "category": "mountain",
+    "region": "בין קנטו לקנסאי",
+    "lat": 35.3608,
+    "lng": 138.7274
+  },
+  {
+    "name_he": "מוזיאום הפתוח בהאקונה",
+    "name_en": "Hakone Open-Air Museum, Kanagawa, Japan",
+    "category": "museum",
+    "region": "האקונה",
+    "lat": 35.2464,
+    "lng": 139.0253
+  },
+  {
+    "name_he": "מוזיאום הקימונו",
+    "name_en": "Kimono Museum, Lake Kawaguchi, Japan",
+    "category": "museum",
+    "region": "אגם קאווגוצ'י",
+    "lat": 35.5244,
+    "lng": 138.7725
+  }
+]

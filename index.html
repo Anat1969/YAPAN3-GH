@@ -51,6 +51,25 @@
 .btn-pill:hover{border-color:var(--border-strong)}
 .btn-pill.on{background:var(--action);color:#fff;border-color:var(--action)}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-4)}
+/* מודאל: המלצות החברה הגיאוגרפית */
+.geotrips-btn{border-color:var(--action)!important;color:var(--action)!important;font-weight:800}
+.geo-overlay{position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:2vh 2vw}
+.geo-modal{width:85vw;height:85vh;max-width:1200px;background:var(--surface);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);display:flex;flex-direction:column;overflow:hidden;direction:rtl}
+.geo-head{display:flex;align-items:center;gap:var(--space-3);padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--border);flex-shrink:0}
+.geo-head h3{font-size:var(--fs-lg);font-weight:900;color:var(--ink);margin:0}
+.geo-count{font-size:var(--fs-sm);font-weight:700;color:var(--ink-3)}
+.geo-x{margin-inline-start:auto;width:32px;height:32px;border:none;background:var(--bg);color:var(--ink-2);border-radius:50%;font-size:16px;cursor:pointer;line-height:1}
+.geo-x:hover{background:var(--border);color:var(--ink)}
+.geo-filters{display:flex;flex-wrap:wrap;gap:var(--space-2);padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--border);flex-shrink:0;overflow-y:auto;max-height:22vh}
+.geo-flt{border:1px solid var(--border);background:var(--surface);color:var(--ink-2);border-radius:var(--radius-pill);padding:5px 13px;font:800 var(--fs-sm)/1 inherit;cursor:pointer;transition:.12s}
+.geo-flt:hover{border-color:var(--border-strong)}
+.geo-flt.on{background:var(--action);color:#fff;border-color:var(--action)}
+.geo-mapbox{flex:1;min-height:0}
+#geoMap{width:100%;height:100%}
+/* סיכה עם שם עברי בתוכה */
+.geo-pin-wrap{background:none;border:none}
+.geo-pin{display:inline-block;color:#fff;font:800 11px/1.2 'Noto Sans Hebrew',sans-serif;padding:3px 8px;border-radius:var(--radius-pill);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);white-space:nowrap;transform:translate(-50%,-50%);position:relative;cursor:pointer}
+@media(max-width:640px){.geo-modal{width:96vw;height:92vh}}
 /* דף תקציר לשיתוף */
 .brief-page{max-width:760px;margin:0 auto;padding:var(--space-2) 0}
 .brief-bar{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);flex-wrap:wrap;margin-bottom:var(--space-3)}
@@ -1114,6 +1133,7 @@ a.ml:hover{text-decoration:underline}
     <button class="mvb" data-view="architecture" onclick="setMapView('architecture')" data-tip="אתרי אדריכלות מפורסמים — אנדו, קומה, סאנא ועוד" aria-label="תצוגת ארכיטקטורה">ארכיטקטורה</button>
     <button class="mvb" data-view="mymarks" onclick="setMapView('mymarks')" data-tip="הסיכות שסימנת + ייבוא מ-Google" aria-label="תצוגה לפי הסיכות שלי">הסיכות שלי</button>
     <span class="mvb-controls">
+      <button class="mvb-reset geotrips-btn" onclick="openGeotrips()" data-tip="53 יעדים מומלצים של החברה הגיאוגרפית — מפה עם סינון לפי אזור">המלצות של החברה הגיאוגרפית</button>
       <button class="mvb-reset boxzoom-btn" id="boxZoomBtn" onclick="toggleBoxZoom()" data-tip="כלי זום — גררי מלבן על המפה כדי למסגר ולהגדיל קטע">⛶ מסגר והגדל</button>
       <button class="mvb-reset addpin-btn" id="addPinBtn" onclick="toggleAddPin()" data-tip="מצב הוספת סיכה — לחצי על המפה כדי לסמן נקודה עם הערה">📍 הוסף סיכה</button>
       <button class="mvb-reset" onclick="importMarksClick()" data-tip="ייבוא סימנים מ-Google (קובץ KML/GeoJSON מ-Takeout)">⬆ ייבוא סימנים</button>
@@ -1180,6 +1200,19 @@ a.ml:hover{text-decoration:underline}
       </div>
       <div class="ap-hint">לאחר ההוספה — לחצי "שמור קבצים" והעלי ל-Git כדי שהאתר יופיע לכולם.</div>
     </div>
+  </div>
+</div>
+
+<!-- מודאל: המלצות החברה הגיאוגרפית -->
+<div class="geo-overlay" id="geoOverlay" onclick="if(event.target===this)closeGeotrips()" role="dialog" aria-modal="true" aria-labelledby="geoTitle" style="display:none">
+  <div class="geo-modal">
+    <div class="geo-head">
+      <h3 id="geoTitle">המלצות של החברה הגיאוגרפית</h3>
+      <span class="geo-count" id="geoCount"></span>
+      <button class="geo-x" onclick="closeGeotrips()" aria-label="סגירה" data-tip="סגירה (Esc)">✕</button>
+    </div>
+    <div class="geo-filters" id="geoFilters"></div>
+    <div class="geo-mapbox"><div id="geoMap"></div></div>
   </div>
 </div>
 
@@ -1263,7 +1296,8 @@ async function loadData() {
     const mm = await fetch('data/mymarks.json').then(r=>r.json()).catch(()=>[]);
     const ly = await fetch('data/layout.json').then(r=>r.json()).catch(()=>null);
     const arch = await fetch('data/architecture.json').then(r=>r.json()).catch(()=>[]);
-    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb, mymarks:Array.isArray(mm)?mm:[], layout:ly||{}, architecture:Array.isArray(arch)?arch:[] };
+    const geo = await fetch('data/geotrips.json').then(r=>r.json()).catch(()=>[]);
+    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb, mymarks:Array.isArray(mm)?mm:[], layout:ly||{}, architecture:Array.isArray(arch)?arch:[], geotrips:Array.isArray(geo)?geo:[] };
     // ── Reconcile: אם שינוי מקומי כבר קיים בקובץ ה-data ששרת (הועלה ל-Git), מנקים אותו מ-pending ──
     // כך השינויים המקומיים שורדים ריענון עד שהם ב-Git, ואז נעלמים לבד — בלי איבוד ובלי הצטברות.
     try {
@@ -4285,6 +4319,89 @@ function showArchSpecific(s){
   mapSpecObj.setView([s.lat,s.lng],17);
   const img = s.image || resolvePlaceImage({name:s.nameHe, nameEn:s.nameEn});
   setSpecCard({ image:img, name:s.nameHe, nameEn:s.nameEn, kind:'אדריכלות', architect:s.architect, year:s.year, day:s.day||null, desc:s.desc, addr:s.address, hours:s.hours, price:s.price, lat:s.lat, lng:s.lng });
+}
+
+// ══════════════════════════════════
+// המלצות החברה הגיאוגרפית — מודאל עם מפת Leaflet, סיכות צבועות לפי קטגוריה, סינון לפי אזור
+// ══════════════════════════════════
+const GEO_CAT_COLOR = {
+  shrine:'#2196F3', shrine_gate:'#2196F3', temple:'#FF9800', museum:'#9C27B0',
+  city:'#F44336', town:'#F44336', district:'#4CAF50', nature_reserve:'#1B5E20',
+  village:'#795548', castle:'#424242'
+};
+const GEO_CAT_HE = {
+  shrine:'מקדש שינטו', shrine_gate:'שער טורי', temple:'מקדש בודהיסטי', museum:'מוזיאון',
+  city:'עיר', town:'עיירה', district:'רובע', nature_reserve:'שמורת טבע', village:'כפר',
+  castle:'טירה', garden:'גן', bridge:'גשר', park:'פארק', mountain:'הר', street:'רחוב',
+  market:'שוק', island:'אי', valley:'עמק', river:'נהר', lake:'אגם'
+};
+function geoCatColor(c){ return GEO_CAT_COLOR[c] || '#757575'; }
+function geoCatHe(c){ return GEO_CAT_HE[c] || c || ''; }
+let geoMapObj = null, geoLayer = null, geoFilter = '';
+function openGeotrips(){
+  const ov = document.getElementById('geoOverlay'); if(!ov) return;
+  ov.style.display = 'flex';
+  document.addEventListener('keydown', geoEscHandler);
+  geoFilter = '';
+  buildGeoFilters();
+  setTimeout(()=>initGeoMap(), 60);
+}
+function closeGeotrips(){
+  const ov = document.getElementById('geoOverlay'); if(ov) ov.style.display='none';
+  document.removeEventListener('keydown', geoEscHandler);
+}
+function geoEscHandler(e){ if(e.key==='Escape') closeGeotrips(); }
+function geoRegions(){
+  const sites = DATA.geotrips || [];
+  const counts = {};
+  sites.forEach(s=>{ if(s.region) counts[s.region]=(counts[s.region]||0)+1; });
+  // מיון לפי כמות (הגדולים קודם)
+  return Object.keys(counts).sort((a,b)=>counts[b]-counts[a]).map(r=>({r, n:counts[r]}));
+}
+function buildGeoFilters(){
+  const box = document.getElementById('geoFilters'); if(!box) return;
+  const total = (DATA.geotrips||[]).length;
+  let html = `<button class="geo-flt${geoFilter===''?' on':''}" onclick="setGeoFilter('')">הכל (${total})</button>`;
+  geoRegions().forEach(({r,n})=>{
+    html += `<button class="geo-flt${geoFilter===r?' on':''}" onclick="setGeoFilter('${r.replace(/'/g,"\\'")}')">${r} (${n})</button>`;
+  });
+  box.innerHTML = html;
+}
+function setGeoFilter(r){ geoFilter = r; buildGeoFilters(); drawGeoMarkers(); }
+function initGeoMap(){
+  const el = document.getElementById('geoMap'); if(!el || typeof L==='undefined') return;
+  if(geoMapObj){ geoMapObj.invalidateSize(); drawGeoMarkers(); return; }
+  geoMapObj = L.map('geoMap', {zoomControl:true, scrollWheelZoom:true}).setView([37,138], 5);
+  tile(geoMapObj);
+  drawGeoMarkers();
+  setTimeout(()=>geoMapObj.invalidateSize(), 80);
+}
+function drawGeoMarkers(){
+  if(!geoMapObj) return;
+  if(geoLayer) geoMapObj.removeLayer(geoLayer);
+  geoLayer = L.layerGroup().addTo(geoMapObj);
+  const sites = (DATA.geotrips||[]).filter(s=> !geoFilter || s.region===geoFilter);
+  const pts=[];
+  sites.forEach(s=>{
+    if(s.lat==null||s.lng==null) return;
+    const color = geoCatColor(s.category);
+    // סיכה עם שם עברי בתוכה
+    const html = `<div class="geo-pin" style="background:${color}" title="${s.name_he}">${s.name_he}</div>`;
+    const icon = L.divIcon({className:'geo-pin-wrap', html, iconSize:[null,null], iconAnchor:[0,10]});
+    const popup = `<div style="min-width:150px;text-align:right;direction:rtl">
+      <b style="font-size:14px;color:#1a1a1a">${s.name_he}</b><br>
+      <span style="font-size:11px;color:#888;direction:ltr;display:inline-block">${s.name_en||''}</span><br>
+      <span style="font-size:12px;font-weight:700;color:${color}">${geoCatHe(s.category)}</span>
+      <span style="font-size:12px;color:#666"> · ${s.region||''}</span><br>
+      <a href="https://www.google.com/maps/search/?api=1&hl=he&query=${s.lat},${s.lng}" target="_blank" style="font-size:11px;color:#1d4ed8">פתחי בגוגל מפות ›</a>
+    </div>`;
+    L.marker([s.lat,s.lng], {icon}).addTo(geoLayer).bindPopup(popup);
+    pts.push([s.lat,s.lng]);
+  });
+  // זום אוטומטי לאזור המסונן; אחרת כל יפן
+  if(geoFilter && pts.length){ geoMapObj.fitBounds(L.latLngBounds(pts).pad(0.3), {maxZoom:11}); }
+  else { geoMapObj.setView([37,138], 5); }
+  const cEl=document.getElementById('geoCount'); if(cEl) cEl.textContent = `${sites.length} יעדים${geoFilter?' · '+geoFilter:''}`;
 }
 
 // ══════════════════════════════════
