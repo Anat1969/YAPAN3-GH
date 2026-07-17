@@ -433,10 +433,19 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .layout-editing .itin-section.sec-dragging{opacity:.4}
 .itin-map{position:sticky;top:78px;display:flex;flex-direction:column;gap:6px}
 /* מפת Google מוטבעת עם קו המסלול, בתוך מסגרת היום */
-.itin-gmap-lbl{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:800;color:var(--ink-3)}
-.itin-gmap-lbl .ic{width:14px;height:14px;stroke:var(--ink-3)}
+.itin-gmap-lbl{display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:800;color:var(--ink-3)}
+.itin-gmap-lbl .ic{width:14px;height:14px;stroke:var(--ink-3);flex-shrink:0}
 .itin-gmap-box{width:100%;height:460px;border-radius:10px;overflow:hidden;border:1px solid var(--border-strong);background:var(--bg)}
 .itin-gmap-box iframe{width:100%;height:100%;border:0;display:block}
+/* ניווט מקטעים במפת המיקרו */
+.itin-seg-nav{display:inline-flex;align-items:center;gap:6px;margin-inline-start:auto}
+.itin-seg-btn{width:24px;height:24px;border:1px solid var(--border-strong);background:var(--surface);color:var(--action);border-radius:var(--radius-sm);font:900 14px/1 inherit;cursor:pointer}
+.itin-seg-btn:hover:not(:disabled){background:var(--action);color:#fff}
+.itin-seg-btn:disabled{opacity:.4;cursor:default}
+.itin-seg-pos{font-size:var(--fs-xs);font-weight:800;color:var(--ink-2);direction:ltr;min-width:34px;text-align:center}
+.itin-seg-label{font-size:var(--fs-sm);color:var(--ink-2);line-height:1.5}
+.itin-seg-label b{color:var(--ink);font-weight:800}
+.itin-seg-label svg{width:12px;height:12px;stroke:var(--ink-3);vertical-align:-1px}
 /* מפת Leaflet ליום (פיילוט) — סימן לכל אתר */
 .itin-lmap-box{width:100%;height:460px;border-radius:10px;overflow:hidden;border:1px solid var(--border-strong);background:var(--bg)}
 .itin-lmap{width:100%;height:100%}
@@ -2630,18 +2639,16 @@ function renderItinerary(){
         </div>`
       : (rp.length >= 2
       ? `<div class="itin-map">
-          <div class="itin-gmap-lbl">${icon('map')} מפת Google — מסלול היום</div>
-          <div class="itin-gmap-box"><iframe id="gmap-${d.tripDay}" data-route="${encodeURIComponent(gEmbed)}" src="${gEmbed}" loading="lazy" allowfullscreen title="מפת Google ליום ${d.tripDay}"></iframe></div>
+          <div class="itin-gmap-lbl">${icon('map')} מפת Google — כל מסלול היום (מקרו)</div>
+          <div class="itin-gmap-box"><iframe id="gmap-${d.tripDay}" data-route="${encodeURIComponent(itinRouteEmbedUrl(rp))}" src="${itinRouteEmbedUrl(rp)}" loading="lazy" allowfullscreen title="מפת Google — מסלול יום ${d.tripDay}"></iframe></div>
           <div class="itin-map-links">
-            <a class="itin-map-link" href="${itinDirectionsUrl(rp)}" target="_blank" rel="noopener" data-tip="פתיחת מסלול היום המצויר ב-Google Maps (כולל מלונות)">${icon('route')} מסלול מצויר מלא ב-Google Maps ›</a>
-            <button class="itin-map-reset" onclick="resetDayMap(${d.tripDay})" data-tip="חזרה למרכז המסלול">${icon('route')} כל המסלול</button>
+            <a class="itin-map-link" href="${itinDirectionsUrl(rp)}" target="_blank" rel="noopener" data-tip="פתיחת מסלול היום המלא ב-Google Maps">${icon('route')} פתחי את כל המסלול ב-Google Maps ›</a>
           </div>
           ${ITIN_ROUTE_DAYS.has(d.tripDay) ? `
-          <div class="itin-gmap-lbl" style="margin-top:12px">${icon('route')} מפת המסלול — כל אתרי היום וקו הניווט ביניהם</div>
-          <div class="itin-lmap-box" style="height:360px"><div id="lmap-${d.tripDay}" class="itin-lmap" data-triptday="${d.tripDay}"></div></div>
-          <div class="itin-map-links">
-            <a class="itin-map-link" href="${itinDirectionsUrl(rp)}" target="_blank" rel="noopener" data-tip="ניווט מלא בין כל האתרים ב-Google Maps">${icon('external')} ניווט מלא בין האתרים ›</a>
-          </div>` : ''}
+          <div class="itin-gmap-lbl" style="margin-top:12px">${icon('route')} ניווט מפורט בין העצירות (מיקרו)<span class="itin-seg-nav" id="itinSegNav-${d.tripDay}"></span></div>
+          <div class="itin-gmap-box" style="height:360px"><iframe id="segmap-${d.tripDay}" loading="lazy" allowfullscreen title="ניווט מקטע יום ${d.tripDay}"></iframe></div>
+          <div class="itin-map-links"><span class="itin-seg-label" id="itinSegLabel-${d.tripDay}"></span></div>
+          ` : ''}
         </div>`
       : '');
     const bodyCls = mapCol ? 'itin-body has-map' : 'itin-body';
@@ -2901,18 +2908,68 @@ function itinMapCenter(pts){
 // מפת Leaflet ליום במסלול — סימן לכל אתר, לחיצה ממקדת ומגדילה (פיילוט)
 // ══════════════════════════════════
 const ITIN_PILOT_DAYS = new Set();   // (לא בשימוש) — Leaflet במקום Google
-// ימים שבהם מוצגת מפת מסלול נוספת (Leaflet) עם כל אתרי היום + קו ניווט. מתחילים מיום 1.
+// ימים שבהם מוצגת מפת ניווט מקטעים (Google directions, קו כחול לכל חיבור). מתחילים מיום 1.
 const ITIN_ROUTE_DAYS = new Set([1]);
 const _itinMaps = {};       // tripDay → { map, markers:{key→{marker,base,pt,num}}, bounds }
+const _itinSegState = {};   // tripDay → { segs:[{from,to,mode}], idx }
 
+// מפת Google מקרו — כל מסלול היום עם קו כחול רציף (saddr→daddr + נקודות ביניים, output=embed)
+function itinRouteEmbedUrl(pts){
+  if(!pts || pts.length<2) return itinGoogleEmbedUrl(pts);
+  const co=p=>`${p.lat},${p.lng}`;
+  const saddr=co(pts[0]);
+  // Google embed: daddr יכול לכלול נקודות ביניים עם " to:"
+  const daddr = pts.slice(1).map(co).join('+to:');
+  return `https://www.google.com/maps?hl=he&saddr=${saddr}&daddr=${daddr}&dirflg=r&output=embed`;
+}
+// מפת Google מיקרו — מקטע בודד (זום לרמת רחוב עם קו כחול + זמן נסיעה)
+function itinSegEmbedUrl(seg){
+  const modeFlag = {walk:'w',train:'r',metro:'r',bus:'r',shinkansen:'r',car:'d',taxi:'d',flight:'r',shuttle:'d'}[seg.mode]||'r';
+  return `https://www.google.com/maps?hl=he&saddr=${seg.from.lat},${seg.from.lng}&daddr=${seg.to.lat},${seg.to.lng}&dirflg=${modeFlag}&output=embed`;
+}
+// בניית רשימת מקטעי היום (מ-transport.segments אם יש, אחרת מנקודות המסלול)
+function itinDaySegments(d){
+  const segs=(d.transport&&d.transport.segments)||[];
+  if(segs.length) return segs.map(s=>({from:s.from, to:s.to, mode:s.mode, minutes:s.totalMinutes, km:s.distanceKm}));
+  // חלופה: מנקודות המסלול (מלון→אתרים→מלון)
+  const rp=itinRoutePoints(d); const out=[];
+  for(let i=0;i<rp.length-1;i++) out.push({from:rp[i], to:rp[i+1], mode:'walk'});
+  return out;
+}
 function initItinLeafletMaps(days){
-  if(typeof L === 'undefined') return;
   (days||[]).forEach(d=>{
-    if(!ITIN_PILOT_DAYS.has(d.tripDay) && !ITIN_ROUTE_DAYS.has(d.tripDay)) return;
-    const el = document.getElementById('lmap-'+d.tripDay); if(!el) return;
-    setTimeout(()=>buildItinMap(d), 60);
+    if(!ITIN_ROUTE_DAYS.has(d.tripDay)) return;
+    const el = document.getElementById('segmap-'+d.tripDay); if(!el) return;
+    setTimeout(()=>initItinSegMap(d), 60);
   });
 }
+// אתחול מפת הניווט-מקטעים ליום
+function initItinSegMap(d){
+  const segs = itinDaySegments(d).filter(s=>s.from&&s.to&&s.from.lat&&s.to.lat);
+  _itinSegState[d.tripDay] = { segs, idx:0 };
+  if(segs.length) itinSegShow(d.tripDay, 0);
+}
+function itinSegShow(tripDay, idx){
+  const S=_itinSegState[tripDay]; if(!S||!S.segs.length) return;
+  idx=Math.max(0,Math.min(S.segs.length-1,idx)); S.idx=idx;
+  const seg=S.segs[idx];
+  const f=document.getElementById('segmap-'+tripDay); if(f) f.src=itinSegEmbedUrl(seg);
+  // כיתוב המקטע: מוצא → יעד · אמצעי · זמן
+  const lbl=document.getElementById('itinSegLabel-'+tripDay);
+  if(lbl){
+    const mode=MODE_HE_M[seg.mode]||seg.mode||'';
+    const time=seg.minutes?` · ${seg.minutes} דק׳`:''; const km=seg.km?` · ${seg.km} ק״מ`:'';
+    lbl.innerHTML=`<b>${escHtml(seg.from.name||'')}</b> ${icon('arrow-l')} <b>${escHtml(seg.to.name||'')}</b> · ${mode}${time}${km}`;
+  }
+  // כפתורי ניווט מקטע
+  const nav=document.getElementById('itinSegNav-'+tripDay);
+  if(nav){
+    nav.innerHTML=`<button class="itin-seg-btn" onclick="itinSegGo(${tripDay},-1)" ${idx<=0?'disabled':''}>‹</button>`
+      +`<span class="itin-seg-pos">${idx+1}/${S.segs.length}</span>`
+      +`<button class="itin-seg-btn" onclick="itinSegGo(${tripDay},1)" ${idx>=S.segs.length-1?'disabled':''}>›</button>`;
+  }
+}
+function itinSegGo(tripDay, dir){ const S=_itinSegState[tripDay]; if(S) itinSegShow(tripDay, S.idx+dir); }
 function buildItinMap(d){
   const el = document.getElementById('lmap-'+d.tripDay); if(!el || typeof L==='undefined') return;
   // ניקוי מפה קודמת אם רונדר מחדש
