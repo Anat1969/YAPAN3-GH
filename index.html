@@ -2645,7 +2645,7 @@ function renderItinerary(){
             <a class="itin-map-link" href="${itinDirectionsUrl(rp)}" target="_blank" rel="noopener" data-tip="פתיחת מסלול היום המלא ב-Google Maps">${icon('route')} פתחי את כל המסלול ב-Google Maps ›</a>
           </div>
           ${ITIN_ROUTE_DAYS.has(d.tripDay) ? `
-          <div class="itin-gmap-lbl" style="margin-top:12px">${icon('route')} ניווט מפורט בין העצירות (מיקרו)<span class="itin-seg-nav" id="itinSegNav-${d.tripDay}"></span></div>
+          <div class="itin-gmap-lbl" style="margin-top:12px">${icon('route')} ניווט מפורט — לחצי על אתר במסלול להצגת ההגעה אליו</div>
           <div class="itin-gmap-box" style="height:360px"><iframe id="segmap-${d.tripDay}" loading="lazy" allowfullscreen title="ניווט מקטע יום ${d.tripDay}"></iframe></div>
           <div class="itin-map-links"><span class="itin-seg-label" id="itinSegLabel-${d.tripDay}"></span></div>
           ` : ''}
@@ -2954,22 +2954,25 @@ function itinSegShow(tripDay, idx){
   idx=Math.max(0,Math.min(S.segs.length-1,idx)); S.idx=idx;
   const seg=S.segs[idx];
   const f=document.getElementById('segmap-'+tripDay); if(f) f.src=itinSegEmbedUrl(seg);
-  // כיתוב המקטע: מוצא → יעד · אמצעי · זמן
+  // כיתוב המקטע: מוצא → יעד · אמצעי · זמן (בלי מערכת ניווט — לחיצה על אתר משנה את המקטע)
   const lbl=document.getElementById('itinSegLabel-'+tripDay);
   if(lbl){
     const mode=MODE_HE_M[seg.mode]||seg.mode||'';
     const time=seg.minutes?` · ${seg.minutes} דק׳`:''; const km=seg.km?` · ${seg.km} ק״מ`:'';
     lbl.innerHTML=`<b>${escHtml(seg.from.name||'')}</b> ${icon('arrow-l')} <b>${escHtml(seg.to.name||'')}</b> · ${mode}${time}${km}`;
   }
-  // כפתורי ניווט מקטע
-  const nav=document.getElementById('itinSegNav-'+tripDay);
-  if(nav){
-    nav.innerHTML=`<button class="itin-seg-btn" onclick="itinSegGo(${tripDay},-1)" ${idx<=0?'disabled':''}>‹</button>`
-      +`<span class="itin-seg-pos">${idx+1}/${S.segs.length}</span>`
-      +`<button class="itin-seg-btn" onclick="itinSegGo(${tripDay},1)" ${idx>=S.segs.length-1?'disabled':''}>›</button>`;
-  }
 }
-function itinSegGo(tripDay, dir){ const S=_itinSegState[tripDay]; if(S) itinSegShow(tripDay, S.idx+dir); }
+// הצגת ההגעה לאתר שנלחץ — המקטע שיעדו הוא האתר (מהנקודה שלפניו)
+function focusItinSeg(tripDay, name){
+  const S=_itinSegState[tripDay]; if(!S||!S.segs.length) return false;
+  const key=String(name||'').trim().toLowerCase();
+  const i=S.segs.findIndex(s=> (s.to&&((s.to.nameEn&&s.to.nameEn.trim().toLowerCase()===key)||(s.to.name&&s.to.name.trim().toLowerCase()===key))));
+  if(i<0) return false;
+  itinSegShow(tripDay, i);
+  const box=document.getElementById('segmap-'+tripDay)?.closest('.itin-gmap-box');
+  if(box){ box.style.animation='none'; void box.offsetWidth; box.style.animation='placeFlash 1.2s'; }
+  return true;
+}
 function buildItinMap(d){
   const el = document.getElementById('lmap-'+d.tripDay); if(!el || typeof L==='undefined') return;
   // ניקוי מפה קודמת אם רונדר מחדש
@@ -3030,6 +3033,13 @@ function emphItinMarker(tripDay, key){
 // לחיצה על תמונת/סיכת אתר → המפה של אותו יום מתמקדת על האתר ומגדילה את סימנו
 function focusItinSpot(tripDay, name){
   const key = String(name||'').trim().toLowerCase();
+  // ימי מסלול (Google מיקרו) — לחיצה מציגה את ההגעה לאתר (מהנקודה שלפניו) במפה השנייה
+  if(_itinSegState[tripDay]){
+    if(focusItinSeg(tripDay, name)){
+      toast('מוצג הניווט להגעה ל' + (name||'אתר') + ' במפה התחתונה');
+      return;
+    }
+  }
   // ימי פיילוט — מפת Leaflet: הגדלת הסמן + מיקוד
   if(_itinMaps[tripDay]){
     if(emphItinMarker(tripDay, key)){
