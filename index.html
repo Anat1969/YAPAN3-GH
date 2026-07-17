@@ -1836,7 +1836,7 @@ function narrateDays(days,i,j){
   for(let k=i;k<=j;k++){
     ['morning','afternoon','evening'].forEach(t=>(days[k].spots&&days[k].spots[t]||[]).forEach(s=>{
       const nm=(s.name||s.nameEn||'').trim(); if(!nm) return;
-      if(/check-?in|check-?out|צ׳ק-אין|flight|טיסה|נחיתה|drive to|נסיעה ל|return to|מלון|hotel|לינה|free (day|morning|evening)|יום חופשי|העברה|transfer|minivan|מיניוואן|ארוחת|ארוחה/i.test((s.nameEn||'')+' '+(s.name||''))) return;
+      if(/check-?in|check-?out|צ׳ק-אין|flight|טיסה|נחיתה|המראה|drive to|נסיעה ל|נסיעה מ|הגעה ל|return to|חזרה ל|מלון|hotel|לינה|free (day|morning|evening)|יום חופשי|ערב חופשי|בוקר חופשי|העברה|transfer|minivan|מיניוואן|ארוחת|ארוחה/i.test((s.nameEn||'')+' '+(s.name||''))) return;
       if(items.some(x=>x.name===nm)) return;
       items.push({name:nm, notes:s.notes||''});
     }));
@@ -1845,16 +1845,17 @@ function narrateDays(days,i,j){
   const pick = items.slice(0,6);
   const placeSpan = n=>`<b class="bd-place">${escHtml(n)}</b>`;
   const actSpan = v=>`<span class="bd-act">${escHtml(v)}</span>`;
-  const openers=['מתחילים ב','היום סובב סביב','נפתח ב'];
-  const conn=['משם אל','ממשיכים אל','ומשם ל','עוברים ל','ואז אל'];
+  const conn=['משם אל','ממשיכים אל','ומשם אל','עוברים אל','ואז אל','ולסיום'];
   // משפט ראשון: פעילות + מקום ראשון
   let parts=[];
   const v0=activityVerb(pick[0].name, pick[0].notes);
   parts.push(`${actSpan(v0)} ${placeSpan(pick[0].name)}`);
   for(let k=1;k<pick.length;k++){
-    const c = conn[(k-1)%conn.length];
-    // כל 2 מקומות מוסיפים פועל פעילות להגוון
-    if(k%2===0){ const v=activityVerb(pick[k].name, pick[k].notes); parts.push(`${c} ${actSpan(v)} ${placeSpan(pick[k].name)}`); }
+    const c = conn[Math.min(k-1, conn.length-1)];
+    // מוסיפים פועל פעילות רק כשהוא שונה מהקודם (למניעת חזרות "מבקרים ב מבקרים ב")
+    const v=activityVerb(pick[k].name, pick[k].notes);
+    const prevV=activityVerb(pick[k-1].name, pick[k-1].notes);
+    if(v!==prevV && v!=='מבקרים ב'){ parts.push(`${c} ${actSpan(v)} ${placeSpan(pick[k].name)}`); }
     else parts.push(`${c} ${placeSpan(pick[k].name)}`);
   }
   return parts.join(', ') + '.';
