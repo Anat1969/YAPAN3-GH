@@ -956,6 +956,12 @@ a.bk:hover{background:#00224f}
 .map-col-head-m .msd-info svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;vertical-align:-1px}
 .map-square{aspect-ratio:1/1;min-height:340px;border-radius:8px;overflow:hidden;background:#e8e6e1}
 /* עטיפת המפה הספציפית + כרטיס האתר (מרחף בפינה, תמונה גדולה + פרטים + קישור) */
+/* ניווט קדימה/אחורה בין סימני התצוגה — מעל המפה השמאלית */
+.spec-nav{display:flex;align-items:center;justify-content:center;gap:var(--space-2);margin-bottom:var(--space-2)}
+.spec-nav-btn{border:1px solid var(--border-strong);background:var(--surface);color:var(--action);border-radius:var(--radius-sm);padding:5px 14px;font:800 var(--fs-sm)/1 inherit;cursor:pointer;transition:.12s}
+.spec-nav-btn:hover:not(:disabled){background:var(--action);color:#fff;border-color:var(--action)}
+.spec-nav-btn:disabled{opacity:.4;cursor:default}
+.spec-nav-pos{font-size:var(--fs-sm);font-weight:800;color:var(--ink-2);min-width:56px;text-align:center;direction:ltr}
 .map-spec-wrap{position:relative}
 /* כרטיס אתר גדול — ממלא את כל שטח המפה השמאלית בלחיצה על סימן */
 .map-spec-card{position:absolute;inset:0;z-index:600;background:var(--surface);border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.25);overflow:auto;display:flex;flex-direction:column}
@@ -1149,6 +1155,11 @@ a.ml:hover{text-decoration:underline}
       <div id="map" class="map-square"></div>
     </div>
     <div class="map-col-m">
+      <div class="spec-nav" id="specNav" style="display:none">
+        <button class="spec-nav-btn" id="specPrev" onclick="specNavGo(-1)" data-tip="הסימן הקודם" aria-label="הקודם">‹ הקודם</button>
+        <span class="spec-nav-pos" id="specNavPos"></span>
+        <button class="spec-nav-btn" id="specNext" onclick="specNavGo(1)" data-tip="הסימן הבא" aria-label="הבא">הבא ›</button>
+      </div>
       <div class="map-col-head-m" id="mapSpecTitle">מפה ספציפית — פירוט היום</div>
       <div class="map-spec-wrap">
         <div id="mapSpec" class="map-square"></div>
@@ -3997,6 +4008,31 @@ function bigMarker(latlng, opts) {
 }
 
 // ציור שתי המפות לפי התצוגה
+// ── ניווט קדימה/אחורה בין הסימנים של התצוגה הפעילה (מציג כל אחד במפה השמאלית) ──
+let _specNav = [];   // [{run, label}] — פריט לכל סימן בתצוגה הנוכחית
+let _specNavIdx = -1;
+function specNavReset(){ _specNav = []; _specNavIdx = -1; }
+// הוספת פריט לרשימת הניווט. run() = הפעלת showXSpecific של הפריט
+function specNavAdd(run, label){ _specNav.push({run, label:label||''}); }
+function specNavUpdate(){
+  const bar=document.getElementById('specNav'); if(!bar) return;
+  if(_specNav.length<=1){ bar.style.display='none'; return; }
+  bar.style.display='';
+  const pos=document.getElementById('specNavPos');
+  if(pos) pos.textContent = `${_specNavIdx+1} / ${_specNav.length}`;
+  const prev=document.getElementById('specPrev'), next=document.getElementById('specNext');
+  if(prev) prev.disabled = _specNavIdx<=0;
+  if(next) next.disabled = _specNavIdx>=_specNav.length-1;
+}
+// מעבר לפריט לפי אינדקס — מריץ את ה-show שלו
+function specNavShow(idx){
+  if(idx<0 || idx>=_specNav.length) return;
+  _specNavIdx = idx;
+  try{ _specNav[idx].run(); }catch(e){}
+  specNavUpdate();
+}
+function specNavGo(dir){ specNavShow(_specNavIdx + dir); }
+
 function renderMapLayer() {
   if (!mapObj) return;
   if (mapLayer) mapObj.removeLayer(mapLayer);
@@ -4004,6 +4040,7 @@ function renderMapLayer() {
   mapLayer = L.layerGroup().addTo(mapObj);
   specLayer = L.layerGroup().addTo(mapSpecObj);
   const legend = [];
+  specNavReset();
 
   if (mapView==='days') renderMapDays(legend);
   else if (mapView==='nights') renderMapNights(legend);
@@ -4016,6 +4053,9 @@ function renderMapLayer() {
   if (mapView!=='mymarks' && mapView!=='architecture') renderMyMarks(legend, false);
 
   renderMapLegend(legend);
+  // סנכרון אינדקס הניווט לפריט שכבר מוצג (אם נבחר אחד בזמן הרינדור)
+  if(_specNavIdx<0 && _specNav.length) _specNavIdx = 0;
+  specNavUpdate();
   renderDiversity();
   renderGaps();
   setTimeout(()=>{ mapObj.invalidateSize(); mapSpecObj.invalidateSize(); },60);
@@ -4132,13 +4172,14 @@ function renderMapDays(legend) {
     const mk = bigMarker([lat,lng], {text:String(d.tripDay), color:'#1d4ed8', shape:'circle', size:30, fontSize:13, popup, aria:`יום ${d.tripDay} — ${dayCity(d)} · ${d.day}/${d.month}`,
       onClick:()=>selectDay(d.id)}).addTo(mapLayer);
     dayMarkers.push({id:d.id, marker:mk});
+    specNavAdd(()=>selectDay(d.id), `יום ${d.tripDay}`);
     allPts.push([lat,lng]);
   });
   if(allPts.length) mapObj.fitBounds(L.latLngBounds(allPts).pad(0.12));
   legend.push({label:'יום בטיול (עיגול)', color:'#1d4ed8', shape:'circle'}, {label:'אתר ביום (ריבוע)', color:'#7c3aed', shape:'square'}, {label:'מלון/מוצא', color:'#1a1a1a', shape:'circle'});
   // בחר יום פעיל (השמור או הראשון)
   const start = geoDays.find(d=>d.id===activeDayId) || geoDays[0];
-  if(start) selectDay(start.id, true);
+  if(start){ selectDay(start.id, true); _specNavIdx = geoDays.indexOf(start); }
 }
 
 // בחירת יום — מדגיש בימין, מפרט בשמאל (סעיף 3)
@@ -4198,11 +4239,14 @@ function renderMapNights(legend) {
     const popup = `${bilingual(h.he,h.name)}<br><span style="font-size:11px">${fmtDate(h.checkin)} — ${fmtDate(h.checkout)} · ${h.nights||''} לילות</span><br><a href="index.html?tab=hotels" style="font-size:11px;color:#1d4ed8">פרטי מלון ›</a>${h.pid||h.addr?` · <a href="${mapsLink(h)}" target="_blank" style="font-size:11px;color:#1d4ed8">ניווט</a>`:''}`;
     // סימן שטוח — מספר לילות בלבד בתוך הסימן; הטווח המלא בריחוף (סעיף 4.3, שיטוח גרפי)
     bigMarker([h.lat,h.lng],{text:String(h.nights||''),color,shape:'square',size:30,fontSize:12,popup,aria:`${h.name} · ${range}`, onClick:()=>showHotelSpecific(h)}).addTo(mapLayer);
+    specNavAdd(()=>showHotelSpecific(h), h.he||h.name);
     pts.push([h.lat,h.lng]);
   });
   if(pts.length) mapObj.fitBounds(L.latLngBounds(pts).pad(0.12));
   legend.push({label:'מלון מוזמן', color:'#15803d', shape:'square'}, {label:'טרם הוזמן', color:'#b45309', shape:'square'});
-  showHotelSpecific(DATA.hotels.find(h=>h.lat));
+  const firstH = DATA.hotels.find(h=>h.lat);
+  showHotelSpecific(firstH);
+  if(firstH) _specNavIdx = DATA.hotels.filter(h=>h.lat&&h.lng).indexOf(firstH);
 }
 function showHotelSpecific(h) {
   if(!h||!h.lat) return;
@@ -4222,12 +4266,13 @@ function renderMapTransport(legend) {
       const popup=`<b>${MODE_HE_M[seg.mode]||seg.mode}</b>${seg.totalMinutes?` · ${seg.totalMinutes} דק׳`:''}${seg.distanceKm?` · ${seg.distanceKm} ק״מ`:''}<br>${seg.from.name} → ${seg.to.name}<br><a href="${seg.mapsUrl}" target="_blank" style="font-size:11px;color:#1d4ed8">ניווט ›</a>`;
       const pl=L.polyline([[seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]],{color,weight:4,opacity:.7,dashArray:seg.mode==='walk'?'4,6':null}).addTo(mapLayer).bindPopup(popup);
       pl.on('click',()=>showSegSpecific(seg));
+      specNavAdd(()=>showSegSpecific(seg), `${seg.from.name} → ${seg.to.name}`);
       pts.push([seg.from.lat,seg.from.lng],[seg.to.lat,seg.to.lng]);
     });
   });
   if(pts.length) mapObj.fitBounds(L.latLngBounds(pts).pad(0.12));
   [...usedModes].forEach(m=>legend.push({label:MODE_HE_M[m]||m, color:MODE_COLOR_M[m]||'#888', shape:'line'}));
-  focusSpec(null,'לחץ מקטע להצגה מפורטת');
+  focusSpec(null,'לחץ מקטע — או «הבא/הקודם» לדפדוף');
 }
 function showSegSpecific(seg){
   const layer=focusSpec(null,`${MODE_HE_M[seg.mode]||seg.mode}: ${seg.from.name} → ${seg.to.name}`);
@@ -4269,12 +4314,13 @@ function renderMapPlaces(legend) {
     // ריחוף → כרטיס-ריחוף מעל הסימן; לחיצה → כרטיס גדול משמאל (סעיף חדש)
     const hover = hoverCardHtml({ image:resolvePlaceImage(p), name:p.name, nameEn:p.nameEn, kind, day:p.dayId||null, city:p.city||p.cityEn||'' });
     bigMarker([p.lat,p.lng],{text:'',color,shape:'circle',size:26,translucent:true,hover,aria:`${p.name} — ${kind}`, onClick:()=>showPlaceSpecific(p)}).addTo(mapLayer);
+    specNavAdd(()=>showPlaceSpecific(p), p.name);
     pts.push([p.lat,p.lng]);
   });
   if(pts.length) mapObj.fitBounds(L.latLngBounds(pts).pad(0.15));
   // מקרא-סינון לפי סוג (מבנה/טבע/פעילות) — כמו בדף המסלול
   ['מבנה','טבע','פעילות'].filter(k=>kindCount[k]).forEach(k=>legend.push({key:k, label:`${k} (${kindCount[k]})`, color:KIND_COLOR[k], shape:'circle'}));
-  focusSpec(null,'לחץ אתר להצגה מפורטת');
+  focusSpec(null,'לחץ אתר — או «הבא/הקודם» לדפדוף');
 }
 function showPlaceSpecific(p){
   const layer=focusSpec(null,`${p.name}${p.nameEn?' · '+p.nameEn:''}`);
@@ -4305,12 +4351,13 @@ function renderMapArch(legend){
     // ריחוף → כרטיס-ריחוף מעל הסימן; לחיצה → כרטיס גדול משמאל
     const hover = hoverCardHtml({ image:s.image, name:s.nameHe, nameEn:s.nameEn, kind:s.architect+' · '+s.year, day:s.day||null });
     bigMarker([s.lat,s.lng],{text:String(s.day||''),color,shape:'circle',size:32,translucent:true,fontSize:13,hover,aria:`${s.nameHe} — ${s.architect}`, onClick:()=>showArchSpecific(s)}).addTo(mapLayer);
+    specNavAdd(()=>showArchSpecific(s), s.nameHe);
     pts.push([s.lat,s.lng]);
   });
   if(pts.length) mapObj.fitBounds(L.latLngBounds(pts).pad(0.15));
   // מקרא-סינון לפי אדריכל + ספירה
   Object.keys(ARCH_GROUP_HE).filter(g=>cnt[g]).forEach(g=>legend.push({key:g, label:`${ARCH_GROUP_HE[g]} (${cnt[g]})`, color:ARCH_COLORS[g], shape:'circle'}));
-  focusSpec(null,'לחץ מבנה להצגה מפורטת');
+  focusSpec(null,'לחץ מבנה — או «הבא/הקודם» לדפדוף');
 }
 function showArchSpecific(s){
   const layer=focusSpec(null,`${s.nameHe} · ${s.architect}`);
