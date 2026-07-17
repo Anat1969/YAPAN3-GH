@@ -51,6 +51,13 @@
 .btn-pill:hover{border-color:var(--border-strong)}
 .btn-pill.on{background:var(--action);color:#fff;border-color:var(--action)}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-4)}
+/* דף תקציר לשיתוף */
+.brief-page{max-width:760px;margin:0 auto;padding:var(--space-2) 0}
+.brief-bar{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);flex-wrap:wrap;margin-bottom:var(--space-3)}
+.brief-intro{font-size:var(--fs-base);color:var(--ink-2);flex:1;min-width:240px}
+.brief-actions{display:flex;gap:var(--space-2);flex-wrap:wrap}
+.brief-text{width:100%;min-height:60vh;border:1px solid var(--border-strong);border-radius:var(--radius-lg);padding:var(--space-4) var(--space-5);font-family:'Noto Sans Hebrew',sans-serif;font-size:var(--fs-md);line-height:1.75;color:var(--ink);background:var(--surface);resize:vertical;box-shadow:var(--shadow-sm)}
+.brief-text:focus{outline:none;border-color:var(--action);box-shadow:0 0 0 2px rgba(29,78,216,.15)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--ink);font-size:13px;line-height:1.5}
 /* באנר אזהרת תמונות שלא נשמרו ל-Git */
@@ -1018,6 +1025,7 @@ a.ml:hover{text-decoration:underline}
 <nav class="nav">
   <h1>יפן 2026</h1>
   <div class="tabs">
+    <button class="tab" data-tab="brief" data-tip="תקציר המסלול לשיתוף — תיבת טקסט ערוכה + הורדת PDF" aria-label="מעבר לתקציר">תקציר</button>
     <button class="tab on" data-tab="summary" data-tip="דף הבית — כל נתוני הטיול במבט אחד" aria-label="מעבר לדף סיכומים">סיכומים</button>
     <button class="tab" data-tab="days" data-tip="טבלת 31 ימי הטיול — מלון, עיר ותוכנית לכל יום" aria-label="מעבר ללוח הימים">לוח ימים</button>
     <button class="tab" data-tab="itinerary" data-tip="מסלול מפורט — כל יום עם בוקר/צהריים/ערב, אתרים, שעות וארוחות" aria-label="מעבר למסלול המפורט">מסלול</button>
@@ -1061,6 +1069,7 @@ a.ml:hover{text-decoration:underline}
 <div class="help" id="help"></div>
 <div class="filters" id="filters"></div>
 
+<div class="panel" id="p-brief"><div class="tw"><div id="briefWrap"></div></div></div>
 <div class="panel on" id="p-summary"><div class="tw"><div id="sumWrap"></div></div></div>
 <div class="panel" id="p-days"><div class="tw days-wide"><table id="t-days"></table></div></div>
 <div class="panel" id="p-itinerary"><div class="tw days-wide" id="itinWrap"></div></div>
@@ -1343,7 +1352,7 @@ async function loadData() {
   }
   // פתיחת הטאב לפי ה-URL (מאפשר קישור ישיר ושמירת מצב ברענון — סעיף 4.5)
   const urlTab = new URLSearchParams(location.search).get('tab');
-  const valid = ['summary','days','itinerary','calendar','hotels','bookings','checklist','places','images','costs','transport','map'];
+  const valid = ['brief','summary','days','itinerary','calendar','hotels','bookings','checklist','places','images','costs','transport','map'];
   if (urlTab && valid.includes(urlTab) && urlTab!==activeTab) {
     activeTab = urlTab;
     document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===urlTab));
@@ -1569,7 +1578,8 @@ function render() {
   // שורת כרטיסיות הסטטיסטיקה הישנה הוסרה — כל הסיכומים מרוכזים בדף «סיכומים»
   document.getElementById('stats').innerHTML = '';
   renderHelp();
-  if (activeTab==='summary') renderSummary();
+  if (activeTab==='brief') renderBrief();
+  else if (activeTab==='summary') renderSummary();
   else if (activeTab==='days') renderDays();
   else if (activeTab==='itinerary') renderItinerary();
   else if (activeTab==='calendar') renderCalendar();
@@ -1673,6 +1683,112 @@ function renderHelp() {
     <div class="help-body${helpOpen?' open':''}" id="help-body"><ul>${instr.map(i=>`<li>${i}</li>`).join('')}</ul></div>
   </div>`;
 }
+
+// ══════════════════════════════════
+// דף תקציר — מסמך מסלול ערוך לשיתוף (טקסט + PDF)
+// ══════════════════════════════════
+// שמות האתרים המרכזיים של יום (מדלג על מלון/טיסה/נסיעה/צ'ק-אין/חופשי)
+function briefDaySites(d){
+  const skip=/check-?in|check-?out|צ׳ק-אין|flight|טיסה|נחיתה|המראה|drive to|נסיעה ל|return to|מלון|hotel|לינה|free (day|morning|evening)|יום חופשי|ערב חופשי|בוקר חופשי|העברה|transfer|minivan|מיניוואן|ארוחת|ארוחה/i;
+  const names=[];
+  ['morning','afternoon','evening'].forEach(t=>(d.spots&&d.spots[t]||[]).forEach(s=>{
+    const nm=(s.name||s.nameEn||'').trim();
+    if(!nm) return;
+    if(skip.test((s.nameEn||'')+' '+(s.name||''))) return;
+    if(!names.includes(nm)) names.push(nm);
+  }));
+  return names;
+}
+// יצירת טקסט התקציר האוטומטי — קיבוץ ימים רצופים עם אותה עיר לטווח
+function buildBriefText(){
+  const days=(DATA.days||[]).filter(d=>d.tripDay).sort((a,b)=>a.tripDay-b.tripDay);
+  const lines=['מסלול הטיול — יפן 2026',''];
+  let i=0;
+  while(i<days.length){
+    const d=days[i];
+    const city=dayCity(d)||d.regionHe||'';
+    // איחוד ימים רצופים עם אותה עיר
+    let j=i;
+    while(j+1<days.length && (dayCity(days[j+1])||days[j+1].regionHe||'')===city) j++;
+    const first=days[i], last=days[j];
+    const dayLabel = i===j ? `יום ${first.tripDay}` : `ימים ${first.tripDay}–${last.tripDay}`;
+    const dateLabel = i===j ? `${first.day}/${first.month}` : `${first.day}/${first.month}–${last.day}/${last.month}`;
+    // מקום – מקום: אם הטווח כולל מספר ערים (בפועל אותה עיר כאן), נציג עיר; כותרת היום אם יש
+    const titles=[]; for(let k=i;k<=j;k++){ if(days[k].title && !titles.includes(days[k].title)) titles.push(days[k].title); }
+    // תקציר פעילויות — עד ~5 אתרים מרכזיים מכל הטווח
+    const sites=[]; for(let k=i;k<=j;k++){ briefDaySites(days[k]).forEach(n=>{ if(!sites.includes(n)) sites.push(n); }); }
+    const head = `${dayLabel} · ${dateLabel} | ${city}${titles.length?(' — '+titles.join(', ')):''}`;
+    const body = sites.length ? sites.slice(0,6).join(' · ') : 'יום חופשי / השלמות';
+    lines.push(head, body, '');
+    i=j+1;
+  }
+  return lines.join('\n').trim();
+}
+function renderBrief(){
+  const wrap=document.getElementById('briefWrap'); if(!wrap) return;
+  // טקסט שמור (עריכות המשתמשת) גובר על האוטומטי
+  const saved = localStorage.getItem('brief-text');
+  const text = (saved!=null && saved!=='') ? saved : buildBriefText();
+  wrap.innerHTML = `
+    <div class="brief-page">
+      <div class="brief-bar">
+        <div class="brief-intro">תקציר המסלול לשיתוף — ערכי את הטקסט חופשי, ואז העתיקי, שלחי או הורידי כ-PDF.</div>
+        <div class="brief-actions">
+          <button class="btn btn-primary" onclick="downloadBriefPDF()">${icon('external')} הורדת PDF</button>
+          <button class="btn btn-secondary" onclick="copyBrief()">${icon('check')} העתקה</button>
+          <button class="btn btn-secondary" onclick="shareBrief()">${icon('map')} שיתוף</button>
+          <button class="btn btn-ghost" onclick="resetBrief()" data-tip="בנייה מחדש מהמסלול">${icon('route')} רענון מהמסלול</button>
+        </div>
+      </div>
+      <textarea id="briefText" class="brief-text" oninput="saveBrief(this.value)" spellcheck="false">${text.replace(/</g,'&lt;')}</textarea>
+    </div>`;
+}
+function saveBrief(v){ try{ localStorage.setItem('brief-text', v); }catch(e){} }
+function resetBrief(){ try{ localStorage.removeItem('brief-text'); }catch(e){} renderBrief(); toast('התקציר נבנה מחדש מהמסלול'); }
+function copyBrief(){
+  const t=document.getElementById('briefText'); if(!t) return;
+  t.select(); t.setSelectionRange(0,999999);
+  try{ document.execCommand('copy'); toast('הטקסט הועתק — אפשר להדביק בוואטסאפ/מייל'); }
+  catch(e){ navigator.clipboard&&navigator.clipboard.writeText(t.value); toast('הטקסט הועתק'); }
+  window.getSelection&&window.getSelection().removeAllRanges();
+}
+function shareBrief(){
+  const t=document.getElementById('briefText'); if(!t) return;
+  const data={ title:'מסלול יפן 2026', text:t.value };
+  if(navigator.share){ navigator.share(data).catch(()=>{}); }
+  else { copyBrief(); toast('שיתוף לא נתמך בדפדפן — הטקסט הועתק, הדביקי בוואטסאפ'); }
+}
+// הורדת PDF — פותח חלון הדפסה מעוצב; המשתמשת בוחרת «שמור כ-PDF»
+function downloadBriefPDF(){
+  const t=document.getElementById('briefText'); if(!t) return;
+  const lines = t.value.split('\n');
+  // בניית HTML מעוצב: השורה הראשונה כותרת; שורות עם | ככותרות-יום; השאר גוף
+  let html='';
+  lines.forEach((ln,idx)=>{
+    const s=ln.trim();
+    if(idx===0){ html+=`<h1>${escHtml(s)}</h1>`; return; }
+    if(!s){ html+='<div class="sp"></div>'; return; }
+    if(s.includes('|')){ html+=`<h2>${escHtml(s)}</h2>`; }
+    else { html+=`<p>${escHtml(s)}</p>`; }
+  });
+  const doc=`<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><title>מסלול יפן 2026</title>
+    <style>
+      @page{margin:18mm}
+      body{font-family:'Noto Sans Hebrew','Arial',sans-serif;color:#1c1c1a;line-height:1.6;max-width:720px;margin:0 auto;padding:10px}
+      h1{font-size:24px;font-weight:900;text-align:center;border-bottom:2px solid #1c1c1a;padding-bottom:12px;margin-bottom:20px}
+      h2{font-size:15px;font-weight:800;color:#1d4ed8;margin:16px 0 4px;border-inline-start:3px solid #1d4ed8;padding-inline-start:8px}
+      p{font-size:13px;color:#444;margin:0 0 4px}
+      .sp{height:6px}
+      @media print{ .noprint{display:none} }
+    </style></head><body>${html}
+    <script>window.onload=function(){setTimeout(function(){window.print();},300);}<\/script>
+    </body></html>`;
+  const w=window.open('','_blank');
+  if(!w){ toast('הדפדפן חסם חלון — אפשרי חלונות קופצים'); return; }
+  w.document.write(doc); w.document.close();
+  toast('נפתח חלון הדפסה — בחרי «שמור כ-PDF» ליעד');
+}
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 // ══════════════════════════════════
 // דף סיכומים מרכזי
@@ -4705,7 +4821,7 @@ window.yukoDayContext = function(){
 window.DATA = DATA; // חשיפה לקריאה מ-yuko.js (let לא נכנס אוטומטית ל-window)
 
 window.yukoGoTab = function(tab){
-  var valid = ['summary','days','calendar','hotels','bookings','checklist','places','images','costs','transport','map'];
+  var valid = ['brief','summary','days','calendar','hotels','bookings','checklist','places','images','costs','transport','map'];
   if (valid.indexOf(tab) === -1) return false;
   goTab(tab);
   return true;
