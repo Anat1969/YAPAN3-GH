@@ -1018,6 +1018,10 @@ a.bk:hover{background:#00224f}
 .itin-focusbtn:hover{background:var(--action);border-color:var(--action)}
 .itin-focusbtn .ic{width:12px;height:12px;stroke:var(--action)}
 .itin-focusbtn:hover .ic{stroke:#fff}
+.itin-delbtn{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin-inline-start:5px;padding:0;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface);cursor:pointer;vertical-align:middle}
+.itin-delbtn:hover{background:#dc2626;border-color:#dc2626}
+.itin-delbtn .ic{width:12px;height:12px;stroke:var(--ink-3)}
+.itin-delbtn:hover .ic{stroke:#fff}
 .map-place-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
 .mpf{padding:3px 10px;border:1px solid var(--border);border-radius:999px;background:var(--surface);font:600 11px inherit;cursor:pointer;color:var(--ink-3)}
 .mpf.on{background:var(--action);color:#fff;border-color:var(--action)}
@@ -2655,10 +2659,13 @@ function itinSpotHtml(s, dayId, slotKey, idx, tripDay){
   ].filter(Boolean).join('');
   // מיקוד האתר על מפת היום שבדף זה (לא מעבר לדף אחר) — רק אם יש קואורדינטות
   const focusBtn = focusAttr ? `<button class="itin-focusbtn" onclick="${focusAttr}" data-tip="הצגת האתר על מפת היום בדף זה">${icon('pin')}</button>` : '';
+  // הסרת האתר מהמסלול (למחיקת כפילויות)
+  const nameArg = (s.name||s.nameEn||'').replace(/'/g,"\\'").replace(/"/g,'&quot;');
+  const delBtn = (dayId!=null && slotKey && idx!=null) ? `<button class="itin-delbtn" onclick="itinDeleteSpot('${dayId}','${slotKey}',${idx},'${nameArg}')" data-tip="הסרת האתר מהמסלול (למחיקת כפילות)" aria-label="הסרת האתר מהמסלול">${icon('trash')}</button>` : '';
   return `<div class="itin-spot">
     ${thumb}
     <div class="itin-spot-body">
-      <div class="itin-spot-name">${bilingualName(s.name, s.nameEn, {maps, site: site||''})}${focusBtn}</div>
+      <div class="itin-spot-name">${bilingualName(s.name, s.nameEn, {maps, site: site||''})}${focusBtn}${delBtn}</div>
       ${s.notes ? `<div class="itin-spot-notes">${fmtNotes(s.notes)}</div>` : ''}
       <div class="itin-spot-meta itin-meta-when">${rowWhen}</div>
       ${rowParams ? `<div class="itin-spot-meta itin-meta-params">${rowParams}</div>` : ''}
@@ -2782,6 +2789,24 @@ function itinMoveSpotDay(sel){
   persistPendingDaySpots(); markUnsaved();
   render();
   toast(`«${spot.name||spot.nameEn||'האתר'}» הועבר ליום ${toDay.tripDay} (${toDay.day}/${toDay.month}) — «שמור קבצים» לשמירה`);
+}
+
+// ── הסרת אתר מהמסלול (למחיקת כפילויות) — מסיר מהמקטע של אותו יום ומשמר כמו שאר עריכות הימים ──
+function itinDeleteSpot(dayId, slot, idx, name){
+  const raw = _dayFilesRaw[dayId];
+  const day = DATA.days.find(d=>String(d.id)===String(dayId)||String(d.tripDay)===String(dayId));
+  if(!raw || !raw.spots || !day){ toast('לא ניתן להסיר — חסרים נתוני יום'); render(); return; }
+  const arr = raw.spots[slot];
+  if(!Array.isArray(arr) || !arr[idx]){ render(); return; }
+  const spot = arr[idx];
+  const label = spot.name||spot.nameEn||'האתר';
+  if(!confirm('להסיר את «'+label+'» מהמסלול של יום '+day.tripDay+'?\n(אפשר להחזיר עם «רענון מהמסלול» רק לפני שמירה — אחרי «שמור קבצים» זה סופי)')) return;
+  arr.splice(idx,1);
+  day.spots = raw.spots;
+  _changedDays.add(String(dayId));
+  persistPendingDaySpots(); markUnsaved(); updateImgWarn&&updateImgWarn();
+  render();
+  toast('«'+label+'» הוסר מיום '+day.tripDay+' — «שמור קבצים» לשמירה סופית');
 }
 
 // ── מלון היום במסלול: קמנו (בוקר) / הולכים לישון (ערב) ──
