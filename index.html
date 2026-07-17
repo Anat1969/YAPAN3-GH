@@ -88,10 +88,18 @@
 .brief-doc .bd-dcity{font-size:var(--fs-md);font-weight:800;color:var(--action)}
 .brief-doc .bd-dreg{font-size:var(--fs-xs);font-weight:700;color:var(--ink-3);background:var(--bg);border-radius:var(--radius-pill);padding:1px 9px}
 .brief-doc .bd-hi{font-size:var(--fs-base);font-weight:800;color:var(--warn);margin:var(--space-1) 0}
-.brief-doc .bd-body{font-size:var(--fs-base);color:var(--ink-2);line-height:1.8;margin-top:2px}
-.brief-doc .bd-place{font-weight:800;color:var(--ink)}
+/* פסקת-סיפור זורמת — הרקמה בהירה, ומודגשים רק המקומות והפעילויות */
+.brief-doc .bd-body{font-size:var(--fs-md);color:var(--ink-3);line-height:2;margin-top:var(--space-1)}
+.brief-doc .bd-place{font-weight:900;color:var(--ink);white-space:nowrap}
+.brief-doc .bd-act{font-weight:700;color:var(--action)}
 .brief-doc .bd-dot{color:var(--border-strong)}
 .brief-doc .bd-free{color:var(--ink-3);font-style:italic}
+/* פתיח אזור מעורר */
+.brief-doc .bd-region{margin:var(--space-5) 0 var(--space-3);padding:var(--space-3) var(--space-4);background:linear-gradient(135deg,var(--bg),transparent);border-inline-start:3px solid var(--action);border-radius:var(--radius-md)}
+.brief-doc .bd-region-name{display:block;font-size:var(--fs-lg);font-weight:900;color:var(--ink)}
+.brief-doc .bd-region-txt{display:block;font-size:var(--fs-base);color:var(--ink-2);margin-top:2px}
+.brief-doc .bd-dtitle{font-size:var(--fs-sm);font-weight:700;color:var(--warn)}
+.brief-doc .bd-cityline{font-size:var(--fs-sm);color:var(--ink-3);font-style:italic;margin-top:2px}
 /* מתגי תצוגה בדף התקציר */
 .brief-tabs{display:inline-flex;gap:var(--space-1);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-md);padding:3px;margin-bottom:var(--space-3)}
 .brief-tab{display:inline-flex;align-items:center;gap:5px;border:none;background:none;color:var(--ink-2);border-radius:var(--radius-sm);padding:6px 14px;font:800 var(--fs-sm)/1 inherit;cursor:pointer}
@@ -1788,14 +1796,77 @@ function briefHighlight(days,i,j){
   for(let k=i;k<=j;k++){ const s=briefDaySites(days[k]); if(s.length) return s[0]; }
   return '';
 }
-// בניית מסמך התקציר המעוצב (HTML) — כותרת, כותרות ימים בבולד, שמות מקומות מודגשים
+// ── מספר-סיפור: הופך רשימת מקומות לפסקה מעוררת השראה, עם הבלטה רק של מקומות ופעילויות ──
+// אווירת פתיחה לכל אזור (מוצג פעם אחת כשנכנסים לאזור חדש)
+const REGION_INTRO = {
+  'קנסאי':'לב יפן המסורתי — מקדשים עתיקים, גייישות בסמטאות אבן, ואוכל רחוב שלא נגמר.',
+  'הוקאידו':'הצפון הפראי — הרי געש, אגמי מכתש, שדות לבנדר ואונסנים בין השלג.',
+  'טוקיו':'המגה-פוליס שלא ישן — ניאון, מקדשים נסתרים, אופנה ומטבח עולמי.',
+  'מעבר':'עצירת ביניים בדובאי — מדבר, גורדי שחקים ובזאר הזהב.',
+  'בית':'חזרה הביתה.'
+};
+// שורה אחת מעוררת לכל עיר
+const CITY_LINE = {
+  'אוסקה':'בירת האוכל של יפן — הומה, צבעונית וטעימה.',
+  'קיוטו':'עיר האלף מקדשים — יופי צנוע וזמן שנעצר.',
+  'קנאזאווה':'העיר שלא הופצצה — גנים, רובע גייישות וסמוראים.',
+  'אוטורו, שארי':'שער חצי-האי שירטוקו — טבע בר וחופי סלע.',
+  'טוקיו':'הבירה — בין מסורת לעתיד.'
+};
+// זיהוי "פועל פעילות" ממילות מפתח בשם/הערות — להבלטה
+function activityVerb(name, notes){
+  const t=((name||'')+' '+(notes||'')).toLowerCase();
+  if(/שייט|cruise/.test(t)) return 'שטים ב';
+  if(/הליכ|טיול רגלי|trail|שביל/.test(t)) return 'הולכים ב';
+  if(/רכבל|ropeway|gondola|גונדולה/.test(t)) return 'עולים ברכבל אל';
+  if(/אופניים|cycling|bike/.test(t)) return 'רוכבים ב';
+  if(/אונסן|onsen|רחצה חמה/.test(t)) return 'נרגעים באונסן';
+  if(/סדנ|workshop|התנס/.test(t)) return 'מתנסים ב';
+  if(/מופע|performance|show/.test(t)) return 'צופים ב';
+  if(/שוק|market/.test(t)) return 'טועמים ב';
+  if(/תצפית|viewpoint|sunset|שקיע/.test(t)) return 'צופים מ';
+  if(/מקדש|shrine|temple/.test(t)) return 'מבקרים ב';
+  if(/מוזיאון|museum|גלריה/.test(t)) return 'מגלים ב';
+  return 'מבקרים ב';
+}
+// פסקת-סיפור לטווח ימים: משלב את המקומות במשפט זורם, מבליט מקומות + פעילות
+function narrateDays(days,i,j){
+  // אוסף עד ~6 מקומות מרכזיים של הטווח, עם ההערה של כל אחד (לזיהוי פעילות)
+  const items=[];
+  for(let k=i;k<=j;k++){
+    ['morning','afternoon','evening'].forEach(t=>(days[k].spots&&days[k].spots[t]||[]).forEach(s=>{
+      const nm=(s.name||s.nameEn||'').trim(); if(!nm) return;
+      if(/check-?in|check-?out|צ׳ק-אין|flight|טיסה|נחיתה|drive to|נסיעה ל|return to|מלון|hotel|לינה|free (day|morning|evening)|יום חופשי|העברה|transfer|minivan|מיניוואן|ארוחת|ארוחה/i.test((s.nameEn||'')+' '+(s.name||''))) return;
+      if(items.some(x=>x.name===nm)) return;
+      items.push({name:nm, notes:s.notes||''});
+    }));
+  }
+  if(!items.length) return '<span class="bd-free">יום מנוחה / זמן חופשי להשלמות.</span>';
+  const pick = items.slice(0,6);
+  const placeSpan = n=>`<b class="bd-place">${escHtml(n)}</b>`;
+  const actSpan = v=>`<span class="bd-act">${escHtml(v)}</span>`;
+  const openers=['מתחילים ב','היום סובב סביב','נפתח ב'];
+  const conn=['משם אל','ממשיכים אל','ומשם ל','עוברים ל','ואז אל'];
+  // משפט ראשון: פעילות + מקום ראשון
+  let parts=[];
+  const v0=activityVerb(pick[0].name, pick[0].notes);
+  parts.push(`${actSpan(v0)} ${placeSpan(pick[0].name)}`);
+  for(let k=1;k<pick.length;k++){
+    const c = conn[(k-1)%conn.length];
+    // כל 2 מקומות מוסיפים פועל פעילות להגוון
+    if(k%2===0){ const v=activityVerb(pick[k].name, pick[k].notes); parts.push(`${c} ${actSpan(v)} ${placeSpan(pick[k].name)}`); }
+    else parts.push(`${c} ${placeSpan(pick[k].name)}`);
+  }
+  return parts.join(', ') + '.';
+}
+// בניית מסמך התקציר כסיפור — כותרת, פתיח אזור, שורת עיר, ופסקה זורמת לכל טווח ימים
 function buildBriefHtml(){
   const days=(DATA.days||[]).filter(d=>d.tripDay).sort((a,b)=>a.tripDay-b.tripDay);
   const first=days[0], last=days[days.length-1];
-  const range = first&&last ? `${first.day}/${first.month} – ${last.day}/${last.month} · ${days.length} ימים` : '';
-  let html = `<h1 class="bd-title">מסלול הטיול — יפן 2026</h1>`;
+  const range = first&&last ? `${first.day}/${first.month} – ${last.day}/${last.month} · ${days.length} ימים · 3 אזורים` : '';
+  let html = `<h1 class="bd-title">יפן 2026 — מסע בין מסורת לטבע פראי</h1>`;
   if(range) html += `<div class="bd-sub">${range}</div>`;
-  let i=0;
+  let i=0, lastRegion=null;
   while(i<days.length){
     const city=dayCity(days[i])||days[i].regionHe||'';
     let j=i;
@@ -1804,16 +1875,16 @@ function buildBriefHtml(){
     const dayLabel = i===j ? `יום ${f.tripDay}` : `ימים ${f.tripDay}–${l.tripDay}`;
     const dateLabel = i===j ? `${f.day}/${f.month}` : `${f.day}/${f.month}–${l.day}/${l.month}`;
     const region = f.regionHe||'';
-    const highlight = briefHighlight(days,i,j);
-    // כל האתרים המרכזיים של הטווח — כל שם מודגש
-    const sites=[]; for(let k=i;k<=j;k++){ briefDaySites(days[k]).forEach(n=>{ if(!sites.includes(n)) sites.push(n); }); }
-    const sitesHtml = sites.length
-      ? sites.map(n=>`<b class="bd-place">${escHtml(n)}</b>`).join('<span class="bd-dot"> · </span>')
-      : '<span class="bd-free">יום חופשי / השלמות</span>';
+    // פתיח אזור חדש
+    if(region && region!==lastRegion){
+      lastRegion=region;
+      if(REGION_INTRO[region]) html += `<div class="bd-region"><span class="bd-region-name">${escHtml(region)}</span><span class="bd-region-txt">${REGION_INTRO[region]}</span></div>`;
+    }
+    const cityLine = CITY_LINE[city] || '';
     html += `<div class="bd-day">
-      <div class="bd-dhead"><span class="bd-dnum">${dayLabel}</span><span class="bd-ddate">${dateLabel}</span><span class="bd-dcity">${escHtml(city)}</span>${region&&region!==city?`<span class="bd-dreg">${escHtml(region)}</span>`:''}</div>
-      ${highlight?`<div class="bd-hi">✦ ${escHtml(highlight)}</div>`:''}
-      <div class="bd-body">${sitesHtml}</div>
+      <div class="bd-dhead"><span class="bd-dnum">${dayLabel}</span><span class="bd-ddate">${dateLabel}</span><span class="bd-dcity">${escHtml(city)}</span>${f.title?`<span class="bd-dtitle">${escHtml(f.title)}</span>`:''}</div>
+      ${cityLine?`<div class="bd-cityline">${escHtml(cityLine)}</div>`:''}
+      <div class="bd-body">${narrateDays(days,i,j)}</div>
     </div>`;
     i=j+1;
   }
@@ -1937,10 +2008,16 @@ function downloadBriefPDF(){
       .bd-dcity{font-size:15px;font-weight:800;color:#1d4ed8}
       .bd-dreg{font-size:11px;font-weight:700;color:#8a857e;background:#f4f4f2;border-radius:999px;padding:1px 8px}
       .bd-hi{font-size:13px;font-weight:800;color:#b45309;margin:3px 0}
-      .bd-body{font-size:13px;color:#57534e;line-height:1.7;margin-top:2px}
-      .bd-place{font-weight:800;color:#1c1c1a}
+      .bd-body{font-size:14px;color:#8a857e;line-height:1.9;margin-top:2px}
+      .bd-place{font-weight:900;color:#1c1c1a}
+      .bd-act{font-weight:700;color:#1d4ed8}
       .bd-dot{color:#c9c6bf}
       .bd-free{color:#8a857e;font-style:italic}
+      .bd-region{margin:18px 0 10px;padding:8px 12px;border-inline-start:3px solid #1d4ed8;background:#f7f8fa;border-radius:8px}
+      .bd-region-name{display:block;font-size:16px;font-weight:900;color:#1c1c1a}
+      .bd-region-txt{display:block;font-size:13px;color:#57534e;margin-top:2px}
+      .bd-dtitle{font-size:12px;font-weight:700;color:#b45309}
+      .bd-cityline{font-size:12px;color:#8a857e;font-style:italic;margin-top:2px}
       /* מחברת מעשית — טבלה */
       .nb-day{margin:14px 0;break-inside:avoid}
       .nb-dhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin-bottom:5px}
