@@ -3028,12 +3028,14 @@ function emphItinMarker(tripDay, key){
 // לחיצה על תמונת/סיכת אתר → המפה של אותו יום מתמקדת על האתר ומגדילה את סימנו
 function focusItinSpot(tripDay, name){
   const key = String(name||'').trim().toLowerCase();
-  // ימי מסלול (Google מיקרו) — לחיצה מציגה את ההגעה לאתר (מהנקודה שלפניו) במפה השנייה
+  // ימי מסלול (Google מיקרו) — לחיצה מעדכנת רק את המפה התחתונה. המפה העליונה (מקרו) נשארת קבועה!
   if(_itinSegState[tripDay]){
     if(focusItinSeg(tripDay, name)){
       toast('מוצג הניווט להגעה ל' + (name||'אתר') + ' במפה התחתונה');
-      return;
+    } else {
+      toast('אין מקטע הגעה נפרד לאתר זה');
     }
+    return;   // קריטי: לא ליפול הלאה ולשנות את המפה העליונה
   }
   // ימי פיילוט — מפת Leaflet: הגדלת הסמן + מיקוד
   if(_itinMaps[tripDay]){
