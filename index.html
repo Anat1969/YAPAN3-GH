@@ -487,6 +487,17 @@ button.pf-badge.pf-upload:hover{background:var(--action)}
 .pframe:hover .pf-badge,.pframe.empty .pf-badge{opacity:1}
 .pframe.pf-focus{cursor:zoom-in}
 .pframe .pf-badge .ic{width:11px;height:11px;stroke:#fff}
+/* תג עדיפות/לייב בפינה העליונה — 3 דרגות צבע */
+.pframe .pf-like{position:absolute;top:2px;inset-inline-end:2px;width:18px;height:18px;background:rgba(28,28,26,.55);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transition:.12s;cursor:pointer;padding:0;z-index:2}
+.pframe .pf-like .ic{width:12px;height:12px;fill:none;stroke:#fff;stroke-width:2}
+.pframe:hover .pf-like{opacity:1}
+.pframe .pf-like.on{opacity:1}
+.pframe .pf-like.on .ic{stroke:#fff;fill:currentColor;stroke-width:1.5}
+.pframe .pf-like.lv-1{background:#dc2626;color:#dc2626}
+.pframe .pf-like.lv-2{background:#f97316;color:#f97316}
+.pframe .pf-like.lv-3{background:#facc15;color:#facc15}
+.pframe .pf-like.lv-1 .ic,.pframe .pf-like.lv-2 .ic{stroke:#fff}
+.pframe .pf-like.lv-3 .ic{stroke:#7c5e00}
 /* גדלים ספציפיים */
 .pframe.itin-img{width:140px;height:96px}
 .pframe.place-frame{width:64px;height:48px}
@@ -1401,6 +1412,24 @@ async function loadData() {
     try {
       const pn = JSON.parse(localStorage.getItem('pending-notes')||'null');
       if(Array.isArray(pn)) DATA.notes = pn;
+    } catch(e){}
+    // שחזור/החלת עדיפויות (לייק בדרגות צבע) על אתרים ותחנות
+    try {
+      const pr = JSON.parse(localStorage.getItem('pending-priorities')||'null');
+      if(pr && typeof pr==='object'){
+        (DATA.places||[]).forEach(p=>{ const v=pr[placeKey(p)]; if(v) p.priority=v; });
+        (DATA.days||[]).forEach(d=>['morning','afternoon','evening'].forEach(t=>
+          (d.spots&&d.spots[t]||[]).forEach(s=>{ const v=pr[placeKey(s)]; if(v) s.priority=v; })));
+      }
+      // reconcile: אם places.json כבר כולל את אותן עדיפויות — לנקות pending
+      if(pr){
+        const cur={}; (DATA.places||[]).forEach(p=>{ if(p.priority) cur[placeKey(p)]=p.priority; });
+        if(JSON.stringify(cur)===JSON.stringify(pr)) localStorage.removeItem('pending-priorities');
+      }
+      // מקור אמת: places.json — משקפים את עדיפות האתר לכל התחנות התואמות במסלול (גם אחרי ניקוי pending)
+      const byKey={}; (DATA.places||[]).forEach(p=>{ if(p.priority) byKey[placeKey(p)]=p.priority; });
+      (DATA.days||[]).forEach(d=>['morning','afternoon','evening'].forEach(t=>
+        (d.spots&&d.spots[t]||[]).forEach(s=>{ const v=byKey[placeKey(s)]; if(v) s.priority=v; })));
     } catch(e){}
     // שחזור פריסה מקומית (עריכת מסגרות) שטרם נשמרה ל-Git
     try {
@@ -2421,7 +2450,55 @@ function pframe(o, cls, focusAttr){
       onclick="${clickHandler}" ondragover="pframeDragOver(event,this)" ondragleave="this.classList.remove('drop')" ondrop="pframeDrop(event,this)" tabindex="0">
     ${inner}
     ${badge}
+    ${priorityBadge(o)}
   </div>`;
+}
+// ── סימון עדיפות/לייק לאתר: 3 דרגות צבע (אדום=1 גבוה · כתום=2 · צהוב=3), לחיצה מסובבת בין הדרגות ──
+const PRIORITY_META = { 1:{c:'red',he:'עדיפות עליונה'}, 2:{c:'orange',he:'עדיפות בינונית'}, 3:{c:'yellow',he:'עדיפות נמוכה'} };
+function placePriority(o){ const m=findPlaceByKey(placeKey(o)); return (m&&m.priority)|| (o&&o.priority) ||0; }
+function priorityBadge(o){
+  const lvl = placePriority(o);
+  const cleanKey = placeKey(o).replace(/"/g,'&quot;');
+  const info = PRIORITY_META[lvl];
+  const tip = lvl ? info.he+' — לחצי לשינוי/ביטול' : 'סימון עדיפות (לייק) — לחצי לדירוג';
+  return `<button class="pf-like${lvl?' on lv-'+lvl:''}" data-key="${cleanKey}"
+      onclick="event.stopPropagation();cyclePriority('${cleanKey}')" data-tip="${tip}" aria-label="${tip}">
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.6-9.2-8.4C1.1 9.3 2.5 5.5 6 5.5c2 0 3.2 1.2 4 2.4.8-1.2 2-2.4 4-2.4 3.5 0 4.9 3.8 3.2 7.1C19 16.4 12 21 12 21z"/></svg>
+    </button>`;
+}
+// סיבוב עדיפות: אין→אדום→כתום→צהוב→אין
+function cyclePriority(key){
+  const p = findPlaceByKey(key);
+  const cur = (p && p.priority) || 0;
+  const next = (cur+1) % 4;   // 0→1→2→3→0
+  setPriority(key, next);
+}
+function setPriority(key, lvl){
+  const p = findPlaceByKey(key);
+  if(p){ if(lvl) p.priority=lvl; else delete p.priority; }
+  // עדכון spots תואמים בכל הימים (כדי שהסימון יופיע גם במסלול)
+  (DATA.days||[]).forEach(d=>{
+    ['morning','afternoon','evening'].forEach(t=>(d.spots&&d.spots[t]||[]).forEach(s=>{
+      if(placeKey(s)===key){ if(lvl) s.priority=lvl; else delete s.priority; }
+    }));
+  });
+  persistPriorities();
+  markUnsaved(); updateImgWarn&&updateImgWarn();
+  // עדכון מיידי של כל תגי-הלייק לאותו אתר, בלי רינדור מלא (שומר גלילה/מיקום)
+  document.querySelectorAll('.pf-like[data-key="'+key.replace(/"/g,'&quot;')+'"]').forEach(btn=>{
+    btn.className = 'pf-like'+(lvl?' on lv-'+lvl:'');
+    const info=PRIORITY_META[lvl];
+    const tip=lvl?info.he+' — לחצי לשינוי/ביטול':'סימון עדיפות (לייק) — לחצי לדירוג';
+    btn.setAttribute('data-tip',tip); btn.setAttribute('aria-label',tip);
+  });
+}
+// התמדה זמנית של עדיפויות (מפתח → דרגה) — משוחזר בטעינה עד ל-push, מיוצא ל-places.json ב«שמור קבצים»
+function persistPriorities(){
+  const out={};
+  DATA.places.forEach(p=>{ if(p.priority) out[placeKey(p)]=p.priority; });
+  (DATA.days||[]).forEach(d=>['morning','afternoon','evening'].forEach(t=>
+    (d.spots&&d.spots[t]||[]).forEach(s=>{ if(s.priority) out[placeKey(s)]=s.priority; })));
+  try{ localStorage.setItem('pending-priorities', JSON.stringify(out)); }catch(e){}
 }
 // כיווץ/שינוי גודל תמונה ל-JPEG base64 (למניעת נפח כבד ב-places.json)
 function compressImage(dataUrl, maxW, maxH, quality){
@@ -5088,8 +5165,8 @@ async function saveAll() {
 
 // ── גיבוי/שחזור כל השינויים המקומיים שטרם נשמרו ל-Git ──
 // מונע אובדן: תמונות, עריכות שעה/יום במסלול, סיכות, פריסה — הכל לקובץ אחד וחזרה.
-const PENDING_KEYS = ['pending-images','pending-dayspots','pending-places','pending-mymarks','pending-layout','pending-tabs','pending-notes'];
-const PENDING_LABEL = { 'pending-images':'תמונות', 'pending-dayspots':'שעות/ימים במסלול', 'pending-places':'אתרים', 'pending-mymarks':'סיכות', 'pending-layout':'פריסה', 'pending-tabs':'סדר טאבים', 'pending-notes':'סיכום אישי' };
+const PENDING_KEYS = ['pending-images','pending-dayspots','pending-places','pending-mymarks','pending-layout','pending-tabs','pending-notes','pending-priorities'];
+const PENDING_LABEL = { 'pending-images':'תמונות', 'pending-dayspots':'שעות/ימים במסלול', 'pending-places':'אתרים', 'pending-mymarks':'סיכות', 'pending-layout':'פריסה', 'pending-tabs':'סדר טאבים', 'pending-notes':'סיכום אישי', 'pending-priorities':'עדיפויות אתרים' };
 // כמה פריטים בכל מפתח (לספירה ולפירוט)
 function pendingCounts(){
   const out={};
