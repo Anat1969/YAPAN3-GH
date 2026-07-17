@@ -2638,6 +2638,7 @@ function renderItinerary(){
           <div class="itin-gmap-box"><iframe id="gmap-${d.tripDay}" data-route="${encodeURIComponent(itinRouteEmbedUrl(rp))}" src="${itinRouteEmbedUrl(rp)}" loading="lazy" allowfullscreen title="מפת Google — מסלול יום ${d.tripDay}"></iframe></div>
           <div class="itin-map-links">
             <a class="itin-map-link" href="${itinDirectionsUrl(rp)}" target="_blank" rel="noopener" data-tip="פתיחת מסלול היום המלא ב-Google Maps">${icon('route')} פתחי את כל המסלול ב-Google Maps ›</a>
+            ${ITIN_ROUTE_DAYS.has(d.tripDay) ? `<button class="itin-map-link" onclick="resetDayMap(${d.tripDay})" data-tip="חזרה לתצוגת כל המסלול">${icon('route')} כל המסלול</button>` : ''}
           </div>
           ${ITIN_ROUTE_DAYS.has(d.tripDay) ? `
           <div class="itin-gmap-lbl" style="margin-top:12px">${icon('route')} ניווט מפורט — לחצי על אתר במסלול להצגת ההגעה אליו</div>
@@ -3028,14 +3029,24 @@ function emphItinMarker(tripDay, key){
 // לחיצה על תמונת/סיכת אתר → המפה של אותו יום מתמקדת על האתר ומגדילה את סימנו
 function focusItinSpot(tripDay, name){
   const key = String(name||'').trim().toLowerCase();
-  // ימי מסלול (Google מיקרו) — לחיצה מעדכנת רק את המפה התחתונה. המפה העליונה (מקרו) נשארת קבועה!
+  // ימי מסלול (Google): התחתונה = ניווט ההגעה (לא נוגעים בה מעבר ל-focusItinSeg); העליונה = זום למיקום האתר שנלחץ
   if(_itinSegState[tripDay]){
-    if(focusItinSeg(tripDay, name)){
-      toast('מוצג הניווט להגעה ל' + (name||'אתר') + ' במפה התחתונה');
-    } else {
-      toast('אין מקטע הגעה נפרד לאתר זה');
+    focusItinSeg(tripDay, name);   // מפה תחתונה — ניווט ההגעה לאתר
+    // מפה עליונה — זום למיקום האתר הספציפי
+    const dd = DATA.days.find(x=>x.tripDay===tripDay);
+    const pp = dd ? itinRoutePoints(dd) : [];
+    let sp = pp.find(p=>String(p.nameEn||'').trim().toLowerCase()===key || String(p.name||'').trim().toLowerCase()===key);
+    if(!sp){ const m=findPlaceByKey(key); if(m&&m.lat&&m.lng) sp={lat:m.lat,lng:m.lng,name:m.name}; }
+    if(sp && sp.lat && sp.lng){
+      const tf = document.getElementById('gmap-'+tripDay);
+      if(tf){
+        tf.src = gmapEmbedPoint(sp.lat, sp.lng, 16);
+        const tbox = tf.closest('.itin-gmap-box');
+        if(tbox){ tbox.style.animation='none'; void tbox.offsetWidth; tbox.style.animation='placeFlash 1.2s'; }
+      }
     }
-    return;   // קריטי: לא ליפול הלאה ולשנות את המפה העליונה
+    toast('המפה העליונה ממוקדת על ' + (name||'האתר') + ' · ההגעה מוצגת במפה התחתונה');
+    return;
   }
   // ימי פיילוט — מפת Leaflet: הגדלת הסמן + מיקוד
   if(_itinMaps[tripDay]){
