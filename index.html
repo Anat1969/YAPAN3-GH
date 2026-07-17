@@ -1995,6 +1995,17 @@ function setBriefView(v){ briefView = v; renderBrief(); }
 function renderBrief(){
   const wrap=document.getElementById('briefWrap'); if(!wrap) return;
   const isNb = briefView==='notebook';
+  const isPersonal = briefView==='personal';
+  const tabs = `
+      <div class="brief-tabs">
+        <button class="brief-tab${briefView==='trip'?' on':''}" onclick="setBriefView('trip')">${icon('route')} מסלול טיול יפן</button>
+        <button class="brief-tab${isNb?' on':''}" onclick="setBriefView('notebook')">${icon('list')} מחברת מעשית</button>
+        <button class="brief-tab${isPersonal?' on':''}" onclick="setBriefView('personal')">${icon('edit')} סיכום אישי</button>
+      </div>`;
+  if(isPersonal){
+    wrap.innerHTML = `<div class="brief-page">${tabs}${renderNotesSection()}</div>`;
+    return;
+  }
   const savedKey = isNb ? 'notebook-html' : 'brief-html';
   const saved = localStorage.getItem(savedKey);
   const html = (saved!=null && saved!=='') ? saved : (isNb ? buildNotebookHtml() : buildBriefHtml());
@@ -2003,10 +2014,7 @@ function renderBrief(){
     : 'תקציר המסלול לשיתוף — ערכי את המסמך חופשי (לחצי על טקסט ושני אותו), ואז העתיקי, שלחי או הורידי כ-PDF.';
   wrap.innerHTML = `
     <div class="brief-page">
-      <div class="brief-tabs">
-        <button class="brief-tab${!isNb?' on':''}" onclick="setBriefView('trip')">${icon('route')} מסלול טיול יפן</button>
-        <button class="brief-tab${isNb?' on':''}" onclick="setBriefView('notebook')">${icon('list')} מחברת מעשית</button>
-      </div>
+      ${tabs}
       <div class="brief-bar">
         <div class="brief-intro">${intro}</div>
         <div class="brief-actions">
@@ -2179,8 +2187,7 @@ function renderSummary() {
 
   document.getElementById('sumWrap').innerHTML =
     `<div class="view-bar"><div class="sum-intro">כל נתוני הטיול במבט אחד, מחושבים בזמן אמת. ריחוף מעל כרטיסייה מסביר את הנתון; לחיצה פותחת את הדף המפורט.</div>${viewToggle()}</div>
-     ${viewMode==='cards' ? `<div class="sum-grid">${html}</div>` : `<div class="sum-list">${list}</div>`}
-     ${renderNotesSection()}`;
+     ${viewMode==='cards' ? `<div class="sum-grid">${html}</div>` : `<div class="sum-list">${list}</div>`}`;
 }
 
 // ── סיכום אישי — טבלת נושא/טקסט חופשי, ניתנת לעריכה, הוספה ומיון ──
@@ -2224,7 +2231,7 @@ function notesAdd(){
   DATA.notes = DATA.notes || [];
   DATA.notes.push({topic:'', text:''});
   _notesPersist();
-  renderSummary();
+  _notesRerender();
   // מיקוד בתא הנושא של השורה החדשה
   setTimeout(()=>{ const cells=document.querySelectorAll('.nt-topic'); const last=cells[cells.length-1]; if(last) last.focus(); }, 30);
 }
@@ -2242,9 +2249,11 @@ function notesDel(i){
   if(t && !confirm('למחוק את השורה' + (DATA.notes[i].topic?' «'+DATA.notes[i].topic+'»':'') + '?')) return;
   DATA.notes.splice(i,1);
   _notesPersist();
-  renderSummary();
+  _notesRerender();
 }
-function notesSortToggle(){ _notesSort = _notesSort==='topic' ? 'none' : 'topic'; renderSummary(); }
+function notesSortToggle(){ _notesSort = _notesSort==='topic' ? 'none' : 'topic'; _notesRerender(); }
+// רינדור מחדש של הדף שמכיל את הטבלה (תקציר → סיכום אישי)
+function _notesRerender(){ if(typeof renderBrief==='function') renderBrief(); }
 
 // כפתור מעבר אחיד בין תצוגת כרטיסים לרשימה (סעיף 3.2)
 function viewToggle() {
