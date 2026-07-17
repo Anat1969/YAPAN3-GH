@@ -758,6 +758,35 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .nt-del-btn:hover{background:var(--bg);color:var(--warn)}
 .nt-empty td{padding:16px 10px;text-align:center;color:var(--ink-3);font-size:13px}
 @media(max-width:560px){.notes-tbl{font-size:13px}.nt-topic-h{width:32%}}
+/* מסלולים מומלצים קלוד */
+.rr-empty{padding:18px;text-align:center;color:var(--ink-3);font-size:14px;background:var(--bg);border:1px dashed var(--border-strong);border-radius:10px}
+.rr-card{margin-top:16px;border:1px solid var(--border);border-radius:11px;background:var(--bg);padding:14px}
+.rr-card:first-of-type{margin-top:10px}
+.rr-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+.rr-titles{flex:1;min-width:0}
+.rr-title{font-size:17px;font-weight:900;color:var(--ink);outline:none;padding:3px 5px;border-radius:6px;line-height:1.35}
+.rr-subtitle{font-size:12.5px;color:var(--ink-3);outline:none;padding:3px 5px;border-radius:6px;margin-top:2px;line-height:1.4}
+.rr-title:focus,.rr-subtitle:focus{background:rgba(59,130,246,.06);box-shadow:inset 0 0 0 2px var(--focus)}
+.rr-title:empty:before,.rr-subtitle:empty:before{content:attr(data-ph);color:var(--ink-3);font-weight:400}
+.rr-delroute{flex-shrink:0;display:inline-flex;align-items:center;gap:5px;background:var(--surface);border:1px solid var(--border);color:var(--ink-3);border-radius:8px;padding:6px 10px;font:800 12px/1 inherit;cursor:pointer}
+.rr-delroute .ic{width:13px;height:13px;stroke:currentColor}
+.rr-delroute:hover{background:#dc2626;border-color:#dc2626;color:#fff}
+.rr-maplink{display:flex;align-items:center;gap:8px;margin-bottom:12px;background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:8px 10px}
+.rr-maplink>.ic{width:17px;height:17px;stroke:var(--action);flex-shrink:0}
+.rr-url{flex:1;min-width:0;border:1px solid var(--border);border-radius:7px;padding:8px 10px;font:600 13px inherit;color:var(--ink);background:var(--bg);direction:ltr;text-align:left}
+.rr-url:focus{outline:none;border-color:var(--action);box-shadow:0 0 0 2px rgba(59,130,246,.15)}
+.rr-open{flex-shrink:0;white-space:nowrap}
+.rr-open .ic{width:14px;height:14px}
+.rr-tbl .rr-time-h{width:8%}.rr-tbl .rr-place-h{width:24%}.rr-tbl .rr-note-h{width:26%}
+.rr-time{font-weight:800;color:var(--action);direction:ltr;text-align:center;white-space:nowrap}
+.rr-place{font-weight:800}
+.rr-desc,.rr-note{color:var(--ink-2);line-height:1.55}
+.rr-note{font-style:italic;color:var(--ink-3)}
+.rr-time,.rr-place,.rr-desc,.rr-note{padding:9px 8px;outline:none;vertical-align:top;white-space:pre-wrap;word-break:break-word}
+.rr-time:focus,.rr-place:focus,.rr-desc:focus,.rr-note:focus{background:rgba(59,130,246,.06);box-shadow:inset 0 0 0 2px var(--focus)}
+.rr-time:empty:before,.rr-place:empty:before,.rr-desc:empty:before,.rr-note:empty:before{content:attr(data-ph);color:var(--ink-3);font-weight:400;font-style:normal}
+.rr-card-foot{margin-top:10px}
+@media(max-width:640px){.rr-maplink{flex-wrap:wrap}.rr-url{flex-basis:100%;order:3}.rr-tbl{font-size:12.5px}.rr-tbl .rr-note-h{display:none}.rr-tbl .rr-note{display:none}}
 
 /* דף תחבורה מרכזי */
 .tr-intro{margin:2px 0 12px;font-size:13px;color:var(--ink-3)}
@@ -1389,7 +1418,8 @@ async function loadData() {
     const arch = await fetch('data/architecture.json').then(r=>r.json()).catch(()=>[]);
     const geo = await fetch('data/geotrips.json').then(r=>r.json()).catch(()=>[]);
     const nt = await fetch('data/notes.json').then(r=>r.json()).catch(()=>[]);
-    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb, mymarks:Array.isArray(mm)?mm:[], layout:ly||{}, architecture:Array.isArray(arch)?arch:[], geotrips:Array.isArray(geo)?geo:[], notes:Array.isArray(nt)?nt:[] };
+    const rr = await fetch('data/recroutes.json').then(r=>r.json()).catch(()=>[]);
+    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb, mymarks:Array.isArray(mm)?mm:[], layout:ly||{}, architecture:Array.isArray(arch)?arch:[], geotrips:Array.isArray(geo)?geo:[], notes:Array.isArray(nt)?nt:[], recroutes:Array.isArray(rr)?rr:[] };
     // ── Reconcile: אם שינוי מקומי כבר קיים בקובץ ה-data ששרת (הועלה ל-Git), מנקים אותו מ-pending ──
     // כך השינויים המקומיים שורדים ריענון עד שהם ב-Git, ואז נעלמים לבד — בלי איבוד ובלי הצטברות.
     try {
@@ -1406,6 +1436,9 @@ async function loadData() {
       // סיכום אישי: אם השרת כבר תואם — לנקות
       const pnc = JSON.parse(localStorage.getItem('pending-notes')||'null');
       if(pnc && eq(pnc, DATA.notes||[])) localStorage.removeItem('pending-notes');
+      // מסלולים מומלצים קלוד: אם השרת כבר תואם — לנקות
+      const prc = JSON.parse(localStorage.getItem('pending-recroutes')||'null');
+      if(prc && eq(prc, DATA.recroutes||[])) localStorage.removeItem('pending-recroutes');
     } catch(e){}
     // שחזור סיכות משתמש שנוספו מקומית וטרם נשמרו ל-Git
     try {
@@ -1416,6 +1449,11 @@ async function loadData() {
     try {
       const pn = JSON.parse(localStorage.getItem('pending-notes')||'null');
       if(Array.isArray(pn)) DATA.notes = pn;
+    } catch(e){}
+    // שחזור מסלולים מומלצים קלוד שנערכו מקומית
+    try {
+      const prr = JSON.parse(localStorage.getItem('pending-recroutes')||'null');
+      if(Array.isArray(prr)) DATA.recroutes = prr;
     } catch(e){}
     // שחזור/החלת עדיפויות (לייק בדרגות צבע) על אתרים ותחנות
     try {
@@ -2029,14 +2067,20 @@ function renderBrief(){
   const wrap=document.getElementById('briefWrap'); if(!wrap) return;
   const isNb = briefView==='notebook';
   const isPersonal = briefView==='personal';
+  const isRec = briefView==='recroutes';
   const tabs = `
       <div class="brief-tabs">
         <button class="brief-tab${briefView==='trip'?' on':''}" onclick="setBriefView('trip')">${icon('route')} מסלול טיול יפן</button>
         <button class="brief-tab${isNb?' on':''}" onclick="setBriefView('notebook')">${icon('list')} מחברת מעשית</button>
         <button class="brief-tab${isPersonal?' on':''}" onclick="setBriefView('personal')">${icon('edit')} סיכום אישי</button>
+        <button class="brief-tab${isRec?' on':''}" onclick="setBriefView('recroutes')">${icon('star')} מסלולים מומלצים קלוד</button>
       </div>`;
   if(isPersonal){
     wrap.innerHTML = `<div class="brief-page">${tabs}${renderNotesSection()}</div>`;
+    return;
+  }
+  if(isRec){
+    wrap.innerHTML = `<div class="brief-page">${tabs}${renderRecRoutesSection()}</div>`;
     return;
   }
   const savedKey = isNb ? 'notebook-html' : 'brief-html';
@@ -2296,6 +2340,111 @@ function notesDel(i){
 function notesSortToggle(){ _notesSort = _notesSort==='topic' ? 'none' : 'topic'; _notesRerender(); }
 // רינדור מחדש של הדף שמכיל את הטבלה (תקציר → סיכום אישי)
 function _notesRerender(){ if(typeof renderBrief==='function') renderBrief(); }
+
+// ══════════════════════════════════
+// מסלולים מומלצים קלוד — כמה מסלולים, כל אחד עם טבלה ערוכה + קישור Google Maps
+// ══════════════════════════════════
+function renderRecRoutesSection(){
+  const routes = DATA.recroutes || [];
+  const body = routes.length ? routes.map((rt,ri)=>{
+    const stops = rt.stops || [];
+    const rows = stops.length ? stops.map((s,si)=>`
+      <tr>
+        <td class="rr-time" contenteditable="true" data-r="${ri}" data-s="${si}" data-f="time" onblur="recEdit(this)" data-ph="שעה">${escHtml(s.time||'')}</td>
+        <td class="rr-place" contenteditable="true" data-r="${ri}" data-s="${si}" data-f="place" onblur="recEdit(this)" data-ph="מקום">${escHtml(s.place||'')}</td>
+        <td class="rr-desc" contenteditable="true" data-r="${ri}" data-s="${si}" data-f="desc" onblur="recEdit(this)" data-ph="תיאור / איך מגיעים">${escHtml(s.desc||'')}</td>
+        <td class="rr-note" contenteditable="true" data-r="${ri}" data-s="${si}" data-f="note" onblur="recEdit(this)" data-ph="משפט חשוב (לא חובה)">${escHtml(s.note||'')}</td>
+        <td class="rr-del"><button class="nt-del-btn" onclick="recDelStop(${ri},${si})" data-tip="הסרת שורה" aria-label="הסרת שורה">${icon('trash')}</button></td>
+      </tr>`).join('')
+      : `<tr class="nt-empty"><td colspan="5">אין עדיין תחנות. לחצי «הוספת תחנה».</td></tr>`;
+    const url = (rt.mapUrl||'').trim();
+    const mapRow = `
+      <div class="rr-maplink">
+        ${icon('map')}
+        <input class="rr-url" type="url" value="${escHtml(url)}" placeholder="הדביקי כאן קישור Google Maps של המסלול המלא…"
+               data-r="${ri}" onchange="recEditUrl(this)" onblur="recEditUrl(this)">
+        ${url?`<a class="rr-open btn btn-primary" href="${escHtml(url)}" target="_blank" rel="noopener" data-tip="פתיחת המסלול המלא ב-Google Maps">${icon('external')} פתחי מפה</a>`:`<button class="rr-open btn btn-secondary" disabled data-tip="הדביקי קישור כדי לאפשר פתיחה">${icon('external')} פתחי מפה</button>`}
+      </div>`;
+    return `
+      <section class="rr-card" aria-label="מסלול מומלץ">
+        <div class="rr-card-head">
+          <div class="rr-titles">
+            <div class="rr-title" contenteditable="true" data-r="${ri}" data-f="title" onblur="recEditMeta(this)" data-ph="שם המסלול">${escHtml(rt.title||'')}</div>
+            <div class="rr-subtitle" contenteditable="true" data-r="${ri}" data-f="subtitle" onblur="recEditMeta(this)" data-ph="תת-כותרת / משך / איך מגיעים (לא חובה)">${escHtml(rt.subtitle||'')}</div>
+          </div>
+          <button class="rr-delroute" onclick="recDelRoute(${ri})" data-tip="מחיקת המסלול כולו" aria-label="מחיקת המסלול">${icon('trash')} מחקי מסלול</button>
+        </div>
+        ${mapRow}
+        <div class="notes-tbl-wrap">
+          <table class="notes-tbl rr-tbl">
+            <thead><tr><th class="rr-time-h">שעה</th><th class="rr-place-h">מקום</th><th class="rr-desc-h">תיאור</th><th class="rr-note-h">משפט חשוב</th><th class="nt-del-h"></th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+        <div class="rr-card-foot"><button class="notes-btn" onclick="recAddStop(${ri})">${icon('plus')} הוספת תחנה</button></div>
+      </section>`;
+  }).join('')
+  : `<div class="rr-empty">אין עדיין מסלולים. לחצי «הוספת מסלול» כדי ליצור אחד.</div>`;
+  return `
+    <div class="notes-sec rr-sec" aria-label="מסלולים מומלצים קלוד">
+      <div class="notes-head">
+        <h2 class="notes-title">${icon('star')} מסלולים מומלצים קלוד</h2>
+        <div class="notes-actions">
+          <button class="notes-btn primary" onclick="recAddRoute()" data-tip="הוספת מסלול חדש">${icon('plus')} הוספת מסלול</button>
+        </div>
+      </div>
+      <div class="notes-hint">מסלולים מוצעים עם סדר-יום מפורט. כל תא ניתן לעריכה בלחיצה. הדביקי קישור Google Maps של המסלול המלא כדי לפתוח אותו בכפתור. נשמר ל-Git עם «שמור קבצים».</div>
+      ${body}
+    </div>`;
+}
+function _recPersist(){
+  try{ localStorage.setItem('pending-recroutes', JSON.stringify(DATA.recroutes||[])); }catch(e){}
+  markUnsaved(); updateImgWarn&&updateImgWarn();
+}
+function _recRerender(){ if(typeof renderBrief==='function') renderBrief(); }
+function recEdit(el){
+  const ri=+el.getAttribute('data-r'), si=+el.getAttribute('data-s'), f=el.getAttribute('data-f');
+  const rt=(DATA.recroutes||[])[ri]; if(!rt||!rt.stops||!rt.stops[si]) return;
+  const val=el.innerText.trimEnd();
+  if((rt.stops[si][f]||'')===val) return;
+  rt.stops[si][f]=val; _recPersist();
+}
+function recEditMeta(el){
+  const ri=+el.getAttribute('data-r'), f=el.getAttribute('data-f');
+  const rt=(DATA.recroutes||[])[ri]; if(!rt) return;
+  const val=el.innerText.trimEnd();
+  if((rt[f]||'')===val) return;
+  rt[f]=val; _recPersist();
+}
+function recEditUrl(el){
+  const ri=+el.getAttribute('data-r');
+  const rt=(DATA.recroutes||[])[ri]; if(!rt) return;
+  const val=(el.value||'').trim();
+  if((rt.mapUrl||'')===val) return;
+  rt.mapUrl=val; _recPersist(); _recRerender();   // רינדור כדי לעדכן את כפתור הפתיחה
+}
+function recAddStop(ri){
+  const rt=(DATA.recroutes||[])[ri]; if(!rt) return;
+  rt.stops=rt.stops||[]; rt.stops.push({time:'',place:'',desc:'',note:''});
+  _recPersist(); _recRerender();
+}
+function recDelStop(ri,si){
+  const rt=(DATA.recroutes||[])[ri]; if(!rt||!rt.stops||!rt.stops[si]) return;
+  const t=rt.stops[si].place||rt.stops[si].time||'';
+  if(t && !confirm('להסיר את השורה'+(rt.stops[si].place?' «'+rt.stops[si].place+'»':'')+'?')) return;
+  rt.stops.splice(si,1); _recPersist(); _recRerender();
+}
+function recAddRoute(){
+  DATA.recroutes=DATA.recroutes||[];
+  DATA.recroutes.push({title:'',subtitle:'',mapUrl:'',stops:[{time:'',place:'',desc:'',note:''}]});
+  _recPersist(); _recRerender();
+  setTimeout(()=>{ const t=document.querySelectorAll('.rr-title'); const last=t[t.length-1]; if(last) last.focus(); },30);
+}
+function recDelRoute(ri){
+  const rt=(DATA.recroutes||[])[ri]; if(!rt) return;
+  if(!confirm('למחוק את המסלול'+(rt.title?' «'+rt.title+'»':'')+' כולו?')) return;
+  DATA.recroutes.splice(ri,1); _recPersist(); _recRerender();
+}
 
 // כפתור מעבר אחיד בין תצוגת כרטיסים לרשימה (סעיף 3.2)
 function viewToggle() {
@@ -5190,8 +5339,8 @@ async function saveAll() {
 
 // ── גיבוי/שחזור כל השינויים המקומיים שטרם נשמרו ל-Git ──
 // מונע אובדן: תמונות, עריכות שעה/יום במסלול, סיכות, פריסה — הכל לקובץ אחד וחזרה.
-const PENDING_KEYS = ['pending-images','pending-dayspots','pending-places','pending-mymarks','pending-layout','pending-tabs','pending-notes','pending-priorities'];
-const PENDING_LABEL = { 'pending-images':'תמונות', 'pending-dayspots':'שעות/ימים במסלול', 'pending-places':'אתרים', 'pending-mymarks':'סיכות', 'pending-layout':'פריסה', 'pending-tabs':'סדר טאבים', 'pending-notes':'סיכום אישי', 'pending-priorities':'עדיפויות אתרים' };
+const PENDING_KEYS = ['pending-images','pending-dayspots','pending-places','pending-mymarks','pending-layout','pending-tabs','pending-notes','pending-priorities','pending-recroutes'];
+const PENDING_LABEL = { 'pending-images':'תמונות', 'pending-dayspots':'שעות/ימים במסלול', 'pending-places':'אתרים', 'pending-mymarks':'סיכות', 'pending-layout':'פריסה', 'pending-tabs':'סדר טאבים', 'pending-notes':'סיכום אישי', 'pending-priorities':'עדיפויות אתרים', 'pending-recroutes':'מסלולים מומלצים קלוד' };
 // כמה פריטים בכל מפתח (לספירה ולפירוט)
 function pendingCounts(){
   const out={};
