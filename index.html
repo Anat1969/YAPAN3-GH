@@ -719,6 +719,34 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .sum-row.st-pending{border-right:3px solid var(--border-strong)}
 .sum-row.st-pending .sr-main{color:var(--ink-3);font-size:12px}
 @media(max-width:560px){.sr-sub{display:none}.sr-topic{min-width:auto;flex:1}}
+/* סיכום אישי — טבלת נושא/טקסט ערוכה */
+.notes-sec{margin-top:26px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px}
+.notes-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px}
+.notes-title{display:flex;align-items:center;gap:8px;margin:0;font-size:17px;font-weight:900;color:var(--ink)}
+.notes-title .ic{width:18px;height:18px;stroke:var(--action)}
+.notes-actions{display:flex;gap:8px;flex-wrap:wrap}
+.notes-btn{display:inline-flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);color:var(--ink-2);border-radius:8px;padding:7px 12px;font:800 13px/1 inherit;cursor:pointer;transition:.12s}
+.notes-btn .ic{width:14px;height:14px;stroke:currentColor}
+.notes-btn:hover{background:var(--surface);border-color:var(--border-strong)}
+.notes-btn.primary{background:var(--action);color:#fff;border-color:var(--action)}
+.notes-btn.primary:hover{filter:brightness(1.05)}
+.notes-hint{font-size:12px;color:var(--ink-3);margin:2px 0 12px}
+.notes-tbl-wrap{overflow-x:auto}
+.notes-tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.notes-tbl th{text-align:right;font-weight:800;color:var(--ink-3);font-size:12px;padding:6px 10px;border-bottom:2px solid var(--border)}
+.notes-tbl td{padding:0;border-bottom:1px solid var(--border);vertical-align:top}
+.notes-tbl tbody tr:last-child td,.notes-tbl tbody tr:last-child td{border-bottom:none}
+.nt-topic-h{width:26%}.nt-del-h{width:44px}
+.nt-topic,.nt-text{padding:10px;outline:none;line-height:1.55;color:var(--ink);min-height:20px;white-space:pre-wrap;word-break:break-word}
+.nt-topic{font-weight:800;background:var(--bg)}
+.nt-topic:focus,.nt-text:focus{background:rgba(59,130,246,.06);box-shadow:inset 0 0 0 2px var(--focus)}
+.nt-topic:empty:before,.nt-text:empty:before{content:attr(data-ph);color:var(--ink-3);font-weight:400}
+.nt-del{text-align:center;vertical-align:middle;padding:0 4px}
+.nt-del-btn{background:none;border:none;cursor:pointer;padding:6px;border-radius:6px;display:inline-flex;color:var(--ink-3)}
+.nt-del-btn .ic{width:15px;height:15px;stroke:currentColor}
+.nt-del-btn:hover{background:var(--bg);color:var(--warn)}
+.nt-empty td{padding:16px 10px;text-align:center;color:var(--ink-3);font-size:13px}
+@media(max-width:560px){.notes-tbl{font-size:13px}.nt-topic-h{width:32%}}
 
 /* דף תחבורה מרכזי */
 .tr-intro{margin:2px 0 12px;font-size:13px;color:var(--ink-3)}
@@ -1299,7 +1327,10 @@ const ICON_PATHS = {
   moon:      '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
   food:      '<path d="M5 3v7a3 3 0 0 0 6 0V3M8 3v18M17 3c-1.5 0-3 1.5-3 5s1.5 5 3 5v8"/>',
   info:      '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/>',
-  image:     '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>'
+  image:     '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>',
+  edit:      '<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+  trash:     '<path d="M3 6h18M8 6V4h8v2M6 6l1 14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-14M10 11v6M14 11v6"/>',
+  plus:      '<path d="M12 5v14M5 12h14"/>'
 };
 function icon(name, cls){
   const p = ICON_PATHS[name] || '';
@@ -1342,7 +1373,8 @@ async function loadData() {
     const ly = await fetch('data/layout.json').then(r=>r.json()).catch(()=>null);
     const arch = await fetch('data/architecture.json').then(r=>r.json()).catch(()=>[]);
     const geo = await fetch('data/geotrips.json').then(r=>r.json()).catch(()=>[]);
-    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb, mymarks:Array.isArray(mm)?mm:[], layout:ly||{}, architecture:Array.isArray(arch)?arch:[], geotrips:Array.isArray(geo)?geo:[] };
+    const nt = await fetch('data/notes.json').then(r=>r.json()).catch(()=>[]);
+    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb, mymarks:Array.isArray(mm)?mm:[], layout:ly||{}, architecture:Array.isArray(arch)?arch:[], geotrips:Array.isArray(geo)?geo:[], notes:Array.isArray(nt)?nt:[] };
     // ── Reconcile: אם שינוי מקומי כבר קיים בקובץ ה-data ששרת (הועלה ל-Git), מנקים אותו מ-pending ──
     // כך השינויים המקומיים שורדים ריענון עד שהם ב-Git, ואז נעלמים לבד — בלי איבוד ובלי הצטברות.
     try {
@@ -1356,11 +1388,19 @@ async function loadData() {
       // סיכות: אם השרת כבר תואם — לנקות
       const pmc = JSON.parse(localStorage.getItem('pending-mymarks')||'null');
       if(pmc && eq(pmc, DATA.mymarks||[])) localStorage.removeItem('pending-mymarks');
+      // סיכום אישי: אם השרת כבר תואם — לנקות
+      const pnc = JSON.parse(localStorage.getItem('pending-notes')||'null');
+      if(pnc && eq(pnc, DATA.notes||[])) localStorage.removeItem('pending-notes');
     } catch(e){}
     // שחזור סיכות משתמש שנוספו מקומית וטרם נשמרו ל-Git
     try {
       const pm = JSON.parse(localStorage.getItem('pending-mymarks')||'null');
       if(Array.isArray(pm)) DATA.mymarks = pm;
+    } catch(e){}
+    // שחזור סיכום אישי שנוסף מקומית וטרם נשמר ל-Git
+    try {
+      const pn = JSON.parse(localStorage.getItem('pending-notes')||'null');
+      if(Array.isArray(pn)) DATA.notes = pn;
     } catch(e){}
     // שחזור פריסה מקומית (עריכת מסגרות) שטרם נשמרה ל-Git
     try {
@@ -2139,8 +2179,72 @@ function renderSummary() {
 
   document.getElementById('sumWrap').innerHTML =
     `<div class="view-bar"><div class="sum-intro">כל נתוני הטיול במבט אחד, מחושבים בזמן אמת. ריחוף מעל כרטיסייה מסביר את הנתון; לחיצה פותחת את הדף המפורט.</div>${viewToggle()}</div>
-     ${viewMode==='cards' ? `<div class="sum-grid">${html}</div>` : `<div class="sum-list">${list}</div>`}`;
+     ${viewMode==='cards' ? `<div class="sum-grid">${html}</div>` : `<div class="sum-list">${list}</div>`}
+     ${renderNotesSection()}`;
 }
+
+// ── סיכום אישי — טבלת נושא/טקסט חופשי, ניתנת לעריכה, הוספה ומיון ──
+let _notesSort = 'none';   // 'none' | 'topic'
+function renderNotesSection(){
+  const notes = DATA.notes || [];
+  let rows = notes.map((n,i)=>({...n, _i:i}));
+  if(_notesSort==='topic') rows.sort((a,b)=>String(a.topic||'').localeCompare(String(b.topic||''),'he'));
+  const body = rows.length ? rows.map(r=>`
+    <tr>
+      <td class="nt-topic" contenteditable="true" data-i="${r._i}" data-f="topic"
+          onblur="notesEdit(this)" data-ph="נושא">${escHtml(r.topic||'')}</td>
+      <td class="nt-text" contenteditable="true" data-i="${r._i}" data-f="text"
+          onblur="notesEdit(this)" data-ph="כתבי כאן חופשי…">${escHtml(r.text||'')}</td>
+      <td class="nt-del"><button class="nt-del-btn" onclick="notesDel(${r._i})" data-tip="מחיקת שורה" aria-label="מחיקת שורה">${icon('trash')}</button></td>
+    </tr>`).join('')
+    : `<tr class="nt-empty"><td colspan="3">עדיין אין רשומות. לחצי «הוספת נושא» כדי להתחיל.</td></tr>`;
+  return `
+    <section class="notes-sec" aria-label="סיכום אישי">
+      <div class="notes-head">
+        <h2 class="notes-title">${icon('edit')} סיכום אישי</h2>
+        <div class="notes-actions">
+          <button class="notes-btn" onclick="notesSortToggle()" data-tip="מיון הטבלה לפי נושא (א׳→ת׳)">${icon('list')} ${_notesSort==='topic'?'בטלי מיון':'מיין לפי נושא'}</button>
+          <button class="notes-btn primary" onclick="notesAdd()" data-tip="הוספת שורת נושא חדשה">${icon('plus')} הוספת נושא</button>
+        </div>
+      </div>
+      <div class="notes-hint">טבלת טקסט חופשי לפי נושא — לחצי על תא כדי לכתוב/לערוך. השינויים נשמרים אצלך ומיוצאים ל-Git עם «שמור קבצים».</div>
+      <div class="notes-tbl-wrap">
+        <table class="notes-tbl">
+          <thead><tr><th class="nt-topic-h">נושא</th><th class="nt-text-h">טקסט חופשי</th><th class="nt-del-h"></th></tr></thead>
+          <tbody>${body}</tbody>
+        </table>
+      </div>
+    </section>`;
+}
+function _notesPersist(){
+  try{ localStorage.setItem('pending-notes', JSON.stringify(DATA.notes||[])); }catch(e){}
+  markUnsaved(); updateImgWarn&&updateImgWarn();
+}
+function notesAdd(){
+  DATA.notes = DATA.notes || [];
+  DATA.notes.push({topic:'', text:''});
+  _notesPersist();
+  renderSummary();
+  // מיקוד בתא הנושא של השורה החדשה
+  setTimeout(()=>{ const cells=document.querySelectorAll('.nt-topic'); const last=cells[cells.length-1]; if(last) last.focus(); }, 30);
+}
+function notesEdit(el){
+  const i = +el.getAttribute('data-i'); const f = el.getAttribute('data-f');
+  if(!DATA.notes || !DATA.notes[i]) return;
+  const val = el.innerText.replace(/ /g,' ').trimEnd();
+  if((DATA.notes[i][f]||'') === val) return;   // ללא שינוי — לא לשמור
+  DATA.notes[i][f] = val;
+  _notesPersist();
+}
+function notesDel(i){
+  if(!DATA.notes || !DATA.notes[i]) return;
+  const t = DATA.notes[i].topic || DATA.notes[i].text || '';
+  if(t && !confirm('למחוק את השורה' + (DATA.notes[i].topic?' «'+DATA.notes[i].topic+'»':'') + '?')) return;
+  DATA.notes.splice(i,1);
+  _notesPersist();
+  renderSummary();
+}
+function notesSortToggle(){ _notesSort = _notesSort==='topic' ? 'none' : 'topic'; renderSummary(); }
 
 // כפתור מעבר אחיד בין תצוגת כרטיסים לרשימה (סעיף 3.2)
 function viewToggle() {
@@ -4966,8 +5070,8 @@ async function saveAll() {
 
 // ── גיבוי/שחזור כל השינויים המקומיים שטרם נשמרו ל-Git ──
 // מונע אובדן: תמונות, עריכות שעה/יום במסלול, סיכות, פריסה — הכל לקובץ אחד וחזרה.
-const PENDING_KEYS = ['pending-images','pending-dayspots','pending-places','pending-mymarks','pending-layout','pending-tabs'];
-const PENDING_LABEL = { 'pending-images':'תמונות', 'pending-dayspots':'שעות/ימים במסלול', 'pending-places':'אתרים', 'pending-mymarks':'סיכות', 'pending-layout':'פריסה', 'pending-tabs':'סדר טאבים' };
+const PENDING_KEYS = ['pending-images','pending-dayspots','pending-places','pending-mymarks','pending-layout','pending-tabs','pending-notes'];
+const PENDING_LABEL = { 'pending-images':'תמונות', 'pending-dayspots':'שעות/ימים במסלול', 'pending-places':'אתרים', 'pending-mymarks':'סיכות', 'pending-layout':'פריסה', 'pending-tabs':'סדר טאבים', 'pending-notes':'סיכום אישי' };
 // כמה פריטים בכל מפתח (לספירה ולפירוט)
 function pendingCounts(){
   const out={};
