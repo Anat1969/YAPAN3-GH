@@ -170,6 +170,14 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 .nav-btn.reorder-btn{display:inline-flex;align-items:center;gap:4px}
 .nav-btn.reorder-btn.on{background:var(--focus,#fbbf24);color:#1c1c1a;border-color:var(--focus,#fbbf24);font-weight:800}
 @media(max-width:900px){.nav .tabs{justify-content:flex-start;order:3;flex-basis:100%}.nav h1{order:1}.nav .actions{order:2;margin-right:auto}}
+/* נייד: סרגל הטאבים הופך לרצועה אופקית נגללת (שורה אחת) במקום לעטוף להרבה שורות */
+@media(max-width:768px){
+  .nav .tabs{flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;justify-content:flex-start;gap:2px;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+  .nav .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:0 0 auto;padding:7px 12px;font-size:13px;white-space:nowrap}
+  .tab.on::after{bottom:0}
+  .tab.on{background:rgba(255,255,255,.18)}
+}
 .nav-btn{padding:4px 10px;border:1px solid #555;border-radius:4px;background:transparent;color:#aaa;font:600 11px/1.4 inherit;cursor:pointer;transition:.12s}
 .nav-btn:hover{background:rgba(255,255,255,.1);color:#fff;border-color:#888}
 .nav-btn.save{border-color:#166534;color:#4ade80}.nav-btn.save:hover{background:#166534;color:#fff}
@@ -1330,6 +1338,37 @@ a.ml:hover{text-decoration:underline}
   .nav h1{font-size:14px}
   th{font-size:10px;padding:5px 4px}
   td{font-size:11px;padding:4px 4px}
+}
+/* ═══ עיצוב נייד כללי — לא משפיע על מחשב (הכל בתוך media queries) ═══ */
+@media(max-width:768px){
+  /* מניעת גלישה אופקית של כל הדף */
+  html,body{overflow-x:hidden;max-width:100%}
+  .tw,.hero{padding-inline:10px}
+  /* טבלאות רחבות — גלילה אופקית בתוך מסגרת, לא חיתוך */
+  .tw{overflow-x:hidden}
+  #t-days,#t-hotels,#t-places,.bk-tbl{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap}
+  .days-wide{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  /* h1 לא יתכווץ/ייחתך */
+  .nav h1{flex:0 0 auto;white-space:nowrap}
+  /* סרגלי סינון/כלים — גלילה אופקית במקום עיטוף שובר */
+  .filters-inner,.bk-sortbar,.view-bar{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .filters-inner::-webkit-scrollbar,.bk-sortbar::-webkit-scrollbar{display:none}
+  .flt,.bk-sort-btn,.bk-view-btn{flex:0 0 auto;white-space:nowrap}
+  /* כפתורי פעולה בסרגל — קומפקטיים */
+  .nav .actions{gap:4px}
+  .nav-btn,.back-btn{padding:5px 8px;font-size:10.5px}
+  /* כרטיסי סיכום — עמודה אחת, בלי חיתוך תוויות */
+  .sum-grid{grid-template-columns:1fr!important;gap:8px}
+  .sum-card{min-width:0}
+  .sum-topic,.sr-topic{white-space:normal;word-break:break-word}
+  /* היגד hero קריא */
+  .hero-card{padding:14px}
+}
+/* מסכים צרים מאוד (טלפון קטן) */
+@media(max-width:430px){
+  .tab{padding:7px 10px;font-size:12.5px}
+  .sum-main{font-size:22px}
+  .bk-tbl{font-size:12px}
 }
 </style>
 </head>
