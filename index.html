@@ -882,6 +882,8 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .cam-block-he{background:linear-gradient(180deg,rgba(22,163,74,.06),var(--surface));border-color:#bbf7d0}
 .cam-he{font-size:20px;font-weight:900;color:var(--ink);line-height:1.6;word-break:break-word}
 .cam-err{color:#dc2626;font-size:14px}
+.cam-warn{display:flex;align-items:flex-start;gap:8px;background:#fef3c7;border:1px solid #fcd34d;border-radius:10px;padding:12px 14px;font-size:13px;font-weight:600;color:#92400e;line-height:1.5}
+.cam-warn .ic{width:16px;height:16px;stroke:#b45309;flex-shrink:0;margin-top:1px}
 .cam-hint{font-size:12.5px;color:var(--ink-3);text-align:center;line-height:1.6}
 @media(max-width:560px){.cam-actions{flex-direction:column}.cam-btn{width:100%;justify-content:center}.cam-ja{font-size:19px}.cam-he{font-size:18px}}
 
@@ -2854,17 +2856,63 @@ function camPickFile(input){
   input.value='';
 }
 // הרצת OCR + תרגום
+// טווחי תווים יפניים: הירגאנה, קטקאנה, קאנג'י, סימני פיסוק יפניים, מספרים בסיסיים
+const JP_CHAR = /[぀-ヿ㐀-䶿一-鿿ｦ-ﾟ　-〿]/;
+function keepJapanese(txt){
+  // שומרים רק תווים יפניים + ספרות ותווי מפריד בסיסיים, זורקים "זבל" לטיני/סימנים
+  return (txt||'').split('').filter(ch=>JP_CHAR.test(ch)||/[0-9０-９、。・「」（）々ー～]/.test(ch)).join('').trim();
+}
+// קדם-עיבוד תמונה ל-OCR: אפור, זיהוי רקע כהה→היפוך, הגברת ניגודיות, הגדלה
+function preprocessForOCR(dataUrl){
+  return new Promise((resolve)=>{
+    const im=new Image();
+    im.onload=()=>{
+      // הגדלה עד רוחב ~1600 לשיפור זיהוי טקסט קטן
+      const scale=Math.min(3, Math.max(1, 1600/im.width));
+      const w=Math.round(im.width*scale), h=Math.round(im.height*scale);
+      const cv=document.createElement('canvas'); cv.width=w; cv.height=h;
+      const ctx=cv.getContext('2d'); ctx.drawImage(im,0,0,w,h);
+      const id=ctx.getImageData(0,0,w,h), d=id.data;
+      // ממוצע בהירות — לזיהוי רקע כהה (שלט/לוח גיר)
+      let sum=0; for(let i=0;i<d.length;i+=4) sum+=(d[i]*0.299+d[i+1]*0.587+d[i+2]*0.114);
+      const avg=sum/(d.length/4); const darkBg=avg<110;
+      // אפור + ניגודיות + היפוך אם הרקע כהה (Tesseract מצפה לטקסט כהה על בהיר)
+      const contrast=1.5;
+      for(let i=0;i<d.length;i+=4){
+        let g=d[i]*0.299+d[i+1]*0.587+d[i+2]*0.114;
+        if(darkBg) g=255-g;                       // היפוך: טקסט בהיר→כהה
+        g=((g/255-0.5)*contrast+0.5)*255;         // ניגודיות
+        g=Math.max(0,Math.min(255,g));
+        d[i]=d[i+1]=d[i+2]=g;
+      }
+      ctx.putImageData(id,0,0);
+      resolve(cv.toDataURL('image/png'));
+    };
+    im.onerror=()=>resolve(dataUrl);
+    im.src=dataUrl;
+  });
+}
 async function camRunOCR(){
   if(!_camState.img || _camState.busy) return;
-  _camState.busy=true; _camState.ja=''; _camState.he=''; renderCamTrans();
+  _camState.busy=true; _camState.ja=''; _camState.he=''; _camState.lowConf=false; renderCamTrans();
   try{
     _camStatus('טוען מנוע זיהוי טקסט…');
     const T=await loadTesseract();
+    _camStatus('מכינה את התמונה…');
+    const prepped=await preprocessForOCR(_camState.img);
     _camStatus('קורא את הכיתוב היפני מהתמונה… (עשוי לקחת כמה שניות)');
-    const { data } = await T.recognize(_camState.img, 'jpn');
-    const ja=(data&&data.text||'').replace(/\s+/g,'').trim();   // יפנית ללא רווחים מיותרים
-    if(!ja){ _camStatus(''); _camState.ja=''; _camState.he=''; _camState.busy=false; renderCamTrans(); toast('לא זוהה טקסט יפני בתמונה — נסי תמונה ברורה יותר'); return; }
+    // jpn + jpn_vert (טקסט אנכי נפוץ בשלטים); PSM אוטומטי
+    const { data } = await T.recognize(prepped, 'jpn+jpn_vert');
+    const raw=(data&&data.text||'');
+    const ja=keepJapanese(raw.replace(/\s+/g,''));   // רק תווים יפניים, בלי זבל
+    const conf=(data&&data.confidence)||0;
+    if(!ja || ja.length<2){
+      _camStatus(''); _camState.busy=false; renderCamTrans();
+      toast('לא הצלחתי לקרוא טקסט יפני ברור מהתמונה. נסי: תמונה ממוקדת יותר על הטקסט, מקרוב, בתאורה טובה.');
+      return;
+    }
     _camState.ja=ja;
+    _camState.lowConf = conf < 60;   // ביטחון נמוך — נזהיר את המשתמשת
     _camStatus('מתרגם לעברית…');
     try{ _camState.he=await translateJaToHe(ja); }
     catch(e){ _camState.he=''; toast('הזיהוי הצליח אבל התרגום נכשל — בדקי חיבור לאינטרנט'); }
@@ -2874,12 +2922,13 @@ async function camRunOCR(){
     renderCamTrans(); toast(e.message||'שגיאה בזיהוי הטקסט');
   }
 }
-function camClear(){ _camState={img:null,ja:'',he:'',busy:false,status:''}; renderCamTrans(); }
+function camClear(){ _camState={img:null,ja:'',he:'',busy:false,status:'',lowConf:false}; renderCamTrans(); }
 function renderCamTrans(){
   const wrap=document.getElementById('camtransWrap'); if(!wrap) return;
   const st=_camState;
   const result = st.ja ? `
     <div class="cam-result">
+      ${st.lowConf?`<div class="cam-warn">${icon('alert')} הזיהוי לא היה ודאי — ייתכן שהטקסט או התרגום אינם מדויקים. לתוצאה טובה יותר צלמי מקרוב, ממוקד על הטקסט ובתאורה טובה.</div>`:''}
       <div class="cam-block">
         <div class="cam-block-lbl">${icon('search')} הכיתוב היפני</div>
         <div class="cam-ja" dir="ltr" lang="ja">${escHtml(st.ja)}</div>
@@ -2894,7 +2943,7 @@ function renderCamTrans(){
   const busyBar = (st.busy||st.status) ? `<div class="cam-status" id="camStatus">${escHtml(st.status||'')}</div>` : '<div class="cam-status" id="camStatus" style="display:none"></div>';
   wrap.innerHTML = `
     <div class="cam-page">
-      <div class="cam-intro">${icon('image')} צלמי כיתוב ביפנית (שלט, תפריט, אריזה) — והאפליקציה תקרא ותתרגם לעברית.</div>
+      <div class="cam-intro">${icon('image')} צלמי כיתוב ביפנית — האפליקציה תקרא ותתרגם לעברית. עובד הכי טוב על <b>טקסט דפוס ברור</b> (שלטים, תפריטים מודפסים, אריזות). כתב-יד ולוחות גיר מעוצבים — קשה יותר.</div>
       <div class="cam-actions">
         <label class="cam-btn cam-btn-primary">
           <input type="file" accept="image/*" capture="environment" onchange="camPickFile(this)" style="display:none">
