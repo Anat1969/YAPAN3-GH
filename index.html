@@ -936,6 +936,12 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .bk-alerts li{font-size:12px;color:#7a5b2e;line-height:1.7}
 .bk-alerts li.bk-alert-high{color:var(--err);font-weight:700}
 .bk-summary{font-size:12px;font-weight:700;color:var(--ink-2);margin-bottom:12px}
+.bk-sortbar{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:14px;padding:8px 10px;background:var(--bg);border:1px solid var(--border);border-radius:10px}
+.bk-sort-lbl{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;color:var(--ink-2);margin-inline-end:2px}
+.bk-sort-lbl .ic{width:14px;height:14px;stroke:var(--action)}
+.bk-sort-btn{border:1px solid var(--border-strong);background:var(--surface);color:var(--ink-2);border-radius:7px;padding:6px 12px;font:700 12.5px/1 inherit;cursor:pointer;transition:.12s}
+.bk-sort-btn:hover{background:var(--bg);border-color:var(--action)}
+.bk-sort-btn.on{background:var(--action);color:#fff;border-color:var(--action)}
 .bk-timeline{display:flex;flex-direction:column;gap:10px}
 .bk-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 15px;border-right:3px solid var(--ok)}
 .bk-card-pend{border-right-color:var(--warn);background:var(--warn-bg)}
@@ -4698,6 +4704,8 @@ function refRow(ref) {
   return `<div class="bk-field bk-missing"><span>מספר אישור</span>חסר — יש להשלים</div>`;
 }
 
+let _bookingSort = 'date';
+function setBookingSort(k){ _bookingSort = k; renderBookings(); }
 function renderBookings() {
   const B = DATA.bookings;
   const el = document.getElementById('bookingsWrap');
@@ -4713,9 +4721,23 @@ function renderBookings() {
   }).join('');
   const alertsHtml = alerts ? `<div class="bk-alerts"><h3>התראות חשובות</h3><ul>${alerts}</ul></div>` : '';
 
-  // מיון לפי תאריך (מלון = checkin, טיסה = date, רכב = pickup.date)
+  // מיון גמיש — לפי בחירת המשתמשת (ברירת מחדל: תאריך/יום)
   const dateOf = b => b.date || b.checkin || b.pickup?.date || '9999';
-  const sorted = [...B.bookings].sort((a,b)=>dateOf(a).localeCompare(dateOf(b)));
+  const timeOf = b => b.time || b.departure || b.checkinTime || b.pickup?.time || '';
+  const dayOf = b => { if(b.day!=null) return b.day; const d=DATA.days.find(x=>x.date===dateOf(b)); return d?d.tripDay:999; };
+  const typeOrder = {flight:1, hotel:2, car:3, activity:4};
+  const placeOf = b => b.place || b.name || (b.type==='hotel'?b.name:'') || (b.type==='car'?(b.pickup?.location||''):'') || '';
+  const actOf = b => b.activity || {flight:'טיסה',hotel:'מלון',car:'רכב שכור'}[b.type] || '';
+  const sortKey = _bookingSort || 'date';
+  const cmp = {
+    date:  (a,b)=> dateOf(a).localeCompare(dateOf(b)) || timeOf(a).localeCompare(timeOf(b)),
+    topic: (a,b)=> (typeOrder[a.type]||9)-(typeOrder[b.type]||9) || dateOf(a).localeCompare(dateOf(b)),
+    place: (a,b)=> String(placeOf(a)).localeCompare(String(placeOf(b)),'he') || dateOf(a).localeCompare(dateOf(b)),
+    day:   (a,b)=> dayOf(a)-dayOf(b) || timeOf(a).localeCompare(timeOf(b)),
+    time:  (a,b)=> (timeOf(a)||'99:99').localeCompare(timeOf(b)||'99:99') || dateOf(a).localeCompare(dateOf(b)),
+    activity:(a,b)=> String(actOf(a)).localeCompare(String(actOf(b)),'he') || dateOf(a).localeCompare(dateOf(b)),
+  }[sortKey] || ((a,b)=>dateOf(a).localeCompare(dateOf(b)));
+  const sorted = [...B.bookings].sort(cmp);
 
   const cards = sorted.map(b => {
     let body = '';
@@ -4741,8 +4763,17 @@ function renderBookings() {
         ${b.includes&&b.includes.length?`<div class="bk-field"><span>כולל</span>${b.includes.join(' · ')}</div>`:''}
         ${refRow(b.bookingRef)}
         ${b.warning?`<div class="bk-warn">${b.warning}</div>`:''}`;
+    } else if (b.type === 'activity') {
+      const dayObj = DATA.days.find(d=>d.tripDay===b.day);
+      const cityHe = dayObj ? dayCity(dayObj) : '';
+      body = `<div class="bk-field"><span>מתי</span>${fmtDate(b.date)}${b.day?` · יום ${b.day}`:''}${b.time?` · ${b.time}`:''}</div>
+        <div class="bk-field"><span>פעילות</span>${b.activity||''}</div>
+        ${b.place?`<div class="bk-field"><span>מקום</span>${b.place}</div>`:''}
+        ${b.who?`<div class="bk-field"><span>למי</span>${b.who}</div>`:''}
+        ${b.detail?`<div class="bk-field"><span>פרטים</span>${b.detail}</div>`:''}
+        ${refRow(b.bookingRef)}`;
     }
-    const typeLabel = {flight:'טיסה', hotel:'מלון', car:'רכב שכור'}[b.type] || b.type;
+    const typeLabel = {flight:'טיסה', hotel:'מלון', car:'רכב שכור', activity:'פעילות'}[b.type] || b.type;
     return `<div class="bk-card ${b.status==='pending'?'bk-card-pend':''}">
       <div class="bk-head">
         <span class="bk-date">${fmtDate(dateOf(b))}</span>
@@ -4763,9 +4794,22 @@ function renderBookings() {
   const pend = B.bookings.filter(b=>b.status==='pending').length;
   const summaryLine = `<div class="bk-summary">${conf} הזמנות מאושרות${pend?` · ${pend} ממתינות להזמנה`:''}</div>`;
 
+  const sortOpts = [
+    {k:'date', l:'תאריך'},
+    {k:'topic', l:'נושא'},
+    {k:'place', l:'מקום'},
+    {k:'day', l:'יום'},
+    {k:'time', l:'שעה'},
+    {k:'activity', l:'פעילות'},
+  ];
+  const sortBar = `<div class="bk-sortbar"><span class="bk-sort-lbl">${icon('list')} מיון לפי:</span>${
+    sortOpts.map(o=>`<button class="bk-sort-btn${sortKey===o.k?' on':''}" onclick="setBookingSort('${o.k}')">${o.l}</button>`).join('')
+  }</div>`;
+
   el.innerHTML = `${alertsHtml}
-    <div class="tr-intro">כל ההזמנות של הטיול לפי ציר זמן.</div>
+    <div class="tr-intro">כל ההזמנות של הטיול — מיינו לפי נושא, מקום, יום, שעה או פעילות כדי לאתר מיד את מה שצריך.</div>
     ${summaryLine}
+    ${sortBar}
     <div class="bk-timeline">${cards}</div>`;
 }
 

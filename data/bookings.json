@@ -769,6 +769,188 @@
           "file": "docs/bookings/flight-emirates-4.pdf"
         }
       ]
+    },
+    {
+      "id": "activity-usj-anat-natan",
+      "type": "activity",
+      "status": "confirmed",
+      "phase": "kansai",
+      "name": "יוניברסל סטודיוס — ענת ונתן",
+      "place": "Universal Studios Japan, אוסקה",
+      "date": "2026-07-26",
+      "day": 4,
+      "time": "",
+      "activity": "כרטיס יומי (1-Day Studio Pass)",
+      "who": "ענת, נתן",
+      "bookingRef": "USJ-P1X000000CNC7X",
+      "detail": "2 × 1-Day Studio Pass · כולל Super Nintendo World כניסה מתוזמנת 13:00",
+      "price": {
+        "total": 21800,
+        "currency": "JPY"
+      },
+      "notes": "קוד כרטיס AD00IIDATNFI20. כניסה ל-Super Nintendo World מתוזמנת 13:00. להביא QR מודפס.",
+      "docs": [
+        {
+          "label": "כרטיסים (ענת ונתן)",
+          "file": "docs/bookings/activity-usj-studiopass-anat-natan.pdf"
+        }
+      ]
+    },
+    {
+      "id": "activity-usj-ilay-lotem",
+      "type": "activity",
+      "status": "confirmed",
+      "phase": "kansai",
+      "name": "יוניברסל סטודיוס — עילאי ולוטם",
+      "place": "Universal Studios Japan, אוסקה",
+      "date": "2026-07-26",
+      "day": 4,
+      "time": "",
+      "activity": "כרטיס יומי (1-Day Studio Pass)",
+      "who": "עילאי, לוטם",
+      "bookingRef": "USJ-P1X000000CNC7V",
+      "detail": "2 × 1-Day Studio Pass",
+      "price": {
+        "total": 17800,
+        "currency": "JPY"
+      },
+      "notes": "קוד כרטיס AD00IIDATNFI20. להביא QR מודפס לכל אחד.",
+      "docs": [
+        {
+          "label": "כרטיסים (עילאי ולוטם)",
+          "file": "docs/bookings/activity-usj-studiopass-ilay-lotem.pdf"
+        }
+      ]
+    },
+    {
+      "id": "activity-usj-express",
+      "type": "activity",
+      "status": "confirmed",
+      "phase": "kansai",
+      "name": "יוניברסל — Express Pass 5 (שדרוג)",
+      "place": "Universal Studios Japan, אוסקה",
+      "date": "2026-07-26",
+      "day": 4,
+      "time": "13:00",
+      "activity": "Express Pass 5 ~Adventure Special~",
+      "who": "2 אנשים",
+      "bookingRef": "USJ-P1X000000CNCW3",
+      "detail": "2 × Express Pass 5. אטרקציות: Flying Dinosaur, Yoshi (13:30), Hollywood Dream, Minion Mayhem, Mario Kart (13:00), Super Nintendo World (13:00-14:00)",
+      "price": {
+        "total": 37800,
+        "currency": "JPY"
+      },
+      "notes": "דורש Studio Pass נפרד לכניסה לפארק. לבחור אטרקציה אחת לכל ☆.",
+      "docs": [
+        {
+          "label": "Express Pass",
+          "file": "docs/bookings/activity-usj-express-pass.pdf"
+        }
+      ]
+    },
+    {
+      "id": "activity-teamlab-kyoto",
+      "type": "activity",
+      "status": "confirmed",
+      "phase": "kansai",
+      "name": "teamLab Biovortex קיוטו",
+      "place": "teamLab Biovortex Kyoto (7 דק׳ מתחנת קיוטו)",
+      "date": "2026-07-30",
+      "day": 8,
+      "time": "17:00",
+      "activity": "כניסה לתערוכת אמנות דיגיטלית",
+      "who": "2 מבוגרים + 2 נוער (13-17)",
+      "bookingRef": "VEG065184",
+      "detail": "הטבה: תג פח מותאם חינם. כתובת: 21-5 Higashikujo Higashi Iwamoto-cho, Minami-ku, Kyoto.",
+      "price": {
+        "total": null,
+        "currency": "JPY"
+      },
+      "notes": "להציג voucher נייד. אין החזרים/שינויים. נעליים סגורות מומלצות (יש רצפות מראה).",
+      "docs": [
+        {
+          "label": "כרטיס teamLab",
+          "file": "docs/bookings/activity-teamlab-kyoto.pdf"
+        }
+      ]
+    },
+    {
+      "id": "activity-shiretoko-whale",
+      "type": "activity",
+      "status": "confirmed",
+      "phase": "hokkaido",
+      "name": "שייט צפייה בלווייתנים — שירטוקו",
+      "place": "Godzilla Rock Tourism, נמל Rausu, שירטוקו",
+      "date": "2026-08-03",
+      "day": 12,
+      "time": "13:00",
+      "activity": "Whale Birdwatching Cruise (Rausu)",
+      "who": "3 מבוגרים (נתן, עילאי, לוטם)",
+      "bookingRef": "r4ykPnOYB",
+      "detail": "כולל השכרת משקפת (¥300). יציאה מנמל Rausu — להגיע 30 דק׳ לפני. תשלום במקום.",
+      "price": {
+        "total": 27300,
+        "currency": "JPY"
+      },
+      "notes": "קר מאוד בים — להביא ביגוד חם ואטום לרוח. ביטול עד 3 ימים לפני. מגיעים מהמלון ברכב.",
+      "docs": [
+        {
+          "label": "אישור שייט",
+          "file": "docs/bookings/activity-shiretoko-whale-cruise.pdf"
+        }
+      ]
+    },
+    {
+      "id": "activity-niseko-zipline",
+      "type": "activity",
+      "status": "confirmed",
+      "phase": "hokkaido",
+      "name": "זיפליין — ניסקו הנאזונו",
+      "place": "Niseko Hanazono Resort",
+      "date": "2026-08-11",
+      "day": 20,
+      "time": "16:30",
+      "activity": "Zipline Full Package",
+      "who": "4 אנשים (גיל 13+, 30-105 ק״ג)",
+      "bookingRef": "3090873",
+      "detail": "4 × Zipline Full Package. משך ~30 דק׳.",
+      "price": {
+        "total": 60000,
+        "currency": "JPY"
+      },
+      "notes": "שולם מראש (Stripe). משקל 30-105 ק״ג נדרש.",
+      "docs": [
+        {
+          "label": "אישור זיפליין",
+          "file": "docs/bookings/activity-niseko-zipline.pdf"
+        }
+      ]
+    },
+    {
+      "id": "activity-niseko-lights",
+      "type": "activity",
+      "status": "confirmed",
+      "phase": "hokkaido",
+      "name": "אורות בהר (Mountain Lights) — ניסקו",
+      "place": "Niseko Hanazono Resort",
+      "date": "2026-08-11",
+      "day": 20,
+      "time": "18:00",
+      "activity": "Mountain Lights",
+      "who": "4 אנשים",
+      "bookingRef": "3090876",
+      "detail": "4 × Mountain Lights (גיל 13+). מיד אחרי הזיפליין.",
+      "price": {
+        "total": 5600,
+        "currency": "JPY"
+      },
+      "notes": "שולם מראש (Stripe).",
+      "docs": [
+        {
+          "label": "אישור Mountain Lights",
+          "file": "docs/bookings/activity-niseko-mountain-lights.pdf"
+        }
+      ]
     }
   ],
   "alerts": [
