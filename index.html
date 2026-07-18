@@ -977,6 +977,28 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .bk-redeem-chk.on{background:var(--action);color:#fff;border-color:var(--action)}
 .bk-redeem-chk:hover{border-color:var(--action)}
 .bk-tbl-total td{font-weight:900;font-size:14px;color:var(--ink);background:var(--bg);border-top:2px solid var(--border-strong)}
+/* חיפוש */
+.bk-searchbar{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.bk-search-wrap{flex:1;display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border-strong);border-radius:10px;padding:0 12px}
+.bk-search-wrap .ic{width:16px;height:16px;stroke:var(--ink-3);flex-shrink:0}
+.bk-search{flex:1;min-width:0;border:none;background:none;padding:12px 4px;font:600 14px inherit;color:var(--ink);outline:none}
+.bk-search-clear{border:1px solid var(--border-strong);background:var(--surface);color:var(--ink-2);border-radius:8px;width:38px;height:38px;font-size:15px;cursor:pointer;flex-shrink:0}
+.bk-search-clear:hover{background:var(--bg);color:var(--warn)}
+.bk-noresults{padding:28px;text-align:center;color:var(--ink-3);font-size:14px;background:var(--bg);border:1px dashed var(--border-strong);border-radius:12px}
+/* הבלטת שעה/תאריך/פעילות בכרטיס */
+.bk-when{display:inline-flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.bk-date-big{font-size:16px;font-weight:900;color:var(--action)}
+.bk-time-big{display:inline-flex;align-items:center;gap:3px;font-size:14px;font-weight:900;color:#b45309;background:#fef3c7;border-radius:6px;padding:2px 7px}
+.bk-time-big .ic{width:12px;height:12px;stroke:#b45309}
+.bk-act-chip{font-size:12px;font-weight:900;color:#fff;border-radius:999px;padding:3px 11px;white-space:nowrap}
+.bk-act-flight{background:#2563eb}.bk-act-hotel{background:#0891b2}.bk-act-car{background:#7c3aed}.bk-act-activity{background:#16a34a}
+.bk-hl{color:var(--ink);font-weight:900}
+.bk-body .bk-field .bk-hl{font-size:1.05em}
+.bk-sub-en{color:var(--ink-3);font-size:.9em;direction:ltr;font-weight:600}
+/* הבלטת עמודות בטבלה */
+.bk-td-date{font-weight:900;color:var(--action);white-space:nowrap}
+.bk-td-time{font-weight:900;color:#b45309}
+.bk-td-act{font-weight:800;color:var(--ink)}
 .bk-timeline{display:flex;flex-direction:column;gap:10px}
 .bk-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 15px;border-right:3px solid var(--ok)}
 .bk-card-pend{border-right-color:var(--warn);background:var(--warn-bg)}
@@ -4742,8 +4764,25 @@ function refRow(ref) {
 let _bookingSort = 'date';
 let _bookingSortDir = 1;   // 1 = עולה, -1 = יורד
 let _bookingView = 'cards';   // 'cards' | 'table'
+let _bookingSearch = '';
 function setBookingSort(k){ if(_bookingSort===k){ _bookingSortDir*=-1; } else { _bookingSort=k; _bookingSortDir=1; } renderBookings(); }
 function setBookingView(v){ _bookingView = v; renderBookings(); }
+function setBookingSearch(v){ _bookingSearch = v; renderBookings(); setTimeout(()=>{ const i=document.getElementById('bkSearchInput'); if(i){ i.focus(); i.setSelectionRange(i.value.length,i.value.length); } },0); }
+// שם הפעילות בעברית תמיד — לטיסה/מלון/רכב תווית קבועה; לפעילות נגזר מהשם/סוג
+function activityHe(b){
+  if(b.type==='flight') return 'טיסה';
+  if(b.type==='hotel')  return 'מלון';
+  if(b.type==='car')    return 'רכב שכור';
+  // פעילות — זיהוי לפי מילות מפתח בשם (שכבר בעברית)
+  const n = (b.name||'') + ' ' + (b.activity||'');
+  if(/שייט|לווייתנ|לוויתנ|cruise|whale/i.test(n)) return 'שייט';
+  if(/יוניברסל|universal|usj|express pass|studio pass/i.test(n)) return 'יוניברסל';
+  if(/teamlab|טימלב|ביו|biovortex/i.test(n)) return 'teamLab (אמנות דיגיטלית)';
+  if(/זיפליין|zipline/i.test(n)) return 'זיפליין';
+  if(/אורות|mountain lights|lights/i.test(n)) return 'אורות בהר';
+  // ברירת מחדל — השם עצמו (כבר בעברית)
+  return b.name || 'פעילות';
+}
 // עלות ההזמנה בשקלים (המרה ממטבע מקורי; נופל ל-ils/usd אם קיימים)
 function bookingILS(b){
   const p = b.price||{};
@@ -4790,7 +4829,7 @@ function renderBookings() {
   const dayOf = b => { if(b.day!=null) return b.day; const d=DATA.days.find(x=>x.date===dateOf(b)); return d?d.tripDay:999; };
   const typeOrder = {flight:1, hotel:2, car:3, activity:4};
   const placeOf = b => b.place || b.name || (b.type==='hotel'?b.name:'') || (b.type==='car'?(b.pickup?.location||''):'') || '';
-  const actOf = b => b.activity || {flight:'טיסה',hotel:'מלון',car:'רכב שכור'}[b.type] || '';
+  const actOf = b => activityHe(b);   // תמיד בעברית
   const sortKey = _bookingSort || 'date';
   const statusOf = b => isRedeemed(b) ? 1 : 0;
   const baseCmp = {
@@ -4804,7 +4843,19 @@ function renderBookings() {
     status:(a,b)=> (statusOf(a)-statusOf(b)) || dateOf(a).localeCompare(dateOf(b)),
   }[sortKey] || ((a,b)=>dateOf(a).localeCompare(dateOf(b)));
   const cmp = (a,b)=> baseCmp(a,b) * _bookingSortDir;
-  const sorted = [...B.bookings].sort(cmp);
+  // חיפוש לפי מילות מפתח — על פני כל השדות הרלוונטיים
+  const q = (_bookingSearch||'').trim().toLowerCase();
+  const matchQ = b => {
+    if(!q) return true;
+    const hay = [b.name, b.place, b.activity, activityHe(b), b.who, b.detail, b.notes, b.bookingRef, b.provider,
+      b.flightNumber, fmtDate(dateOf(b)), timeOf(b), 'יום '+dayOf(b),
+      {flight:'טיסה',hotel:'מלון',car:'רכב שכור',activity:'פעילות'}[b.type],
+      b.pickup?.location, b.dropoff?.location, b.roomType]
+      .filter(Boolean).join(' ').toLowerCase();
+    return q.split(/\s+/).every(w=>hay.includes(w));   // כל המילים צריכות להתאים
+  };
+  const filtered = B.bookings.filter(matchQ);
+  const sorted = [...filtered].sort(cmp);
 
   const cards = sorted.map(b => {
     let body = '';
@@ -4833,8 +4884,8 @@ function renderBookings() {
     } else if (b.type === 'activity') {
       const dayObj = DATA.days.find(d=>d.tripDay===b.day);
       const cityHe = dayObj ? dayCity(dayObj) : '';
-      body = `<div class="bk-field"><span>מתי</span>${fmtDate(b.date)}${b.day?` · יום ${b.day}`:''}${b.time?` · ${b.time}`:''}</div>
-        <div class="bk-field"><span>פעילות</span>${b.activity||''}</div>
+      body = `<div class="bk-field"><span>מתי</span><b class="bk-hl">${fmtDate(b.date)}${b.day?` · יום ${b.day}`:''}${b.time?` · ${b.time}`:''}</b></div>
+        <div class="bk-field"><span>פעילות</span><b class="bk-hl">${activityHe(b)}</b>${b.activity&&b.activity!==activityHe(b)?` <span class="bk-sub-en">(${b.activity})</span>`:''}</div>
         ${b.place?`<div class="bk-field"><span>מקום</span>${b.place}</div>`:''}
         ${b.who?`<div class="bk-field"><span>למי</span>${b.who}</div>`:''}
         ${b.detail?`<div class="bk-field"><span>פרטים</span>${b.detail}</div>`:''}
@@ -4844,10 +4895,11 @@ function renderBookings() {
     const ils = bookingILS(b);
     const costLine = (ils!=null||bookingPriceOrig(b)!=='—') ? `<div class="bk-field"><span>עלות</span>${bookingPriceOrig(b)}${ils!=null?` <span class="bk-ils">≈ ₪${ils.toLocaleString()}</span>`:''}</div>` : '';
     const done = isRedeemed(b);
+    const bkTime = timeOf(b);
     return `<div class="bk-card ${b.status==='pending'?'bk-card-pend':''}${done?' bk-card-done':''}">
       <div class="bk-head">
-        <span class="bk-date">${fmtDate(dateOf(b))}</span>
-        <span class="bk-type">${typeLabel}</span>
+        <span class="bk-when"><span class="bk-date-big">${fmtDate(dateOf(b))}</span>${bkTime?`<span class="bk-time-big">${icon('clock')}${bkTime}</span>`:''}</span>
+        <span class="bk-act-chip bk-act-${b.type}">${activityHe(b)}</span>
         <span class="bk-name">${b.name || (b.route?`${b.route.fromCode} → ${b.route.toCode}`:'') || (b.type==='car'?'רכב שכור — הוקאידו':'')}</span>
         ${statusBadge(b.status)}
         ${done?'<span class="bk-done-badge">✓ מומשה</span>':''}
@@ -4863,12 +4915,13 @@ function renderBookings() {
     </div>`;
   }).join('');
 
-  // סיכום מחושב מהנתונים (מקור אמת יחיד)
-  const conf = B.bookings.filter(b=>b.status==='confirmed').length;
-  const pend = B.bookings.filter(b=>b.status==='pending').length;
-  const doneCount = B.bookings.filter(b=>isRedeemed(b)).length;
+  // סיכום מחושב מהנתונים (מקור אמת יחיד) — מתייחס לתוצאות המסוננות
+  const conf = filtered.filter(b=>b.status==='confirmed').length;
+  const pend = filtered.filter(b=>b.status==='pending').length;
+  const doneCount = filtered.filter(b=>isRedeemed(b)).length;
   const totalILS = sorted.reduce((s,b)=>s+(bookingILS(b)||0),0);
-  const summaryLine = `<div class="bk-summary">${conf} הזמנות מאושרות${pend?` · ${pend} ממתינות`:''} · ${doneCount} מומשו · סה״כ ≈ ₪${totalILS.toLocaleString()}</div>`;
+  const foundLine = q ? `נמצאו ${filtered.length} תוצאות לחיפוש «${escHtml(_bookingSearch.trim())}» · ` : '';
+  const summaryLine = `<div class="bk-summary">${foundLine}${conf} מאושרות${pend?` · ${pend} ממתינות`:''} · ${doneCount} מומשו · סה״כ ≈ ₪${totalILS.toLocaleString()}</div>`;
 
   const sortOpts = [
     {k:'date', l:'תאריך'},
@@ -4923,11 +4976,17 @@ function renderBookings() {
     <tfoot><tr class="bk-tbl-total"><td colspan="7">סה״כ עלות (בשקלים)</td><td class="bk-td-cost">₪${totalILS.toLocaleString()}</td><td></td></tr></tfoot>
   </table></div>`;
 
+  const searchBar = `<div class="bk-searchbar">
+    <span class="bk-search-wrap">${icon('search')}<input id="bkSearchInput" class="bk-search" type="search" placeholder="חיפוש לפי מילת מפתח — פעילות, מקום, תאריך, שם, מספר הזמנה…" value="${escHtml(_bookingSearch)}" oninput="setBookingSearch(this.value)"></span>
+    ${_bookingSearch?`<button class="bk-search-clear" onclick="setBookingSearch('')" data-tip="ניקוי החיפוש">✕</button>`:''}
+  </div>`;
+
   el.innerHTML = `${alertsHtml}
-    <div class="tr-intro">כל ההזמנות של הטיול — מיינו לפי כל עמודה, עברו בין כרטיסים לטבלה, וסמנו הזמנות שמומשו.</div>
+    <div class="tr-intro">כל ההזמנות של הטיול — חפשו לפי מילת מפתח, מיינו לפי כל עמודה, עברו בין כרטיסים לטבלה, וסמנו הזמנות שמומשו.</div>
+    ${searchBar}
     ${summaryLine}
     ${sortBar}
-    ${_bookingView==='table' ? table : `<div class="bk-timeline">${cards}</div>`}`;
+    ${sorted.length ? (_bookingView==='table' ? table : `<div class="bk-timeline">${cards}</div>`) : '<div class="bk-noresults">לא נמצאו הזמנות שתואמות את החיפוש.</div>'}`;
 }
 
 // ══════════════════════════════════
