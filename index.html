@@ -2092,9 +2092,11 @@ function renderHelp() {
       'כפתורי <b>האזורים</b> מסננים לפי חלק בטיול.'];
   } else if (activeTab==='costs') {
     title = 'תקציב';
-    const total = C.reduce((s,c)=>s+(c.amount||0),0);
-    const paid = C.filter(c=>c.paid).reduce((s,c)=>s+(c.amount||0),0);
-    summary = [`<b>${C.length}</b> רשומות`, `<b>₪${total.toLocaleString()}</b> סה״כ`, `<b>₪${paid.toLocaleString()}</b> שולם`, `<b>₪${(total-paid).toLocaleString()}</b> נותר`];
+    // סיכום מלא ועקבי — מכל מקורות העלות (מלונות+טיסות+רכב+פעילויות מוזמנות+משוער), כמו בדף התקציב עצמו
+    let cr=[]; try{ cr=collectCosts(); }catch(e){ cr=[]; }
+    const total = cr.reduce((s,r)=>s+(r.ils||0),0);
+    const paid = cr.filter(r=>r.paid).reduce((s,r)=>s+(r.ils||0),0);
+    summary = [`<b>${cr.length}</b> רשומות`, `<b>₪${total.toLocaleString()}</b> סה״כ`, `<b>₪${paid.toLocaleString()}</b> שולם`, `<b>₪${(total-paid).toLocaleString()}</b> נותר`];
     instr = ['לחיצה על <b>כותרת עמודה</b> ממיינת (קטגוריה, סכום, תאריך…).',
       'עמודת <b>הערות</b> ניתנת לעריכה ישירה.',
       'סימון <b>שולם</b> מציג אילו הוצאות כבר שולמו.'];
@@ -4391,11 +4393,26 @@ function collectCosts() {
     }
     if(cs.car) rows.push({cat:'רכב שכור', item:'Sixt/ORIX — Mazda CX-5, 12 ימים', amount:cs.car.total, currency:cs.car.currency, ils:toILS(cs.car.total,cs.car.currency), paid:true, estimate:false, note:'אישור 9736445237 (כולל ביטוח, GPS, ETC, one-way)'});
   }
-  // 3) אטרקציות/פעילויות — מ-booking-checklist (משוער, טרם שולם)
+  // 3א) פעילויות שהוזמנו ושולמו — מ-bookings.json (מקור אמת מהמסמכים, מדויק)
+  const bookedActs = ((DATA.bookings&&DATA.bookings.bookings)||[]).filter(b=>b.type==='activity');
+  // מזהי-אתר של פעילויות מוזמנות — כדי לא לספור פעמיים את אותה פעילות מהצ׳קליסט (משוער)
+  const BOOKED_ACT_RE = [/יוניברסל|universal|usj/i, /teamlab|טימלב|ביו/i, /שייט|לוויתנ|לווייתנ|cruise/i, /זיפליין|zipline/i, /אורות בהר|mountain lights/i, /קיאק|kayak/i];
+  bookedActs.forEach(b=>{
+    const p=b.price||{};
+    const ils = (p.total!=null&&p.currency)?toILS(p.total,p.currency):null;
+    rows.push({cat:'אטרקציות ופעילויות', item:b.name, amount:(ils!=null?ils:null), currency:'ILS',
+      ils:(ils!=null?ils:0), date:b.date, paid:true, estimate:false,
+      note:'הוזמן ושולם'+(b.bookingRef?(' · '+b.bookingRef):'')+(ils==null?' · מחיר לא מופיע במסמך':'')});
+  });
+  // 3ב) אטרקציות מתוכננות שטרם הוזמנו — מ-booking-checklist (משוער). מדלגים על פעילויות שכבר מופיעות כהזמנה ששולמה.
   (DATA.checklist?.items||[]).forEach(it=>{
+    const nameHay=(it.item||'')+' '+(it.nameHe||'')+' '+(it.nameEn||'');
+    // אם קיימת הזמנה מאושרת לאותה פעילות — לא לספור שוב את ההערכה
+    const alreadyBooked = BOOKED_ACT_RE.some(re=>re.test(nameHay) && bookedActs.some(b=>re.test((b.name||'')+' '+(b.activity||''))));
+    if(alreadyBooked) return;
     const st = localStorage.getItem('cl-'+it.day+'-'+it.item) || it.status || 'pending';
     const num = parseInt(String(it.cost||'').replace(/[^\d]/g,''))||0;
-    rows.push({cat:'אטרקציות ופעילויות', item:it.item, amount:num, currency:'ILS', ils:num, date:it.date, paid:st==='booked', estimate:true, note:'יום '+it.day});
+    rows.push({cat:'אטרקציות ופעילויות', item:it.item, amount:num, currency:'ILS', ils:num, date:it.date, paid:st==='booked', estimate:true, note:'יום '+it.day+' · משוער'});
   });
   // 4) קטגוריות ללא נתונים ודאיים — משוער/טעון אימות
   rows.push({cat:'דלק', item:'דלק להוקאידו (משוער)', amount:null, ils:0, paid:false, estimate:true, verify:true, note:'תלוי בק״מ בפועל — לא במסמך'});
