@@ -160,7 +160,10 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 .tab.on::after{content:'';position:absolute;left:14px;right:14px;bottom:-8px;height:2px;background:var(--focus)}
 .tab:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
 /* מצב סידור כפתורים (drag & drop) */
-.nav .tabs.reordering .tab{cursor:grab;background:rgba(255,255,255,.08);border:1px dashed #888;animation:tabWiggle .5s ease-in-out infinite}
+.tab-link{text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.tab-link .ic{width:13px;height:13px;stroke:currentColor;fill:none}
+.nav .tabs.reordering .tab-link{display:none}
+.nav .tabs.reordering .tab:not(.tab-link){cursor:grab;background:rgba(255,255,255,.08);border:1px dashed #888;animation:tabWiggle .5s ease-in-out infinite}
 .nav .tabs.reordering .tab.on::after{display:none}
 .nav .tabs.reordering .tab.dragging{opacity:.4;cursor:grabbing;animation:none}
 @keyframes tabWiggle{0%,100%{transform:rotate(-1deg)}50%{transform:rotate(1deg)}}
@@ -172,8 +175,6 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--
 .nav-btn.save{border-color:#166534;color:#4ade80}.nav-btn.save:hover{background:#166534;color:#fff}
 .nav-btn.vs-btn{display:inline-flex;align-items:center;gap:4px;border-color:#3b5bb5;color:#93b4ff;text-decoration:none}
 .nav-btn.vs-btn:hover{background:rgba(29,78,216,.18);color:#fff;border-color:#1d4ed8}
-.nav-btn.moment-btn{display:inline-flex;align-items:center;gap:4px;border-color:#b54646;color:#ff9d9d;text-decoration:none}
-.nav-btn.moment-btn:hover{background:rgba(220,38,38,.18);color:#fff;border-color:#dc2626}
 .back-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid #4b4b4b;border-radius:6px;background:rgba(255,255,255,.06);color:#e8e6e1;font:800 12px/1.4 inherit;cursor:pointer;transition:.12s;white-space:nowrap}
 .back-btn .ic{width:14px;height:14px}
 .back-btn:hover{background:rgba(255,255,255,.14);border-color:#777}
@@ -1245,12 +1246,12 @@ a.ml:hover{text-decoration:underline}
     <button class="tab" data-tab="transport" data-tip="טיסות, רכב שכור ושאטלים — כל התחבורה" aria-label="מעבר לדף התחבורה">תחבורה</button>
     <button class="tab" data-tab="map" data-tip="מפת כל המלונות והאתרים" aria-label="מעבר למפה">מפה</button>
     <button class="tab" data-tab="phrases" data-tip="שפה — הקלטת משפט בעברית ותרגומו ליפנית בקול, וספריית משפטים שמורים" aria-label="מעבר לדף השפה">שפה</button>
+    <a class="tab tab-link" href="https://moment-red.vercel.app" target="_blank" rel="noopener noreferrer" data-tip="פתיחת אפליקציית האלבום בלשונית חדשה" aria-label="פתיחת אפליקציית האלבום">אלבום</a>
   </div>
   <div class="actions">
     <button class="nav-btn save" id="navSaveBtn" onclick="saveAll()" style="display:none" data-tip="הורדת הקבצים המעודכנים לשמירה ב-Git (סדר כפתורים, אתרים חדשים ועוד)" aria-label="שמירת הקבצים ל-Git">שמור קבצים</button>
     <button class="nav-btn reorder-btn" id="reorderBtn" onclick="toggleReorder()" data-tip="מצב סידור — גררי כפתורים לסדר חדש, ואז שמרי" aria-label="סידור כפתורי הניווט"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor;fill:none;width:13px;height:13px;vertical-align:-2px"><path d="M4 9h16M4 15h16M8 5l-4 4 4 4M16 11l4 4-4 4"/></svg> <span class="reorder-lbl">סדר כפתורים</span></button>
     <a class="nav-btn vs-btn" href="https://github.com/Anat1969/YAPAN3-GH" target="_blank" rel="noopener" data-tip="פתיחת קוד האפליקציה ב-VS Code (GitHub) לשדרוג" aria-label="שדרוג VS — עריכת קוד האפליקציה"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor;fill:none;width:13px;height:13px;vertical-align:-2px"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg> שדרוג VS</a>
-    <a class="nav-btn moment-btn" href="https://moment-red.vercel.app" target="_blank" rel="noopener" data-tip="פתיחת האפליקציה Moment בלשונית חדשה" aria-label="פתיחת האפליקציה Moment"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor;fill:none;width:13px;height:13px;vertical-align:-2px"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Moment</a>
     <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none" data-tip="חזרה לדף הקודם שביקרת בו" aria-label="חזרה לדף הקודם"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor"><path d="M5 12h14M12 5l-7 7 7 7"/></svg><span class="back-lbl">חזרה</span></button>
   </div>
 </nav>
@@ -1648,6 +1649,8 @@ async function loadData() {
 // TABS
 // ══════════════════════════════════
 document.querySelectorAll('.tab').forEach(btn => {
+  // קישורים חיצוניים (כמו «אלבום») נראים כטאב אבל נפתחים כ-href רגיל — לא goTab
+  if(btn.classList.contains('tab-link') || !btn.dataset.tab) return;
   btn.addEventListener('click', () => { if(!reorderMode) goTab(btn.dataset.tab); });
 });
 
@@ -1672,14 +1675,14 @@ function applyTabOrder() {
   const bar = document.querySelector('.nav .tabs');
   if(!bar) return;
   const byKey = {};
-  bar.querySelectorAll('.tab').forEach(b=>{ byKey[b.dataset.tab]=b; });
+  bar.querySelectorAll('.tab:not(.tab-link)').forEach(b=>{ byKey[b.dataset.tab]=b; });
   // קודם הכפתורים לפי הסדר השמור, ואז כל כפתור חדש שלא ברשימה (שמירה על גמישות)
   order.forEach(k=>{ if(byKey[k]){ bar.appendChild(byKey[k]); delete byKey[k]; } });
   Object.values(byKey).forEach(b=>bar.appendChild(b));
 }
-// הסדר הנוכחי מה-DOM
+// הסדר הנוכחי מה-DOM (ללא קישורים חיצוניים כמו «אלבום»)
 function currentTabOrder(){
-  return Array.from(document.querySelectorAll('.nav .tabs .tab')).map(b=>b.dataset.tab);
+  return Array.from(document.querySelectorAll('.nav .tabs .tab:not(.tab-link)')).map(b=>b.dataset.tab);
 }
 function toggleReorder() {
   reorderMode = !reorderMode;
@@ -1688,7 +1691,7 @@ function toggleReorder() {
   bar.classList.toggle('reordering', reorderMode);
   btn.classList.toggle('on', reorderMode);
   btn.querySelector('.reorder-lbl').textContent = reorderMode ? 'סיום סידור' : 'סדר כפתורים';
-  bar.querySelectorAll('.tab').forEach(b=>{
+  bar.querySelectorAll('.tab:not(.tab-link)').forEach(b=>{
     b.draggable = reorderMode;
     if(reorderMode){
       b.addEventListener('dragstart', onTabDragStart);
