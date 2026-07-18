@@ -859,6 +859,31 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .ph-icon-btn.on .ic{fill:#f5b301;stroke:#f5b301}
 .ph-icon-btn:hover:not(.on) .ic{stroke:var(--ink)}
 @media(max-width:560px){.ph-ja-big{font-size:28px}.ph-card-play{width:46px;height:46px}.ph-card-play .ic{width:21px;height:21px}.ph-input-row{flex-wrap:wrap}.ph-btn-go{width:100%}}
+/* ── מצלמה: OCR יפני → תרגום עברית ── */
+.cam-page{max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.cam-intro{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--ink-2);background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px}
+.cam-intro .ic{width:18px;height:18px;stroke:var(--action);flex-shrink:0}
+.cam-actions{display:flex;gap:10px;flex-wrap:wrap}
+.cam-btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border-strong);background:var(--surface);color:var(--ink);border-radius:12px;padding:14px 20px;font:800 15px/1 inherit;cursor:pointer;transition:.12s}
+.cam-btn .ic{width:17px;height:17px;stroke:currentColor}
+.cam-btn:hover{background:var(--bg)}
+.cam-btn-primary{background:var(--action);color:#fff;border-color:var(--action);flex:1;justify-content:center;box-shadow:0 3px 10px rgba(29,78,216,.22)}
+.cam-btn-primary:hover{filter:brightness(1.06);background:var(--action)}
+.cam-btn-clear{color:#dc2626;border-color:#f0b4b4}
+.cam-btn-clear:hover{background:#fef2f2}
+.cam-preview{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#000;max-height:340px;display:flex;justify-content:center}
+.cam-preview img{max-width:100%;max-height:340px;object-fit:contain}
+.cam-status{font-size:14px;font-weight:700;color:var(--action);background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:12px 14px;text-align:center}
+.cam-result{display:flex;flex-direction:column;gap:12px}
+.cam-block{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px}
+.cam-block-lbl{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--ink-3);margin-bottom:8px}
+.cam-block-lbl .ic{width:14px;height:14px;stroke:var(--ink-3)}
+.cam-ja{font-size:22px;font-weight:800;color:var(--ink);line-height:1.5;word-break:break-word;margin-bottom:12px}
+.cam-block-he{background:linear-gradient(180deg,rgba(22,163,74,.06),var(--surface));border-color:#bbf7d0}
+.cam-he{font-size:20px;font-weight:900;color:var(--ink);line-height:1.6;word-break:break-word}
+.cam-err{color:#dc2626;font-size:14px}
+.cam-hint{font-size:12.5px;color:var(--ink-3);text-align:center;line-height:1.6}
+@media(max-width:560px){.cam-actions{flex-direction:column}.cam-btn{width:100%;justify-content:center}.cam-ja{font-size:19px}.cam-he{font-size:18px}}
 
 /* דף תחבורה מרכזי */
 .tr-intro{margin:2px 0 12px;font-size:13px;color:var(--ink-3)}
@@ -1325,6 +1350,7 @@ a.ml:hover{text-decoration:underline}
     <button class="tab" data-tab="transport" data-tip="טיסות, רכב שכור ושאטלים — כל התחבורה" aria-label="מעבר לדף התחבורה">תחבורה</button>
     <button class="tab" data-tab="map" data-tip="מפת כל המלונות והאתרים" aria-label="מעבר למפה">מפה</button>
     <button class="tab" data-tab="phrases" data-tip="שפה — הקלטת משפט בעברית ותרגומו ליפנית בקול, וספריית משפטים שמורים" aria-label="מעבר לדף השפה">שפה</button>
+    <button class="tab" data-tab="camtrans" data-tip="מצלמה — צילום כיתוב ביפנית ותרגומו לעברית" aria-label="מעבר לתרגום ממצלמה">מצלמה</button>
     <a class="tab tab-link" href="https://moment-red.vercel.app" target="_blank" rel="noopener noreferrer" data-tip="פתיחת אפליקציית האלבום בלשונית חדשה" aria-label="פתיחת אפליקציית האלבום">אלבום</a>
   </div>
   <div class="actions">
@@ -1379,6 +1405,7 @@ a.ml:hover{text-decoration:underline}
 <div class="panel" id="p-checklist"><div class="tw" id="checklistWrap"></div></div>
 <div class="panel" id="p-transport"><div class="tw" id="transportWrap"></div></div>
 <div class="panel" id="p-phrases"><div class="tw" id="phrasesWrap"></div></div>
+<div class="panel" id="p-camtrans"><div class="tw" id="camtransWrap"></div></div>
 <div class="panel" id="p-map">
   <div class="mapview-bar" role="group" aria-label="בחירת תצוגת מפה">
     <button class="mvb on" data-view="days" onclick="setMapView('days')" data-tip="מסלול כל יום — תחנות ממוספרות וקו מסלול" aria-label="תצוגה לפי יום ותאריך">לפי יום</button>
@@ -1712,7 +1739,7 @@ async function loadData() {
   }
   // פתיחת הטאב לפי ה-URL (מאפשר קישור ישיר ושמירת מצב ברענון — סעיף 4.5)
   const urlTab = new URLSearchParams(location.search).get('tab');
-  const valid = ['brief','summary','days','itinerary','calendar','hotels','bookings','checklist','places','images','costs','transport','map','phrases'];
+  const valid = ['brief','summary','days','itinerary','calendar','hotels','bookings','checklist','places','images','costs','transport','map','phrases','camtrans'];
   if (urlTab && valid.includes(urlTab) && urlTab!==activeTab) {
     activeTab = urlTab;
     document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===urlTab));
@@ -1953,6 +1980,7 @@ function render() {
   else if (activeTab==='checklist') renderChecklist();
   else if (activeTab==='transport') renderTransport();
   else if (activeTab==='phrases') renderPhrases();
+  else if (activeTab==='camtrans') renderCamTrans();
 }
 
 function renderStats() {
@@ -2789,6 +2817,100 @@ function renderPhrases(){
   _updatePhraseResult();
   // טעינת קולות (לפעמים אסינכרוני) — כדי שהקול היפני יהיה זמין
   if('speechSynthesis' in window){ try{ window.speechSynthesis.getVoices(); window.speechSynthesis.onvoiceschanged=()=>{}; }catch(e){} }
+}
+
+// ══════════════════════════════════
+// מצלמה — צילום כיתוב ביפנית → OCR (Tesseract.js) → תרגום לעברית
+// ══════════════════════════════════
+let _camState = { img:null, ja:'', he:'', busy:false, status:'' };
+let _tesseractLoading = null;
+// טעינה עצלה של Tesseract.js (רק כשנכנסים לדף) מ-CDN
+function loadTesseract(){
+  if(window.Tesseract) return Promise.resolve(window.Tesseract);
+  if(_tesseractLoading) return _tesseractLoading;
+  _tesseractLoading = new Promise((resolve,reject)=>{
+    const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+    s.onload=()=>resolve(window.Tesseract);
+    s.onerror=()=>reject(new Error('נכשלה טעינת מנוע ה-OCR'));
+    document.head.appendChild(s);
+  });
+  return _tesseractLoading;
+}
+// תרגום יפנית→עברית (דרך Google החינמי, כמו בדף השפה)
+async function translateJaToHe(text){
+  const url='https://translate.googleapis.com/translate_a/single?client=gtx&sl=ja&tl=iw&dt=t&q='+encodeURIComponent(text);
+  const res=await fetch(url); if(!res.ok) throw new Error('translate http '+res.status);
+  const data=await res.json();
+  return (data[0]||[]).map(seg=>seg[0]).join('');
+}
+function _camStatus(msg){ _camState.status=msg; const el=document.getElementById('camStatus'); if(el) el.textContent=msg; }
+// קבלת קובץ תמונה (מהמצלמה או מהגלריה)
+function camPickFile(input){
+  const f=input.files&&input.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{ _camState.img=r.result; _camState.ja=''; _camState.he=''; renderCamTrans(); camRunOCR(); };
+  r.readAsDataURL(f);
+  input.value='';
+}
+// הרצת OCR + תרגום
+async function camRunOCR(){
+  if(!_camState.img || _camState.busy) return;
+  _camState.busy=true; _camState.ja=''; _camState.he=''; renderCamTrans();
+  try{
+    _camStatus('טוען מנוע זיהוי טקסט…');
+    const T=await loadTesseract();
+    _camStatus('קורא את הכיתוב היפני מהתמונה… (עשוי לקחת כמה שניות)');
+    const { data } = await T.recognize(_camState.img, 'jpn');
+    const ja=(data&&data.text||'').replace(/\s+/g,'').trim();   // יפנית ללא רווחים מיותרים
+    if(!ja){ _camStatus(''); _camState.ja=''; _camState.he=''; _camState.busy=false; renderCamTrans(); toast('לא זוהה טקסט יפני בתמונה — נסי תמונה ברורה יותר'); return; }
+    _camState.ja=ja;
+    _camStatus('מתרגם לעברית…');
+    try{ _camState.he=await translateJaToHe(ja); }
+    catch(e){ _camState.he=''; toast('הזיהוי הצליח אבל התרגום נכשל — בדקי חיבור לאינטרנט'); }
+    _camStatus(''); _camState.busy=false; renderCamTrans();
+  }catch(e){
+    _camState.busy=false; _camStatus('');
+    renderCamTrans(); toast(e.message||'שגיאה בזיהוי הטקסט');
+  }
+}
+function camClear(){ _camState={img:null,ja:'',he:'',busy:false,status:''}; renderCamTrans(); }
+function renderCamTrans(){
+  const wrap=document.getElementById('camtransWrap'); if(!wrap) return;
+  const st=_camState;
+  const result = st.ja ? `
+    <div class="cam-result">
+      <div class="cam-block">
+        <div class="cam-block-lbl">${icon('search')} הכיתוב היפני</div>
+        <div class="cam-ja" dir="ltr" lang="ja">${escHtml(st.ja)}</div>
+        <button class="ph-btn ph-btn-play" onclick="speakJa(${JSON.stringify(st.ja).replace(/"/g,'&quot;')})">${icon('sound')} השמע ביפנית</button>
+      </div>
+      ${st.he?`<div class="cam-block cam-block-he">
+        <div class="cam-block-lbl">${icon('edit')} התרגום לעברית</div>
+        <div class="cam-he">${escHtml(st.he)}</div>
+      </div>`:'<div class="cam-block cam-block-he"><div class="cam-err">התרגום לא זמין כרגע — נסי שוב.</div></div>'}
+    </div>` : '';
+  const preview = st.img ? `<div class="cam-preview"><img src="${st.img}" alt="התמונה שצולמה"></div>` : '';
+  const busyBar = (st.busy||st.status) ? `<div class="cam-status" id="camStatus">${escHtml(st.status||'')}</div>` : '<div class="cam-status" id="camStatus" style="display:none"></div>';
+  wrap.innerHTML = `
+    <div class="cam-page">
+      <div class="cam-intro">${icon('image')} צלמי כיתוב ביפנית (שלט, תפריט, אריזה) — והאפליקציה תקרא ותתרגם לעברית.</div>
+      <div class="cam-actions">
+        <label class="cam-btn cam-btn-primary">
+          <input type="file" accept="image/*" capture="environment" onchange="camPickFile(this)" style="display:none">
+          ${icon('image')} צלמי תמונה
+        </label>
+        <label class="cam-btn">
+          <input type="file" accept="image/*" onchange="camPickFile(this)" style="display:none">
+          ${icon('external')} מהגלריה
+        </label>
+        ${st.img?`<button class="cam-btn cam-btn-clear" onclick="camClear()">${icon('trash')} נקי</button>`:''}
+      </div>
+      ${preview}
+      ${busyBar}
+      ${result}
+      <div class="cam-hint">טיפ: תמונה ברורה, ממורכזת על הטקסט ובתאורה טובה — נותנת זיהוי מדויק יותר. הזיהוי רץ במכשיר שלך; התרגום דורש אינטרנט.</div>
+    </div>`;
 }
 
 // כפתור מעבר אחיד בין תצוגת כרטיסים לרשימה (סעיף 3.2)
@@ -6219,7 +6341,7 @@ window.yukoDayContext = function(){
 window.DATA = DATA; // חשיפה לקריאה מ-yuko.js (let לא נכנס אוטומטית ל-window)
 
 window.yukoGoTab = function(tab){
-  var valid = ['brief','summary','days','calendar','hotels','bookings','checklist','places','images','costs','transport','map','phrases'];
+  var valid = ['brief','summary','days','calendar','hotels','bookings','checklist','places','images','costs','transport','map','phrases','camtrans'];
   if (valid.indexOf(tab) === -1) return false;
   goTab(tab);
   return true;
