@@ -1,0 +1,10 @@
+[
+  {"id": 1, "he": "כמה זה עולה?", "ja": "いくらですか？", "romaji": "Ikura desu ka?", "fav": true},
+  {"id": 2, "he": "שלום", "ja": "こんにちは", "romaji": "Konnichiwa", "fav": false},
+  {"id": 3, "he": "תודה רבה", "ja": "ありがとうございます", "romaji": "Arigatō gozaimasu", "fav": true},
+  {"id": 4, "he": "סליחה", "ja": "すみません", "romaji": "Sumimasen", "fav": false},
+  {"id": 5, "he": "איפה השירותים?", "ja": "トイレはどこですか？", "romaji": "Toire wa doko desu ka?", "fav": true},
+  {"id": 6, "he": "אני לא מדבר יפנית", "ja": "日本語が話せません", "romaji": "Nihongo ga hanasemasen", "fav": false},
+  {"id": 7, "he": "אפשר את התפריט באנגלית?", "ja": "英語のメニューはありますか？", "romaji": "Eigo no menyū wa arimasu ka?", "fav": false},
+  {"id": 8, "he": "איפה תחנת הרכבת?", "ja": "駅はどこですか？", "romaji": "Eki wa doko desu ka?", "fav": false}
+]
