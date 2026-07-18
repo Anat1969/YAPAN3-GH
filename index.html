@@ -109,8 +109,8 @@
 .brief-doc-nb{padding:var(--space-4)}
 .brief-doc .nb-day{margin-bottom:var(--space-4)}
 .brief-doc .nb-dhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--space-2);margin-bottom:var(--space-2)}
-.brief-doc .nb-dnum{font-size:var(--fs-lg);font-weight:900;color:var(--ink)}
-.brief-doc .nb-ddate{font-size:var(--fs-sm);font-weight:700;color:var(--ink-3);direction:ltr}
+.brief-doc .nb-dnum{font-size:var(--fs-sm);font-weight:700;color:var(--ink-3)}
+.brief-doc .nb-ddate{font-size:var(--fs-lg);font-weight:900;color:var(--action);direction:ltr}
 .brief-doc .nb-dcity{font-size:var(--fs-md);font-weight:800;color:var(--action)}
 .brief-doc .nb-dtitle{font-size:var(--fs-sm);font-weight:700;color:var(--warn)}
 .brief-doc .nb-table{width:100%;border-collapse:collapse;font-size:var(--fs-sm)}
@@ -370,15 +370,15 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .idr-day{display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 6px;border-radius:10px;text-decoration:none;color:var(--ink);border:1px solid transparent;transition:.12s;position:relative}
 .idr-day:hover{box-shadow:0 1px 6px rgba(0,0,0,.15);transform:translateX(2px)}
 .idr-day.on{outline:2px solid var(--action);outline-offset:-2px;font-weight:900}
-.idr-num{font-size:20px;font-weight:900;line-height:1;direction:ltr}
-.idr-num::before{content:'יום ';font-size:10px;font-weight:700}
-.idr-date{font-size:14px;font-weight:800;direction:ltr;color:var(--ink-2)}
+.idr-num{font-size:12px;font-weight:700;line-height:1;direction:ltr;color:var(--ink-3)}
+.idr-num::before{content:'יום ';font-size:9px;font-weight:600}
+.idr-date{font-size:20px;font-weight:900;direction:ltr;color:var(--action)}
 .idr-city{font-size:11px;font-weight:700;line-height:1.15;text-align:center;color:var(--ink-3);overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;max-width:100%}
 .idr-day.cal-k{background:var(--region-1)}.idr-day.cal-h{background:var(--region-2)}.idr-day.cal-t{background:var(--region-3)}.idr-day.cal-d{background:var(--region-4)}
 .idr-day.idr-return{background:#e7f3ec}.idr-day.idr-return .idr-city{color:#166534;font-weight:800}
 /* פינוי מקום לסרגל (בצד ימין) רק כשהוא נצמד לדופן המסך — אחרת הוא בשוליים */
 @media(max-width:1560px){#p-itinerary{padding-inline-end:166px}}
-@media(max-width:1100px){.itin-rail{width:120px}#p-itinerary{padding-inline-end:132px}.idr-num{font-size:18px}.idr-date{font-size:13px}}
+@media(max-width:1100px){.itin-rail{width:120px}#p-itinerary{padding-inline-end:132px}.idr-num{font-size:11px}.idr-date{font-size:18px}}
 @media(max-width:760px){.itin-rail{position:static;right:auto;inset:auto;width:auto;flex-direction:column;margin-bottom:14px;box-shadow:none}.idr-list{flex-direction:row;flex-wrap:wrap;overflow-x:auto}.idr-day{min-width:70px}#p-itinerary{padding-inline-end:12px}}
 .itin-list{display:flex;flex-direction:column;gap:16px}
 .itin-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;scroll-margin-top:90px}
@@ -2230,8 +2230,8 @@ function downloadBriefPDF(){
       /* מחברת מעשית — טבלה */
       .nb-day{margin:14px 0;break-inside:avoid}
       .nb-dhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin-bottom:5px}
-      .nb-dnum{font-size:16px;font-weight:900;color:#1c1c1a}
-      .nb-ddate{font-size:12px;font-weight:700;color:#8a857e;direction:ltr}
+      .nb-dnum{font-size:12px;font-weight:700;color:#8a857e}
+      .nb-ddate{font-size:16px;font-weight:900;color:#1d4ed8;direction:ltr}
       .nb-dcity{font-size:14px;font-weight:800;color:#1d4ed8}
       .nb-dtitle{font-size:12px;font-weight:700;color:#b45309}
       .nb-table{width:100%;border-collapse:collapse;font-size:11px}
@@ -2810,7 +2810,7 @@ function renderDays() {
     const regRow = {kansai:'reg-k',hokkaido:'reg-h',tokyo:'reg-t',dubai:'reg-d',home:'reg-d'}[d.region]||'';
     return `<tr class="${regRow}${isMiss?' miss':''}">
       <td class="c-page-cell"><a class="act act-open" href="day.html?d=${d.tripDay}">${icon('external')}פתח דף</a></td>
-      <td><a href="day.html?d=${d.tripDay}" style="font-weight:700;color:#1d4ed8;text-decoration:none">${d.tripDay}</a></td>
+      <td><a href="day.html?d=${d.tripDay}" style="font-weight:600;font-size:12px;color:#8a857e;text-decoration:none">${d.tripDay}</a></td>
       <td><a class="day-date" href="day.html?d=${d.tripDay}">${d.day}/${d.month}</a></td>
       <td>${d.weekday}</td>
       <td>${d.region?regionTag(d.region):''}</td>
