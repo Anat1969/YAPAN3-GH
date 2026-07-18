@@ -46,20 +46,6 @@
     ],
     "evening": [
       {
-        "name": "אונסן ניסקו — גראנד הירָפוּ",
-        "nameEn": "Niseko Grand Hirafu Onsen",
-        "addr": "Yamada, Kutchan, Abuta District, Hokkaido",
-        "lat": 42.8628,
-        "lng": 140.7078,
-        "time": "17:30",
-        "duration": "1.5 שעות",
-        "price": 800,
-        "forWho": "נתן, ענת",
-        "notes": "מעיינות חמים טבעיים אחרי יום ספורט. חלק מהמתחמים עם רוטנבורו (בריכה חיצונית) מול ההרים",
-        "placeId": "",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Mount_Y%C5%8Dtei_from_Niseko_Annupuri_%2833253188670%29.jpg/500px-Mount_Y%C5%8Dtei_from_Niseko_Annupuri_%2833253188670%29.jpg"
-      },
-      {
         "time": "18:00",
         "name": "אורות בהר — ניסקו",
         "nameEn": "Niseko Mountain Lights",

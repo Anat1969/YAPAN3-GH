@@ -1,23 +1,9 @@
 {
   "id": 4,
-  "title": "קובה — נמל, בשר ורעידת אדמה",
+  "title": "יוניברסל סטודיוס אוסקה",
   "idea": "עיר נמל אלגנטית, חוויה פיזית חזקה",
   "spots": {
     "morning": [
-      {
-        "name": "הרבור קובה",
-        "nameEn": "Kobe Harborland",
-        "addr": "Higashikawasakicho, Chuo-ku, Kobe",
-        "lat": 34.6801,
-        "lng": 135.1853,
-        "time": "10:00",
-        "duration": "1 שעה",
-        "price": 0,
-        "forWho": "נתן, לוטם",
-        "notes": "טיילת נמל, נוף, מגדל פורט",
-        "placeId": "",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Kobe_Port_Tower_and_Harborland_at_night_20190202-2.jpg/500px-Kobe_Port_Tower_and_Harborland_at_night_20190202-2.jpg"
-      },
       {
         "time": "10:00",
         "name": "יוניברסל סטודיוס אוסקה",
@@ -26,52 +12,9 @@
         "notes": "כרטיס יומי + Express Pass 5. Super Nintendo World 13:00. הזמנה USJ-P1X000000CNC7X.",
         "lat": 34.6654,
         "lng": 135.4323
-      },
-      {
-        "name": "שכונת קיטאנו",
-        "nameEn": "Kitano-cho",
-        "addr": "Kitanocho, Chuo-ku, Kobe",
-        "lat": 34.702,
-        "lng": 135.1901,
-        "time": "11:30",
-        "duration": "1.5 שעות",
-        "price": 0,
-        "forWho": "ענת, לוטם",
-        "notes": "בתים אירופיים מהמאה ה-19, בתי קפה, נוף לנמל",
-        "placeId": "",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Weathercock_House_Kobe_Kitano_Ijinkan_%E9%A2%A8%E8%A6%8B%E9%B6%8F%E3%81%AE%E9%A4%A8%EF%BC%88%E6%97%A7%E3%83%88%E3%83%BC%E3%83%9E%E3%82%B9%E4%BD%8F%E5%AE%85%EF%BC%89.jpg/500px-Weathercock_House_Kobe_Kitano_Ijinkan_%E9%A2%A8%E8%A6%8B%E9%B6%8F%E3%81%AE%E9%A4%A8%EF%BC%88%E6%97%A7%E3%83%88%E3%83%BC%E3%83%9E%E3%82%B9%E4%BD%8F%E5%AE%85%EF%BC%89.jpg"
       }
     ],
-    "afternoon": [
-      {
-        "name": "מוזיאון רעידת אדמה",
-        "nameEn": "Disaster Reduction Museum",
-        "addr": "1-5-2 Wakinohamakaigandori, Chuo-ku, Kobe",
-        "lat": 34.696,
-        "lng": 135.2062,
-        "time": "13:30",
-        "duration": "1.5 שעות",
-        "price": 600,
-        "forWho": "עילאי, כולם",
-        "notes": "חוויה פיזית — סימולציה של רעידת 1995. מרשים מאוד",
-        "placeId": "",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Kobe_Port_Tower_and_Maritime_Museum%2C_November_2016.jpg/500px-Kobe_Port_Tower_and_Maritime_Museum%2C_November_2016.jpg"
-      },
-      {
-        "name": "בשר קובה — ארוחה",
-        "nameEn": "Kobe Beef Lunch",
-        "addr": "Sannomiya area, Kobe",
-        "lat": 34.695,
-        "lng": 135.195,
-        "time": "15:30",
-        "duration": "1.5 שעות",
-        "price": null,
-        "forWho": "נתן, כולם",
-        "notes": "Mouriya או Ishida — מחיר סביר לצהריים (3,000-6,000 ין)",
-        "placeId": "",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Wagyu_Steak_Sandwich.jpg/500px-Wagyu_Steak_Sandwich.jpg"
-      }
-    ],
+    "afternoon": [],
     "evening": [
       {
         "name": "חזרה לאוסקה",
