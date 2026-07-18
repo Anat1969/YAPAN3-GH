@@ -894,6 +894,45 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .cam-warn .ic{width:16px;height:16px;stroke:#b45309;flex-shrink:0;margin-top:1px}
 .cam-hint{font-size:12.5px;color:var(--ink-3);text-align:center;line-height:1.6}
 @media(max-width:560px){.cam-actions{flex-direction:column}.cam-btn{width:100%;justify-content:center}.cam-ja{font-size:19px}.cam-he{font-size:18px}}
+/* ── מפות מפתח ── */
+.km-page{max-width:1100px;margin:0 auto}
+.km-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.km-title{display:flex;align-items:center;gap:8px;margin:0;font-size:19px;font-weight:900;color:var(--ink)}
+.km-title .ic{width:20px;height:20px;stroke:var(--action)}
+.km-add{display:inline-flex;align-items:center;gap:6px;background:var(--action);color:#fff;border:none;border-radius:10px;padding:10px 16px;font:800 14px/1 inherit;cursor:pointer;box-shadow:0 3px 10px rgba(29,78,216,.22)}
+.km-add .ic{width:15px;height:15px;stroke:#fff}
+.km-add:hover{filter:brightness(1.06)}
+.km-hint-top{font-size:13px;color:var(--ink-3);margin:4px 0 16px;line-height:1.6}
+.km-empty-state{padding:40px;text-align:center;color:var(--ink-3);font-size:15px;background:var(--bg);border:1px dashed var(--border-strong);border-radius:14px}
+.km-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.km-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.km-namewrap{display:flex;align-items:center;gap:6px;padding:10px 12px;border-bottom:1px solid var(--border)}
+.km-name{flex:1;min-width:0;font-size:15px;font-weight:800;color:var(--ink);outline:none;border-radius:6px;padding:3px 6px;line-height:1.3;word-break:break-word}
+.km-name:focus{background:rgba(59,130,246,.06);box-shadow:inset 0 0 0 2px var(--focus)}
+.km-name:empty:before{content:attr(data-ph);color:var(--ink-3);font-weight:400}
+.km-del{flex-shrink:0;width:30px;height:30px;border:1px solid var(--border);border-radius:7px;background:var(--surface);color:var(--ink-3);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.km-del .ic{width:15px;height:15px;stroke:currentColor}
+.km-del:hover{background:#dc2626;border-color:#dc2626;color:#fff}
+.km-frame{position:relative;aspect-ratio:4/3;background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:.12s}
+.km-frame.km-empty{border:2px dashed var(--border-strong);margin:12px;border-radius:10px;aspect-ratio:4/3}
+.km-frame.km-drop{outline:3px solid var(--action);outline-offset:-3px;background:rgba(29,78,216,.06)}
+.km-img{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in}
+.km-hint{color:var(--ink-3);font-size:12px;text-align:center;line-height:1.7;font-weight:600}
+.km-hint .ic{width:26px;height:26px;stroke:var(--ink-3);margin-bottom:2px}
+.km-replace{position:absolute;bottom:8px;inset-inline-start:8px;width:32px;height:32px;border:none;border-radius:8px;background:rgba(28,28,26,.62);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:.12s}
+.km-replace .ic{width:16px;height:16px;stroke:#fff}
+.km-frame:hover .km-replace{opacity:1}
+/* תצוגה מלאה (lightbox) */
+.km-lightbox{position:fixed;inset:0;z-index:5000;background:rgba(10,10,12,.94);display:none;flex-direction:column}
+.km-lb-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;color:#fff;flex-shrink:0}
+.km-lb-name{font-size:16px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.km-lb-tools{display:flex;gap:6px;flex-shrink:0}
+.km-lb-tools button{width:40px;height:40px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;border-radius:10px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.km-lb-tools button:hover{background:rgba(255,255,255,.22)}
+.km-lb-stage{flex:1;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;touch-action:none;cursor:grab}
+.km-lb-stage:active{cursor:grabbing}
+#kmZoomImg{max-width:100%;max-height:100%;transform-origin:center center;user-select:none;-webkit-user-drag:none;will-change:transform}
+@media(max-width:560px){.km-grid{grid-template-columns:1fr 1fr;gap:10px}.km-lb-tools button{width:44px;height:44px}}
 
 /* דף תחבורה מרכזי */
 .tr-intro{margin:2px 0 12px;font-size:13px;color:var(--ink-3)}
@@ -1392,6 +1431,7 @@ a.ml:hover{text-decoration:underline}
     <button class="tab" data-tab="map" data-tip="מפת כל המלונות והאתרים" aria-label="מעבר למפה">מפה</button>
     <button class="tab" data-tab="phrases" data-tip="שפה — הקלטת משפט בעברית ותרגומו ליפנית בקול, וספריית משפטים שמורים" aria-label="מעבר לדף השפה">שפה</button>
     <button class="tab" data-tab="camtrans" data-tip="מצלמה — צילום כיתוב ביפנית ותרגומו לעברית" aria-label="מעבר לתרגום ממצלמה">מצלמה</button>
+    <button class="tab" data-tab="keymaps" data-tip="מפות מפתח — שמירת תמונות מפה של מקומות, לחיצה לתצוגה מלאה עם זום" aria-label="מעבר למפות מפתח">מפות מפתח</button>
     <a class="tab tab-link" href="https://moment-red.vercel.app" target="_blank" rel="noopener noreferrer" data-tip="פתיחת אפליקציית האלבום בלשונית חדשה" aria-label="פתיחת אפליקציית האלבום">אלבום</a>
   </div>
   <div class="actions">
@@ -1447,6 +1487,7 @@ a.ml:hover{text-decoration:underline}
 <div class="panel" id="p-transport"><div class="tw" id="transportWrap"></div></div>
 <div class="panel" id="p-phrases"><div class="tw" id="phrasesWrap"></div></div>
 <div class="panel" id="p-camtrans"><div class="tw" id="camtransWrap"></div></div>
+<div class="panel" id="p-keymaps"><div class="tw" id="keymapsWrap"></div></div>
 <div class="panel" id="p-map">
   <div class="mapview-bar" role="group" aria-label="בחירת תצוגת מפה">
     <button class="mvb on" data-view="days" onclick="setMapView('days')" data-tip="מסלול כל יום — תחנות ממוספרות וקו מסלול" aria-label="תצוגה לפי יום ותאריך">לפי יום</button>
@@ -1634,7 +1675,8 @@ async function loadData() {
     const nt = await fetch('data/notes.json').then(r=>r.json()).catch(()=>[]);
     const rr = await fetch('data/recroutes.json').then(r=>r.json()).catch(()=>[]);
     const ph = await fetch('data/phrases.json').then(r=>r.json()).catch(()=>[]);
-    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb, mymarks:Array.isArray(mm)?mm:[], layout:ly||{}, architecture:Array.isArray(arch)?arch:[], geotrips:Array.isArray(geo)?geo:[], notes:Array.isArray(nt)?nt:[], recroutes:Array.isArray(rr)?rr:[], phrases:Array.isArray(ph)?ph:[] };
+    const km = await fetch('data/keymaps.json').then(r=>r.json()).catch(()=>[]);
+    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb, mymarks:Array.isArray(mm)?mm:[], layout:ly||{}, architecture:Array.isArray(arch)?arch:[], geotrips:Array.isArray(geo)?geo:[], notes:Array.isArray(nt)?nt:[], recroutes:Array.isArray(rr)?rr:[], phrases:Array.isArray(ph)?ph:[], keymaps:Array.isArray(km)?km:[] };
     // ── Reconcile: אם שינוי מקומי כבר קיים בקובץ ה-data ששרת (הועלה ל-Git), מנקים אותו מ-pending ──
     // כך השינויים המקומיים שורדים ריענון עד שהם ב-Git, ואז נעלמים לבד — בלי איבוד ובלי הצטברות.
     try {
@@ -1657,6 +1699,8 @@ async function loadData() {
       // משפטים (שפה): אם השרת כבר תואם — לנקות
       const phc = JSON.parse(localStorage.getItem('pending-phrases')||'null');
       if(phc && eq(phc, DATA.phrases||[])) localStorage.removeItem('pending-phrases');
+      const kmc = JSON.parse(localStorage.getItem('pending-keymaps')||'null');
+      if(kmc && eq(kmc, DATA.keymaps||[])) localStorage.removeItem('pending-keymaps');
     } catch(e){}
     // שחזור סיכות משתמש שנוספו מקומית וטרם נשמרו ל-Git
     try {
@@ -1677,6 +1721,11 @@ async function loadData() {
     try {
       const pph = JSON.parse(localStorage.getItem('pending-phrases')||'null');
       if(Array.isArray(pph)) DATA.phrases = pph;
+    } catch(e){}
+    // שחזור מפות מפתח שנוספו/שונו מקומית
+    try {
+      const pkm = JSON.parse(localStorage.getItem('pending-keymaps')||'null');
+      if(Array.isArray(pkm)) DATA.keymaps = pkm;
     } catch(e){}
     // שחזור/החלת עדיפויות (לייק בדרגות צבע) על אתרים ותחנות
     try {
@@ -1780,7 +1829,7 @@ async function loadData() {
   }
   // פתיחת הטאב לפי ה-URL (מאפשר קישור ישיר ושמירת מצב ברענון — סעיף 4.5)
   const urlTab = new URLSearchParams(location.search).get('tab');
-  const valid = ['brief','summary','days','itinerary','calendar','hotels','bookings','checklist','places','images','costs','transport','map','phrases','camtrans'];
+  const valid = ['brief','summary','days','itinerary','calendar','hotels','bookings','checklist','places','images','costs','transport','map','phrases','camtrans','keymaps'];
   if (urlTab && valid.includes(urlTab) && urlTab!==activeTab) {
     activeTab = urlTab;
     document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===urlTab));
@@ -2022,6 +2071,7 @@ function render() {
   else if (activeTab==='transport') renderTransport();
   else if (activeTab==='phrases') renderPhrases();
   else if (activeTab==='camtrans') renderCamTrans();
+  else if (activeTab==='keymaps') renderKeyMaps();
 }
 
 function renderStats() {
@@ -3002,6 +3052,136 @@ function renderCamTrans(){
       <div class="cam-hint">טיפ: תמונה ברורה, ממורכזת על הטקסט ובתאורה טובה — נותנת זיהוי מדויק יותר. הזיהוי רץ במכשיר שלך; התרגום דורש אינטרנט.</div>
     </div>`;
 }
+
+// ══════════════════════════════════
+// מפות מפתח — כרטיסיות מקומות עם תמונת מפה (גרירה/הדבקה/העלאה), לחיצה = תצוגה מלאה עם זום/הזזה
+// ══════════════════════════════════
+function _kmPersist(){ try{ localStorage.setItem('pending-keymaps', JSON.stringify(DATA.keymaps||[])); }catch(e){} markUnsaved(); updateImgWarn&&updateImgWarn(); }
+function kmAdd(){
+  DATA.keymaps = DATA.keymaps||[];
+  const id = DATA.keymaps.reduce((m,k)=>Math.max(m,k.id||0),0)+1;
+  DATA.keymaps.push({id, name:'', img:''});
+  _kmPersist(); renderKeyMaps();
+  setTimeout(()=>{ const n=document.querySelectorAll('.km-name'); const last=n[n.length-1]; if(last) last.focus(); },30);
+}
+function kmDelete(id){
+  const k=(DATA.keymaps||[]).find(x=>x.id===id); if(!k) return;
+  if(!confirm('למחוק את «'+(k.name||'המפה')+'»?')) return;
+  DATA.keymaps=DATA.keymaps.filter(x=>x.id!==id); _kmPersist(); renderKeyMaps();
+}
+function kmEditName(el){
+  const id=+el.getAttribute('data-id'); const k=(DATA.keymaps||[]).find(x=>x.id===id); if(!k) return;
+  const v=el.innerText.trim(); if((k.name||'')===v) return; k.name=v; _kmPersist();
+}
+// קליטת תמונה לכרטיס (מכווצת לחיסכון בנפח)
+async function kmSetImage(id, dataUrl){
+  const k=(DATA.keymaps||[]).find(x=>x.id===id); if(!k) return;
+  let src=dataUrl;
+  if(/^data:image\//.test(dataUrl)){ try{ src=await compressImage(dataUrl, 1600, 1600, 0.82); }catch(e){} }
+  k.img=src; _kmPersist(); renderKeyMaps();
+  toast('התמונה נשמרה זמנית — «שמור קבצים» לשמירה סופית');
+}
+function kmReadFile(file, id){
+  if(!file || !/^image\//.test(file.type)){ toast('נא לבחור קובץ תמונה'); return; }
+  const r=new FileReader(); r.onload=()=>kmSetImage(id, r.result); r.readAsDataURL(file);
+}
+function kmFrameClick(id){
+  const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*';
+  inp.onchange=()=>{ if(inp.files[0]) kmReadFile(inp.files[0], id); }; inp.click();
+}
+function kmDragOver(e,el){ e.preventDefault(); el.classList.add('km-drop'); }
+function kmDrop(e,el,id){
+  e.preventDefault(); el.classList.remove('km-drop');
+  const dt=e.dataTransfer;
+  if(dt.files&&dt.files[0]){ kmReadFile(dt.files[0], id); return; }
+  const url=dt.getData('text/uri-list')||dt.getData('text/plain');
+  if(url&&/^https?:\/\//.test(url.trim())) kmSetImage(id, url.trim());
+}
+function kmPaste(e,el,id){
+  const items=(e.clipboardData||{}).items||[];
+  for(const it of items){ if(it.type&&it.type.indexOf('image')===0){ const f=it.getAsFile(); if(f){ e.preventDefault(); kmReadFile(f,id); return; } } }
+  const txt=(e.clipboardData||{}).getData? e.clipboardData.getData('text'):'';
+  if(txt&&/^https?:\/\//.test(txt.trim())){ e.preventDefault(); kmSetImage(id, txt.trim()); }
+}
+function renderKeyMaps(){
+  const wrap=document.getElementById('keymapsWrap'); if(!wrap) return;
+  const maps=DATA.keymaps||[];
+  const cards = maps.map(k=>{
+    const frameInner = k.img
+      ? `<img class="km-img" src="${escHtml(k.img)}" alt="${escHtml(k.name||'מפה')}" loading="lazy" onclick="event.stopPropagation();kmOpen(${k.id})" onerror="this.style.display='none';this.parentElement.classList.add('km-empty')">`
+      : `<span class="km-hint">${icon('image')}<br>גררי · הדביקי · לחצי<br>להוספת תמונת מפה</span>`;
+    return `<div class="km-card">
+      <div class="km-namewrap">
+        <div class="km-name" contenteditable="true" data-id="${k.id}" data-ph="שם המקום…" onblur="kmEditName(this)">${escHtml(k.name||'')}</div>
+        <button class="km-del" onclick="kmDelete(${k.id})" data-tip="מחיקת המפה" aria-label="מחיקה">${icon('trash')}</button>
+      </div>
+      <div class="km-frame${k.img?'':' km-empty'}" tabindex="0"
+        onclick="${k.img?`kmOpen(${k.id})`:`kmFrameClick(${k.id})`}"
+        ondragover="kmDragOver(event,this)" ondragleave="this.classList.remove('km-drop')" ondrop="kmDrop(event,this,${k.id})"
+        onpaste="kmPaste(event,this,${k.id})"
+        data-tip="${k.img?'לחצי לתצוגה מלאה · גררי/הדביקי להחלפה':'גררי, הדביקי או לחצי כדי להוסיף תמונת מפה'}">
+        ${frameInner}
+        ${k.img?`<button class="km-replace" onclick="event.stopPropagation();kmFrameClick(${k.id})" data-tip="החלפת תמונה">${icon('image')}</button>`:''}
+      </div>
+    </div>`;
+  }).join('');
+  wrap.innerHTML = `
+    <div class="km-page">
+      <div class="km-head">
+        <h2 class="km-title">${icon('map')} מפות מפתח</h2>
+        <button class="km-add" onclick="kmAdd()" data-tip="הוספת מקום חדש">${icon('plus')} הוספת מקום</button>
+      </div>
+      <div class="km-hint-top">שמרי תמונות מפה של מקומות שאליהם את רוצה להגיע. לחיצה על תמונה פותחת אותה במסך מלא — עם זום והזזה. נשמר ל-Git עם «שמור קבצים».</div>
+      ${maps.length ? `<div class="km-grid">${cards}</div>` : '<div class="km-empty-state">אין עדיין מפות. לחצי «הוספת מקום» כדי להתחיל.</div>'}
+    </div>`;
+}
+
+// ── תצוגה מלאה עם זום/הזזה (lightbox) ──
+let _kmZoom = { scale:1, tx:0, ty:0, dragging:false, lastX:0, lastY:0, pinchDist:0 };
+function kmOpen(id){
+  const k=(DATA.keymaps||[]).find(x=>x.id===id); if(!k||!k.img) return;
+  _kmZoom = { scale:1, tx:0, ty:0, dragging:false, lastX:0, lastY:0, pinchDist:0 };
+  let ov=document.getElementById('kmLightbox');
+  if(!ov){ ov=document.createElement('div'); ov.id='kmLightbox'; ov.className='km-lightbox'; document.body.appendChild(ov); }
+  ov.innerHTML = `
+    <div class="km-lb-bar">
+      <span class="km-lb-name">${escHtml(k.name||'מפה')}</span>
+      <div class="km-lb-tools">
+        <button onclick="kmZoomBy(1.25)" aria-label="הגדל">➕</button>
+        <button onclick="kmZoomBy(0.8)" aria-label="הקטן">➖</button>
+        <button onclick="kmZoomReset()" aria-label="איפוס">↺</button>
+        <button onclick="kmClose()" aria-label="סגור">✕</button>
+      </div>
+    </div>
+    <div class="km-lb-stage" id="kmStage">
+      <img id="kmZoomImg" src="${escHtml(k.img)}" alt="${escHtml(k.name||'מפה')}" draggable="false">
+    </div>`;
+  ov.style.display='flex';
+  const stage=document.getElementById('kmStage');
+  // גלגלת = זום
+  stage.onwheel=(e)=>{ e.preventDefault(); kmZoomBy(e.deltaY<0?1.12:0.89, e); };
+  // גרירה עם עכבר = הזזה
+  stage.onpointerdown=(e)=>{ _kmZoom.dragging=true; _kmZoom.lastX=e.clientX; _kmZoom.lastY=e.clientY; stage.setPointerCapture&&stage.setPointerCapture(e.pointerId); };
+  stage.onpointermove=(e)=>{ if(!_kmZoom.dragging) return; _kmZoom.tx+=e.clientX-_kmZoom.lastX; _kmZoom.ty+=e.clientY-_kmZoom.lastY; _kmZoom.lastX=e.clientX; _kmZoom.lastY=e.clientY; _kmApplyZoom(); };
+  stage.onpointerup=stage.onpointercancel=()=>{ _kmZoom.dragging=false; };
+  // מגע: pinch לזום, גרירה להזזה
+  stage.ontouchstart=(e)=>{ if(e.touches.length===2){ _kmZoom.pinchDist=_kmTouchDist(e); } else if(e.touches.length===1){ _kmZoom.dragging=true; _kmZoom.lastX=e.touches[0].clientX; _kmZoom.lastY=e.touches[0].clientY; } };
+  stage.ontouchmove=(e)=>{ e.preventDefault();
+    if(e.touches.length===2){ const d=_kmTouchDist(e); if(_kmZoom.pinchDist){ kmZoomBy(d/_kmZoom.pinchDist); } _kmZoom.pinchDist=d; }
+    else if(e.touches.length===1&&_kmZoom.dragging){ _kmZoom.tx+=e.touches[0].clientX-_kmZoom.lastX; _kmZoom.ty+=e.touches[0].clientY-_kmZoom.lastY; _kmZoom.lastX=e.touches[0].clientX; _kmZoom.lastY=e.touches[0].clientY; _kmApplyZoom(); }
+  };
+  stage.ontouchend=()=>{ _kmZoom.dragging=false; _kmZoom.pinchDist=0; };
+  // לחיצה על הרקע (מחוץ לתמונה) סוגרת
+  ov.onclick=(e)=>{ if(e.target===ov) kmClose(); };
+  _kmApplyZoom();
+  document.addEventListener('keydown', _kmKeyHandler);
+}
+function _kmTouchDist(e){ const a=e.touches[0],b=e.touches[1]; return Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY); }
+function _kmApplyZoom(){ const img=document.getElementById('kmZoomImg'); if(img) img.style.transform=`translate(${_kmZoom.tx}px,${_kmZoom.ty}px) scale(${_kmZoom.scale})`; }
+function kmZoomBy(f){ _kmZoom.scale=Math.min(8,Math.max(0.5,_kmZoom.scale*f)); _kmApplyZoom(); }
+function kmZoomReset(){ _kmZoom.scale=1; _kmZoom.tx=0; _kmZoom.ty=0; _kmApplyZoom(); }
+function kmClose(){ const ov=document.getElementById('kmLightbox'); if(ov) ov.style.display='none'; document.removeEventListener('keydown', _kmKeyHandler); }
+function _kmKeyHandler(e){ if(e.key==='Escape') kmClose(); else if(e.key==='+'||e.key==='=') kmZoomBy(1.2); else if(e.key==='-') kmZoomBy(0.8); }
 
 // כפתור מעבר אחיד בין תצוגת כרטיסים לרשימה (סעיף 3.2)
 function viewToggle() {
@@ -6142,8 +6322,8 @@ async function saveAll() {
 
 // ── גיבוי/שחזור כל השינויים המקומיים שטרם נשמרו ל-Git ──
 // מונע אובדן: תמונות, עריכות שעה/יום במסלול, סיכות, פריסה — הכל לקובץ אחד וחזרה.
-const PENDING_KEYS = ['pending-images','pending-dayspots','pending-places','pending-mymarks','pending-layout','pending-tabs','pending-notes','pending-priorities','pending-recroutes','pending-phrases'];
-const PENDING_LABEL = { 'pending-images':'תמונות', 'pending-dayspots':'שעות/ימים במסלול', 'pending-places':'אתרים', 'pending-mymarks':'סיכות', 'pending-layout':'פריסה', 'pending-tabs':'סדר טאבים', 'pending-notes':'סיכום אישי', 'pending-priorities':'עדיפויות אתרים', 'pending-recroutes':'מסלולים מומלצים קלוד', 'pending-phrases':'משפטים (שפה)' };
+const PENDING_KEYS = ['pending-images','pending-dayspots','pending-places','pending-mymarks','pending-layout','pending-tabs','pending-notes','pending-priorities','pending-recroutes','pending-phrases','pending-keymaps'];
+const PENDING_LABEL = { 'pending-images':'תמונות', 'pending-dayspots':'שעות/ימים במסלול', 'pending-places':'אתרים', 'pending-mymarks':'סיכות', 'pending-layout':'פריסה', 'pending-tabs':'סדר טאבים', 'pending-notes':'סיכום אישי', 'pending-priorities':'עדיפויות אתרים', 'pending-recroutes':'מסלולים מומלצים קלוד', 'pending-phrases':'משפטים (שפה)', 'pending-keymaps':'מפות מפתח' };
 // כמה פריטים בכל מפתח (לספירה ולפירוט)
 function pendingCounts(){
   const out={};
@@ -6446,7 +6626,7 @@ window.yukoDayContext = function(){
 window.DATA = DATA; // חשיפה לקריאה מ-yuko.js (let לא נכנס אוטומטית ל-window)
 
 window.yukoGoTab = function(tab){
-  var valid = ['brief','summary','days','calendar','hotels','bookings','checklist','places','images','costs','transport','map','phrases','camtrans'];
+  var valid = ['brief','summary','days','calendar','hotels','bookings','checklist','places','images','costs','transport','map','phrases','camtrans','keymaps'];
   if (valid.indexOf(tab) === -1) return false;
   goTab(tab);
   return true;
