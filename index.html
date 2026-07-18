@@ -1186,6 +1186,11 @@ a.bk:hover{background:#00224f}
 .itin-delbtn:hover{background:#dc2626;border-color:#dc2626}
 .itin-delbtn .ic{width:12px;height:12px;stroke:var(--ink-3)}
 .itin-delbtn:hover .ic{stroke:#fff}
+/* תג «מוזמן» לאתר קבוע — אדום בולט + לב שחור. נתוני יום/שעה נעולים לפי ההזמנה */
+.itin-booked-badge{display:inline-flex;align-items:center;gap:4px;margin-inline-start:7px;vertical-align:middle;background:#dc2626;color:#fff;font-size:11px;font-weight:900;border-radius:999px;padding:2px 10px;letter-spacing:.02em;box-shadow:0 1px 3px rgba(220,38,38,.4)}
+.itin-booked-badge .ic{width:12px;height:12px;fill:#1c1c1a;stroke:#1c1c1a;stroke-width:1}
+.itin-field-time-locked .if-val{color:#b45309;font-weight:900;background:#fef3c7;border-radius:4px;padding:0 5px}
+.itin-field-time-locked .if-lbl{color:#dc2626;font-weight:800}
 .map-place-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
 .mpf{padding:3px 10px;border:1px solid var(--border);border-radius:999px;background:var(--surface);font:600 11px inherit;cursor:pointer;color:var(--ink-3)}
 .mpf.on{background:var(--action);color:#fff;border-color:var(--action)}
@@ -2974,6 +2979,18 @@ function bookedSpotKeys(){
   return _bookedKeys;
 }
 function isBookedSpot(o){ return bookedSpotKeys().has(placeKey(o)); }
+// ההזמנה המקורית (האמת) של אתר קבוע — מחזירה {day, time, ref, name}. השעה מההזמנה גוברת על מה שכתוב במסלול.
+function bookedInfoFor(o){
+  const sk = (o.name||'')+' '+(o.nameEn||'');
+  const venue = BOOKED_VENUES.find(re=>re.test(sk));
+  if(!venue) return null;
+  const B = (DATA.bookings && DATA.bookings.bookings) || [];
+  // כל ההזמנות התואמות את אותו אתר; בוחרים את זו עם שעה (אם יש)
+  const matches = B.filter(b=>b.type==='activity' && venue.test((b.name||'')+' '+(b.activity||'')+' '+(b.place||'')));
+  if(!matches.length) return null;
+  const withTime = matches.find(b=>b.time) || matches[0];
+  return { day: withTime.day, time: withTime.time||'', ref: withTime.bookingRef||'', name: withTime.name||'' };
+}
 // דרגת התצוגה בפועל: אם האתר «קבוע» (הוזמן) — לב שחור (5) גובר; אחרת הדרגה הידנית
 function placePriority(o){
   if(isBookedSpot(o)) return 5;
@@ -3167,7 +3184,11 @@ function itinSpotHtml(s, dayId, slotKey, idx, tripDay){
   // שעה ניתנת לעריכה בלחיצה — אחרי שינוי, האתר משובץ מחדש לפי השעה
   // רכיב פרמטר↔נתון: תווית קטנה ומעומעמת + ערך בולט — כדי שהמידע החשוב יבלוט
   const field = (lbl, val, cls) => `<span class="itin-field ${cls||''}"><span class="if-lbl">${lbl}</span><span class="if-val">${val}</span></span>`;
-  const timeChip = `<span class="itin-field itin-field-time"><span class="if-lbl">שעה</span><span class="if-val itin-time itin-time-edit" contenteditable="true" data-day="${dayId}" data-slot="${slotKey}" data-idx="${idx}" onfocus="itinTimeFocus(this)" onblur="itinTimeEdit(this)" onkeydown="itinTimeKey(event,this)" data-tip="לחצי לעריכת השעה — האתר יסודר מחדש לפי השעה">${s.time||'—:—'}</span></span>`;
+  // אתר קבוע (הוזמן/שולם) — השעה מההזמנה היא האמת ונעולה; אחרת ניתנת לעריכה
+  const _bk = isBookedSpot(s) ? bookedInfoFor(s) : null;
+  const timeChip = (_bk && _bk.time)
+    ? `<span class="itin-field itin-field-time itin-field-time-locked"><span class="if-lbl">שעה (הזמנה)</span><span class="if-val itin-time" data-tip="שעה מההזמנה המקורית — נעולה${_bk.ref?(' · '+_bk.ref):''}">${_bk.time}</span></span>`
+    : `<span class="itin-field itin-field-time"><span class="if-lbl">שעה</span><span class="if-val itin-time itin-time-edit" contenteditable="true" data-day="${dayId}" data-slot="${slotKey}" data-idx="${idx}" onfocus="itinTimeFocus(this)" onblur="itinTimeEdit(this)" onkeydown="itinTimeKey(event,this)" data-tip="לחצי לעריכת השעה — האתר יסודר מחדש לפי השעה">${s.time||'—:—'}</span></span>`;
   // צ'יפ יום — העברת האתר ליום/תאריך אחר (כמו עריכת שעה, אבל בין ימים)
   const dayChip = itinDayChip(dayId, slotKey, idx);
   // שורה 1: שעה + יום (מתי). שורה 2: שאר הפרמטרים הסטטיים (סוג/משך/מחיר/עם)
@@ -3187,7 +3208,7 @@ function itinSpotHtml(s, dayId, slotKey, idx, tripDay){
   return `<div class="itin-spot">
     ${thumb}
     <div class="itin-spot-body">
-      <div class="itin-spot-name">${bilingualName(s.name, s.nameEn, {maps, site: site||''})}${focusBtn}${delBtn}</div>
+      <div class="itin-spot-name">${bilingualName(s.name, s.nameEn, {maps, site: site||''})}${_bk?`<span class="itin-booked-badge" data-tip="הוזמן ושולם — נתוני יום/שעה נעולים לפי ההזמנה${_bk.ref?(' · '+_bk.ref):''}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.6-9.2-8.4C1.1 9.3 2.5 5.5 6 5.5c2 0 3.2 1.2 4 2.4.8-1.2 2-2.4 4-2.4 3.5 0 4.9 3.8 3.2 7.1C19 16.4 12 21 12 21z"/></svg>מוזמן</span>`:''}${focusBtn}${delBtn}</div>
       ${s.notes ? `<div class="itin-spot-notes">${fmtNotes(s.notes)}</div>` : ''}
       <div class="itin-spot-meta itin-meta-when">${rowWhen}</div>
       ${rowParams ? `<div class="itin-spot-meta itin-meta-params">${rowParams}</div>` : ''}
