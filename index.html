@@ -2950,11 +2950,12 @@ function pframe(o, cls, focusAttr){
 const PRIORITY_META = { 1:{c:'red',he:'עדיפות עליונה'}, 2:{c:'orange',he:'עדיפות בינונית'}, 3:{c:'yellow',he:'עדיפות נמוכה'}, 4:{c:'blue',he:'פעילות'}, 5:{c:'black',he:'קבוע — הוזמן/שולם'} };
 // אתרים «קבועים»: יש להם הזמנה מאושרת (טיסה/פעילות ששולמה). מזוהה אוטומטית מ-DATA.bookings לפי מזהי-אתר ייחודיים.
 // כדי למנוע התאמות-שווא (למשל «שייט אקאן» מול «שייט שירטוקו») — כל מזהה דורש מילת-מפתח ייחודית לאתר.
+// כל מזהה תופס גם וריאציות איות של אותו אתר (למשל Zipline/Zipflight/זיף פליט)
 const BOOKED_VENUES = [
-  /יוניברסל|universal studios/i,
-  /teamlab|טימלב|biovortex/i,
+  /יוניברסל|universal studios|\busj\b/i,
+  /teamlab|טימלב|טימלאב|biovortex|ביו-?וורטקס/i,
   /שירטוקו.*שייט|שייט.*שירטוקו|shiretoko.*cruise|לוויתנ|לווייתנ/i,   // דווקא שירטוקו, לא אקאן
-  /זיפליין|zipline/i,
+  /זיפליין|זיפ ?פליט|זיף ?פליט|zip ?line|zip ?flight|hanazono zip/i,
   /אורות בהר|mountain lights|niseko mountain/i,
 ];
 let _bookedKeys = null;
