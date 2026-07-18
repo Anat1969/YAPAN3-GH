@@ -376,6 +376,15 @@ tr:hover .place-img{box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .idr-city{font-size:11px;font-weight:700;line-height:1.15;text-align:center;color:var(--ink-3);overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;max-width:100%}
 .idr-day.cal-k{background:var(--region-1)}.idr-day.cal-h{background:var(--region-2)}.idr-day.cal-t{background:var(--region-3)}.idr-day.cal-d{background:var(--region-4)}
 .idr-day.idr-return{background:#e7f3ec}.idr-day.idr-return .idr-city{color:#166534;font-weight:800}
+/* מסגרת מלון צרה בסרגל — שורה נמוכה עם תמונה קטנה, כדי להבדיל מכפתור-יום ולסמן בין אילו ימים ישנים בו */
+.idr-hotel{display:flex;align-items:center;gap:6px;padding:3px 7px;border-radius:7px;background:#fdf6e3;border:1px solid #e8d9a8;text-decoration:none;color:var(--ink-2);min-height:0;transition:.12s;overflow:hidden}
+.idr-hotel:hover{background:#fbefc9;box-shadow:0 1px 5px rgba(0,0,0,.12)}
+.idr-hotel-img{width:26px;height:26px;object-fit:cover;border-radius:5px;flex-shrink:0}
+.idr-hotel.noimg .idr-hotel-img{display:none}
+.idr-hotel-ic{width:26px;height:26px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#f0e6c8;border-radius:5px}
+.idr-hotel-ic .ic{width:15px;height:15px;stroke:#a8813a}
+.idr-hotel-name{flex:1;min-width:0;font-size:10.5px;font-weight:800;line-height:1.2;color:#8a6d1f;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.idr-hotel-bed{width:12px;height:12px;flex-shrink:0;stroke:#b99a4a;opacity:.8}
 /* פינוי מקום לסרגל (בצד ימין) רק כשהוא נצמד לדופן המסך — אחרת הוא בשוליים */
 @media(max-width:1560px){#p-itinerary{padding-inline-end:166px}}
 @media(max-width:1100px){.itin-rail{width:120px}#p-itinerary{padding-inline-end:132px}.idr-num{font-size:11px}.idr-date{font-size:18px}}
@@ -3352,17 +3361,42 @@ function renderItinerary(){
 // ── סרגל ימים קבוע (sticky) לאורך הדף — מספר יום + תאריך, לחיצה קופצת ליום ──
 function itinDayRail(days){
   const regCls = {kansai:'cal-k',hokkaido:'cal-h',tokyo:'cal-t',dubai:'cal-d'};
+  let prevHotelId = undefined;
   const items = days.map(d=>{
     const isHome = d.region==='home' || d.city==='ישראל';
     const cls = isHome ? 'idr-return' : (regCls[d.region]||'cal-d');
     const city = isHome ? (d.city||'ישראל') : (dayCity(d)||'');
-    return `<a class="idr-day ${cls}" id="idr-${d.tripDay}" href="index.html?tab=itinerary&d=${d.tripDay}" onclick="itinScrollTo(${d.tripDay});return false" data-tip="יום ${d.tripDay} · ${d.weekday||''} · ${city}">
+    // המלון שבו ישנים בלילה של יום זה
+    const hotel = d.date ? hotelForNight(d.date) : null;
+    const hid = hotel ? hotel.id : null;
+    // מסגרת מלון צרה בכל פעם שהמלון משתנה — ממוקמת לפני היום שממנו מתחילים לישון בו
+    let hotelBar = '';
+    if(hid !== prevHotelId && hotel){
+      hotelBar = itinRailHotel(hotel);
+    }
+    prevHotelId = hid;
+    const dayBtn = `<a class="idr-day ${cls}" id="idr-${d.tripDay}" href="index.html?tab=itinerary&d=${d.tripDay}" onclick="itinScrollTo(${d.tripDay});return false" data-tip="יום ${d.tripDay} · ${d.weekday||''} · ${city}">
       <span class="idr-num">${d.tripDay}</span>
       <span class="idr-date">${d.day}/${d.month}</span>
       <span class="idr-city">${city}</span>
     </a>`;
+    return hotelBar + dayBtn;
   }).join('');
   return `<aside class="itin-rail" id="itinRail"><div class="idr-head">ימי הטיול</div><div class="idr-list">${items}</div></aside>`;
+}
+// מסגרת מלון צרה לסרגל הימים — תמונה + שם, קישור לעמוד המלון. צרה בכוונה כדי להבדיל מכפתור יום.
+function itinRailHotel(hotel){
+  const src = hotelImgSrc(hotel);
+  const nights = (hotel.checkin && hotel.checkout) ? Math.max(1, Math.round((Date.parse(hotel.checkout)-Date.parse(hotel.checkin))/86400000)) : null;
+  const thumb = src
+    ? `<img class="idr-hotel-img" src="${src}" alt="${escHtml(hotel.name||'')}" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('noimg')">`
+    : `<span class="idr-hotel-ic">${icon('bed')}</span>`;
+  const url = bookingLink(hotel) || '';
+  const tip = 'מלון: ' + (hotel.name||'') + (nights?(' · '+nights+' לילות'):'') + (url?' · פתחי בבוקינג':'');
+  const inner = `${thumb}<span class="idr-hotel-name">${escHtml(hotel.name||'')}</span>${icon('bed','idr-hotel-bed')}`;
+  return url
+    ? `<a class="idr-hotel" href="${url}" target="_blank" rel="noopener" data-tip="${escHtml(tip)}" aria-label="${escHtml(tip)}">${inner}</a>`
+    : `<div class="idr-hotel" data-tip="${escHtml(tip)}" aria-label="${escHtml(tip)}">${inner}</div>`;
 }
 // גלילה חלקה ליום במסלול + סימון היום הפעיל בסרגל
 function itinScrollTo(tripDay){
