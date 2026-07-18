@@ -19,6 +19,15 @@
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Kobe_Port_Tower_and_Harborland_at_night_20190202-2.jpg/500px-Kobe_Port_Tower_and_Harborland_at_night_20190202-2.jpg"
       },
       {
+        "time": "10:00",
+        "name": "יוניברסל סטודיוס אוסקה",
+        "nameEn": "Universal Studios Japan",
+        "priority": 5,
+        "notes": "כרטיס יומי + Express Pass 5. Super Nintendo World 13:00. הזמנה USJ-P1X000000CNC7X.",
+        "lat": 34.6654,
+        "lng": 135.4323
+      },
+      {
         "name": "שכונת קיטאנו",
         "nameEn": "Kitano-cho",
         "addr": "Kitanocho, Chuo-ku, Kobe",

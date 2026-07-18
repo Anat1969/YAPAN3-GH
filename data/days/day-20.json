@@ -33,6 +33,15 @@
         "notes": "רכבל קיץ לנוף מרהיב של הר יוטיי (\"פוג'י של הוקאידו\"). מסלולי הליכה קלים בפסגה",
         "placeId": "",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Mount_Y%C5%8Dtei_and_Mount_Niseko-Annupuri.jpg/500px-Mount_Y%C5%8Dtei_and_Mount_Niseko-Annupuri.jpg"
+      },
+      {
+        "time": "16:30",
+        "name": "זיפליין ניסקו הנאזונו",
+        "nameEn": "Niseko Hanazono Zipline",
+        "priority": 5,
+        "notes": "Zipline Full Package. הזמנה 3090873.",
+        "lat": 42.8567,
+        "lng": 140.7594
       }
     ],
     "evening": [
@@ -49,6 +58,15 @@
         "notes": "מעיינות חמים טבעיים אחרי יום ספורט. חלק מהמתחמים עם רוטנבורו (בריכה חיצונית) מול ההרים",
         "placeId": "",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Mount_Y%C5%8Dtei_from_Niseko_Annupuri_%2833253188670%29.jpg/500px-Mount_Y%C5%8Dtei_from_Niseko_Annupuri_%2833253188670%29.jpg"
+      },
+      {
+        "time": "18:00",
+        "name": "אורות בהר — ניסקו",
+        "nameEn": "Niseko Mountain Lights",
+        "priority": 5,
+        "notes": "Mountain Lights, מיד אחרי הזיפליין. הזמנה 3090876.",
+        "lat": 42.8567,
+        "lng": 140.7594
       }
     ]
   },

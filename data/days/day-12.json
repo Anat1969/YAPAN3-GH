@@ -3,22 +3,7 @@
   "title": "שירטוקו — טבע פראי",
   "idea": "חצי האי האחרון — דובים, מפלים, ים",
   "spots": {
-    "morning": [
-      {
-        "name": "שייט שירטוקו",
-        "nameEn": "Shiretoko Sightseeing Cruise",
-        "addr": "Utoro Port, Shari",
-        "lat": 44.0698,
-        "lng": 145.0013,
-        "time": "09:00",
-        "duration": "2 שעות",
-        "price": 4000,
-        "forWho": "עילאי, כולם",
-        "notes": "שייט לאורך חצי האי — צוקים, מפלים, אפשר לראות דובים וארנבות ים",
-        "placeId": "",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Shiretoko_National_Park.jpg/500px-Shiretoko_National_Park.jpg"
-      }
-    ],
+    "morning": [],
     "afternoon": [
       {
         "name": "5 האגמות של שירטוקו",
@@ -33,6 +18,21 @@
         "notes": "הליכה על שבילי עץ מוגבהים מעל הביצות. שקט מוחלט, השתקפויות",
         "placeId": "",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/140829_Ichiko_of_Shiretoko_Goko_Lakes_Hokkaido_Japan02s5.jpg/500px-140829_Ichiko_of_Shiretoko_Goko_Lakes_Hokkaido_Japan02s5.jpg"
+      },
+      {
+        "name": "שייט שירטוקו",
+        "nameEn": "Shiretoko Sightseeing Cruise",
+        "addr": "Utoro Port, Shari",
+        "lat": 44.0698,
+        "lng": 145.0013,
+        "time": "13:00",
+        "duration": "2 שעות",
+        "price": 4000,
+        "forWho": "עילאי, כולם",
+        "notes": "שייט לאורך חצי האי — צוקים, מפלים, אפשר לראות דובים וארנבות ים",
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Shiretoko_National_Park.jpg/500px-Shiretoko_National_Park.jpg",
+        "priority": 5
       },
       {
         "name": "מפל קאמואיוואקי",

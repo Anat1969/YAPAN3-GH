@@ -51,6 +51,21 @@
     ],
     "evening": [
       {
+        "name": "טימלאב ביו-וורטקס קיוטו",
+        "nameEn": "teamLab Biovortex Kyoto",
+        "addr": "21-5 Higashikujo Higashi-Iwamotocho, Minami-ku, Kyoto",
+        "lat": 34.9805,
+        "lng": 135.7595,
+        "time": "17:00",
+        "duration": "2 שעות",
+        "price": 4200,
+        "forWho": "לוטם, עילאי",
+        "notes": "מוזיאון אמנות דיגיטלית ענק (נפתח אוקטובר 2025) — 50+ יצירות אינטראקטיביות על 4 קומות. פתוח עד 21:00, מושלם לערב. 7 דק' הליכה מתחנת קיוטו. כרטיסים מתוזמנים ובתמחור דינמי — חובה להזמין מראש",
+        "placeId": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/TeamLab_Borderless%2C_Odaiba%2C_Tokyo%2C_Japan_%2849070633351%29.jpg/500px-TeamLab_Borderless%2C_Odaiba%2C_Tokyo%2C_Japan_%2849070633351%29.jpg",
+        "priority": 5
+      },
+      {
         "name": "רובע גיון",
         "nameEn": "Gion District",
         "addr": "Gion, Higashiyama Ward, Kyoto",

@@ -509,6 +509,8 @@ button.pf-badge.pf-upload:hover{background:var(--action)}
 .pframe .pf-like.lv-2{background:#f97316}
 .pframe .pf-like.lv-3{background:#eab308}
 .pframe .pf-like.lv-4{background:#2563eb}
+.pframe .pf-like.lv-5{background:#1c1c1a}
+.pframe .pf-like.pf-booked{cursor:default;border-color:#fff}
 .pframe .pf-like.on .ic{fill:#fff;stroke:#fff}
 /* גדלים ספציפיים */
 .pframe.itin-img{width:140px;height:96px}
@@ -2945,21 +2947,53 @@ function pframe(o, cls, focusAttr){
   </div>`;
 }
 // ── סימון עדיפות/לייק לאתר: 3 דרגות צבע (אדום=1 גבוה · כתום=2 · צהוב=3), לחיצה מסובבת בין הדרגות ──
-const PRIORITY_META = { 1:{c:'red',he:'עדיפות עליונה'}, 2:{c:'orange',he:'עדיפות בינונית'}, 3:{c:'yellow',he:'עדיפות נמוכה'}, 4:{c:'blue',he:'פעילות'} };
-function placePriority(o){ const m=findPlaceByKey(placeKey(o)); return (m&&m.priority)|| (o&&o.priority) ||0; }
+const PRIORITY_META = { 1:{c:'red',he:'עדיפות עליונה'}, 2:{c:'orange',he:'עדיפות בינונית'}, 3:{c:'yellow',he:'עדיפות נמוכה'}, 4:{c:'blue',he:'פעילות'}, 5:{c:'black',he:'קבוע — הוזמן/שולם'} };
+// אתרים «קבועים»: יש להם הזמנה מאושרת (טיסה/פעילות ששולמה). מזוהה אוטומטית מ-DATA.bookings לפי מזהי-אתר ייחודיים.
+// כדי למנוע התאמות-שווא (למשל «שייט אקאן» מול «שייט שירטוקו») — כל מזהה דורש מילת-מפתח ייחודית לאתר.
+const BOOKED_VENUES = [
+  /יוניברסל|universal studios/i,
+  /teamlab|טימלב|biovortex/i,
+  /שירטוקו.*שייט|שייט.*שירטוקו|shiretoko.*cruise|לוויתנ|לווייתנ/i,   // דווקא שירטוקו, לא אקאן
+  /זיפליין|zipline/i,
+  /אורות בהר|mountain lights|niseko mountain/i,
+];
+let _bookedKeys = null;
+function bookedSpotKeys(){
+  if(_bookedKeys) return _bookedKeys;
+  _bookedKeys = new Set();
+  const B = (DATA.bookings && DATA.bookings.bookings) || [];
+  const activityHay = B.filter(b=>b.type==='activity')
+    .map(b=>((b.name||'')+' '+(b.activity||'')+' '+(b.place||'')).toLowerCase());
+  (DATA.days||[]).forEach(d=>['morning','afternoon','evening'].forEach(t=>(d.spots&&d.spots[t]||[]).forEach(s=>{
+    const sk=((s.name||'')+' '+(s.nameEn||''));
+    // האתר קבוע אם הוא תואם מזהה-ונ ייחודי שגם מופיע באחת ההזמנות בפועל
+    const matched = BOOKED_VENUES.some(re => re.test(sk) && activityHay.some(h=>re.test(h)));
+    if(matched) _bookedKeys.add(placeKey(s));
+  })));
+  return _bookedKeys;
+}
+function isBookedSpot(o){ return bookedSpotKeys().has(placeKey(o)); }
+// דרגת התצוגה בפועל: אם האתר «קבוע» (הוזמן) — לב שחור (5) גובר; אחרת הדרגה הידנית
+function placePriority(o){
+  if(isBookedSpot(o)) return 5;
+  const m=findPlaceByKey(placeKey(o)); return (m&&m.priority)|| (o&&o.priority) ||0;
+}
 function priorityBadge(o){
+  const booked = isBookedSpot(o);
   const lvl = placePriority(o);
   const cleanKey = placeKey(o).replace(/"/g,'&quot;');
   const info = PRIORITY_META[lvl];
-  const tip = lvl ? info.he+' — לחצי לשינוי/ביטול' : 'סימון עדיפות (לייק) — לחצי לדירוג';
-  return `<button class="pf-like${lvl?' on lv-'+lvl:''}" data-key="${cleanKey}"
-      onclick="event.stopPropagation();cyclePriority('${cleanKey}')" data-tip="${tip}" aria-label="${tip}">
+  const tip = booked ? 'קבוע — הוזמן/שולם (טיסה/פעילות)' : (lvl ? info.he+' — לחצי לשינוי/ביטול' : 'סימון עדיפות (לייק) — לחצי לדירוג');
+  const onclick = booked ? '' : `onclick="event.stopPropagation();cyclePriority('${cleanKey}')"`;
+  return `<button class="pf-like${lvl?' on lv-'+lvl:''}${booked?' pf-booked':''}" data-key="${cleanKey}"
+      ${onclick} data-tip="${tip}" aria-label="${tip}">
       <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.6-9.2-8.4C1.1 9.3 2.5 5.5 6 5.5c2 0 3.2 1.2 4 2.4.8-1.2 2-2.4 4-2.4 3.5 0 4.9 3.8 3.2 7.1C19 16.4 12 21 12 21z"/></svg>
     </button>`;
 }
-// סיבוב עדיפות: אין→אדום→כתום→צהוב→כחול(פעילות)→אין
+// סיבוב עדיפות: אין→אדום→כתום→צהוב→כחול(פעילות)→אין. אתרים קבועים (לב שחור) לא ניתנים לשינוי ידני.
 function cyclePriority(key){
   const p = findPlaceByKey(key);
+  if(bookedSpotKeys().has(key)){ toast('אתר קבוע (הוזמן/שולם) — הסימון אוטומטי'); return; }
   const cur = (p && p.priority) || 0;
   const next = (cur+1) % 5;   // 0→1→2→3→4→0
   setPriority(key, next);
