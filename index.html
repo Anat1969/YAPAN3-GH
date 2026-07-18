@@ -942,6 +942,41 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .bk-sort-btn{border:1px solid var(--border-strong);background:var(--surface);color:var(--ink-2);border-radius:7px;padding:6px 12px;font:700 12.5px/1 inherit;cursor:pointer;transition:.12s}
 .bk-sort-btn:hover{background:var(--bg);border-color:var(--action)}
 .bk-sort-btn.on{background:var(--action);color:#fff;border-color:var(--action)}
+.bk-view-toggle{display:inline-flex;gap:4px;margin-inline-start:auto}
+.bk-view-btn{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--border-strong);background:var(--surface);color:var(--ink-2);border-radius:7px;padding:6px 12px;font:700 12.5px/1 inherit;cursor:pointer}
+.bk-view-btn .ic{width:13px;height:13px;stroke:currentColor}
+.bk-view-btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.bk-ils{color:var(--ink-3);font-size:.9em;font-weight:700;white-space:nowrap}
+.bk-card-done{opacity:.72;border-right-color:var(--action)}
+.bk-done-badge{margin-inline-start:auto;font-size:11px;font-weight:800;color:#fff;background:var(--action);border-radius:999px;padding:2px 9px}
+.bk-card-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;flex-wrap:wrap}
+.bk-redeem-btn{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--border-strong);background:var(--surface);color:var(--ink-2);border-radius:8px;padding:7px 14px;font:800 12.5px/1 inherit;cursor:pointer;transition:.12s;white-space:nowrap}
+.bk-redeem-btn .ic{width:14px;height:14px;stroke:currentColor}
+.bk-redeem-btn:hover{border-color:var(--action);color:var(--action)}
+.bk-redeem-btn.on{background:var(--action);color:#fff;border-color:var(--action)}
+/* טבלת הזמנות */
+.bk-tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px;background:var(--surface)}
+.bk-tbl{width:100%;border-collapse:collapse;font-size:13px;min-width:760px}
+.bk-tbl th,.bk-tbl td{padding:9px 11px;text-align:right;border-bottom:1px solid var(--border);vertical-align:middle}
+.bk-th{font-size:12px;font-weight:800;color:var(--ink-2);background:var(--bg);cursor:pointer;user-select:none;white-space:nowrap;position:sticky;top:0}
+.bk-th:hover{color:var(--action)}
+.bk-th.on{color:var(--action)}
+.bk-tbl tbody tr:hover{background:var(--bg)}
+.bk-tr-done{opacity:.62}
+.bk-tr-done .bk-td-name{text-decoration:line-through}
+.bk-type-tag{display:inline-block;font-size:11px;font-weight:800;border-radius:999px;padding:2px 9px;white-space:nowrap;color:#fff}
+.bk-type-flight{background:#2563eb}.bk-type-hotel{background:#0891b2}.bk-type-car{background:#7c3aed}.bk-type-activity{background:#16a34a}
+.bk-td-name{font-weight:800;color:var(--ink)}
+.bk-tbl-doc{display:inline-flex;margin-inline-start:5px;vertical-align:-2px}
+.bk-tbl-doc .ic{width:13px;height:13px;stroke:var(--action)}
+.bk-td-day,.bk-td-time{text-align:center;white-space:nowrap;direction:ltr}
+.bk-td-cost{white-space:nowrap;font-weight:700}
+.bk-td-cost .bk-ils{display:block;font-weight:600}
+.bk-td-done{text-align:center}
+.bk-redeem-chk{width:24px;height:24px;border-radius:6px;border:1.5px solid var(--border-strong);background:var(--surface);color:var(--action);font-weight:900;font-size:14px;cursor:pointer;line-height:1}
+.bk-redeem-chk.on{background:var(--action);color:#fff;border-color:var(--action)}
+.bk-redeem-chk:hover{border-color:var(--action)}
+.bk-tbl-total td{font-weight:900;font-size:14px;color:var(--ink);background:var(--bg);border-top:2px solid var(--border-strong)}
 .bk-timeline{display:flex;flex-direction:column;gap:10px}
 .bk-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 15px;border-right:3px solid var(--ok)}
 .bk-card-pend{border-right-color:var(--warn);background:var(--warn-bg)}
@@ -4705,7 +4740,35 @@ function refRow(ref) {
 }
 
 let _bookingSort = 'date';
-function setBookingSort(k){ _bookingSort = k; renderBookings(); }
+let _bookingSortDir = 1;   // 1 = עולה, -1 = יורד
+let _bookingView = 'cards';   // 'cards' | 'table'
+function setBookingSort(k){ if(_bookingSort===k){ _bookingSortDir*=-1; } else { _bookingSort=k; _bookingSortDir=1; } renderBookings(); }
+function setBookingView(v){ _bookingView = v; renderBookings(); }
+// עלות ההזמנה בשקלים (המרה ממטבע מקורי; נופל ל-ils/usd אם קיימים)
+function bookingILS(b){
+  const p = b.price||{};
+  if(p.total!=null && p.currency) return toILS(p.total, p.currency);
+  if(p.ils!=null) return Math.round(p.ils);
+  if(p.usd!=null) return toILS(p.usd, 'USD');
+  if(p.perPerson!=null && p.currency) return toILS(p.perPerson, p.currency);   // מחיר לאדם (טיסות) — לפחות בסיס
+  return null;
+}
+// תצוגת המחיר המקורי (₪/¥/$)
+function bookingPriceOrig(b){
+  const p = b.price||{};
+  const sym = {JPY:'¥', USD:'$', ILS:'₪'};
+  if(p.total!=null && p.currency) return (sym[p.currency]||'')+Number(p.total).toLocaleString();
+  if(p.perPerson!=null && p.currency) return (sym[p.currency]||'')+Number(p.perPerson).toLocaleString()+' לאדם';
+  if(p.ils!=null) return '₪'+Number(p.ils).toLocaleString();
+  if(p.usd!=null) return '$'+Number(p.usd).toLocaleString();
+  return '—';
+}
+// סימון «מומשה» — נשמר ב-localStorage לפי מזהה ההזמנה
+function isRedeemed(b){ try{ return localStorage.getItem('bk-redeemed-'+b.id)==='1'; }catch(e){ return false; } }
+function toggleRedeemed(id){
+  try{ const k='bk-redeemed-'+id; localStorage.setItem(k, localStorage.getItem(k)==='1'?'0':'1'); }catch(e){}
+  renderBookings();
+}
 function renderBookings() {
   const B = DATA.bookings;
   const el = document.getElementById('bookingsWrap');
@@ -4729,14 +4792,18 @@ function renderBookings() {
   const placeOf = b => b.place || b.name || (b.type==='hotel'?b.name:'') || (b.type==='car'?(b.pickup?.location||''):'') || '';
   const actOf = b => b.activity || {flight:'טיסה',hotel:'מלון',car:'רכב שכור'}[b.type] || '';
   const sortKey = _bookingSort || 'date';
-  const cmp = {
+  const statusOf = b => isRedeemed(b) ? 1 : 0;
+  const baseCmp = {
     date:  (a,b)=> dateOf(a).localeCompare(dateOf(b)) || timeOf(a).localeCompare(timeOf(b)),
     topic: (a,b)=> (typeOrder[a.type]||9)-(typeOrder[b.type]||9) || dateOf(a).localeCompare(dateOf(b)),
     place: (a,b)=> String(placeOf(a)).localeCompare(String(placeOf(b)),'he') || dateOf(a).localeCompare(dateOf(b)),
     day:   (a,b)=> dayOf(a)-dayOf(b) || timeOf(a).localeCompare(timeOf(b)),
     time:  (a,b)=> (timeOf(a)||'99:99').localeCompare(timeOf(b)||'99:99') || dateOf(a).localeCompare(dateOf(b)),
     activity:(a,b)=> String(actOf(a)).localeCompare(String(actOf(b)),'he') || dateOf(a).localeCompare(dateOf(b)),
+    cost:  (a,b)=> ((bookingILS(a)??-1)-(bookingILS(b)??-1)) || dateOf(a).localeCompare(dateOf(b)),
+    status:(a,b)=> (statusOf(a)-statusOf(b)) || dateOf(a).localeCompare(dateOf(b)),
   }[sortKey] || ((a,b)=>dateOf(a).localeCompare(dateOf(b)));
+  const cmp = (a,b)=> baseCmp(a,b) * _bookingSortDir;
   const sorted = [...B.bookings].sort(cmp);
 
   const cards = sorted.map(b => {
@@ -4774,25 +4841,34 @@ function renderBookings() {
         ${refRow(b.bookingRef)}`;
     }
     const typeLabel = {flight:'טיסה', hotel:'מלון', car:'רכב שכור', activity:'פעילות'}[b.type] || b.type;
-    return `<div class="bk-card ${b.status==='pending'?'bk-card-pend':''}">
+    const ils = bookingILS(b);
+    const costLine = (ils!=null||bookingPriceOrig(b)!=='—') ? `<div class="bk-field"><span>עלות</span>${bookingPriceOrig(b)}${ils!=null?` <span class="bk-ils">≈ ₪${ils.toLocaleString()}</span>`:''}</div>` : '';
+    const done = isRedeemed(b);
+    return `<div class="bk-card ${b.status==='pending'?'bk-card-pend':''}${done?' bk-card-done':''}">
       <div class="bk-head">
         <span class="bk-date">${fmtDate(dateOf(b))}</span>
         <span class="bk-type">${typeLabel}</span>
         <span class="bk-name">${b.name || (b.route?`${b.route.fromCode} → ${b.route.toCode}`:'') || (b.type==='car'?'רכב שכור — הוקאידו':'')}</span>
         ${statusBadge(b.status)}
+        ${done?'<span class="bk-done-badge">✓ מומשה</span>':''}
       </div>
-      <div class="bk-body">${body}</div>
+      <div class="bk-body">${body}${costLine}</div>
       ${b.notes?`<div class="bk-note">${b.notes}</div>`:''}
-      ${Array.isArray(b.docs)&&b.docs.length?`<div class="bk-docs">${b.docs.map(doc=>
-        `<a class="bk-doc" href="${doc.file}" target="_blank" rel="noopener" data-tip="פתיחת מסמך ההזמנה המקורי (PDF) בכרטיסייה חדשה" aria-label="פתח PDF — ${doc.label||'מסמך ההזמנה'}">${icon('external')}${doc.label||'פתח PDF'}</a>`
-      ).join('')}</div>`:''}
+      <div class="bk-card-foot">
+        ${Array.isArray(b.docs)&&b.docs.length?`<div class="bk-docs">${b.docs.map(doc=>
+          `<a class="bk-doc" href="${doc.file}" target="_blank" rel="noopener" data-tip="פתיחת מסמך ההזמנה המקורי (PDF) בכרטיסייה חדשה" aria-label="פתח PDF — ${doc.label||'מסמך ההזמנה'}">${icon('external')}${doc.label||'פתח PDF'}</a>`
+        ).join('')}</div>`:'<span></span>'}
+        <button class="bk-redeem-btn${done?' on':''}" onclick="toggleRedeemed('${b.id}')" data-tip="${done?'ביטול סימון המימוש':'סימון שההזמנה מומשה'}">${done?icon('check')+' מומשה':'סמני כמומשה'}</button>
+      </div>
     </div>`;
   }).join('');
 
   // סיכום מחושב מהנתונים (מקור אמת יחיד)
   const conf = B.bookings.filter(b=>b.status==='confirmed').length;
   const pend = B.bookings.filter(b=>b.status==='pending').length;
-  const summaryLine = `<div class="bk-summary">${conf} הזמנות מאושרות${pend?` · ${pend} ממתינות להזמנה`:''}</div>`;
+  const doneCount = B.bookings.filter(b=>isRedeemed(b)).length;
+  const totalILS = sorted.reduce((s,b)=>s+(bookingILS(b)||0),0);
+  const summaryLine = `<div class="bk-summary">${conf} הזמנות מאושרות${pend?` · ${pend} ממתינות`:''} · ${doneCount} מומשו · סה״כ ≈ ₪${totalILS.toLocaleString()}</div>`;
 
   const sortOpts = [
     {k:'date', l:'תאריך'},
@@ -4801,16 +4877,57 @@ function renderBookings() {
     {k:'day', l:'יום'},
     {k:'time', l:'שעה'},
     {k:'activity', l:'פעילות'},
+    {k:'cost', l:'עלות'},
+    {k:'status', l:'מומשה'},
   ];
-  const sortBar = `<div class="bk-sortbar"><span class="bk-sort-lbl">${icon('list')} מיון לפי:</span>${
-    sortOpts.map(o=>`<button class="bk-sort-btn${sortKey===o.k?' on':''}" onclick="setBookingSort('${o.k}')">${o.l}</button>`).join('')
-  }</div>`;
+  const arrow = k => sortKey===k ? (_bookingSortDir>0?' ▲':' ▼') : '';
+  const sortBar = `<div class="bk-sortbar">
+    <span class="bk-sort-lbl">${icon('list')} מיון:</span>${
+      sortOpts.map(o=>`<button class="bk-sort-btn${sortKey===o.k?' on':''}" onclick="setBookingSort('${o.k}')">${o.l}${arrow(o.k)}</button>`).join('')
+    }
+    <span class="bk-view-toggle">
+      <button class="bk-view-btn${_bookingView==='cards'?' on':''}" onclick="setBookingView('cards')" data-tip="תצוגת כרטיסים">${icon('grid')} כרטיסים</button>
+      <button class="bk-view-btn${_bookingView==='table'?' on':''}" onclick="setBookingView('table')" data-tip="תצוגת טבלה">${icon('list')} טבלה</button>
+    </span>
+  </div>`;
+
+  // ── תצוגת טבלה: עמודות ניתנות למיון בלחיצה על הכותרת ──
+  const th = (k,l)=>`<th class="bk-th${sortKey===k?' on':''}" onclick="setBookingSort('${k}')" data-tip="מיון לפי ${l}">${l}${arrow(k)}</th>`;
+  const tableRows = sorted.map(b=>{
+    const typeLabel = {flight:'טיסה', hotel:'מלון', car:'רכב שכור', activity:'פעילות'}[b.type] || b.type;
+    const dayObj = DATA.days.find(d=>d.tripDay===dayOf(b));
+    const cityHe = dayObj ? dayCity(dayObj) : '';
+    const ils = bookingILS(b);
+    const done = isRedeemed(b);
+    const name = b.name || (b.route?`${b.route.fromCode} → ${b.route.toCode}`:'') || (b.type==='car'?'רכב שכור':'');
+    const docLink = Array.isArray(b.docs)&&b.docs.length ? `<a class="bk-tbl-doc" href="${b.docs[0].file}" target="_blank" rel="noopener" data-tip="פתיחת ה-PDF">${icon('external')}</a>` : '';
+    return `<tr class="${done?'bk-tr-done':''}">
+      <td class="bk-td-topic"><span class="bk-type-tag bk-type-${b.type}">${typeLabel}</span></td>
+      <td class="bk-td-name">${name}${docLink}</td>
+      <td class="bk-td-place">${escHtml(placeOf(b)||cityHe||'')}</td>
+      <td class="bk-td-day">${dayOf(b)<999?dayOf(b):'—'}</td>
+      <td class="bk-td-date">${fmtDate(dateOf(b))}</td>
+      <td class="bk-td-time">${timeOf(b)||'—'}</td>
+      <td class="bk-td-act">${escHtml(actOf(b)||'')}</td>
+      <td class="bk-td-cost">${bookingPriceOrig(b)}${ils!=null?`<span class="bk-ils">≈₪${ils.toLocaleString()}</span>`:''}</td>
+      <td class="bk-td-done"><button class="bk-redeem-chk${done?' on':''}" onclick="toggleRedeemed('${b.id}')" data-tip="${done?'בוצע — לחצי לביטול':'סימון כמומשה'}" aria-label="מומשה">${done?'✓':''}</button></td>
+    </tr>`;
+  }).join('');
+  const table = `<div class="bk-tbl-wrap"><table class="bk-tbl">
+    <thead><tr>
+      ${th('topic','נושא')}
+      <th class="bk-th" data-tip="שם ההזמנה">שם</th>
+      ${th('place','מקום')}${th('day','יום')}${th('date','תאריך')}${th('time','שעה')}${th('activity','פעילות')}${th('cost','עלות')}${th('status','מומשה')}
+    </tr></thead>
+    <tbody>${tableRows}</tbody>
+    <tfoot><tr class="bk-tbl-total"><td colspan="7">סה״כ עלות (בשקלים)</td><td class="bk-td-cost">₪${totalILS.toLocaleString()}</td><td></td></tr></tfoot>
+  </table></div>`;
 
   el.innerHTML = `${alertsHtml}
-    <div class="tr-intro">כל ההזמנות של הטיול — מיינו לפי נושא, מקום, יום, שעה או פעילות כדי לאתר מיד את מה שצריך.</div>
+    <div class="tr-intro">כל ההזמנות של הטיול — מיינו לפי כל עמודה, עברו בין כרטיסים לטבלה, וסמנו הזמנות שמומשו.</div>
     ${summaryLine}
     ${sortBar}
-    <div class="bk-timeline">${cards}</div>`;
+    ${_bookingView==='table' ? table : `<div class="bk-timeline">${cards}</div>`}`;
 }
 
 // ══════════════════════════════════
