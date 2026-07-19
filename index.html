@@ -933,6 +933,43 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .km-lb-stage:active{cursor:grabbing}
 #kmZoomImg{max-width:100%;max-height:100%;transform-origin:center center;user-select:none;-webkit-user-drag:none;will-change:transform}
 @media(max-width:560px){.km-grid{grid-template-columns:1fr 1fr;gap:10px}.km-lb-tools button{width:44px;height:44px}}
+/* ── קישורים ── */
+.lk-page{max-width:1100px;margin:0 auto}
+.lk-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.lk-title{display:flex;align-items:center;gap:8px;margin:0;font-size:19px;font-weight:900;color:var(--ink)}
+.lk-title .ic{width:19px;height:19px;stroke:var(--action)}
+.lk-add{display:inline-flex;align-items:center;gap:6px;background:var(--action);color:#fff;border:none;border-radius:10px;padding:10px 16px;font:800 14px/1 inherit;cursor:pointer;box-shadow:0 3px 10px rgba(29,78,216,.22)}
+.lk-add .ic{width:15px;height:15px;stroke:#fff}
+.lk-add:hover{filter:brightness(1.06)}
+.lk-hint-top{font-size:13px;color:var(--ink-3);margin:4px 0 16px;line-height:1.6}
+.lk-empty-state{padding:40px;text-align:center;color:var(--ink-3);font-size:15px;background:var(--bg);border:1px dashed var(--border-strong);border-radius:14px}
+.lk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.lk-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:.12s}
+.lk-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.lk-preview{display:block;position:relative;aspect-ratio:3/2;background:linear-gradient(135deg,#e8eef6,#dde6f0);overflow:hidden;text-decoration:none}
+.lk-shot{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.lk-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#eef2f8,#e2e8f2)}
+.lk-fav{width:56px;height:56px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.12);background:#fff}
+.lk-fav-dom{font-size:13px;font-weight:800;color:var(--ink-2);direction:ltr}
+.lk-preview-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--ink-3);font-size:13px;font-weight:600}
+.lk-preview-empty .ic{width:26px;height:26px;stroke:var(--ink-3)}
+.lk-body{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.lk-name{font-size:16px;font-weight:900;color:var(--ink);outline:none;border-radius:6px;padding:2px 5px;line-height:1.3;word-break:break-word}
+.lk-name:focus{background:rgba(59,130,246,.06);box-shadow:inset 0 0 0 2px var(--focus)}
+.lk-name:empty:before{content:attr(data-ph);color:var(--ink-3);font-weight:400}
+.lk-urlrow{display:flex;flex-direction:column;gap:5px}
+.lk-dom{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--action);direction:ltr;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lk-dom .ic{width:12px;height:12px;stroke:var(--action);flex-shrink:0}
+.lk-url{border:1px solid var(--border-strong);border-radius:7px;padding:8px 10px;font:600 12.5px inherit;color:var(--ink);background:var(--bg);direction:ltr;text-align:left;width:100%}
+.lk-url:focus{outline:none;border-color:var(--action);box-shadow:0 0 0 2px rgba(59,130,246,.15)}
+.lk-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:2px}
+.lk-open{display:inline-flex;align-items:center;gap:5px;background:var(--action);color:#fff;border-radius:8px;padding:8px 14px;font:800 13px/1 inherit;text-decoration:none}
+.lk-open .ic{width:14px;height:14px;stroke:#fff}
+.lk-open:hover{filter:brightness(1.06)}
+.lk-del{width:34px;height:34px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--ink-3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lk-del .ic{width:15px;height:15px;stroke:currentColor}
+.lk-del:hover{background:#dc2626;border-color:#dc2626;color:#fff}
+@media(max-width:560px){.lk-grid{grid-template-columns:1fr;gap:12px}}
 
 /* דף תחבורה מרכזי */
 .tr-intro{margin:2px 0 12px;font-size:13px;color:var(--ink-3)}
@@ -1432,6 +1469,7 @@ a.ml:hover{text-decoration:underline}
     <button class="tab" data-tab="phrases" data-tip="שפה — הקלטת משפט בעברית ותרגומו ליפנית בקול, וספריית משפטים שמורים" aria-label="מעבר לדף השפה">שפה</button>
     <button class="tab" data-tab="camtrans" data-tip="מצלמה — צילום כיתוב ביפנית ותרגומו לעברית" aria-label="מעבר לתרגום ממצלמה">מצלמה</button>
     <button class="tab" data-tab="keymaps" data-tip="מפות מפתח — שמירת תמונות מפה של מקומות, לחיצה לתצוגה מלאה עם זום" aria-label="מעבר למפות מפתח">מפות מפתח</button>
+    <button class="tab" data-tab="links" data-tip="קישורים — שמירת אתרים חשובים לטיול עם תצוגה מקדימה" aria-label="מעבר לקישורים">קישורים</button>
     <a class="tab tab-link" href="https://moment-red.vercel.app" target="_blank" rel="noopener noreferrer" data-tip="פתיחת אפליקציית האלבום בלשונית חדשה" aria-label="פתיחת אפליקציית האלבום">אלבום</a>
   </div>
   <div class="actions">
@@ -1488,6 +1526,7 @@ a.ml:hover{text-decoration:underline}
 <div class="panel" id="p-phrases"><div class="tw" id="phrasesWrap"></div></div>
 <div class="panel" id="p-camtrans"><div class="tw" id="camtransWrap"></div></div>
 <div class="panel" id="p-keymaps"><div class="tw" id="keymapsWrap"></div></div>
+<div class="panel" id="p-links"><div class="tw" id="linksWrap"></div></div>
 <div class="panel" id="p-map">
   <div class="mapview-bar" role="group" aria-label="בחירת תצוגת מפה">
     <button class="mvb on" data-view="days" onclick="setMapView('days')" data-tip="מסלול כל יום — תחנות ממוספרות וקו מסלול" aria-label="תצוגה לפי יום ותאריך">לפי יום</button>
@@ -1676,7 +1715,8 @@ async function loadData() {
     const rr = await fetch('data/recroutes.json').then(r=>r.json()).catch(()=>[]);
     const ph = await fetch('data/phrases.json').then(r=>r.json()).catch(()=>[]);
     const km = await fetch('data/keymaps.json').then(r=>r.json()).catch(()=>[]);
-    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb, mymarks:Array.isArray(mm)?mm:[], layout:ly||{}, architecture:Array.isArray(arch)?arch:[], geotrips:Array.isArray(geo)?geo:[], notes:Array.isArray(nt)?nt:[], recroutes:Array.isArray(rr)?rr:[], phrases:Array.isArray(ph)?ph:[], keymaps:Array.isArray(km)?km:[] };
+    const lk = await fetch('data/links.json').then(r=>r.json()).catch(()=>[]);
+    DATA = { hotels:h, days:d, places:p, costs:c, flights:f, transport:t, bookings:bk, checklist:cl, tabs:tb, mymarks:Array.isArray(mm)?mm:[], layout:ly||{}, architecture:Array.isArray(arch)?arch:[], geotrips:Array.isArray(geo)?geo:[], notes:Array.isArray(nt)?nt:[], recroutes:Array.isArray(rr)?rr:[], phrases:Array.isArray(ph)?ph:[], keymaps:Array.isArray(km)?km:[], links:Array.isArray(lk)?lk:[] };
     // ── Reconcile: אם שינוי מקומי כבר קיים בקובץ ה-data ששרת (הועלה ל-Git), מנקים אותו מ-pending ──
     // כך השינויים המקומיים שורדים ריענון עד שהם ב-Git, ואז נעלמים לבד — בלי איבוד ובלי הצטברות.
     try {
@@ -1701,6 +1741,8 @@ async function loadData() {
       if(phc && eq(phc, DATA.phrases||[])) localStorage.removeItem('pending-phrases');
       const kmc = JSON.parse(localStorage.getItem('pending-keymaps')||'null');
       if(kmc && eq(kmc, DATA.keymaps||[])) localStorage.removeItem('pending-keymaps');
+      const lkc = JSON.parse(localStorage.getItem('pending-links')||'null');
+      if(lkc && eq(lkc, DATA.links||[])) localStorage.removeItem('pending-links');
     } catch(e){}
     // שחזור סיכות משתמש שנוספו מקומית וטרם נשמרו ל-Git
     try {
@@ -1726,6 +1768,11 @@ async function loadData() {
     try {
       const pkm = JSON.parse(localStorage.getItem('pending-keymaps')||'null');
       if(Array.isArray(pkm)) DATA.keymaps = pkm;
+    } catch(e){}
+    // שחזור קישורים שנוספו/שונו מקומית
+    try {
+      const plk = JSON.parse(localStorage.getItem('pending-links')||'null');
+      if(Array.isArray(plk)) DATA.links = plk;
     } catch(e){}
     // שחזור/החלת עדיפויות (לייק בדרגות צבע) על אתרים ותחנות
     try {
@@ -1829,7 +1876,7 @@ async function loadData() {
   }
   // פתיחת הטאב לפי ה-URL (מאפשר קישור ישיר ושמירת מצב ברענון — סעיף 4.5)
   const urlTab = new URLSearchParams(location.search).get('tab');
-  const valid = ['brief','summary','days','itinerary','calendar','hotels','bookings','checklist','places','images','costs','transport','map','phrases','camtrans','keymaps'];
+  const valid = ['brief','summary','days','itinerary','calendar','hotels','bookings','checklist','places','images','costs','transport','map','phrases','camtrans','keymaps','links'];
   if (urlTab && valid.includes(urlTab) && urlTab!==activeTab) {
     activeTab = urlTab;
     document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===urlTab));
@@ -2072,6 +2119,7 @@ function render() {
   else if (activeTab==='phrases') renderPhrases();
   else if (activeTab==='camtrans') renderCamTrans();
   else if (activeTab==='keymaps') renderKeyMaps();
+  else if (activeTab==='links') renderLinks();
 }
 
 function renderStats() {
@@ -3182,6 +3230,71 @@ function kmZoomBy(f){ _kmZoom.scale=Math.min(8,Math.max(0.5,_kmZoom.scale*f)); _
 function kmZoomReset(){ _kmZoom.scale=1; _kmZoom.tx=0; _kmZoom.ty=0; _kmApplyZoom(); }
 function kmClose(){ const ov=document.getElementById('kmLightbox'); if(ov) ov.style.display='none'; document.removeEventListener('keydown', _kmKeyHandler); }
 function _kmKeyHandler(e){ if(e.key==='Escape') kmClose(); else if(e.key==='+'||e.key==='=') kmZoomBy(1.2); else if(e.key==='-') kmZoomBy(0.8); }
+
+// ══════════════════════════════════
+// קישורים — כרטיסיות אתרים חשובים עם תצוגה מקדימה (screenshot אוטומטי + fallback ל-favicon)
+// ══════════════════════════════════
+function _lkPersist(){ try{ localStorage.setItem('pending-links', JSON.stringify(DATA.links||[])); }catch(e){} markUnsaved(); updateImgWarn&&updateImgWarn(); }
+function _lkNormalizeUrl(u){ u=(u||'').trim(); if(!u) return ''; if(!/^https?:\/\//i.test(u)) u='https://'+u; return u; }
+function _lkDomain(u){ try{ return new URL(_lkNormalizeUrl(u)).hostname.replace(/^www\./,''); }catch(e){ return ''; } }
+// כתובת התצוגה המקדימה (screenshot חינמי) — נופל ל-favicon+כותרת אם נכשל
+function _lkShotUrl(u){ const n=_lkNormalizeUrl(u); return n? 'https://image.thum.io/get/width/600/crop/400/noanimate/'+n : ''; }
+function _lkFavicon(u){ const d=_lkDomain(u); return d? 'https://www.google.com/s2/favicons?domain='+encodeURIComponent(d)+'&sz=128' : ''; }
+function lkAdd(){
+  DATA.links = DATA.links||[];
+  const id = DATA.links.reduce((m,l)=>Math.max(m,l.id||0),0)+1;
+  DATA.links.push({id, name:'', url:''});
+  _lkPersist(); renderLinks();
+  setTimeout(()=>{ const u=document.querySelectorAll('.lk-url'); const last=u[u.length-1]; if(last) last.focus(); },30);
+}
+function lkDelete(id){
+  const l=(DATA.links||[]).find(x=>x.id===id); if(!l) return;
+  if(!confirm('למחוק את הקישור «'+(l.name||l.url||'')+'»?')) return;
+  DATA.links=DATA.links.filter(x=>x.id!==id); _lkPersist(); renderLinks();
+}
+function lkEditName(el){ const id=+el.getAttribute('data-id'); const l=(DATA.links||[]).find(x=>x.id===id); if(!l) return; const v=el.innerText.trim(); if((l.name||'')===v) return; l.name=v; _lkPersist(); }
+function lkEditUrl(el){ const id=+el.getAttribute('data-id'); const l=(DATA.links||[]).find(x=>x.id===id); if(!l) return; const v=_lkNormalizeUrl(el.value); if((l.url||'')===v){ return; } l.url=v; _lkPersist(); renderLinks(); }
+function renderLinks(){
+  const wrap=document.getElementById('linksWrap'); if(!wrap) return;
+  const links=DATA.links||[];
+  const cards = links.map(l=>{
+    const url=_lkNormalizeUrl(l.url);
+    const dom=_lkDomain(l.url);
+    // תצוגה מקדימה: screenshot; אם נכשל → fallback ל-favicon גדול על רקע
+    const preview = url ? `
+      <a class="lk-preview" href="${escHtml(url)}" target="_blank" rel="noopener" data-tip="פתיחת ${escHtml(dom||'האתר')} בלשונית חדשה">
+        <img class="lk-shot" src="${escHtml(_lkShotUrl(url))}" alt="תצוגה של ${escHtml(dom)}" loading="lazy"
+          onerror="this.classList.add('lk-shot-failed');this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="lk-fallback" style="display:none">
+          ${_lkFavicon(url)?`<img class="lk-fav" src="${escHtml(_lkFavicon(url))}" alt="" onerror="this.style.display='none'">`:''}
+          <span class="lk-fav-dom">${escHtml(dom||url)}</span>
+        </span>
+      </a>` : `<div class="lk-preview lk-preview-empty">${icon('external')}<span>הדביקי כתובת אתר למטה</span></div>`;
+    return `<div class="lk-card">
+      ${preview}
+      <div class="lk-body">
+        <div class="lk-name" contenteditable="true" data-id="${l.id}" data-ph="שם האתר…" onblur="lkEditName(this)">${escHtml(l.name||'')}</div>
+        <div class="lk-urlrow">
+          ${dom?`<span class="lk-dom">${icon('external')}${escHtml(dom)}</span>`:''}
+          <input class="lk-url" type="url" value="${escHtml(l.url||'')}" placeholder="הדביקי כתובת אתר (https://…)" data-id="${l.id}" onchange="lkEditUrl(this)" onblur="lkEditUrl(this)">
+        </div>
+        <div class="lk-actions">
+          ${url?`<a class="lk-open" href="${escHtml(url)}" target="_blank" rel="noopener">${icon('external')} פתחי אתר</a>`:''}
+          <button class="lk-del" onclick="lkDelete(${l.id})" data-tip="מחיקה">${icon('trash')}</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  wrap.innerHTML = `
+    <div class="lk-page">
+      <div class="lk-head">
+        <h2 class="lk-title">${icon('external')} קישורים חשובים</h2>
+        <button class="lk-add" onclick="lkAdd()" data-tip="הוספת קישור">${icon('plus')} הוספת קישור</button>
+      </div>
+      <div class="lk-hint-top">שמרי אתרים חשובים לטיול. כל כרטיס מציג תצוגה מקדימה של האתר (כדי לזהות מיד) — לחיצה פותחת אותו. נשמר ל-Git עם «שמור קבצים».</div>
+      ${links.length ? `<div class="lk-grid">${cards}</div>` : '<div class="lk-empty-state">אין עדיין קישורים. לחצי «הוספת קישור» כדי להתחיל.</div>'}
+    </div>`;
+}
 
 // כפתור מעבר אחיד בין תצוגת כרטיסים לרשימה (סעיף 3.2)
 function viewToggle() {
@@ -6322,8 +6435,8 @@ async function saveAll() {
 
 // ── גיבוי/שחזור כל השינויים המקומיים שטרם נשמרו ל-Git ──
 // מונע אובדן: תמונות, עריכות שעה/יום במסלול, סיכות, פריסה — הכל לקובץ אחד וחזרה.
-const PENDING_KEYS = ['pending-images','pending-dayspots','pending-places','pending-mymarks','pending-layout','pending-tabs','pending-notes','pending-priorities','pending-recroutes','pending-phrases','pending-keymaps'];
-const PENDING_LABEL = { 'pending-images':'תמונות', 'pending-dayspots':'שעות/ימים במסלול', 'pending-places':'אתרים', 'pending-mymarks':'סיכות', 'pending-layout':'פריסה', 'pending-tabs':'סדר טאבים', 'pending-notes':'סיכום אישי', 'pending-priorities':'עדיפויות אתרים', 'pending-recroutes':'מסלולים מומלצים קלוד', 'pending-phrases':'משפטים (שפה)', 'pending-keymaps':'מפות מפתח' };
+const PENDING_KEYS = ['pending-images','pending-dayspots','pending-places','pending-mymarks','pending-layout','pending-tabs','pending-notes','pending-priorities','pending-recroutes','pending-phrases','pending-keymaps','pending-links'];
+const PENDING_LABEL = { 'pending-images':'תמונות', 'pending-dayspots':'שעות/ימים במסלול', 'pending-places':'אתרים', 'pending-mymarks':'סיכות', 'pending-layout':'פריסה', 'pending-tabs':'סדר טאבים', 'pending-notes':'סיכום אישי', 'pending-priorities':'עדיפויות אתרים', 'pending-recroutes':'מסלולים מומלצים קלוד', 'pending-phrases':'משפטים (שפה)', 'pending-keymaps':'מפות מפתח', 'pending-links':'קישורים' };
 // כמה פריטים בכל מפתח (לספירה ולפירוט)
 function pendingCounts(){
   const out={};
@@ -6626,7 +6739,7 @@ window.yukoDayContext = function(){
 window.DATA = DATA; // חשיפה לקריאה מ-yuko.js (let לא נכנס אוטומטית ל-window)
 
 window.yukoGoTab = function(tab){
-  var valid = ['brief','summary','days','calendar','hotels','bookings','checklist','places','images','costs','transport','map','phrases','camtrans','keymaps'];
+  var valid = ['brief','summary','days','calendar','hotels','bookings','checklist','places','images','costs','transport','map','phrases','camtrans','keymaps','links'];
   if (valid.indexOf(tab) === -1) return false;
   goTab(tab);
   return true;
