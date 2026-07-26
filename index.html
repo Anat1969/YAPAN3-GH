@@ -866,7 +866,18 @@ a.cal-cell:hover{box-shadow:0 3px 10px rgba(0,0,0,.12);transform:translateY(-1px
 .ph-icon-btn.on{color:#f5b301}
 .ph-icon-btn.on .ic{fill:#f5b301;stroke:#f5b301}
 .ph-icon-btn:hover:not(.on) .ic{stroke:var(--ink)}
-@media(max-width:560px){.ph-ja-big{font-size:28px}.ph-card-play{width:46px;height:46px}.ph-card-play .ic{width:21px;height:21px}.ph-input-row{flex-wrap:wrap}.ph-btn-go{width:100%}}
+.ph-dir-toggle{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px}
+.ph-dir-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border-strong);border-radius:10px;padding:9px 16px;font:700 14px inherit;cursor:pointer;background:var(--surface);color:var(--ink-3);transition:.15s}
+.ph-dir-btn.active{background:var(--action);color:#fff;border-color:var(--action)}
+.ph-dir-btn:hover:not(.active){background:var(--bg)}
+.ph-dir-btn .ic{width:15px;height:15px;stroke:currentColor}
+.ph-dir-arrow{font-size:18px;color:var(--ink-3);font-weight:900}
+.ph-he-big{font-size:28px;font-weight:900;color:var(--ink);line-height:1.4;word-break:break-word}
+.ph-ja-input{flex:1;min-width:0;border:1px solid var(--border-strong);border-radius:10px;padding:13px 14px;font:600 16px inherit;color:var(--ink);background:var(--surface);direction:ltr;text-align:left}
+.ph-ja-input:focus{outline:none;border-color:var(--action);box-shadow:0 0 0 3px rgba(29,78,216,.15)}
+.ph-btn-play-he{background:#7c3aed;color:#fff}
+.ph-btn-play-he:hover{filter:brightness(1.06)}
+@media(max-width:560px){.ph-ja-big{font-size:28px}.ph-card-play{width:46px;height:46px}.ph-card-play .ic{width:21px;height:21px}.ph-input-row{flex-wrap:wrap}.ph-btn-go{width:100%}.ph-dir-toggle{flex-wrap:wrap}.ph-dir-btn{font-size:13px;padding:8px 12px}}
 /* ── מצלמה: OCR יפני → תרגום עברית ── */
 .cam-page{max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
 .cam-intro{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--ink-2);background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px}
@@ -2776,19 +2787,27 @@ function recDelRoute(ri){
 // ══════════════════════════════════
 // שפה — הקלטת עברית → תרגום ליפנית → הקראה בקול, + ספריית משפטים שמורים
 // ══════════════════════════════════
-let _phraseState = { he:'', ja:'', romaji:'', listening:false, search:'' };
+let _phraseState = { he:'', ja:'', romaji:'', listening:false, search:'', dir:'he2ja', jaInput:'' };
 let _sr = null;   // SpeechRecognition instance
 
-// ── תרגום עברית→יפנית דרך Google Translate החינמי (endpoint ציבורי, בלי מפתח) ──
+// ── תרגום דרך Google Translate החינמי (endpoint ציבורי, בלי מפתח) ──
 async function translateHeToJa(text){
   const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=iw&tl=ja&dt=t&q=' + encodeURIComponent(text);
   const res = await fetch(url);
   if(!res.ok) throw new Error('translate http '+res.status);
   const data = await res.json();
-  // מבנה: [[[ "יפנית","מקור",...],...], ...]
   const ja = (data[0]||[]).map(seg=>seg[0]).join('');
   if(!ja) throw new Error('empty translation');
   return ja;
+}
+async function translateJaToHe(text){
+  const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=ja&tl=iw&dt=t&q=' + encodeURIComponent(text);
+  const res = await fetch(url);
+  if(!res.ok) throw new Error('translate http '+res.status);
+  const data = await res.json();
+  const he = (data[0]||[]).map(seg=>seg[0]).join('');
+  if(!he) throw new Error('empty translation');
+  return he;
 }
 // תעתיק רומאג׳י (עזר להגייה) — דרך אותו endpoint עם dt=rm
 async function romajiForJa(ja){
@@ -2796,7 +2815,7 @@ async function romajiForJa(ja){
     const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=ja&tl=en&dt=rm&q=' + encodeURIComponent(ja);
     const res = await fetch(url); if(!res.ok) return '';
     const data = await res.json();
-    const seg = (data[0]||[]).find(s=>s[3]); // האיבר עם הרומאג׳י
+    const seg = (data[0]||[]).find(s=>s[3]);
     return seg && seg[3] ? seg[3] : '';
   }catch(e){ return ''; }
 }
@@ -2806,19 +2825,31 @@ function speakJa(text){
   try{ window.speechSynthesis.cancel(); }catch(e){}
   const u = new SpeechSynthesisUtterance(text);
   u.lang = 'ja-JP'; u.rate = 0.85;
-  // בחירת קול יפני אם קיים
   const voices = window.speechSynthesis.getVoices();
   const jv = voices.find(v=>/ja(-|_)?JP/i.test(v.lang) || /japanese/i.test(v.name));
   if(jv) u.voice = jv;
   window.speechSynthesis.speak(u);
 }
-// ── זיהוי דיבור בעברית ──
+// ── הקראה בעברית ──
+function speakHe(text){
+  if(!('speechSynthesis' in window)){ toast('ההקראה אינה נתמכת בדפדפן זה'); return; }
+  try{ window.speechSynthesis.cancel(); }catch(e){}
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'he-IL'; u.rate = 0.9;
+  const voices = window.speechSynthesis.getVoices();
+  const hv = voices.find(v=>/he(-|_)?IL/i.test(v.lang) || /hebrew/i.test(v.name));
+  if(hv) u.voice = hv;
+  window.speechSynthesis.speak(u);
+}
+// ── זיהוי דיבור (עברית או יפנית לפי כיוון) ──
 function phraseStartListen(){
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if(!SR){ toast('זיהוי הדיבור אינו נתמך בדפדפן זה — הקלידי את המשפט'); return; }
   if(_phraseState.listening){ phraseStopListen(); return; }
   _sr = new SR();
-  _sr.lang = 'he-IL'; _sr.interimResults = true; _sr.continuous = false;
+  const isJa = _phraseState.dir === 'ja2he';
+  _sr.lang = isJa ? 'ja-JP' : 'he-IL';
+  _sr.interimResults = true; _sr.continuous = false;
   _phraseState.listening = true; _updatePhraseUI();
   let finalText = '';
   _sr.onresult = (e)=>{
@@ -2827,53 +2858,96 @@ function phraseStartListen(){
       const tr = e.results[i][0].transcript;
       if(e.results[i].isFinal) finalText += tr; else interim += tr;
     }
-    const box = document.getElementById('phHeInput');
+    const boxId = isJa ? 'phJaInput' : 'phHeInput';
+    const box = document.getElementById(boxId);
     if(box) box.value = (finalText||interim);
-    _phraseState.he = (finalText||interim);
+    if(isJa) _phraseState.jaInput = (finalText||interim);
+    else _phraseState.he = (finalText||interim);
   };
   _sr.onerror = (e)=>{ _phraseState.listening=false; _updatePhraseUI(); if(e.error!=='no-speech') toast('שגיאת זיהוי דיבור: '+e.error); };
   _sr.onend = ()=>{
     _phraseState.listening=false; _updatePhraseUI();
-    if(_phraseState.he && _phraseState.he.trim()) phraseTranslate();
+    const text = isJa ? _phraseState.jaInput : _phraseState.he;
+    if(text && text.trim()) phraseTranslate();
   };
   try{ _sr.start(); }catch(e){ _phraseState.listening=false; _updatePhraseUI(); }
 }
 function phraseStopListen(){ if(_sr){ try{_sr.stop();}catch(e){} } _phraseState.listening=false; _updatePhraseUI(); }
 
-// ── תרגום המשפט הנוכחי ──
+// ── תרגום המשפט הנוכחי (לפי כיוון) ──
 async function phraseTranslate(){
-  const box = document.getElementById('phHeInput');
-  const he = (box ? box.value : _phraseState.he || '').trim();
-  if(!he){ toast('הקליטי או הקלידי משפט בעברית'); return; }
-  _phraseState.he = he;
+  const isJa = _phraseState.dir === 'ja2he';
   const out = document.getElementById('phResult');
-  if(out) out.innerHTML = '<div class="ph-loading">מתרגם…</div>';
-  try{
-    const ja = await translateHeToJa(he);
-    _phraseState.ja = ja;
-    _phraseState.romaji = await romajiForJa(ja);
-    _updatePhraseResult();
-    speakJa(ja);   // הקראה אוטומטית מיד עם התרגום
-  }catch(e){
-    if(out) out.innerHTML = '<div class="ph-err">התרגום נכשל (בעיית רשת/שירות). נסי שוב, או הוסיפי את התרגום ידנית בספרייה.</div>';
-    toast('התרגום נכשל — בדקי חיבור לאינטרנט');
+  if(isJa){
+    const box = document.getElementById('phJaInput');
+    const ja = (box ? box.value : _phraseState.jaInput || '').trim();
+    if(!ja){ toast('הקליטי או הקלידי משפט ביפנית'); return; }
+    _phraseState.jaInput = ja;
+    if(out) out.innerHTML = '<div class="ph-loading">מתרגם…</div>';
+    try{
+      const he = await translateJaToHe(ja);
+      _phraseState.ja = ja;
+      _phraseState.he = he;
+      _phraseState.romaji = await romajiForJa(ja);
+      _updatePhraseResult();
+      speakHe(he);
+    }catch(e){
+      if(out) out.innerHTML = '<div class="ph-err">התרגום נכשל (בעיית רשת/שירות). נסי שוב.</div>';
+      toast('התרגום נכשל — בדקי חיבור לאינטרנט');
+    }
+  } else {
+    const box = document.getElementById('phHeInput');
+    const he = (box ? box.value : _phraseState.he || '').trim();
+    if(!he){ toast('הקליטי או הקלידי משפט בעברית'); return; }
+    _phraseState.he = he;
+    if(out) out.innerHTML = '<div class="ph-loading">מתרגם…</div>';
+    try{
+      const ja = await translateHeToJa(he);
+      _phraseState.ja = ja;
+      _phraseState.romaji = await romajiForJa(ja);
+      _updatePhraseResult();
+      speakJa(ja);
+    }catch(e){
+      if(out) out.innerHTML = '<div class="ph-err">התרגום נכשל (בעיית רשת/שירות). נסי שוב, או הוסיפי את התרגום ידנית בספרייה.</div>';
+      toast('התרגום נכשל — בדקי חיבור לאינטרנט');
+    }
   }
 }
 function _updatePhraseResult(){
   const out = document.getElementById('phResult'); if(!out) return;
-  if(!_phraseState.ja){ out.innerHTML=''; return; }
-  out.innerHTML = `
-    <div class="ph-ja-big" dir="ltr" lang="ja">${escHtml(_phraseState.ja)}</div>
-    ${_phraseState.romaji?`<div class="ph-romaji" dir="ltr">${escHtml(_phraseState.romaji)}</div>`:''}
-    <div class="ph-res-actions">
-      <button class="ph-btn ph-btn-play" onclick="speakJa(${JSON.stringify(_phraseState.ja).replace(/"/g,'&quot;')})">${icon('sound')} השמע שוב</button>
-      <button class="ph-btn ph-btn-save" onclick="phraseSaveCurrent()">${icon('plus')} שמרי לספרייה</button>
-    </div>`;
+  const isJa = _phraseState.dir === 'ja2he';
+  if(isJa){
+    if(!_phraseState.he){ out.innerHTML=''; return; }
+    out.innerHTML = `
+      <div class="ph-he-big">${escHtml(_phraseState.he)}</div>
+      <div class="ph-ja-big" dir="ltr" lang="ja" style="font-size:20px;color:var(--ink-3);margin-top:6px">${escHtml(_phraseState.ja||'')}</div>
+      ${_phraseState.romaji?`<div class="ph-romaji" dir="ltr">${escHtml(_phraseState.romaji)}</div>`:''}
+      <div class="ph-res-actions">
+        <button class="ph-btn ph-btn-play-he" onclick="speakHe(${JSON.stringify(_phraseState.he).replace(/"/g,'&quot;')})">${icon('sound')} השמע עברית</button>
+        <button class="ph-btn ph-btn-play" onclick="speakJa(${JSON.stringify(_phraseState.ja).replace(/"/g,'&quot;')})">${icon('sound')} השמע יפנית</button>
+        <button class="ph-btn ph-btn-save" onclick="phraseSaveCurrent()">${icon('plus')} שמרי לספרייה</button>
+      </div>`;
+  } else {
+    if(!_phraseState.ja){ out.innerHTML=''; return; }
+    out.innerHTML = `
+      <div class="ph-ja-big" dir="ltr" lang="ja">${escHtml(_phraseState.ja)}</div>
+      ${_phraseState.romaji?`<div class="ph-romaji" dir="ltr">${escHtml(_phraseState.romaji)}</div>`:''}
+      <div class="ph-res-actions">
+        <button class="ph-btn ph-btn-play" onclick="speakJa(${JSON.stringify(_phraseState.ja).replace(/"/g,'&quot;')})">${icon('sound')} השמע שוב</button>
+        <button class="ph-btn ph-btn-save" onclick="phraseSaveCurrent()">${icon('plus')} שמרי לספרייה</button>
+      </div>`;
+  }
 }
 function _updatePhraseUI(){
   const btn = document.getElementById('phMicBtn');
-  if(btn){ btn.classList.toggle('listening', _phraseState.listening);
-    btn.querySelector('.ph-mic-lbl').textContent = _phraseState.listening ? 'מקשיב… דברי עכשיו' : 'לחצי והקליטי משפט בעברית'; }
+  if(btn){
+    btn.classList.toggle('listening', _phraseState.listening);
+    const isJa = _phraseState.dir === 'ja2he';
+    const lbl = btn.querySelector('.ph-mic-lbl');
+    if(lbl) lbl.textContent = _phraseState.listening
+      ? (isJa ? 'מקשיב… דברי עכשיו ביפנית' : 'מקשיב… דברי עכשיו')
+      : (isJa ? 'לחצי והקליטי משפט ביפנית' : 'לחצי והקליטי משפט בעברית');
+  }
 }
 // ── שמירת המשפט הנוכחי לספרייה ──
 function phraseSaveCurrent(){
@@ -2902,6 +2976,13 @@ function phraseToggleFav(id){
 }
 function phraseSearch(v){ _phraseState.search=v; _renderPhraseLib(); }
 function phraseUseInput(v){ _phraseState.he=v; }
+function phraseUseJaInput(v){ _phraseState.jaInput=v; }
+function phraseSetDir(dir){
+  if(_phraseState.listening) phraseStopListen();
+  _phraseState.dir = dir;
+  _phraseState.ja=''; _phraseState.he=''; _phraseState.romaji=''; _phraseState.jaInput='';
+  renderPhrases();
+}
 
 // ── ספריית המשפטים (עם חיפוש) ──
 function _phraseLibRows(){
@@ -2931,20 +3012,39 @@ function _renderPhraseLib(){
 function renderPhrases(){
   const wrap=document.getElementById('phrasesWrap'); if(!wrap) return;
   const srSupported = !!(window.SpeechRecognition||window.webkitSpeechRecognition);
-  wrap.innerHTML = `
-    <div class="ph-page">
-      <div class="ph-live">
-        <div class="ph-live-title">${icon('sound')} תרגום חי — עברית ← יפנית</div>
-        <button id="phMicBtn" class="ph-mic${_phraseState.listening?' listening':''}" onclick="phraseStartListen()" aria-label="הקלטת משפט בעברית">
-          <span class="ph-mic-ic">${icon('mic')}</span>
-          <span class="ph-mic-lbl">${_phraseState.listening?'מקשיב… דברי עכשיו':'לחצי והקליטי משפט בעברית'}</span>
-        </button>
-        ${srSupported?'':'<div class="ph-note">זיהוי הדיבור אינו נתמך בדפדפן זה — הקלידי את המשפט בתיבה למטה.</div>'}
+  const isJa = _phraseState.dir === 'ja2he';
+  const titleText = isJa ? 'תרגום חי — יפנית ← עברית' : 'תרגום חי — עברית ← יפנית';
+  const micLabel = _phraseState.listening
+    ? (isJa ? 'מקשיב… דברי עכשיו ביפנית' : 'מקשיב… דברי עכשיו')
+    : (isJa ? 'לחצי והקליטי משפט ביפנית' : 'לחצי והקליטי משפט בעברית');
+  const micAria = isJa ? 'הקלטת משפט ביפנית' : 'הקלטת משפט בעברית';
+  const srNote = isJa ? 'זיהוי הדיבור אינו נתמך בדפדפן זה — הקלידי את המשפט ביפנית בתיבה למטה.' : 'זיהוי הדיבור אינו נתמך בדפדפן זה — הקלידי את המשפט בתיבה למטה.';
+  const inputArea = isJa ? `
+        <div class="ph-input-row">
+          <input id="phJaInput" class="ph-ja-input" type="text" dir="ltr" lang="ja" placeholder="…או הקלידי משפט ביפנית כאן" value="${escHtml(_phraseState.jaInput||'')}"
+            oninput="phraseUseJaInput(this.value)" onkeydown="if(event.key==='Enter')phraseTranslate()">
+          <button class="ph-btn ph-btn-go" onclick="phraseTranslate()">${icon('external')} תרגמי</button>
+        </div>` : `
         <div class="ph-input-row">
           <input id="phHeInput" class="ph-he-input" type="text" placeholder="…או הקלידי משפט בעברית כאן" value="${escHtml(_phraseState.he||'')}"
             oninput="phraseUseInput(this.value)" onkeydown="if(event.key==='Enter')phraseTranslate()">
           <button class="ph-btn ph-btn-go" onclick="phraseTranslate()">${icon('external')} תרגמי</button>
+        </div>`;
+  wrap.innerHTML = `
+    <div class="ph-page">
+      <div class="ph-live">
+        <div class="ph-dir-toggle">
+          <button class="ph-dir-btn${!isJa?' active':''}" onclick="phraseSetDir('he2ja')" data-tip="הקלטה/כתיבה בעברית, תרגום ליפנית" aria-label="עברית ליפנית">עברית</button>
+          <span class="ph-dir-arrow">${isJa?'→':'←'}</span>
+          <button class="ph-dir-btn${isJa?' active':''}" onclick="phraseSetDir('ja2he')" data-tip="הקלטה/כתיבה ביפנית, תרגום לעברית" aria-label="יפנית לעברית">יפנית</button>
         </div>
+        <div class="ph-live-title">${icon('sound')} ${titleText}</div>
+        <button id="phMicBtn" class="ph-mic${_phraseState.listening?' listening':''}" onclick="phraseStartListen()" aria-label="${micAria}">
+          <span class="ph-mic-ic">${icon('mic')}</span>
+          <span class="ph-mic-lbl">${micLabel}</span>
+        </button>
+        ${srSupported?'':'<div class="ph-note">'+srNote+'</div>'}
+        ${inputArea}
         <div id="phResult" class="ph-result"></div>
       </div>
       <div class="ph-lib-sec">
@@ -2956,7 +3056,6 @@ function renderPhrases(){
       </div>
     </div>`;
   _updatePhraseResult();
-  // טעינת קולות (לפעמים אסינכרוני) — כדי שהקול היפני יהיה זמין
   if('speechSynthesis' in window){ try{ window.speechSynthesis.getVoices(); window.speechSynthesis.onvoiceschanged=()=>{}; }catch(e){} }
 }
 
