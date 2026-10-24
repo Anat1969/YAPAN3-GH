@@ -225,6 +225,7 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
 .rich-ic{width:15px;height:15px;stroke:#9a958e;stroke-width:1.75;fill:none;stroke-linecap:round;stroke-linejoin:round;flex:none}
 @media(max-width:640px){.rich-grid{grid-template-columns:1fr}}
 </style>
+<script src="https://appofapp-gh.vercel.app/ai-menu.js"></script>
 </head>
 <body>
 
@@ -243,10 +244,11 @@ body{font-family:'Noto Sans Hebrew',sans-serif;background:#f5f4f0;color:#1a1a1a;
     <a class="tab" href="index.html?tab=map">מפה</a>
   </div>
   <div class="actions">
-    <a class="nav-btn vs-btn" href="https://github.com/Anat1969/YAPAN3-GH" target="_blank" rel="noopener" data-tip="פתיחת קוד האפליקציה ב-VS Code (GitHub) לשדרוג" aria-label="שדרוג VS — עריכת קוד האפליקציה"><svg viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;width:13px;height:13px;vertical-align:-2px"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg> שדרוג VS</a>
     <button class="back-btn" onclick="goBack()" data-tip="חזרה לדף הקודם שביקרת בו" aria-label="חזרה לדף הקודם"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l-7 7 7 7"/></svg>חזרה</button>
+    <ai-menu></ai-menu>
   </div>
 </nav>
+<script>document.querySelector('ai-menu').items = [{ label: 'שדרוג VS', hint: 'קוד האפליקציה ב-GitHub', onSelect: () => window.open('https://github.com/Anat1969/YAPAN3-GH', '_blank', 'noopener') }];</script>
 
 <div class="head">
   <div class="num" id="dayNum">1</div>

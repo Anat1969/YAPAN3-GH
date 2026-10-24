@@ -1458,6 +1458,7 @@ a.ml:hover{text-decoration:underline}
   .bk-tbl{font-size:12px}
 }
 </style>
+<script src="https://appofapp-gh.vercel.app/ai-menu.js"></script>
 </head>
 <body>
 
@@ -1484,10 +1485,8 @@ a.ml:hover{text-decoration:underline}
     <a class="tab tab-link" href="https://moment-red.vercel.app" target="_blank" rel="noopener noreferrer" data-tip="פתיחת אפליקציית האלבום בלשונית חדשה" aria-label="פתיחת אפליקציית האלבום">אלבום</a>
   </div>
   <div class="actions">
-    <button class="nav-btn save" id="navSaveBtn" onclick="saveAll()" style="display:none" data-tip="הורדת הקבצים המעודכנים לשמירה ב-Git (סדר כפתורים, אתרים חדשים ועוד)" aria-label="שמירת הקבצים ל-Git">שמור קבצים</button>
-    <button class="nav-btn reorder-btn" id="reorderBtn" onclick="toggleReorder()" data-tip="מצב סידור — גררי כפתורים לסדר חדש, ואז שמרי" aria-label="סידור כפתורי הניווט"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor;fill:none;width:13px;height:13px;vertical-align:-2px"><path d="M4 9h16M4 15h16M8 5l-4 4 4 4M16 11l4 4-4 4"/></svg> <span class="reorder-lbl">סדר כפתורים</span></button>
-    <a class="nav-btn vs-btn" href="https://github.com/Anat1969/YAPAN3-GH" target="_blank" rel="noopener" data-tip="פתיחת קוד האפליקציה ב-VS Code (GitHub) לשדרוג" aria-label="שדרוג VS — עריכת קוד האפליקציה"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor;fill:none;width:13px;height:13px;vertical-align:-2px"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg> שדרוג VS</a>
     <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none" data-tip="חזרה לדף הקודם שביקרת בו" aria-label="חזרה לדף הקודם"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor"><path d="M5 12h14M12 5l-7 7 7 7"/></svg><span class="back-lbl">חזרה</span></button>
+    <ai-menu></ai-menu>
   </div>
 </nav>
 
@@ -1915,7 +1914,17 @@ let reorderMode = false;
 let dragTab = null;
 // הצגת כפתור «שמור קבצים» בסרגל כשיש שינויים מקומיים שלא נשמרו ל-Git
 let hasUnsaved = false;
-function markUnsaved(){ hasUnsaved = true; const b=document.getElementById('navSaveBtn'); if(b) b.style.display=''; }
+function markUnsaved(){ hasUnsaved = true; const b=document.getElementById('navSaveBtn'); if(b) b.style.display=''; updateAIMenu(); }
+// כפתור הלוגו A&I: פעולות העריכה והפיתוח (סידור, שמירה, שדרוג) נמצאות רק בתוכו
+function updateAIMenu(){
+  const m = document.querySelector('ai-menu'); if(!m) return;
+  const items = [{ label: reorderMode ? 'סיום סידור' : 'סדר כפתורים', hint: 'גרירת כפתורי הניווט', pressed: reorderMode, onSelect: toggleReorder }];
+  if(hasUnsaved) items.push({ label: 'שמור קבצים', hint: 'הורדה לשמירה ב-Git', onSelect: saveAll });
+  items.push({ label: 'שדרוג VS', hint: 'קוד האפליקציה ב-GitHub', onSelect: () => window.open('https://github.com/Anat1969/YAPAN3-GH', '_blank', 'noopener') });
+  m.items = items;
+  m.status = hasUnsaved ? 'יש שינויים שלא נשמרו' : '';
+}
+updateAIMenu();
 function updateSaveBtn(){
   const pend = localStorage.getItem('pending-tabs') || localStorage.getItem('pending-places') || localStorage.getItem('pending-dayspots') || localStorage.getItem('pending-images') || localStorage.getItem('pending-mymarks') || localStorage.getItem('pending-layout');
   if(pend || hasUnsaved || _changedDays.size) markUnsaved();
@@ -1943,8 +1952,8 @@ function toggleReorder() {
   const bar = document.querySelector('.nav .tabs');
   const btn = document.getElementById('reorderBtn');
   bar.classList.toggle('reordering', reorderMode);
-  btn.classList.toggle('on', reorderMode);
-  btn.querySelector('.reorder-lbl').textContent = reorderMode ? 'סיום סידור' : 'סדר כפתורים';
+  if(btn){ btn.classList.toggle('on', reorderMode); btn.querySelector('.reorder-lbl').textContent = reorderMode ? 'סיום סידור' : 'סדר כפתורים'; }
+  updateAIMenu();
   bar.querySelectorAll('.tab:not(.tab-link)').forEach(b=>{
     b.draggable = reorderMode;
     if(reorderMode){
